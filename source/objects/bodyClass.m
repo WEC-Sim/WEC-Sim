@@ -38,6 +38,7 @@ classdef bodyClass<handle
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
         h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings`) hdf5 file containing the hydrodynamic data
         hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
+        hydroStruct                                 = struct()              % (`structure`) A temporary structure array that contains hydroData when it is directly used in the bodyClass constructor.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
@@ -66,6 +67,7 @@ classdef bodyClass<handle
             'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.
         QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (Full QTFs), 2 (Newman Approximation). Default = ``0``
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
+        useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   %
             'hydroForceIndexInitial',               1)                      % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
@@ -79,9 +81,9 @@ classdef bodyClass<handle
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
-        dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
-        dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
-        hydroData           = struct()                      % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
+        dofEnd              = []                               % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
+        dofStart            = []                               % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
+        hydroData           = struct()                         % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% internal
@@ -104,27 +106,34 @@ classdef bodyClass<handle
     end
 
     methods (Access = 'public') % modify object = T; output = F
-        function obj = bodyClass(h5File)
+        function obj = bodyClass(hydroInput)
             % This method initializes the ``bodyClass`` and creates a
             % ``body`` object.
             %
             % Parameters
             % ------------
-            %     h5File : string
+            %     hydroInput : string or struct
             %         String specifying the location of the body h5 file
+            %         or a struct containing the hydrodynamic data.
             %
             % Returns
             % ------------
             %     body : obj
             %         bodyClass object
             %
-            if exist('h5File','var')
-                if isstring(h5File) || ischar(h5File)
-                    obj.h5File{1} = h5File;
-                elseif iscell(h5File)
-                    obj.h5File = h5File;
+            if exist('hydroInput','var')
+                if isstring(hydroInput) || ischar(hydroInput)
+                    obj.h5File{1} = hydroInput;
+                    obj.useH5 = true;
+                elseif iscell(hydroInput)
+                    obj.h5File = hydroInput;
+                    obj.useH5 = true;
+                elseif isstruct(hydroInput)
+                    % set hydro structure, and indicate that we will not be using an h5 file
+                    obj.hydroStruct = hydroInput;
+                    obj.useH5 = false;
                 else
-                    error('body.h5File must be a string or cell array of strings');
+                    error('body.h5File must be a string, cell array of strings, or struct');
                 end
             else
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
@@ -183,19 +192,31 @@ classdef bodyClass<handle
             mustBeMember(obj.variableHydro.option, [0 1])
             mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
 
-            % Check h5 file
-            for iH = 1:length(obj.h5File)
-                if obj.nonHydro == 0
-                    if ~exist(obj.h5File{iH},'file')
-                        error('The hdf5 file %s does not exist',obj.h5File{iH})
+            % Check hydrodynamic data input
+            if obj.useH5
+                for iH = 1:length(obj.h5File)
+                    if obj.nonHydro == 0
+                        if ~exist(obj.h5File{iH},'file')
+                            error('The hdf5 file %s does not exist',obj.h5File{iH})
+                        end
+                        h5Info = dir(obj.h5File{iH});
+                        h5Info.bytes;
+                        if h5Info.bytes < 1000
+                            error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                        end
                     end
-                    h5Info = dir(obj.h5File{iH});
-                    h5Info.bytes;
-                    if h5Info.bytes < 1000
-                        error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                end
+            else
+                % Quick check on obj.hydroStruct when hydroData is used to 
+                % initialize the body instead of an h5File.
+                requiredFields = {'properties', 'simulation_parameters', 'hydro_coeffs'};
+                for i = 1:length(requiredFields)
+                    if ~isfield(obj.hydroStruct, requiredFields{i})
+                        error('When initializing the bodyClass with the hydroData structure, it must contain the field "%s". Do not initialize a body with the BEMIO `hydro` structure.', requiredFields{i});
                     end
                 end
             end
+
             if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
                 error('Body mass must be defined as a scalar or set to `equilibrium`')
             end
@@ -361,6 +382,7 @@ classdef bodyClass<handle
             else
                 obj.hydroData(iH) = hydroData;
             end
+
             if iH == obj.variableHydro.hydroForceIndexInitial
                 obj.centerGravity	= hydroData.properties.centerGravity';
                 obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
@@ -923,19 +945,13 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fExt.md(ii) = interp1(obj.hydroData(iH).simulation_parameters.w, squeeze(md(ii,1,:)), w, 'spline');
                 end
             end
-            if obj.yaw.option==1
-                % show warning for passive yaw run with incomplete BEM data
-                BEMdir = sort(obj.hydroData(iH).simulation_parameters.direction);
-                boundDiff = abs([-180 180] - BEMdir([1 end]));
-                if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
-                    warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
-                        'Please inspect BEM data for gaps'])
-                    clear BEMdir
-                end % wrap BEM directions -180 to 180 dg, if they are not already there
-                [sortedDir, idx] = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
-                [hdofGRD, hdirGRD, hwGRD] = ndgrid(1:6, sortedDir, obj.hydroData(iH).simulation_parameters.w);
+           if obj.yaw.option==1
+                % wrap BEM directions -180 to 180 dg, if they are not already there
+                obj.makeSpanNeg180To180(iH);
+                [obj.hydroForce.(hfName).wrappedDirection,idx] = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                [hdofGRD, hdirGRD, hwGRD] = ndgrid(1:obj.dof, obj.hydroForce.(hfName).wrappedDirection, obj.hydroData(iH).simulation_parameters.w);
                 [obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd] = ...
-                    ndgrid(1:6, sortedDir, w);
+                    ndgrid(1:obj.dof, obj.hydroForce.(hfName).wrappedDirection, w);
                 obj.hydroForce.(hfName).fExt.fEHRE = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:), ...
                     obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
                 obj.hydroForce.(hfName).fExt.fEHIM = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:), ...
@@ -977,52 +993,37 @@ classdef bodyClass<handle
             end
             if obj.yaw.option==1 || ~isempty(dirBins)
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData(iH).simulation_parameters.direction);
-                boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
-                if obj.yaw.option ==1 && length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
+                BEMdir = sort(obj.hydroData(iH).simulation_parameters.direction);
+                boundDiff(1) = abs(-180 - BEMdir(1));
+                boundDiff(2) = abs(180 - BEMdir(end));
+                if obj.yaw.option == 1 && length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear boundDiff
                 end
                 if ~isempty(dirBins)
-                    BEMdir=wrapTo180(BEMdir-180);
-                    boundDiff(1)=abs(min(dirBins,[],'all') - BEMdir(1)); boundDiff(2)=min(abs(max(dirBins,[],'all') - BEMdir(end)),...
-                        abs(max(dirBins,[],'all')-180-BEMdir(1)));
-                    [obj.hydroForce.(hfName).fExt.qDofGrd,null,obj.hydroForce.(hfName).fExt.qWGrd]=ndgrid([1:nDOF],dirBins(1,:),wv); % this is necessary for nd interpolation; query grids be same size as dirBins.
+                    BEMdir = wrapTo180(BEMdir - 180);
+                    boundDiff(1) = abs(min(dirBins,[],'all') - BEMdir(1));
+                    boundDiff(2) = min(abs(max(dirBins,[],'all') - BEMdir(end)),...
+                                       abs(max(dirBins,[],'all') - 180-BEMdir(1)));
+                    [obj.hydroForce.(hfName).fExt.qDofGrd,~,obj.hydroForce.(hfName).fExt.qWGrd] = ndgrid([1:nDOF],dirBins(1,:),wv); % this is necessary for nd interpolation; query grids be same size as dirBins.
                     if length(BEMdir)<3 || max(boundDiff)>15
                         warning(['BEM directions do not cover the directional spread bins or are too coarse to define spread bin distribution.' newline ...
                             'Re-run with more bins']);
                         clear boundDiff BEMdir
                     end
                 end
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
-                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:nDOF],sortedDir, obj.hydroData(iH).simulation_parameters.w);
-                if (max(sortedDir) - min(sortedDir)) < 360
-                    warning('Full directional wave spectra requires full 360 dg BEM. You do not have that. Attempting to fix via spline extrapolation. Ideally preprocess BEM')
-                    if min(sortedDir) > -180
-                        sortedDir2=zeros(1,length(sortedDir)+1);
-                        sortedDir2(2:end)=sortedDir;
-                        sortedDir2(1)=-180;
-                        sortedDir=sortedDir2;
-                        clear sortedDir2;
-                    end
-                    if max(sortedDir) < 180
-                        sortedDir2=zeros(1,length(sortedDir2+1));
-                        sortedDir2(1:end-1)=sortedDir;
-                        sortedDir2(end)=-180;
-                        sortedDir=sortedDir2;
-                        clear sortedDir2;
-                    end
-
-                end
-                [obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd]=ndgrid([1:nDOF],...
-                    sortedDir,wv);
-                obj.hydroForce.(hfName).fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:),...
-                    obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd,'spline')*rho*g;
-                obj.hydroForce.(hfName).fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:),...
-                    obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd,'spline')*rho*g;
-                obj.hydroForce.(hfName).fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:)...
-                    ,obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd,'spline')*rho*g;
+                obj.makeSpanNeg180To180(iH);
+                [obj.hydroForce.(hfName).wrappedDirection,idx] = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                [hdofGRD, hdirGRD, hwGRD] = ndgrid([1:nDOF], obj.hydroForce.(hfName).wrappedDirection, obj.hydroData(iH).simulation_parameters.w);
+                [obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd] = ndgrid([1:nDOF],...
+                    obj.hydroForce.(hfName).wrappedDirection, wv);
+                obj.hydroForce.(hfName).fExt.fEHRE = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:),...
+                    obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd, 'spline')*rho*g;
+                obj.hydroForce.(hfName).fExt.fEHIM = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:),...
+                    obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd, 'spline')*rho*g;
+                obj.hydroForce.(hfName).fExt.fEHMD = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:),...
+                    obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd, 'spline')*rho*g;
             end
         end
 
@@ -1186,6 +1187,30 @@ classdef bodyClass<handle
                 end
             else
                 obj.massCalcMethod = 'user';
+            end
+        end
+
+        function makeSpanNeg180To180(obj, iH)
+            wrappedDirection = wrapTo180(obj.hydroData(iH).simulation_parameters.direction);
+            if min(wrappedDirection) > -180 
+                if max(wrappedDirection) < 180
+                    error('BEM directions need to include -180 or 180 degrees when using passive yaw or full directional spectra to avoid extrapolation.')
+                end
+                idx = find(wrappedDirection == 180);
+                obj.hydroData(iH).simulation_parameters.direction = [-180, obj.hydroData(iH).simulation_parameters.direction];
+                obj.hydroData(iH).hydro_coeffs.excitation.re = [obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:), obj.hydroData(iH).hydro_coeffs.excitation.re];
+                obj.hydroData(iH).hydro_coeffs.excitation.im = [obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:), obj.hydroData(iH).hydro_coeffs.excitation.im];
+                obj.hydroData(iH).hydro_coeffs.mean_drift = [obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:), obj.hydroData(iH).hydro_coeffs.mean_drift];
+            end
+            if max(wrappedDirection) < 180
+                if min(wrappedDirection) > -180 
+                    error('BEM directions need to include -180 or 180 degrees when using passive yaw or full directional spectra to avoid extrapolation.')
+                end
+                idx = find(wrappedDirection == -180);
+                obj.hydroData(iH).simulation_parameters.direction = [obj.hydroData(iH).simulation_parameters.direction, 180];
+                obj.hydroData(iH).hydro_coeffs.excitation.re = [obj.hydroData(iH).hydro_coeffs.excitation.re, obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:)];
+                obj.hydroData(iH).hydro_coeffs.excitation.im = [obj.hydroData(iH).hydro_coeffs.excitation.im, obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:)];
+                obj.hydroData(iH).hydro_coeffs.mean_drift = [obj.hydroData(iH).hydro_coeffs.mean_drift, obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:)];
             end
         end
 
