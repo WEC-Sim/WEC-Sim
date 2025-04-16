@@ -748,9 +748,8 @@ There are two types of second-order forces:
 
 WEC-Sim supports **Quadratic Transfer Functions (QTFs)** to model second-order excitation forces. These can be imported from hydrodynamic solvers such as **WAMIT** and **NEMOH**. BEMIO functions will automatically read, process, and write QTF coefficients from WAMIT and NEMOH to the ``*.h5`` file.
 
-----
-
-**File Naming and Conventions**
+File Naming and Conventions
+"""""""""""""""""""""""""""""""""
 
 The QTF file naming depends on the hydrodynamics solver:
 
