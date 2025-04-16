@@ -760,8 +760,8 @@ The QTF file naming depends on the hydrodynamics solver:
   
   ::
   
-      qtfResults_<body#>.11s
-      qtfResults_<body#>.11d
+    qtfResults_<body#>.11s
+    qtfResults_<body#>.11d
 
   Example: ``qtfWAMIT_1.11s``
 
@@ -773,8 +773,8 @@ The QTF file naming depends on the hydrodynamics solver:
 
   ::
   
-      OUT_QTFP_N_<body#>.dat   (for sum-frequency QTFs)
-      OUT_QTFM_N_<body#>.dat   (for difference-frequency QTFs)
+    OUT_QTFP_N_<body#>.dat   (for sum-frequency QTFs)
+    OUT_QTFM_N_<body#>.dat   (for difference-frequency QTFs)
 
 - NEMOH uses **0-based indexing** for body numbers.
 
@@ -789,9 +789,9 @@ To enable second-order excitation forces in WEC-Sim, use the following flag in y
 
 .. note::
 
-   Do **not** use ``body(i).QTFs`` and ``body(i).meanDrift`` together.  
-   This will result in **double-counting** of mean drift forces—once from the QTFs and once from linear mean drift.
-When attempting to use ``body(i).QTFs`` and ``body(i).meanDrift`` together, a warning is thrown and the standalone mean drift flag is turned off. Only the QTFs will be used to avoid double-counting the mean drift forces.
+    Do **not** use ``body(i).QTFs`` and ``body(i).meanDrift`` together.  
+    This will result in **double-counting** of mean drift forces—once from the QTFs and once from linear mean drift.
+    When attempting to use ``body(i).QTFs`` and ``body(i).meanDrift`` together, a warning is thrown and the standalone mean drift flag is turned off. Only the QTFs will be used to avoid double-counting the mean drift forces.
 
 ----
 
