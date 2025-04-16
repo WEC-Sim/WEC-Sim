@@ -64,7 +64,7 @@ classdef bodyClass<handle
             'drag',                                 zeros(6), ...           %
             'cd',                                   [0 0 0 0 0 0], ...      %
             'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.
-        QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (on). Default = ``0``
+        QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (Full QTFs), 2 (Newman Approximation). Default = ``0``
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   %
@@ -233,6 +233,12 @@ classdef bodyClass<handle
             % Check passive yaw configuration
             if obj.yaw.option==1 && obj.yaw.threshold==1
                 warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+            end
+            % Check QTFs options
+            if obj.QTFs ~= 0 && obj.meanDrift ~= 0
+                obj.meanDrift = 0;
+                warning(['Mean drift force cannot be used while QTF is enabled.\n' ...
+                    'Turning off mean drift force calculation for body(%d).'], obj.number);
             end
             if obj.nonHydro==0
                 % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
@@ -773,6 +779,7 @@ classdef bodyClass<handle
             if mod(N, 2) == 1
                 % Make sure that N is even
                 N = N + 1;
+                ampFreq(end+1) = 0;
             end
 
             f = fMax/2 * linspace(0,1,N/2);
@@ -826,7 +833,7 @@ classdef bodyClass<handle
 
             nOmega = length(omegaFine);
 
-            if obj.QTFs > 0          % Calculates full difference QTFs
+            if obj.QTFs > 0          
                 for n = 1 : obj.dof
                     %% Slowly varing component calculation
                     if obj.QTFs == 1   % Full QTFs calculation
