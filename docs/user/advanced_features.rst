@@ -744,7 +744,7 @@ For large offshore structures, second-order wave excitation forces can significa
 There are two types of second-order forces:
 
 - **Sum-frequency forces** (:math:`\omega_i + \omega_j`): High-frequency components that can excite fast body motions.
-- **Difference-frequency forces** (:math:`\omega_i - \omega_j`): Low-frequency components that can induce slow-drift responses such as surge or pitch.
+- **Difference-frequency forces** (:math:`\omega_i - \omega_j`): Low-frequency components that can induce slow-drift responses, commonly in surge or pitch.
 
 WEC-Sim supports **Quadratic Transfer Functions (QTFs)** to model second-order excitation forces. These can be imported from hydrodynamic solvers such as **WAMIT** and **NEMOH**, provided via `bemio` in an `.h5` file.
 
