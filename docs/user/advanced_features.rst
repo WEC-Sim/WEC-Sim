@@ -791,6 +791,7 @@ To enable second-order excitation forces in WEC-Sim, use the following flag in y
 
    Do **not** use ``body(i).QTFs`` and ``body(i).meanDrift`` together.  
    This will result in **double-counting** of mean drift forces—once from the QTFs and once from linear mean drift.
+When attempting to use ``body(i).QTFs`` and ``body(i).meanDrift`` together, a warning is thrown and the standalone mean drift flag is turned off. Only the QTFs will be used to avoid double-counting the mean drift forces.
 
 ----
 
