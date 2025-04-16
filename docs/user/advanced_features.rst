@@ -778,9 +778,8 @@ The QTF file naming depends on the hydrodynamics solver:
 
 - NEMOH uses **0-based indexing** for body numbers.
 
-----
-
-**Activating QTFs in WEC-Sim**
+Activating QTFs in WEC-Sim
+""""""""""""""""""""""""""""""""
 
 To enable second-order excitation forces in WEC-Sim, use the following flag in your `body(i)` definition:
 
