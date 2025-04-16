@@ -746,7 +746,7 @@ There are two types of second-order forces:
 - **Sum-frequency forces** (:math:`\omega_i + \omega_j`): High-frequency components that can excite fast body motions.
 - **Difference-frequency forces** (:math:`\omega_i - \omega_j`): Low-frequency components that can induce slow-drift responses, commonly in surge or pitch.
 
-WEC-Sim supports **Quadratic Transfer Functions (QTFs)** to model second-order excitation forces. These can be imported from hydrodynamic solvers such as **WAMIT** and **NEMOH**, provided via `bemio` in an `.h5` file.
+WEC-Sim supports **Quadratic Transfer Functions (QTFs)** to model second-order excitation forces. These can be imported from hydrodynamic solvers such as **WAMIT** and **NEMOH**. BEMIO functions will automatically read, process, and write QTF coefficients from WAMIT and NEMOH to the ``*.h5`` file.
 
 ----
 
