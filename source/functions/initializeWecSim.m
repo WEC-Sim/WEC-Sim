@@ -554,7 +554,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.b2b);
+    body(iBod).adjustMassMatrix(simu.b2b, simu.rho);
 end; clear iBod
 
 % Create the buses for hydroForce

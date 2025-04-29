@@ -69,7 +69,9 @@ classdef bodyClass<handle
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   % 
             'hydroForceIndexInitial',               1,...
-            'radiationIrfSurface',                  [])
+            'radiationIrfSurface',                  [],...
+            'mass',                                 [],...
+            'inertia',                              [])
         viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
             'opacity',                              1)                      % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
@@ -415,7 +417,9 @@ classdef bodyClass<handle
             B2B = simu.b2b;
             hfName = ['hf' num2str(iH)];
 
-            obj.setMassMatrix(rho)
+            if iH == obj.variableHydro.hydroForceIndexInitial
+                obj.setMassMatrix(rho);
+            end
             if (obj.gbmDOF>0)
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
@@ -500,7 +504,7 @@ classdef bodyClass<handle
             end
         end
 
-        function adjustMassMatrix(obj, B2B)
+        function adjustMassMatrix(obj, B2B, rho)
             % Merge diagonal term of added mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
@@ -533,8 +537,21 @@ classdef bodyClass<handle
                 % matrix (based on hydroForceIndexInitial).
                 for iH = 1:length(obj.hydroData)
                     hfName = ['hf' num2str(iH)];
-                    obj.hydroForce.(hfName).mass = obj.mass + adjMass;
-                    obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
+                    if isempty(obj.variableHydro.mass)
+                        obj.hydroForce.(hfName).mass = obj.mass;
+                        obj.hydroForce.(hfName).inertialMass = obj.mass + adjMass;
+                        obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
+                    else
+                        if strcmp(obj.massCalcMethod, 'equilibrium')
+                            obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
+                            obj.hydroForce.(hfName).inertialMass = obj.hydroData(iH).properties.volume*rho + adjMass;
+                            obj.hydroForce.(hfName).inertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        else
+                            obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
+                            obj.hydroForce.(hfName).inertialMass = obj.variableHydro.mass(iH) + adjMass;
+                            obj.hydroForce.(hfName).inertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        end
+                    end
                     obj.hydroForce.(hfName).inertiaProducts = obj.inertiaProducts + adjInteriaProducts;
 
                     obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) - adjMass;
@@ -566,8 +583,21 @@ classdef bodyClass<handle
                 
                 for iH = 1:length(obj.hydroData)
                     hfName = ['hf' num2str(iH)];
-                    obj.hydroForce.(hfName).mass = obj.mass + adjMass;
-                    obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
+                    if isempty(obj.variableHydro.mass)
+                        obj.hydroForce.(hfName).mass = obj.mass;
+                        obj.hydroForce.(hfName).inertialMass = obj.mass + adjMass;
+                        obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
+                    else
+                        if strcmp(obj.massCalcMethod, 'equilibrium')
+                            obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
+                            obj.hydroForce.(hfName).inertialMass = obj.hydroData(iH).properties.volume*rho + adjMass;
+                            obj.hydroForce.(hfName).inertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        else
+                            obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
+                            obj.hydroForce.(hfName).inertialMass = obj.variableHydro.mass(iH) + adjMass;
+                            obj.hydroForce.(hfName).inertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        end
+                    end
                     obj.hydroForce.(hfName).inertiaProducts = obj.inertiaProducts + adjInteriaProducts;
 
                     obj.hydroForce.(hfName).fAddedMass(1,1) = obj.hydroForce.(hfName).fAddedMass(1,1) - adjMass;
@@ -996,6 +1026,13 @@ classdef bodyClass<handle
             % Used by hydroForcePre
             hfName = ['hf' num2str(iH)];
             am = obj.hydroData(iH).hydro_coeffs.added_mass.all .*rho;
+
+            % add the difference in mass
+            % if iH ~= obj.variableHydro.hydroForceIndexInitial
+            %     massDiff = rho*(obj.hydroData(obj.variableHydro.hydroForceIndexInitial) - obj.hydroData(iH));
+            % 
+            % end
+
             rd = obj.hydroData(iH).hydro_coeffs.radiation_damping.all .*rho;
             for i=1:length(obj.hydroData(iH).simulation_parameters.w)
                 rd(:,:,i) = rd(:,:,i) .*obj.hydroData(iH).simulation_parameters.w(i);
@@ -1115,7 +1152,7 @@ classdef bodyClass<handle
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = 'equilibrium';
                 if obj.nonHydro == 0 && obj.nonlinearHydro == 0
-                    obj.mass = obj.hydroData(1).properties.volume * rho;
+                    obj.mass = obj.hydroData(obj.variableHydro.hydroForceIndexInitial).properties.volume * rho;
                 elseif obj.nonHydro == 0 && obj.nonlinearHydro ~= 0
                     cg_tmp = obj.hydroData(1).properties.centerGravity;
                     z = obj.geometry.center(:,3) + cg_tmp(3);
