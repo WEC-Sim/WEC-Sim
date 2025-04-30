@@ -957,6 +957,22 @@ Variable Hydrodynamics
 
 .. include:: /_include/variable_hydro.rst
 
+Body Initialization
+^^^^^^^^^^^^^^^^^^^
+The bodyClass is typically defined by inputting one or more paths to H5 files in the body constructor. 
+Alternatively, users may input a ``hydroData`` structure directly to the body constructor to bypass the 
+pre-processing steps that require writing the H5 file with BEMIO and then reloading it in the bodyClass.
+This workflow may save users time in computationally expensive scenarios.
+
+This alternate workflow is used by defining a body as: :code:`body(i) = bodyClass(hydroData)`. 
+Users should take care to ensure that the ``hydroData`` structure passed is identical in form to that 
+which ``initializeWecSim`` obtains by calling:
+
+:code:`hydroData = readBEMIOH5('pathToH5File', body.number, body.meanDrift);`
+
+The function :code:`rebuildHydroStruct()` may be used to convert the BEMIO :code:`hydro` structure
+into the bodyClass :code:`hydroData` format.
+
 
 .. _user-advanced-features-pto:
 

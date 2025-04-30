@@ -192,12 +192,20 @@ for ii = 1:simu.numHydroBodies
             body(ii).loadHydroData(savedHydroData(ii).hydroData(iH), iH);
         end
     else
-        % Read hydro data from BEMIO and load into the bodyClass
-        for iH = 1:length(body(ii).h5File)
-            tmp_hydroData = readBEMIOH5(body(ii).h5File{iH}, body(ii).number, body(ii).meanDrift);
-            body(ii).loadHydroData(tmp_hydroData, iH);
+        % Read hydro data from BEMIO and load into the bodyClass  
+        if body(ii).useH5
+            for iH = 1:length(body(ii).h5File)
+                tmp_hydroData = readBEMIOH5(body(ii).h5File{iH}, body(ii).number, body(ii).meanDrift);
+                body(ii).loadHydroData(tmp_hydroData, iH);
+            end
+            clear tmp_hydroData
+        else
+            % Load hydro data directly from structure
+            for iH = 1:length(body(ii).hydroStruct)
+                body(ii).loadHydroData(body(ii).hydroStruct(iH), iH);
+            end
+            body(ii).hydroStruct = {}; % clear the temporary hydroStruct variable to avoid duplicating the info in body.hydroData
         end
-        clear tmp_hydroData
     end
 end; clear ii iH
 
