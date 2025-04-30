@@ -208,6 +208,8 @@ The mean drift force is combined with the excitation force in the response class
 .. Note::
     Currently, WEC-Sim only supports mean drift coefficients and QTF from WAMIT.
 
+.. _cic_theory:
+
 Convolution Integral Formulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
