@@ -1050,13 +1050,6 @@ classdef bodyClass<handle
             % Used by hydroForcePre
             hfName = ['hf' num2str(iH)];
             am = obj.hydroData(iH).hydro_coeffs.added_mass.all .*rho;
-
-            % add the difference in mass
-            % if iH ~= obj.variableHydro.hydroForceIndexInitial
-            %     massDiff = rho*(obj.hydroData(obj.variableHydro.hydroForceIndexInitial) - obj.hydroData(iH));
-            % 
-            % end
-
             rd = obj.hydroData(iH).hydro_coeffs.radiation_damping.all .*rho;
             for i=1:length(obj.hydroData(iH).simulation_parameters.w)
                 rd(:,:,i) = rd(:,:,i) .*obj.hydroData(iH).simulation_parameters.w(i);
