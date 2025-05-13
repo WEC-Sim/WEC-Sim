@@ -9,40 +9,34 @@ if simu.paraview.option == 1
         end
     end
     [~,modelName,~] = fileparts(simu.simMechanicsFile); % get model name to define CASE.pvd file (case name = simscape file without path or extension)
-    % check mooring
-    moordynFlag = 0;
-    if exist('mooring','var')
-        for iMoor = 1:simu.numMoorings
-            if mooring(iMoor).moorDyn==1
-                moordynFlag = 1;
-            end
+    if isempty(simu.paraview.startTime) || isempty(simu.paraview.dt) || isempty(simu.paraview.endTime)
+        if isempty(simu.paraview.startTime)
+            simu.paraview.startTime = simu.startTime;
         end
+        if isempty(simu.paraview.dt)
+            simu.paraview.dt= simu.dt;
+        end
+        if isempty(simu.paraview.endTime)
+            simu.paraview.endTime = simu.endTime;
+        end
+        NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
     end
-   % bodies
+    % bodies
     filename = [simu.paraview.path filesep 'bodies.txt'];
     mkdir([simu.paraview.path])
     [fid ,errmsg] = fopen(filename, 'w');
     vtkbodiesii = 1;
+   
     for ii = 1:length(body(1,:))
         if body(ii).paraview == 1
             bodyname = output.bodies(ii).name;
             mkdir([simu.paraview.path filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
             TimeBodyParav = output.bodies(ii).time;
             PositionBodyParav = output.bodies(ii).position;
-            if isempty(simu.paraview.startTime) || isempty(simu.paraview.dt) || isempty(simu.paraview.endTime)
-                if isempty(simu.paraview.startTime)
-                    simu.paraview.startTime = simu.startTime;
-                end
-                if isempty(simu.paraview.dt)
-                    simu.paraview.dt= simu.dt;
-                end
-                if isempty(simu.paraview.endTime)
-                    simu.paraview.endTime = simu.endTime;
-                end
-                NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
-                PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
-                TimeBodyParav = NewTimeParaview;
-            end
+            
+            PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
+            TimeBodyParav = NewTimeParaview;
+
             writeParaviewBody(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.date), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.paraview.path,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
@@ -55,14 +49,18 @@ if simu.paraview.option == 1
     fclose(fid);
     % waves
         mkdir([simu.paraview.path filesep 'waves'])
-        writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.date),moordynFlag,simu.paraview.path,TimeBodyParav, simu.gravity);    % mooring
+        writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.date), simu.numMoorDyn,simu.paraview.path,TimeBodyParav, simu.gravity);    % mooring
     % mooring
-    if moordynFlag == 1
-        mkdir([simu.paraview.path filesep 'mooring'])
-        writeParaviewMooring(output.moorDyn, modelName, output.moorDyn.Lines.Time, datestr(simu.date), mooring.moorDynLines, mooring.moorDynNodes,simu.paraview.path,TimeBodyParav,NewTimeParaview)
+    if exist('mooring','var')
+        for ii = 1:length(mooring(1,:))
+            if mooring(ii).moorDyn == 1
+                mkdir([simu.paraview.path filesep 'mooring' num2str(ii)]);
+                writeParaviewMooring(output.moorDyn(ii), modelName, output.moorDyn(ii).Lines.Time, datestr(simu.date), mooring(ii).moorDynLines, mooring(ii).moorDynNodes,simu.paraview.path,TimeBodyParav,NewTimeParaview,ii)
+            end
+        end
     end
     % all
-       writeParaviewResponse(bodies, TimeBodyParav, modelName, datestr(simu.date), waves.type, moordynFlag, simu.paraview.path);
+    writeParaviewResponse(bodies, TimeBodyParav, modelName, datestr(simu.date), waves.type, simu.numMoorDyn, simu.paraview.path);
     clear bodies fid filename
 end
 clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname 

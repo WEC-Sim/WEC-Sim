@@ -1,4 +1,4 @@
-function writeParaviewResponse(bodies, t, model, simdate, wavetype, mooring, paraviewPath)
+function writeParaviewResponse(bodies, t, model, simdate, wavetype, numMoorDyn, paraviewPath)
 % Method to write ``vtp`` Paraview visualization files for the
 % responseClass. Executed by paraviewVisualization.m when 
 % simu.paraview.option=1 in the wecSimInputFile.m
@@ -15,8 +15,8 @@ function writeParaviewResponse(bodies, t, model, simdate, wavetype, mooring, par
 %       Date and time of the simulation
 %   wavetype : string
 %       Type of wave used in the simulation
-%   mooring : int
-%       MoorDyn flag
+%   numMoorDyn : int
+%       Number of MoorDyn connections
 %   paraviewPath : directory
 %       Directory the Paraview files were saved
 %       
@@ -55,12 +55,12 @@ for ii = 1:length(bodies)
     end
 end
 % write mooring
-if mooring==1
-    fprintf(fid,['  <!-- Mooring:  MoorDyn -->\n']);
+for ii = 1:numMoorDyn
+    fprintf(fid,['  <!-- Mooring' num2str(ii) ':  MoorDyn -->\n']);
     for jj = 1:length(t)
          fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
-         fprintf(fid, ['             file="mooring' fs 'mooring_' num2str(jj) '.vtp"/>\n']);
-    end 
+         fprintf(fid, ['             file="mooring' num2str(ii) fs 'mooring_' num2str(jj) '.vtp"/>\n']);
+    end
 end
 % close file
 fprintf(fid, '  </Collection>\n');
