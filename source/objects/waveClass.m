@@ -598,7 +598,9 @@ classdef waveClass<handle
             % Sets the irregular wave's random phase
             % used by: :meth:`waveClass.setup`.
             if obj.phaseSeed ~= 0
-                rng(obj.phaseSeed);     % Phase seed = 1,2,3,...,etc
+                s = RandStream('Threefry', 'Seed', 1);  % Global fixed seed
+                s.Substream = obj.phaseSeed;           % Substream based on phaseSeed
+                RandStream.setGlobalStream(s);         % Set globally
             else
                 rng('shuffle');         % Phase seed shuffled
             end
