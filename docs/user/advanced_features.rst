@@ -789,12 +789,11 @@ To enable second-order excitation forces in WEC-Sim, use the following flag in y
 
 .. note::
 
-    Do **not** use ``body(i).QTFs`` and ``body(i).meanDrift`` together.  
-    This will result in **double-counting** of mean drift forces—once from the QTFs and once from linear mean drift.
-    When attempting to use ``body(i).QTFs`` and ``body(i).meanDrift`` together, a warning is thrown and the standalone mean drift flag is turned off. Only the QTFs will be used to avoid double-counting the mean drift forces.
+   Do **not** use ``body[i].QTFs`` and ``body[i].meanDrift`` together.
+   This will result in **double-counting** of mean drift forces — once from the QTFs and once from the linear mean drift formulation.
+   If both ``body[i].QTFs`` and ``body[i].meanDrift`` are enabled, a warning will be issued and the standalone mean drift flag will be disabled. Only the QTFs will be used to compute the mean drift forces.
 
-    **Standing approximation** proposed a modified form of **Newman's approximation** that, while mathematically equivalent to the original, is expressed differently and tailored to accommodate multidirectional wave environments. Unlike Newman's original formulation, Standing's version does not necessitate high-frequency filtering after application.
-----
+   The **Standing approximation** is a modified form of **Newman's approximation**. While mathematically equivalent, Standing's formulation is expressed differently and is designed to support multidirectional wave environments. Unlike Newman's original version, it does not require high-frequency filtering after application.
 
 .. _user-advanced-features-non-hydro-body:
 
