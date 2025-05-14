@@ -65,12 +65,12 @@ classdef bodyClass<handle
             'drag',                                 zeros(6), ...           %
             'cd',                                   [0 0 0 0 0 0], ...      %
             'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.
-        QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (Full QTFs), 2 (Newman Approximation). Default = ``0``
+        QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (Full QTFs), 2 (Standing/Newman Approximation). Default = ``0``
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
         useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   %
-            'hydroForceIndexInitial',               1)                      % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
+            'hydroForceIndexInitial',               1,...                   % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
             'radiationIrfSurface',                  [])
         viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
@@ -809,7 +809,7 @@ classdef bodyClass<handle
 
             omegaMax = max(omegaCoarse);
 
-            [~, indexMax] = min(abs(omegaFine - 4.4)); % Uses a margin of 25% after the freq. range of intrest
+            [~, indexMax] = min(abs(omegaFine - 2*Omega_max*1.25)); % Uses a margin of 25% after the freq. range of intrest
             [~, timeIdx] = min(abs(time - max(waveAmpTime(end,1))));
             % remove the frequencies and amplitudes we know do not exist
             % in the spectrum
@@ -839,7 +839,7 @@ classdef bodyClass<handle
             QTF.sumExtended(:,end,:) = QTF.sumExtended(:,end-1,:);
             QTF.sumExtended(end,:,:) = QTF.sumExtended(end-1,:,:);
 
-            omegaCoarse = [omegaFine(1) omegaCoarse max(omegaFineExtended)];
+            omegaCoarse = [0 omegaCoarse max(omegaFineExtended)];
 
             nOmega = length(omegaFine);
 
@@ -860,12 +860,12 @@ classdef bodyClass<handle
                         fSlowDriftLoad = 2 * ifft(Hu/N,'symmetric');
                         obj.hydroForce.(hfName).QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1: timeIdx) + fMeanDriftLoad(1: timeIdx);
 
-                    elseif obj.QTFs == 2 % Newman QTFs calculation
+                    elseif obj.QTFs == 2 % Standing/Newman approx. calculation
 
                         QTF.diffDiag = interp1(omegaCoarse, real(diag(QTF.diffExtended(:,:,n), 0)), omegaFineExtended)';
 
                         % Sanity check: match sizes before assigning
-                        assert(isequal(size(ampFreqExtended), size(QTF.diffDiag)), 'QTF: Size mismatch in Newman Approx. lines');
+                        assert(isequal(size(ampFreqExtended), size(QTF.diffDiag)), 'QTF: Size mismatch in Standing/Newman Approx. lines');
 
                         Lp = zeros(N,1);
                         Ln = zeros(N,1);
