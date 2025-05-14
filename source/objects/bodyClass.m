@@ -198,6 +198,10 @@ classdef bodyClass<handle
             mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
 
             if ~isempty(obj.variableHydro.mass) || ~isempty(obj.variableHydro.inertia) || ~isempty(obj.variableHydro.inertiaProducts)
+                if obj.nonlinearHydro ~= 0
+                    % This might work, not implemented right now.
+                    error('Nonlinear hydrodynamics is not compatible with variable mass cases.');
+                end
                 warning(['For using a variable hydro case which varies the ' ...
                     'mass/inertia, you will need to manually break the body ' ...
                     'library link in your simulink model and use the ' ...
@@ -335,10 +339,6 @@ classdef bodyClass<handle
                     end
                     if FIR == 1
                         error('The FIR filter radiation force method is not compatible with variable hydrodynamics.');
-                    end
-                    if obj.nonlinearHydro ~= 0
-                        % This might work, not implemented right now.
-                        error('Nonlinear hydrodynamics is not compatible with variable hydrodynamics.');
                     end
                 end
             elseif obj.nonHydro>0
