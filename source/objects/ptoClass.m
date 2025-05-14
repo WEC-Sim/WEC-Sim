@@ -91,15 +91,15 @@ classdef ptoClass<handle
             % Check struct inputs:
             % Hard Stops
             mustBeMember(obj.hardStops.upperLimitSpecify,{'on','off'})
-            mustBeScalarOrEmpty(obj.hardStops.upperLimitBound)
-            mustBeScalarOrEmpty(obj.hardStops.upperLimitStiffness)
-            mustBeScalarOrEmpty(obj.hardStops.upperLimitDamping)
-            mustBeScalarOrEmpty(obj.hardStops.upperLimitTransitionRegionWidth)
+            mustBeNumeric(obj.hardStops.upperLimitBound)
+            mustBeNumeric(obj.hardStops.upperLimitStiffness)
+            mustBeNumeric(obj.hardStops.upperLimitDamping)
+            mustBeNumeric(obj.hardStops.upperLimitTransitionRegionWidth)
             mustBeMember(obj.hardStops.lowerLimitSpecify,{'on','off'})
-            mustBeScalarOrEmpty(obj.hardStops.lowerLimitBound)
-            mustBeScalarOrEmpty(obj.hardStops.lowerLimitStiffness)
-            mustBeScalarOrEmpty(obj.hardStops.lowerLimitDamping)
-            mustBeScalarOrEmpty(obj.hardStops.lowerLimitTransitionRegionWidth)
+            mustBeNumeric(obj.hardStops.lowerLimitBound)
+            mustBeNumeric(obj.hardStops.lowerLimitStiffness)
+            mustBeNumeric(obj.hardStops.lowerLimitDamping)
+            mustBeNumeric(obj.hardStops.lowerLimitTransitionRegionWidth)
             % Initial
             assert(isequal(size(obj.initial.displacement)==[1,3],[1,1]),'Input pto.initial.displacement should be 1x3')
             mustBeNumeric(obj.initial.displacement)
