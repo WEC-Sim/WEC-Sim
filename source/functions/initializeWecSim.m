@@ -372,6 +372,15 @@ for ii = 1:simu.numHydroBodies
     end; clear iW
 end
 
+% Check for elevationImport with variable hydro
+for ii = 1:simu.numHydroBodies
+    for iW = 1:length(waves)
+        if strcmp(waves(iW).type,'elevationImport') && body(ii).variableHydro.option == 1
+            error('Cannot run WEC-Sim with Variable Hydrodynamics (body(ii).variableHydro.option>0) and "elevationImport" wave type')
+        end
+    end; clear iW
+end
+
 % Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
 for ii = 1:length(body(1,:))
     if body(ii).morisonElement.option == 1
