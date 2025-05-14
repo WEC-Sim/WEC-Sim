@@ -784,7 +784,7 @@ Activating QTFs in WEC-Sim
 To enable second-order excitation forces in WEC-Sim, use the following flag in your `body(i)` definition:
 
 - ``body(i).QTFs = 1`` — Enables **full QTF-based** second-order excitation.
-- ``body(i).QTFs = 2`` — Enables **Newman approximation** for **difference-frequency** forces.
+- ``body(i).QTFs = 2`` — Enables **Standing approximation** for **difference-frequency** forces.
   - In this case, sum-frequency components are still computed using full QTFs.
 
 .. note::
@@ -793,6 +793,7 @@ To enable second-order excitation forces in WEC-Sim, use the following flag in y
     This will result in **double-counting** of mean drift forces—once from the QTFs and once from linear mean drift.
     When attempting to use ``body(i).QTFs`` and ``body(i).meanDrift`` together, a warning is thrown and the standalone mean drift flag is turned off. Only the QTFs will be used to avoid double-counting the mean drift forces.
 
+    **Standing approximation** proposed a modified form of **Newman's approximation** that, while mathematically equivalent to the original, is expressed differently and tailored to accommodate multidirectional wave environments. Unlike Newman's original formulation, Standing's version does not necessitate high-frequency filtering after application.
 ----
 
 .. _user-advanced-features-non-hydro-body:
