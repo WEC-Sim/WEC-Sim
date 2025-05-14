@@ -70,10 +70,11 @@ classdef bodyClass<handle
         useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   % 
-            'hydroForceIndexInitial',               1,...
-            'radiationIrfSurface',                  [],...
-            'mass',                                 [],...
-            'inertia',                              [])
+            'hydroForceIndexInitial',               1,...                   %
+            'radiationIrfSurface',                  [],...                  %
+            'mass',                                 [],...                  %
+            'inertia',                              [],...                  %
+            'inertiaProducts',                      [])                     %
         viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
             'opacity',                              1)                      % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
@@ -195,6 +196,14 @@ classdef bodyClass<handle
             % Variable hydro
             mustBeMember(obj.variableHydro.option, [0 1])
             mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
+
+            if ~(isempty(obj.variableHydro.mass) || isempty(obj.variableHydro.inertia) || isempty(obj.variableHydro.inertiaProducts))
+                warning(['For using a variable hydro case which varies the ' ...
+                    'mass/inertia, you will need to use the Simscape ' ...
+                    'Multibody General Variable Mass block. The default ' ...
+                    'File Solid: Body Properties block cannot be used to ' ...
+                    'vary the mass.'])
+            end
 
             % Check hydrodynamic data input
             if obj.useH5
@@ -561,19 +570,20 @@ classdef bodyClass<handle
                         obj.hydroForce.(hfName).mass = obj.mass;
                         obj.hydroForce.(hfName).adjustedMass = obj.mass + adjMass;
                         obj.hydroForce.(hfName).adjustedInertia = obj.inertia + adjFAddedMass(4:6)';
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
                     else
                         if strcmp(obj.massCalcMethod, 'equilibrium')
                             obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
                             obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
                             obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
                         else
                             obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
                             obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
                             obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
                         end
                     end
-
-                    obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
 
                     obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) - adjMass;
                     obj.hydroForce.(hfName).fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(2,2+(iBod-1)*6) - adjMass;
@@ -608,19 +618,20 @@ classdef bodyClass<handle
                         obj.hydroForce.(hfName).mass = obj.mass;
                         obj.hydroForce.(hfName).adjustedMass = obj.mass + adjMass;
                         obj.hydroForce.(hfName).adjustedInertia = obj.inertia + adjFAddedMass(4:6)';
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
                     else
                         if strcmp(obj.massCalcMethod, 'equilibrium')
                             obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
                             obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
                             obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
                         else
                             obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
                             obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
                             obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
                         end
                     end
-
-                    obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
 
                     obj.hydroForce.(hfName).fAddedMass(1,1) = obj.hydroForce.(hfName).fAddedMass(1,1) - adjMass;
                     obj.hydroForce.(hfName).fAddedMass(2,2) = obj.hydroForce.(hfName).fAddedMass(2,2) - adjMass;
