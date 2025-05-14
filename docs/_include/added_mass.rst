@@ -190,6 +190,8 @@ Refer to how ``body.calculateForceAddedMass()`` calculates the entire added mass
 When using variable hydrodynamics, the added mass matrix and mass matrix can change with the varying state.
 In the above derivation, all values of :math:`dM`, mass matrix, inertia matrix, added mass force, and the resultant
 adjusted mass and added mass matrices are calculated for each hydrodynamic dataset.
+Note that varying any part of the body mass matrix with variable hydro requires using a special simscape block.
+Refer to the variable hydrodynamics applications.
 
 .. Note::
 	Depending on the wave formulation used, :math:`A` can either be a function of wave frequency :math:`A(\omega)`, or equal to the added mass at infinite wave frequency :math:`A_{\infty}`
