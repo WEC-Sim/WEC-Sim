@@ -24,6 +24,7 @@
 % Clear old input, plots, log file and start new log file.
 diary off
 clear body waves simu output pto constraint ptoSim mooring values names InParam
+clear ConvolutionIntegral_interp convolutionIntegralSurface % reset functions with persistent variables
 try delete('*.log'); end
 diary('simulation.log')
 
@@ -578,6 +579,7 @@ warning('off','MATLAB:loadlibrary:parsewarnings');
 warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
+warning('off','Simulink:blocks:MatchingFromNotFound') % prevent unnecessary warning for the library-supplied GoTo tags for body excitation and total forces
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 
 % Load parameters to Simulink model

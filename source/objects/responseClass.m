@@ -205,6 +205,8 @@ classdef responseClass<handle
                 end
                 if bodiesOutput(ii).variableHydroOption == 1
                     obj.bodies(ii).hydroForceIndex = bodiesOutput(ii).hydroForceIndex;
+                else
+                    obj.bodies(ii).hydroForceIndex = [];
                 end
             end
             
@@ -321,7 +323,7 @@ classdef responseClass<handle
             end
         end
         
-        function obj = loadMoorDyn(obj,linesNum, inputFile)            
+        function obj = loadMoorDyn(obj,linesNum, inputFile, iMoor, previousLineCount)            
             % This method reads MoorDyn outputs for each instance of the
             % ``mooringClass``
             %            
@@ -331,12 +333,19 @@ classdef responseClass<handle
             %         the number of MoorDyn lines
             %     inputFile : text
             %         the infile text name 
+            %     iMoor : integer
+            %         the index defining the MoorDyn connection
+            %     previousLineCount : integer
+            %         the number of mooring lines from previous MoorDun
+            %         connections
             %
             
             arguments
                 obj
                 linesNum (1,1) double {mustBeInteger}
                 inputFile (1,:) {mustBeText}
+                iMoor (1,1) double {mustBeInteger}
+                previousLineCount (1,1) double {mustBeInteger}
             end
             
             % load out files. First find the path and rootname. 
@@ -354,13 +363,13 @@ classdef responseClass<handle
             tmp = size(data);
             ncol = tmp(2);clear tmp
             for icol=1:ncol
-               eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
+               eval(['obj.moorDyn(' num2str(iMoor) ').Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
             end
             fclose(fid);
             % load Line#.out
             for iline=1:linesNum
-                eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
-                filename = [append(fileRootPath,'_Line') num2str(iline) '.out'];
+                eval(['obj.moorDyn(' num2str(iMoor) ').Line' num2str(iline) '=struct();']);
+                filename = [append(fileRootPath,'_Line') num2str(iline+previousLineCount) '.out'];
                 try
                     fid = fopen(filename);
                     header = strsplit(strtrim(fgetl(fid)));
@@ -368,7 +377,7 @@ classdef responseClass<handle
                     tmp = size(data);
                     ncol = tmp(2);clear tmp
                     for icol=1:ncol
-                        eval(['obj.moorDyn.Line' num2str(iline) '.' header{icol} ' = data(:,' num2str(icol) ');']);
+                        eval(['obj.moorDyn(' num2str(iMoor) ').Line' num2str(iline) '.' header{icol} ' = data(:,' num2str(icol) ');']);
                     end
                     fclose(fid);
                 catch

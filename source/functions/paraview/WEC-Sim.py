@@ -29,7 +29,7 @@ ground = np.loadtxt(f)
 f.close()
 gextent = ground[0]
 gdepth = -ground[1]
-MoorDyn = ground[2]
+numMoorDyn = ground[2]
 plane1 = Plane()
 plane1.Origin = [-gextent,-gextent,gdepth]
 plane1.Point1 = [gextent,-gextent,gdepth]
@@ -44,8 +44,7 @@ RenameSource('ground', plane1)
 filename = dir + os.sep + 'bodies.txt'
 f = open(filename,'r')
 bodies = model.GetDataInformation().GetNumberOfDataSets() - 1
-if MoorDyn:
-	bodies = bodies-1
+bodies = bodies - int(numMoorDyn)
 for i in range(bodies):
 	SetActiveSource(model)
 	extractBlock1_2 = ExtractBlock(Input=model)
@@ -62,10 +61,10 @@ for i in range(bodies):
 f.close()
 
 # mooring
-if MoorDyn:
+for i in range(int(numMoorDyn)):
 	SetActiveSource(model)
 	extractBlock1_3 = ExtractBlock(Input=model)
-	extractBlock1_3.Selectors = ['//*[@cid=%d]'%(2+((bodies-1)*2)+1+2), '//*[@cid=%d]'%(2+((bodies-1)*2)+2+2)]
+	extractBlock1_3.Selectors = ['//*[@cid=%d]'%(2+(bodies*2)+(i*2)+1), '//*[@cid=%d]'%(2+(bodies*2)+(i*2)+2)]
 	extractBlock1_3Display = Show(extractBlock1_3, renderView1)
 	extractBlock1_3Display.ColorArrayName = [None, '']
 	RenameSource('MoorDyn', extractBlock1_3)

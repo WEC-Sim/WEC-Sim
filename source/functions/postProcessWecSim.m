@@ -138,9 +138,11 @@ output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,ca
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput windTurbineOutput
 
 % MoorDyn
+mooringLineCount = 0;
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
-        output.loadMoorDyn(mooring(iMoor).moorDynLines, mooring(iMoor).moorDynInputFile);
+        output.loadMoorDyn(mooring(iMoor).moorDynLines, mooring(iMoor).moorDynInputFile, iMoor, mooringLineCount);
+        mooringLineCount = mooringLineCount + mooring(iMoor).moorDynLines;
     end
 end; clear iMoor
 
@@ -154,6 +156,6 @@ for iBod = 1:simu.numHydroBodies
     body(iBod).restoreMassMatrix();
     body(iBod).storeForceAddedMass(output.bodies(iBod).forceAddedMass, output.bodies(iBod).forceTotal);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration);
+    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration, output.bodies(iBod).hydroForceIndex);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
