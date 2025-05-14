@@ -15,9 +15,9 @@ shown in the manipulation of the governing equation below:
 
 .. math::
 
-    M\ddot{X_i} &= \Sigma F(t,\omega) - A\ddot{X_i} \\
-    (M+A)\ddot{X_i} &= \Sigma F(t,\omega) \\
-    M_{adjusted}\ddot{X_i} &= \Sigma F(t,\omega)
+    M\ddot{X_i} &= \Sigma F(t,\omega) + m\overrightarrow{g} - A\ddot{X_i} \\
+    (M+A)\ddot{X_i} &= \Sigma F(t,\omega) + m\overrightarrow{g} \\
+    M_{adjusted}\ddot{X_i} &= \Sigma F(t,\omega) + m\overrightarrow{g} 
 
 where :math:`F_{am} = -A\ddot{X_i}` is the added mass component of the radiation force that is pulled out of the force summation for manipulation,
 :math:`M` is the mass matrix, :math:`A` is the single frequency or infinite frequency added mass, and subscript :math:`i` represents the timestep being solved for. 
@@ -41,6 +41,10 @@ There are alternative approximations to solve the algebraic loop, but simulation
 The core issue with this combined mass formulation is that Simscape Multibody, and most other physics software, do not allow a generic body to have a degree-of-freedom specific mass.
 For example, a rigid body can't have one mass for surge motion and another mass for heave motion. 
 Simscape rigid bodies only have one translational mass, a 1x3 moment of inertia matrix, and 1x3 product of inertia matrix. 
+
+Note that the body mass used to define the gravitational force is not adjusted as gravity does not act on any added mass contributions. 
+The gravity force will always depend on the unadjusted body mass. 
+The gravity force is lumped with the sum of remaining forces in the rest of this section for simplicity.
 
 WEC-Sim's Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^
