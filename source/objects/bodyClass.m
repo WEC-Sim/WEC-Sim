@@ -336,6 +336,10 @@ classdef bodyClass<handle
                     if FIR == 1
                         error('The FIR filter radiation force method is not compatible with variable hydrodynamics.');
                     end
+                    if obj.nonlinearHydro ~= 0
+                        % This might work, not implemented right now.
+                        error('Nonlinear hydrodynamics is not compatible with variable hydrodynamics.');
+                    end
                 end
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
