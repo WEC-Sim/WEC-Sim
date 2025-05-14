@@ -74,10 +74,10 @@ classdef bodyClass<handle
             'radiationIrfSurface',                  [],...                  %
             'mass',                                 [],...                  %
             'inertia',                              [],...                  %
-            'inertiaProducts',                      [])                     %
-        viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
+            'inertiaProducts',                      [])                     % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydrodynamic data and h5File of the body at equilibrium. ``radiationIRFSurface`` (`array`) is not user-defined and is used to calculation the radiation convolution integral with varying states. ``mass`` (`array`), ``inertia`` (`array`), ``inertiaProducts`` (`array`) are user-defined values of the mass properties of the body over every varying state.
+        viz (1,1) struct                            = struct(...            % (`structure`) Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
-            'opacity',                              1)                      % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
+            'opacity',                              1)                      % (`structure`) Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         volume (1,:) {mustBeScalarOrEmpty}          = []                    % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation.
             'option',                               0,...                   %
