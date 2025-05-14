@@ -58,7 +58,7 @@ There is a 1-1 mapping between the body's inertia tensor and rotational added ma
 These added mass coefficients are entirely lumped with the body's inertia.
 Additionally, the surge-surge (1,1), sway-sway (2,2), heave-heave (3,3) added mass coefficients correspond to the translational mass of the body, but must be treated identically.
 
-WEC-Sim implements this added mass treatment by adding a change in mass matrix ($$dM$$) to both sides of the equation, creating both a modified added mass matrix and a modified body mass matrix:
+WEC-Sim implements this added mass treatment by adding a change in mass matrix (:math:`dM`) to both sides of the equation, creating both a modified added mass matrix and a modified body mass matrix:
 
 .. math::
 
@@ -125,12 +125,7 @@ This will convert the algebraic loop equation of motion to a solvable one:
     M_{adjusted}\ddot{X_i} &= \Sigma F(t,\omega) - A_{adjusted}\ddot{X}_{i - (1 - 10^{-7}/dt)} \\
 
 Body-to-body Interactions
-"""""""""""""""""""""""""""
-F = A * acc
-first dimension/index = down, 2nd = across
-non b2b: A = [6x6], acc = [6x1], 
-b2b: A = [6x12], acc = [12x1] in order of body numbers regardless of the current body number
-
+""""""""""""""""""""""""""
 The above implementation extends readily to the case where there are body interactions to account for.
 In this example, we assume there are two bodies with body interaction.
 Then the right hand side added mass and acceleration matrices above are (without generalized modes)
@@ -158,17 +153,43 @@ Working with the Added Mass Implementation
 WEC-Sim's added mass implementation should not affect a user's modeling workflow.
 WEC-Sim handles the manipulation and restoration of the mass and forces in the bodyClass functions ``bodyClass.adjustMassMatrix()`` called by ``initializeWecSim`` and ``bodyClass.restoreMassMatrix()``, ``bodyClass.storeForceAddedMass()`` called by ``postProcessWecSim``.
 However viewing ``body.hydroForce.hf*.fAddedMass`` between calls to ``initializeWecSim`` and ``postProcessWecSim`` will not show the values from the BEM dataset.
-Users can get the adjusted mass, moments of inertia, products of inertia, added mass coefficients, added mass force, and total force from 
-``body.hydroForce.hf*.mass``, ``body.hydroForce.hf*.inertia``, ``body.hydroForce.hf*.inertiaProducts``, ``body.hydroForce.hf*.storage.hydroForce_fAddedMass``, 
-``body.hydroForce.hf*.storage.output_forceAddedMass``, and ``body.hydroForce.hf*.storage.output_forceTotal`` respectively after the simulation.
-However, in the case that a user wants to view the added mass force *during* a simulation (typically during debugging), 
+See the following table for the variables containing both unadjusted and adjusted parameters after the simulation:
+
+.. list-table:: Nominal and adjusted mass parameters
+   :widths: 25 37 37
+   :header-rows: 1
+
+   * - Parameter
+     - Nominal value
+     - Adjusted value
+   * - Mass
+     - ``body.mass``, ``body.hydroForce.hf*.mass``, ``body.variableHydro.mass``
+     - ``body.hydroForce.hf*.adjustedMass``
+   * - Inertia
+     - ``body.inertia``, ``body.variableHydro.inertia``
+     - ``body.hydroForce.hf*.adjustedInertia``
+   * - Inertia Products
+     - ``body.inertiaProducts``, ``body.variableHydro.inertiaProducts``
+     - ``body.hydroForce.hf*.adjustedInertiaProducts``
+   * - Added mass coefficients
+     - ``body.hydroForce.hf*.hydroForce_fAddedMass``
+     - ``body.hydroForce.hf*.storage.hydroForce_fAddedMass``
+   * - Added mass force timeseries
+     - ``output.bodies(*).forceAddedMass``
+     - ``body.hydroForce.hf*.storage.output_forceAddedMass``
+   * - Total force timeseries
+     - ``output.bodies(*).forceTotal``
+     - ``body.hydroForce.hf*.storage.output_forceTotal``
+
+The nominal (*unadjusted*) body mass is stored in ``body.hydroForce.hf*.mass``. 
+This nominal value is retained during the simulation because it is required for the calculation of the gravitational force.
+However, in the case that a user wants to view the added mass force *during* a simulation (typically during debugging in a failed simulation), 
 the change in mass, :math:`dM` above, must be taken into account. 
 Refer to how ``body.calculateForceAddedMass()`` calculates the entire added mass force in WEC-Sim post-processing.
 
-When using variable hydrodynamics, the added mass matrix can change with the varying state.
-However, the body mass matrix cannot vary. 
-So, :math:`dM` is taken to be constant based on the hydrodynamic dataset specified by `body.variableHydro.hydroForceIndexInitial`.
-All added mass datasets within `body.hydroForce` are changed using this consistent definition of :math:`dM`.
+When using variable hydrodynamics, the added mass matrix and mass matrix can change with the varying state.
+In the above derivation, all values of :math:`dM`, mass matrix, inertia matrix, added mass force, and the resultant
+adjusted mass and added mass matrices are calculated for each hydrodynamic dataset.
 
 .. Note::
 	Depending on the wave formulation used, :math:`A` can either be a function of wave frequency :math:`A(\omega)`, or equal to the added mass at infinite wave frequency :math:`A_{\infty}`
