@@ -51,8 +51,8 @@ structure:
 
 * ``h5File``
    * Instead of initializing the body class with one string 
-     (one H5 file name), a cell array of strings can be passed, e.g.
-   * body(1) = bodyClass({'H5FILE_1.h5','H5FILE_2.h5','H5FILE_3.h5');
+     (one H5 file name), a cell array of strings can be passed, e.g
+     ``body(1) = bodyClass({'H5FILE_1.h5','H5FILE_2.h5','H5FILE_3.h5');``
 * ``hydroData``
    * Each H5 file is processed into a hydroData structure. All structs are 
      concatenated into ``hydroData`` which is now an array of structures instead

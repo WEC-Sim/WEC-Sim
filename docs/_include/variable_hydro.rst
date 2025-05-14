@@ -108,7 +108,6 @@ every body in a simulation. To implement variable hydrodynamics for a given body
     * FIR Filter radiation calculations
     * Generalized body modes
     * Non-hydrodynamic and drag bodies
-    * Conditions that require a variable mass, center of gravity, or center of buoyancy
 
 Impulse Response Function with Variable Hydrodynamics
 """""""""""""""""""""""""""""""""""""""""""""""""""""
