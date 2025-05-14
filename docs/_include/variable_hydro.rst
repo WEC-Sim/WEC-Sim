@@ -20,7 +20,7 @@ a specific scenario, state, signal, or discretization required.
 
 For a case which varies the mass of the body, the body library link in the Simulink 
 model will need to be broken and the default File Solid : Body Properties block 
-replaced with the General Variable Mass block See the variable hydro WEC-Sim 
+replaced with the General Variable Mass block. See the variable hydro WEC-Sim 
 Application.
 
 Example
