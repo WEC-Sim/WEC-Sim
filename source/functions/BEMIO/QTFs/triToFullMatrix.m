@@ -42,7 +42,7 @@ for col = 1:size(dof_data, 2)-2
                 F_ij(dof_data(i, end-1), dof_data(i, end)) = elements(i);
                 F_ij(dof_data(i, end), dof_data(i, end-1)) = conj(F_ij(dof_data(i, end-1), dof_data(i, end)));
             else
-                elements = dof_data(:, col) - 1i .* dof_data(:, col + 1);
+                elements = dof_data(:, col) + 1i .* dof_data(:, col + 1);
                 F_ij(dof_data(i, end-1), dof_data(i, end)) = elements(i);
                 F_ij(dof_data(i, end), dof_data(i, end-1)) = F_ij(dof_data(i, end-1), dof_data(i, end));
             end
