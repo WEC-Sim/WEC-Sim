@@ -257,6 +257,9 @@ classdef responseClass<handle
             if isstruct(mooringOutput)
                 signals = {'position','velocity','forceMooring'}; 
                 for ii = 1:length(mooringOutput)
+                    if length(size(mooringOutput(ii).signals.values)) == 3 % reformat mooring output if necessary
+                        mooringOutput(ii).signals.values = squeeze(mooringOutput(ii).signals.values)';
+                    end
                     obj.mooring(ii).name = mooringOutput(ii).name;
                     obj.mooring(ii).time = mooringOutput(ii).time;
                     for jj = 1:length(signals)
@@ -419,7 +422,7 @@ classdef responseClass<handle
             figure()
             plot(t,pos,'k-',...
                  t,vel,'b-',...
-                 t,acc,'r-','linewidth',2);
+                 t,acc,'r-')
             legend({'Pos','Vel','Acc'},'Location','best')
             xlabel('Time (s)')
             ylabel('(m) or (radians)')
@@ -462,7 +465,7 @@ classdef responseClass<handle
                  t,FAM,...
                  t,FR,...
                  t,FMV,...
-                 t,FLD,'linewidth',2);
+                 t,FLD)
             legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping','Location','best')
             xlabel('Time (s)')
             ylabel('(N) or (Nm)')

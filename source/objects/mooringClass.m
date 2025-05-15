@@ -37,7 +37,7 @@ classdef mooringClass<handle
             'damping',                                      zeros(6,6), ... % 
             'stiffness',                                    zeros(6,6), ... % 
             'preTension',                                   [0 0 0 0 0 0])  % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`1x6 float vector`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
-        moorDyn (1,1) {mustBeInteger}                       = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        moorDyn (1,1) {mustBeInteger}                       = 0             % (`integer`) Flag to indicate and initialize a MoorDyn connection, 0 or 1. Default = ``0``
         moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
@@ -54,7 +54,7 @@ classdef mooringClass<handle
             'MaxIter',                                  50,...
             'TolFun',                                  1e-7,...
             'TolX',                                    1e-7,...
-            'HV0_try',                        [1e6    2e6]);                                          
+            'HV0_try',                        [1e6    2e6]);
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
@@ -69,7 +69,7 @@ classdef mooringClass<handle
             if exist('name','var')
                 obj.name = name;
             else
-                error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring line with a name.')
+                error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring connection with a name.')
             end
         end
 
@@ -165,7 +165,7 @@ classdef mooringClass<handle
                 error(errStr);
             end
         end
-        
+
         function obj = NLStatic_Setup(obj,rho,gravity,depth)
 
             obj.Data_moor.fminsearch_options=optimset('MaxIter',obj.Data_moor.MaxIter,'TolFun',obj.Data_moor.TolFun,'TolX',obj.Data_moor.TolX);
@@ -183,7 +183,6 @@ classdef mooringClass<handle
 
             end
 
-            
             for i=1:obj.Data_moor.number_lines
 
                 FairleadNotrasl = obj.Data_moor.nodes(:,2*i-1);
@@ -193,7 +192,6 @@ classdef mooringClass<handle
                 [obj.Data_moor.HV0(i,:)]=fminsearch(@(HV)Calc_HV(HV,h,r,obj.Data_moor),obj.Data_moor.HV0_try,obj.Data_moor.fminsearch_options);
 
             end
-
 
             function err = Calc_HV(HV,h,r,Data_moor)
 
@@ -215,18 +213,16 @@ classdef mooringClass<handle
                 end
 
                 err=sqrt((x-r)^2+(z-h)^2);
-
             end
-
         end
-
+        
         function listInfo(obj)
             % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
         end
 
         function obj = setLoc(obj)
-            % This method sets mooring location
+            % This method sets MoorDyn initial orientation
             obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
         end
 
@@ -271,5 +267,6 @@ classdef mooringClass<handle
             calllib('libmoordyn', 'MoorDynClose');
             unloadlibrary libmoordyn;
         end
+
     end
 end
