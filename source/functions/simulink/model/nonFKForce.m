@@ -44,6 +44,7 @@ end
 function f=pDis(center,elv,direction,spread,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
 % Function to calculate pressure distribution
 f = zeros(length(center(:,3)),1);
+fk= zeros(length(center(:,3)),1);
 z=zeros(length(center(:,1)),1);
 if typeNum <10
 elseif typeNum <20
@@ -73,6 +74,8 @@ elseif typeNum <30
         end
         f=fk+f;
     end
+% elseif typeNum < 40
+%     error('fullDirectionalSpectrum import not supported with nonlinear hydro')
 end
 f(z>0)=0;
 end
