@@ -37,7 +37,7 @@ If the MoorDyn files on this repository are not functioning on your system, you 
 
 ---------------------- More Information -------------------------
 
-More information about MoorDyn is now available at <moordyn.readthedocs.io> -- including the User's Guide, source code, and examples.  
+More information about MoorDyn is now available at [moordyn.readthedocs.io](https://moordyn.readthedocs.io/en/latest/) -- including the User's Guide, source code, and examples.  
 
 For information about MoorDyn's formulation and some validation 
 results, see M. Hall and A. Goupee, ìValidation of a lumped-mass 
