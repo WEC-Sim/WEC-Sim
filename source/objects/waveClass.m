@@ -553,7 +553,7 @@ classdef waveClass<handle
             end
 
             figure
-            plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2),'linewidth',2);
+            plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
             title('Wave Surfave Elevation')
             if nargin==2
                 hold on
