@@ -72,7 +72,6 @@ classdef simulationClass<handle
         numConstraints      = 0                                            % (`integer`) Number of contraints in the wec model. Default = ``0``
         numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
         numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
-        numMoorDyn          = 0                                            % (`integer`) Number of moordyn blocks systems in the wec model. Default = ``0``
         numMoorings         = 0                                            % (`integer`) Number of moorings in the wec model. Default = ``0``
         numPtos             = 0                                            % (`integer`) Number of power take-off elements in the model. Default = ``0``
         numPtoSim           = 0                                            % (`integer`) Number of PTO-Sim elements in the model. Default = ``0``        
@@ -249,7 +248,7 @@ classdef simulationClass<handle
             try
                 ws_exe = which('wecSim');
                 ws_dir = fileparts(ws_exe);
-                git_ver_file = [ws_dir '/../.git/refs/heads/main'];
+                git_ver_file = [ws_dir '/../.git/refs/heads/master'];
                 obj.gitCommit = textread(git_ver_file,'%s');
             catch
                 obj.gitCommit = 'No git commit tag available';

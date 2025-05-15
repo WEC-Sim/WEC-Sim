@@ -42,7 +42,6 @@ for i=1:length(blocks)
     end
 end
 
-
 % Order classes by number
 iSorted = sortBlocksByNumber(blocks(iBody),'body');
 iBody = iBody(iSorted);
@@ -78,7 +77,7 @@ cable = cableClass('','constraint','pto');
 mooring = mooringClass('');
 
 %% Write each mask to an input file section
-for i = 1:length(blocks)
+for i=1:length(blocks)
     names = get_param(blocks{i},'MaskNames');
     values = get_param(blocks{i},'MaskValues');
     visibilities = get_param(blocks{i},'MaskVisibilities');
@@ -103,122 +102,123 @@ for i = 1:length(blocks)
         fprintf(fid,'\r\n%s\r\n','%% Simulation Class');
         fprintf(fid,'simu = simulationClass(); \r\n');
         fprintf(fid,'simu.simMechanicsFile = ''%s.slx''; \r\n',bdroot);
-        writeLineFromVar(fid, simu, 'mode', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'explorer', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'startTime', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'rampTime', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'endTime', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'solver', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'dt', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'cicEndTime', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, simu, 'stateSpace', maskVars, maskViz, [], []);
+        
+        fprintf(fid,writeLineFromVar(simu, 'mode', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'explorer', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'startTime', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'rampTime', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'endTime', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'solver', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'dt', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'cicEndTime', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'stateSpace', maskVars, maskViz, [], []));
         
         % Wave Information 
         fprintf(fid,'\r\n%s\r\n','%% Wave Class');
         fprintf(fid,'waves = waveClass(%s); \r\n',maskVars.WaveClass);
-        writeLineFromVar(fid, waves, 'height', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, waves, 'period', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, waves, 'direction', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, waves, 'spread', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, waves, 'spectrumType', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, waves, 'option', maskVars, maskViz, [], 'bem');
-        writeLineFromVar(fid, waves, 'spectrumFile', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, waves, 'phaseSeed', maskVars, maskViz, [], []);
-        writeLineFromVar(fid, waves, 'elevationFile', maskVars, maskViz, [], []);
+        
+        fprintf(fid,writeLineFromVar(waves, 'height', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'period', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'direction', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'spread', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'spectrumType', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'option', maskVars, maskViz, [], 'bem'));
+        fprintf(fid,writeLineFromVar(waves, 'spectrumFile', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'phaseSeed', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'elevationFile', maskVars, maskViz, [], []));
+            
 
     elseif isfield(maskVars,'body')
         % Block is a body
         fprintf(fid,'\r\n%s\r\n','%% Body Class');        
         tmp = string(maskVars.body);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-
         fprintf(fid,'body(%d) = bodyClass(%s); \r\n',num,maskVars.h5File);
-        writeLineFromVar(fid, body, 'geometryFile', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'mass', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'inertia', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'inertiaProducts', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'nonHydro', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'nonlinearHydro', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'flex', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'QTFs', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'centerGravity', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'centerBuoyancy', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'dof', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'volume', maskVars, maskViz, num, []);        
-        writeLineFromVar(fid, body, 'displacement', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, body, 'axis', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, body, 'angle', maskVars, maskViz, num, 'initial');        
-        writeLineFromVar(fid, body, 'option', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'cd', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'ca', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'area', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'VME', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'rgME', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'z', maskVars, maskViz, num, 'morisonElement');
+        
+        fprintf(fid,writeLineFromVar(body, 'geometryFile', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'mass', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'inertia', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'inertiaProducts', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'nonHydro', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'nonlinearHydro', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'flex', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'centerGravity', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'centerBuoyancy', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'volume', maskVars, maskViz, num, []));        
+        fprintf(fid,writeLineFromVar(body, 'displacement', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'axis', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'angle', maskVars, maskViz, num, 'initial'));        
+        fprintf(fid,writeLineFromVar(body, 'option', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'cd', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'ca', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'area', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'VME', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'rgME', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'z', maskVars, maskViz, num, 'morisonElement'));
         
     elseif isfield(maskVars,'constraint')
         % Block is a constraint
         fprintf(fid,'\r\n%s\r\n','%% Constraint Class');        
         tmp = string(maskVars.constraint);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-
         fprintf(fid,'constraint(%d) = constraintClass(''constraint%d''); \r\n',num,num);
-        fprintf(fid,['constraint(%d).location = ' maskVars.loc '; \r\n'],num); % custom mask variable cannot be called 'location', so this variable has a special print statement
-        writeLineFromVar(fid, constraint, 'y', maskVars, maskViz, num, 'orientation');
-        writeLineFromVar(fid, constraint, 'z', maskVars, maskViz, num, 'orientation');
-        writeLineFromVar(fid, constraint, 'displacement', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, constraint, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'upperLimitBound', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'upperLimitDamping', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'upperLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'lowerLimitSpecify', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'lowerLimitBound', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'lowerLimitStiffness', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'lowerLimitDamping', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, constraint, 'lowerLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops');
+        
+        fprintf(fid,['constraint(%d).location = ' maskVars.loc '; \r\n'],num);
+        fprintf(fid,writeLineFromVar(constraint, 'y', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(constraint, 'z', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(constraint, 'displacement', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(constraint, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'upperLimitBound', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'upperLimitDamping', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'upperLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'lowerLimitSpecify', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'lowerLimitBound', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'lowerLimitStiffness', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'lowerLimitDamping', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(constraint, 'lowerLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops'));
 
     elseif isfield(maskVars,'pto')
         % Block is a PTO
         fprintf(fid,'\r\n%s\r\n','%% PTO Class');        
         tmp = string(maskVars.pto);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-
         fprintf(fid,'pto(%d) = ptoClass(''pto%d''); \r\n',num,num);
-        writeLineFromVar(fid, pto, 'stiffness', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, pto, 'damping', maskVars, maskViz, num, []);
-        fprintf(fid,['pto(%d).location = ' maskVars.loc '; \r\n'],num); % custom mask variables cannot be called 'location', so this variable has a special print statement
-        writeLineFromVar(fid, pto, 'y', maskVars, maskViz, num, 'orientation');
-        writeLineFromVar(fid, pto, 'z', maskVars, maskViz, num, 'orientation');
-        writeLineFromVar(fid, pto, 'displacement', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, pto, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'upperLimitBound', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'upperLimitDamping', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'upperLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'lowerLimitSpecify', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'lowerLimitBound', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'lowerLimitStiffness', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'lowerLimitDamping', maskVars, maskViz, num, 'hardStops');
-        writeLineFromVar(fid, pto, 'lowerLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops');
+        
+        fprintf(fid,writeLineFromVar(pto, 'stiffness', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(pto, 'damping', maskVars, maskViz, num, []));
+        fprintf(fid,['pto(%d).location = ' maskVars.loc '; \r\n'],num);        
+        fprintf(fid,writeLineFromVar(pto, 'y', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(pto, 'z', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(pto, 'displacement', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(pto, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'upperLimitBound', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'upperLimitDamping', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'upperLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'lowerLimitSpecify', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'lowerLimitBound', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'lowerLimitStiffness', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'lowerLimitDamping', maskVars, maskViz, num, 'hardStops'));
+        fprintf(fid,writeLineFromVar(pto, 'lowerLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops'));
         
     elseif isfield(maskVars,'cable')
         % Block is a cable
         fprintf(fid,'\r\n%s\r\n','%% Cable Class');        
         tmp = string(maskVars.cable);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        
         fprintf(fid,'cable(%d) = cableClass(''cable%d'',%s,%s); \r\n',num,num,...
             maskVars.baseName,maskVars.followerName);        
-        writeLineFromVar(fid, cable, 'stiffness', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, cable, 'damping', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, cable, 'L0', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, cable, 'preTension', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, cable, 'y', maskVars, maskViz, num, 'orientation');
-        writeLineFromVar(fid, cable, 'z', maskVars, maskViz, num, 'orientation');
-        writeLineFromVar(fid, cable, 'displacement', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, cable, 'axis', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, cable, 'angle', maskVars, maskViz, num, 'initial');
+        fprintf(fid,writeLineFromVar(cable, 'stiffness', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'damping', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'L0', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'preTension', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'y', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(cable, 'z', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(cable, 'displacement', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(cable, 'axis', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(cable, 'angle', maskVars, maskViz, num, 'initial'));
         
     elseif isfield(maskVars,'mooring') && isfield(maskVars,'stiffness')
         % Block is a Mooring system
@@ -227,21 +227,20 @@ for i = 1:length(blocks)
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         
         fprintf(fid,'mooring(%d) = mooringClass(''mooring%d''); \r\n',num,num);        
-        fprintf(fid,['mooring(%d).location = ' maskVars.loc '; \r\n'],num); % custom mask variable cannot be called 'location', so this variable has a special print statement
-        writeLineFromVar(fid, mooring, 'stiffness', maskVars, maskViz, num, 'matrix');
-        writeLineFromVar(fid, mooring, 'damping', maskVars, maskViz, num, 'matrix');
-        writeLineFromVar(fid, mooring, 'preTension', maskVars, maskViz, num, 'matrix');
+        fprintf(fid,['mooring(%d).location = ' maskVars.loc '; \r\n'],num);        
+        fprintf(fid,writeLineFromVar(mooring, 'stiffness', maskVars, maskViz, num, 'matrix'));
+        fprintf(fid,writeLineFromVar(mooring, 'damping', maskVars, maskViz, num, 'matrix'));
+        fprintf(fid,writeLineFromVar(mooring, 'preTension', maskVars, maskViz, num, 'matrix'));
         
     elseif isfield(maskVars,'mooring') && isfield(maskVars,'moorDynlines')
         % Block is a Mooring system
-        fprintf(fid,'\r\n%s\r\n','%% Mooring Class');
+        fprintf(fid,'\r\n%s\r\n','%% Mooring Class');        
         tmp = string(maskVars.mooring);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-
         fprintf(fid,'mooring(%d) = mooringClass(''mooring%d''); \r\n',num,num);        
-        fprintf(fid,['mooring(%d).location = ' maskVars.loc '; \r\n'],num); % custom mask variable cannot be called 'location', so this variable has a special print statement
-        writeLineFromVar(fid, mooring, 'moorDynLines', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, mooring, 'moorDynNodes', maskVars, maskViz, num, []);
+        fprintf(fid,['mooring(%d).location = ' maskVars.loc '; \r\n'],num);        
+        fprintf(fid,writeLineFromVar(mooring, 'moorDynLines', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(mooring, 'moorDynNodes', maskVars, maskViz, num, []));
     end
     clear names values maskVars
 end

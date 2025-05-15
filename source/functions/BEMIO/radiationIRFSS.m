@@ -78,8 +78,7 @@ for i=1:sum(hydro.dof)
             
             R2 = 1-(norm(K-ss_K.')/R2i)^2;  % Calc R2 for SS IRF approx
             if R2 >= R2t  status = 1;  break  % R2 threshold
-            elseif O == Omax  status = 2;
-                break  % Max SS order threshold
+            elseif O == Omax  status = 2;  break  % Max SS order threshold
             else  O = O+1;  end  % Increase state space order
         end
         if R2i ~= 0.0

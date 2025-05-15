@@ -1,13 +1,13 @@
 function hydro = readWAMIT(hydro,filename,exCoeff)
 % Reads data from a WAMIT output file.
-%
-% If generalized body modes are used, the output directory must also
+% 
+% If generalized body modes are used, the output directory must also 
 % include the `*.cfg`, `*.mmx`, and `*.hst` files.
 % If simu.nonlinearHydro = 3 will be used, the output directory must also
 % include the `*.3fk` and `*.3sc` files.
-%
+% 
 % See ``WEC-Sim/examples/BEMIO/WAMIT`` for examples of usage.
-%
+% 
 % Parameters
 % ----------
 %     hydro : struct
@@ -19,13 +19,14 @@ function hydro = readWAMIT(hydro,filename,exCoeff)
 %     exCoeff : integer
 %         Flag indicating the type of excitation force coefficients to
 %         read, ‘diffraction’ (default), ‘haskind’, or ‘rao’
+% 
 % Returns
 % -------
 %     hydro : struct
 %         Structure of hydro data with WAMIT data appended
-%
+% 
 
-%%
+%% 
 [a,b] = size(hydro);  % Check on what is already there
 if b == 1 && ~isfield(hydro(b),'Nb')
     F = 1;
@@ -185,8 +186,8 @@ for n = 1:N
             end
             if i>N break; end
         end
-    end
-
+    end    
+    
     if isempty(strfind(raw{n},'SURGE, SWAY, HEAVE, ROLL, PITCH & YAW DRIFT FORCES (Control Surface)'))==0
         hydro(F).Nh = 0;  % Number of wave headings
         i = n+1;
@@ -246,7 +247,7 @@ for n = 1:N
             if i>N break; end
         end
     end
-
+    
     d = floor(10*n/N);  % Update progress bar every 10%, otherwise slows computation
     if d>e  waitbar(n/N);  e = d;  end
 end
@@ -278,7 +279,7 @@ if exist([tmp{1} '.3sc'],'file')==2
 end
 
 %% Froude-Krylov force
-hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));
+hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));  
 hydro(F).fk_ph = NaN(size(hydro(F).ex_ph));
 hydro(F).fk_re = NaN(size(hydro(F).ex_re));
 hydro(F).fk_im = NaN(size(hydro(F).ex_im));
@@ -324,7 +325,7 @@ if exist([tmp{1} '.cfg'],'file')==2
             end
         end
     end
-    if sum(hydro(F).dof) > hydro(F).Nb*6  % If there are generalized body modes
+    if sum(hydro(F).dof) > hydro(F).Nb*6  % If there are generalized body modes        
         tmp = strsplit(filename,{' ','.out'});
         fileID = fopen([tmp{1} '.mmx']);    % Read in mass, damping, and stiffness
         raw = textscan(fileID,'%[^\n\r]');  % Read/copy raw output
@@ -340,9 +341,9 @@ if exist([tmp{1} '.cfg'],'file')==2
                     hydro(F).gbm(tmp{1,1}(1),tmp{1,1}(2),3) = tmp{1,1}(5);  % gbm[:,:,3] - Stiffness
                 end
             end
-        end
+        end        
         tmp = strsplit(filename,{' ','.out'});
-        fileID = fopen([tmp{1} '.hst']);    % Read in hydrostatic stiffness
+        fileID = fopen([tmp{1} '.hst']);    % Read in hydrostatic stiffness 
         raw = textscan(fileID,'%[^\n\r]');  % Read/copy raw output
         raw = raw{:};
         fclose(fileID);
@@ -358,81 +359,5 @@ end
 hydro = normalizeBEM(hydro);  % For WAMIT this just sorts the data, if neccessary
 hydro = addDefaultPlotVars(hydro);
 
-
-%% QTFs
-% Check if any file ending with '11s', '11d', '12s', or '12d' exists in the current directory
-files = dir('./'); % List all files in the directory
-
-fileExists_s = false; % Initialize flags to check if any file with the specified extensions exists
-fileExists_d = false;
-
-try
-    % warning('QTF file parser is looking for a file ending in extension ##s or ##d. Please remove or rename any extraneous files with matching extensions or this may cause issues in simulation');
-    %
-    % Initalize qtffilename
-    qtffilename = strings(2,hydro.Nb);
-    n = 1;
-    for i = 1:length(files)
-        % This loop checks the names of the QTFs input files that ends with a number then "s" or
-        % "d"
-
-        filename = files(i).name;    % Get the file name
-        % Check if the file name ends with 'd' and extract the number before 'd'
-        if contains(filename,'11s') || contains(filename,'10s') || contains(filename,'12s') || contains(filename,'qcs')
-            [~, qtfFileName, ~] = fileparts(filename);
-            fileExists_s = true;
-            bodyNumber(n) = str2double(qtfFileName(end));
-            qtffilename{1,bodyNumber(n)} = filename;
-            n = n + 1;
-
-        elseif contains(filename,'11d') || contains(filename,'10d') || contains(filename,'12d') || contains(filename,'qcd')
-            % Extract the character before 'd'
-            [~, qtfFileName, ~] = fileparts(filename);
-            fileExists_d = true;
-            bodyNumber(n) = str2double(qtfFileName(end));
-            qtffilename{2,bodyNumber(n)} = filename;
-            n = n + 1;
-        end
-    end
-    bodyNumber = unique(bodyNumber);
-
-    if (fileExists_s || fileExists_d)
-        if ~(fileExists_s)
-            disp('Warning: The fast varying QTF file is missing.');
-        end
-        if ~(fileExists_d)
-            disp('Warning: The slowly varying QTF file is missing.');
-        end
-
-        % Open the files for reading, reformating, then wrting to
-        hydro.QTFs(1:hydro.Nb) = struct();
-        for nB = bodyNumber
-            for i = 1:2     % 1: Sum, 2: Diff
-                fileID = fopen(qtffilename{i,nB}, 'r');
-
-                data = textscan(fileID, '%f %f %f %f %d %f %f %f %f', 'HeaderLines', 0);
-
-                fclose(fileID);
-
-                raw_data = cellfun(@double, data, 'UniformOutput', false);
-
-                if (i == 1)
-                    qtfSum.all = cell2mat(raw_data);
-                else
-                    qtfDiff.all = cell2mat(raw_data);
-                end
-            end
-            qtfSum.all = assignIDs(qtfSum.all);
-            qtfDiff.all = assignIDs(qtfDiff.all);
-
-            for dof = 1 :max(qtfSum.all(:,5))
-                tmp_sum = qtfSum.all(qtfSum.all(:, 5) == dof, :);
-                tmp_diff = qtfDiff.all(qtfDiff.all(:, 5) == dof, :);
-                hydro.QTFs(nB).Sum(dof) = triToFullMatrix(tmp_sum,"sum",dof, hydro.rho, hydro.g);
-                hydro.QTFs(nB).Diff(dof) = triToFullMatrix(tmp_diff,"diff",dof, hydro.rho, hydro.g);
-            end
-        end
-    end
-end
 close(p);
 end

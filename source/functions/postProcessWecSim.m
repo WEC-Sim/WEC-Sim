@@ -10,8 +10,7 @@ clear clock_out
 % Bodies
 for iBod = 1:length(body(1,:))
     eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
-    eval(['body' num2str(iBod) '_out.centerGravity = body(' num2str(iBod) ').centerGravity;']); 
-
+    eval(['body' num2str(iBod) '_out.centerGravity = body(' num2str(iBod) ').centerGravity;']);    
     if iBod == 1
         bodiesOutput = body1_out; 
     end
@@ -39,18 +38,6 @@ for iBod = 1:length(body(1,:))
     % Add yaw to structure
     bodiesOutput(iBod).yaw = body(iBod).yaw.option;
 end; clear iBod
-
-% Record hydroForceIndex from variable hydro. If nonvariable hydro, add
-% a placeholder so the bodiesOutput structures are similar and concatenable
-for iBod = 1:length(body(1,:))
-        eval(['bodiesOutput(' num2str(iBod) ').variableHydroOption = body(' num2str(iBod) ').variableHydro.option;']);
-    if body(iBod).variableHydro.option == 1
-        eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = body' num2str(iBod) '_hydroForceIndex.signals.values;']); 
-    else
-        eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = ones(size(bodiesOutput(iBod).time,1),1);']);
-    end
-end
-clear body*_hydroForceIndex bus_*
 
 % PTOs
 if exist('pto','var')
@@ -125,9 +112,13 @@ waveOutput.waveAmpTime = waves.waveAmpTime;
 % Wind Turbine
 if exist('windTurbine','var')
     for iTurb = 1:length(windTurbine)
+        eval(['windTurbine' num2str(iTurb) '_out.name = windTurbine(' num2str(iTurb) ').name;']);
+        if iTurb == 1
+            windTurbineOutput = windTurbine1_out;
+        end
         windTurbineOutput(iTurb) = eval(['windTurbine' num2str(iTurb) '_out']);
-        windTurbineOutput(iTurb).name = windTurbine(iTurb).name;
         eval(['clear windTurbine' num2str(iTurb) '_out'])
+
     end; clear iTurb
 else
     windTurbineOutput = 0;

@@ -43,8 +43,8 @@ function hydro = readNEMOH(hydro,filedir)
         error ('results (or Results) directory not found in working folder');
     end
 
-%%
-[a,b] = size(hydro);  % Check on what is already there
+%% Check on what is already there
+[~,b] = size(hydro);  % 
 if b == 1 && ~isfield(hydro(b),'Nb')
     F = 1;
 elseif b >= 1
@@ -157,28 +157,56 @@ waitbar(3/8);
 
 %% Radiation Coefficient file
 fileID = fopen(fullfile(resultsdir,'RadiationCoefficients.tec'));
-raw = textscan(fileID,'%[^\n\r]');
+raw = textscan(fileID,'%[^\n\r]'); 
+raw{1,1}=cat(1,raw{1,1},{'file end'});
 raw = raw{:};
 fclose(fileID);
 N = length(raw);
 i = 0;
+clear tmp
 for n = 1:N
     if isempty(strfind(raw{n},'Motion of body'))==0
-        i = i+1;
-        for k = 1:hydro(F).Nf
-            tmp = textscan(raw{n+k},'%f');
-            hydro(F).A(i,:,k) = tmp{1,1}(2:2:end);  % Added mass
-            hydro(F).B(i,:,k) = tmp{1,1}(3:2:end);  % Radiation damping
+        i = i+1; 
+        kk=0;       
+        for k = 1:hydro(F).Nf            
+            tmp(1,1) = textscan(raw{n+k+kk},'%f');
+            flag=1;
+            kkk=0;
+            while flag
+                kk=kk+1;
+                kkk=kkk+1;
+                tmp(1+kkk,1) = textscan(raw{n+k+kk},'%f');
+                if isempty(tmp{1+kkk,1}(:))
+                    flag=0;
+                    kk=kk-1;
+                elseif round(tmp{1+kkk,1}(1),3)==round(hydro.w(min(k+1,hydro(F).Nf)),3)
+                    flag=0;
+                    kk=kk-1;
+                end
+            end
+            tmp=cat(1,tmp{1:end-1,1});
+            hydro(F).A(i,:,k) = tmp(2:2:end);  % Added mass
+            hydro(F).B(i,:,k) = tmp(3:2:end);  % Radiation damping
+            clear tmp
         end
+    end
+end
+
+for ii=1:size(hydro(F).A,1)
+    for jj=1:size(hydro(F).A,2)
+        hydro(F).A(ii,jj,:) = filloutliers(hydro(F).A(ii,jj,:),"linear","movmedian",5);
+        hydro(F).B(ii,jj,:) = filloutliers(hydro(F).B(ii,jj,:),"linear","movmedian",5);
     end
 end
 waitbar(4/8);
 
 
 
+
 %% Excitation Force file
 fileID = fopen(fullfile(resultsdir,'ExcitationForce.tec'));
 raw = textscan(fileID,'%[^\n\r]');
+raw{1,1}=cat(1,raw{1,1},{'file end'});
 raw = raw{:};
 fclose(fileID);
 N = length(raw);
@@ -186,13 +214,38 @@ i = 0;
 for n = 1:N
     if isempty(strfind(raw{n},'Excitation force'))==0 || isempty(strfind(raw{n},'Diffraction force'))==0
         i = i+1;
+        kk=0; 
         for k = 1:hydro(F).Nf
-            tmp = textscan(raw{n+k},'%f');
-            hydro(F).ex_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of exciting force
-            hydro(F).ex_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of exciting force (-ph, since NEMOH's x-dir is flipped)
+            tmp(1,1) = textscan(raw{n+k+kk},'%f');
+            flag=1;
+            kkk=0;
+            while flag
+                kk=kk+1;
+                kkk=kkk+1;
+                tmp(1+kkk,1) = textscan(raw{n+k+kk},'%f');
+                if isempty(tmp{1+kkk,1}(:))
+                    flag=0;
+                    kk=kk-1;
+                elseif round(tmp{1+kkk,1}(1),3)==round(hydro.w(min(k+1,hydro(F).Nf)),3)
+                    flag=0;
+                    kk=kk-1;
+                end
+            end
+            tmp=cat(1,tmp{1:end-1,1});
+            hydro(F).ex_ma(:,i,k) = tmp(2:2:end);  % Magnitude of exciting force
+            hydro(F).ex_ph(:,i,k) = -tmp(3:2:end);  % Phase of exciting force (-ph, since NEMOH's x-dir is flipped)
+            clear tmp
         end
     end
 end
+
+for ii=1:size(hydro(F).ex_ma,1)
+    for jj=1:size(hydro(F).ex_ma,2)
+        hydro(F).ex_ma(ii,jj,:) = filloutliers(hydro(F).ex_ma(ii,jj,:),"linear","movmedian",5);
+        hydro(F).ex_ph(ii,jj,:) = filloutliers(hydro(F).ex_ph(ii,jj,:),"linear","movmedian",5);
+    end
+end
+
 hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph);  % Real part of exciting force
 hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph);  % Imaginary part of exciting force
 waitbar(5/8);
@@ -205,6 +258,7 @@ hydro(F).sc_im = NaN(size(hydro(F).ex_im));
 if exist(fullfile(resultsdir,'DiffractionForce.tec'),'file')==2
     fileID = fopen(fullfile(resultsdir,'DiffractionForce.tec'));
     raw = textscan(fileID,'%[^\n\r]');
+    raw{1,1}=cat(1,raw{1,1},{'file end'});
     raw = raw{:};
     fclose(fileID);
     N = length(raw);
@@ -212,16 +266,40 @@ if exist(fullfile(resultsdir,'DiffractionForce.tec'),'file')==2
     for n = 1:N
         if isempty(strfind(raw{n},'Diffraction force'))==0
             i = i+1;
+            kk=0;
             for k = 1:hydro(F).Nf
-                tmp = textscan(raw{n+k},'%f');
-                hydro(F).sc_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of diffraction force
-                hydro(F).sc_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of diffraction force
+            tmp(1,1) = textscan(raw{n+k+kk},'%f');
+            flag=1;
+            kkk=0;
+            while flag
+                kk=kk+1;
+                kkk=kkk+1;
+                tmp(1+kkk,1) = textscan(raw{n+k+kk},'%f');
+                if isempty(tmp{1+kkk,1}(:))
+                    flag=0;
+                    kk=kk-1;
+                elseif round(tmp{1+kkk,1}(1),3)==round(hydro.w(min(k+1,hydro(F).Nf)),3)
+                    flag=0;
+                    kk=kk-1;
+                end
             end
+            tmp=cat(1,tmp{1:end-1,1});
+                hydro(F).sc_ma(:,i,k) = tmp(2:2:end);   % Magnitude of diffraction force
+                hydro(F).sc_ph(:,i,k) = -tmp(3:2:end);  % Phase of diffraction force
+                clear tmp
+            end
+        end
+    end
+    for ii=1:size(hydro(F).sc_ma,1)
+        for jj=1:size(hydro(F).sc_ma,2)
+            hydro(F).sc_ma(ii,jj,:) = filloutliers(hydro(F).sc_ma(ii,jj,:),"linear","movmedian",5);
+            hydro(F).sc_ph(ii,jj,:) = filloutliers(hydro(F).sc_ph(ii,jj,:),"linear","movmedian",5);
         end
     end
     hydro(F).sc_re = hydro(F).sc_ma.*cos(hydro(F).sc_ph);  % Real part of diffraction force
     hydro(F).sc_im = hydro(F).sc_ma.*sin(hydro(F).sc_ph);  % Imaginary part of diffraction force
 end
+
 waitbar(6/8);
 
 %% Froude-Krylov force file
@@ -232,6 +310,7 @@ hydro(F).fk_im = NaN(size(hydro(F).ex_im));
 if exist(fullfile(resultsdir,'FKForce.tec'),'file')==2
     fileID = fopen(fullfile(resultsdir,'FKForce.tec'));
     raw = textscan(fileID,'%[^\n\r]');
+    raw{1,1}=cat(1,raw{1,1},{'file end'});
     raw = raw{:};
     fclose(fileID);
     N = length(raw);
@@ -239,15 +318,39 @@ if exist(fullfile(resultsdir,'FKForce.tec'),'file')==2
     for n = 1:N
         if isempty(strfind(raw{n},'FKforce'))==0
             i = i+1;
+            kk=0;
             for k = 1:hydro(F).Nf
-                tmp = textscan(raw{n+k},'%f');
-                hydro(F).fk_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of Froude-Krylov force
-                hydro(F).fk_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of Froude-Krylov force
+            tmp(1,1) = textscan(raw{n+k+kk},'%f');
+            flag=1;
+            kkk=0;
+            while flag
+                kk=kk+1;
+                kkk=kkk+1;
+                tmp(1+kkk,1) = textscan(raw{n+k+kk},'%f');
+                if isempty(tmp{1+kkk,1}(:))
+                    flag=0;
+                    kk=kk-1;
+                elseif round(tmp{1+kkk,1}(1),3)==round(hydro.w(min(k+1,hydro(F).Nf)),3)
+                    flag=0;
+                    kk=kk-1;
+                end
             end
+            tmp=cat(1,tmp{1:end-1,1});
+                hydro(F).fk_ma(:,i,k) = tmp(2:2:end);  % Magnitude of Froude-Krylov force
+                hydro(F).fk_ph(:,i,k) = -tmp(3:2:end);  % Phase of Froude-Krylov force
+                clear tmp
+            end
+        end
+    end
+    for ii=1:size(hydro(F).fk_ma,1)
+        for jj=1:size(hydro(F).fk_ma,2)
+            hydro(F).fk_ma(ii,jj,:) = filloutliers(hydro(F).fk_ma(ii,jj,:),"linear","movmedian",5);
+            hydro(F).fk_ph(ii,jj,:) = filloutliers(hydro(F).fk_ph(ii,jj,:),"linear","movmedian",5);
         end
     end
     hydro(F).fk_re = hydro(F).fk_ma.*cos(hydro(F).fk_ph);  % Real part of Froude-Krylov force
     hydro(F).fk_im = hydro(F).fk_ma.*sin(hydro(F).fk_ph);  % Imaginary part of Froude-Krylov force
+    
 end
 waitbar(7/8);
 
@@ -297,7 +400,7 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
     B = hydro(F).B ;
     f=w/(2*pi);
     M=zeros(size(A)); % initialized to be large enough for N bodies
- for m = 1:hydro(F).Nb;
+ for m = 1:hydro(F).Nb
     for nn =1:3
        M(nn+(6*(m-1)),nn+(6*(m-1))) = hydro(F).Vo(m)*hydro(F).rho;
     end
