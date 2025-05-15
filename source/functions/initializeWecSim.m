@@ -372,6 +372,15 @@ for ii = 1:simu.numHydroBodies
     end; clear iW
 end
 
+% Check for elevationImport with variable hydro
+for ii = 1:simu.numHydroBodies
+    for iW = 1:length(waves)
+        if strcmp(waves(iW).type,'elevationImport') && body(ii).variableHydro.option == 1
+            error('Cannot run WEC-Sim with Variable Hydrodynamics (body(ii).variableHydro.option>0) and "elevationImport" wave type')
+        end
+    end; clear iW
+end
+
 % Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
 for ii = 1:length(body(1,:))
     if body(ii).morisonElement.option == 1
@@ -562,7 +571,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.b2b);
+    body(iBod).adjustMassMatrix(simu.b2b, simu.rho);
 end; clear iBod
 
 % Create the buses for hydroForce

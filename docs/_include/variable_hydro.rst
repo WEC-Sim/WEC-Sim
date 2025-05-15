@@ -18,6 +18,11 @@ User defined logic and user selected signals determine
 when the state changes. The Variable Hydrodynamics feature does not determine
 a specific scenario, state, signal, or discretization required.
 
+For a case which varies the mass of the body, the body library link in the Simulink 
+model will need to be broken and the default File Solid : Body Properties block 
+replaced with the General Variable Mass block. See the variable hydro WEC-Sim 
+Application.
+
 Example
 """"""""
 
@@ -108,7 +113,7 @@ every body in a simulation. To implement variable hydrodynamics for a given body
     * FIR Filter radiation calculations
     * Generalized body modes
     * Non-hydrodynamic and drag bodies
-    * Conditions that require a variable mass, center of gravity, or center of buoyancy
+    * Nonlinear hydrodynamics is not compatible when using a case with variable mass.
 
 Impulse Response Function with Variable Hydrodynamics
 """""""""""""""""""""""""""""""""""""""""""""""""""""
