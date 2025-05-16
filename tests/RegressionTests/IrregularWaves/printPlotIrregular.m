@@ -19,9 +19,9 @@
 
 %% Load Data
 cd irregularCIC
-load('irregularCIC_org.mat')       % Load WEC-Sim Run Data
+load('irregularCIC.mat')       % Load WEC-Sim Run Data
 cd .. ; cd irregularSS
-load('irregularSS_org.mat')        % Load WEC-Sim Run Data
+load('irregularSS.mat')        % Load WEC-Sim Run Data
 cd ..
 
 

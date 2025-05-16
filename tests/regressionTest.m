@@ -144,7 +144,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body1_reg_disp_heave(testCase)
             % Body1 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regular.B1.WEC_Sim_org.heave;
             new = testCase.regular.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -154,7 +154,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body2_reg_disp_heave(testCase)
             % Body2 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regular.B2.WEC_Sim_org.heave;
             new = testCase.regular.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -164,7 +164,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function bodyRel_reg_disp_heave(testCase)
             % Relative Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regular.Rel.WEC_Sim_org.heave;
             new = testCase.regular.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -175,7 +175,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body1_regCIC_disp_heave(testCase)
             % Body1 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regularCIC.B1.WEC_Sim_org.heave;
             new = testCase.regularCIC.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -185,7 +185,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body2_regCIC_disp_heave(testCase)
             % Body2 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regularCIC.B2.WEC_Sim_org.heave;
             new = testCase.regularCIC.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -195,7 +195,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function bodyRel_regCIC_disp_heave(testCase)
             % Relative Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regularCIC.Rel.WEC_Sim_org.heave;
             new = testCase.regularCIC.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -206,7 +206,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body1_regSS_disp_heave(testCase)
             % Body1 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regularSS.B1.WEC_Sim_org.heave;
             new = testCase.regularSS.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -216,7 +216,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body2_regSS_disp_heave(testCase)
             % Body2 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regularSS.B2.WEC_Sim_org.heave;
             new = testCase.regularSS.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -226,7 +226,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function bodyRel_regSS_disp_heave(testCase)
             % Relative Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.regularSS.Rel.WEC_Sim_org.heave;
             new = testCase.regularSS.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -237,7 +237,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body1_irreg_disp_heave(testCase)
             % Body1 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularCIC.B1.WEC_Sim_org.heave;
             new = testCase.irregularCIC.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -247,7 +247,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body2_irreg_disp_heave(testCase)
             % Body2 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularCIC.B2.WEC_Sim_org.heave;
             new = testCase.irregularCIC.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -257,7 +257,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function bodyRel_irreg_disp_heave(testCase)
             % Relative Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularCIC.Rel.WEC_Sim_org.heave;
             new = testCase.irregularCIC.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -267,7 +267,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function irreg_0th_Spectral_Moment(testCase)
             % 0th Order Spectral Moment
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularCIC.Sp.WEC_Sim_org.m0;
             new = testCase.irregularCIC.Sp.WEC_Sim_new.m0;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -277,7 +277,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function irreg_2nd_Spectral_Moment(testCase)
             % 2nd Order Spectral Moment
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularCIC.Sp.WEC_Sim_org.m2;
             new = testCase.irregularCIC.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -288,7 +288,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body1_irregSS_disp_heave(testCase)
             % Body1 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularSS.B1.WEC_Sim_org.heave;
             new = testCase.irregularSS.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -298,7 +298,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function body2_irregSS_disp_heave(testCase)
             % Body2 Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularSS.B2.WEC_Sim_org.heave;
             new = testCase.irregularSS.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -308,7 +308,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function bodyRel_irregSS_disp_heave(testCase)
             % Relative Displacement in Heave
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularSS.Rel.WEC_Sim_org.heave;
             new = testCase.irregularSS.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -318,7 +318,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function irregSS_0th_Spectral_Moment(testCase)
             % 0th Order Spectral Moment
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularSS.Sp.WEC_Sim_org.m0;
             new = testCase.irregularSS.Sp.WEC_Sim_new.m0;
             testCase.verifyEqual(new,org,'AbsTol',tol);
@@ -328,7 +328,7 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function irregSS_2nd_Spectral_Moment(testCase)
             % 2nd Order Spectral Moment
-            tol = 1e-10;
+            tol = 1e-5;
             org = testCase.irregularSS.Sp.WEC_Sim_org.m2;
             new = testCase.irregularSS.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);

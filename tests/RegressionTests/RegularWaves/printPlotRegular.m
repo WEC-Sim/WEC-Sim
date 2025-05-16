@@ -19,11 +19,11 @@
 
 %% Load Data
 cd regular
-load('regular_org.mat')       % Load WEC-Sim Run Data
+load('regular.mat')       % Load WEC-Sim Run Data
 cd .. ; cd regularCIC
-load('regularCIC_org.mat')    % Load WEC-Sim Run Data
+load('regularCIC.mat')    % Load WEC-Sim Run Data
 cd .. ; cd regularSS
-load('regularSS_org.mat')     % Load WEC-Sim Run Data
+load('regularSS.mat')     % Load WEC-Sim Run Data
 cd .. 
 
 
