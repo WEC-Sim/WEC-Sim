@@ -235,20 +235,52 @@ if exist('ptoSim','var') == 1
     end; clear ii
 end
 
-% Wind: check inputs
-if exist('wind','var') == 1 && wind.constantWindFlag == 0
-    wind.importTurbSimOutput();
+% WindClass
+if exist('wind','var') == 1 
+    wind.ComputeWindInput();
 end
 
-% Wind turbines: count, check inputs, import controller
+% WindTurbines Class
 if exist('windTurbine','var') == 1
-    for ii = 1:length(windTurbine)
-        windTurbine(ii).importAeroLoadsTable()
-        windTurbine(ii).loadTurbineData()
-        windTurbine(ii).setNumber(ii);
-        windTurbine(ii).importControl
+    if not(exist('wind','var') == 1)
+        error('If there are wind turbines, then there must be wind class')
     end
+
+    for ii = 1:length(windTurbine)
+
+        windTurbine(ii).setNumber(ii);
+        windTurbine(ii).loadTurbineData        
+        windTurbine(ii).importControl
+        if windTurbine(ii).aeroLoadsType==0
+        windTurbine(ii).importAeroLoadsTable
+        windTurbine(ii).CreateBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
+        elseif windTurbine(ii).aeroLoadsType==1
+        windTurbine(ii).CreateBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
+        else
+            error('windTurbine.aeroLoadsType must be 0 (Look-up tables) or 1 (BEM)')
+        end
+        
+    end 
     clear ii
+
+end
+
+% Mooring Configuration: count
+if exist('mooring','var') == 1
+    simu.numMoorings = length(mooring(1,:));
+    for ii = 1:simu.numMoorings
+        mooring(ii).checkInputs();
+        mooring(ii).setLoc();
+        mooring(ii).setNumber(ii);
+        try
+            mooring(ii).loadLookupTable();
+        catch
+            try
+            mooring(ii).NLStatic_Setup(simu.rho,simu.gravity,body(ii).hydroData.simulation_parameters.waterDepth);
+            catch                
+            end
+        end
+    end; clear ii
 end
 
 toc
@@ -505,15 +537,16 @@ end
 try
     % wind turbine
     for ii=1:length(windTurbine)
-        eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
-        eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
-        eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])
+        eval(['ControlChoice' num2str(ii) ' = windTurbine(ii).control;'])
+        eval(['sv_t' num2str(ii) '_control0 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
+        eval(['sv_t' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');']) 
+
+        eval(['AeroLoadsChoice' num2str(ii) ' = windTurbine(ii).aeroLoadsType;'])
+        eval(['sv_t' num2str(ii) '_AeroLoads0 = Simulink.Variant(''AeroLoadsChoice' num2str(ii) '==0'');'])
+        eval(['sv_t' num2str(ii) '_AeroLoads1 = Simulink.Variant(''AeroLoadsChoice' num2str(ii) '==1'');']) 
+
     end; clear ii
 
-    % wind
-    WindChoice = wind.constantWindFlag;
-    sv_wind_constant = Simulink.Variant('WindChoice==1');
-    sv_wind_turbulent = Simulink.Variant('WindChoice==0');
 end
 
 % Visualization Blocks

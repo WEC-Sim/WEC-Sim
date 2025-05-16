@@ -125,9 +125,13 @@ waveOutput.waveAmpTime = waves.waveAmpTime;
 % Wind Turbine
 if exist('windTurbine','var')
     for iTurb = 1:length(windTurbine)
+        eval(['windTurbine' num2str(iTurb) '_out.name = windTurbine(' num2str(iTurb) ').name;']);
+        if iTurb == 1
+            windTurbineOutput = windTurbine1_out;
+        end
         windTurbineOutput(iTurb) = eval(['windTurbine' num2str(iTurb) '_out']);
-        windTurbineOutput(iTurb).name = windTurbine(iTurb).name;
         eval(['clear windTurbine' num2str(iTurb) '_out'])
+
     end; clear iTurb
 else
     windTurbineOutput = 0;
