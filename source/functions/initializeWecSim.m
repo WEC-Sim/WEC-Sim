@@ -159,7 +159,6 @@ numHydroBodies = 0;
 numNonHydroBodies = 0;
 numDragBodies = 0;
 hydroBodLogic = zeros(length(body(1,:)),1);
-nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).setNumber(ii);
@@ -172,10 +171,7 @@ for ii = 1:length(body(1,:))
         end
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;
-    elseif body(ii).nonHydro==1
-        numNonHydroBodies = numNonHydroBodies + 1;
-        nonHydroBodLogic(ii) = 1;
-    elseif body(ii).nonHydro==2
+    elseif body(ii).nonHydro>0
         numDragBodies = numDragBodies + 1;
         dragBodLogic(ii) = 1;
     end
@@ -307,15 +303,6 @@ if ~isempty(idx)
     end
 end; clear kk idx ii
 
-% nonHydroPre
-idx = find(nonHydroBodLogic==1);
-if ~isempty(idx)
-    for kk = 1:length(idx)
-        ii = idx(kk);
-        body(ii).nonHydroForcePre(simu.rho);
-    end
-end; clear kk idx ii
-
 % dragBodyPre
 idx = find(dragBodLogic == 1);
 if ~isempty(idx)
@@ -400,18 +387,12 @@ for ii = 1:length(body(1,:))
             end
         end
     elseif body(ii).morisonElement.option == 2
-        if body(ii).nonHydro ~=1
-            [rgME,~] = size(body(ii).morisonElement.rgME);
-            for jj = 1:rgME
-                if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.area(jj,3) ~= 0
-                    warning(['cd, ca, and area coefficients for "body.morisonElement.option == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
-                end
-            end; clear jj
-        else
-            if body(ii).morisonElement.option ==1 || body(ii).morisonElement.option ==2
-                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+        [rgME,~] = size(body(ii).morisonElement.rgME);
+        for jj = 1:rgME
+            if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.area(jj,3) ~= 0
+                warning(['cd, ca, and area coefficients for "body.morisonElement.option == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
             end
-        end
+        end; clear jj
     end; clear ii
 end
 
@@ -434,11 +415,9 @@ end; clear ii;
 
 % Morison Element
 for ii=1:length(body(1,:))
-    if body(ii).nonHydro ~=1
-        eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
-        eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
-        eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
-    end
+    eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
+    eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
+    eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
 end; clear ii;
 
 % Radiation Damping
@@ -568,9 +547,7 @@ end; clear iBod
 
 % Create the buses for hydroForce
 for iBod = 1:length(body)
-    if body(iBod).nonHydro == 0 || body(iBod).nonHydro == 2
-        [~, ~] = struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce'], 1, {}, {});
-    end
+    [~, ~] = struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce'], 1, {}, {});
 end; clear iBod
 
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
