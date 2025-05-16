@@ -1,4 +1,4 @@
-function Frad = ConvolutionIntegral_interp(velocity, irkbInput, cicTime)
+function [timeExtrap, FradExtrap] = ConvolutionIntegral_interp(velocity, irkbInput, cicTime, time)
 %#codegen
 % Function to calculate convolution integral. velocity is the only dynamic input.
 % irkb, nDOF and cicTime do not change with time.
@@ -20,19 +20,23 @@ function Frad = ConvolutionIntegral_interp(velocity, irkbInput, cicTime)
 %         All CI times
 %
 % Returns:
-%     Frad : float [nDOF 1]
-%         Radiation force in each degree of freedom
+%     timeExtrap : float [nDOF,3]
+%       Previous 3 main time steps used for extrapolation
+%     FradExtrap : float [nDOF 3]
+%         Radiation force in each degree of freedom of the previous 3 main time steps, used for extrapolation
 % 
 
 % define persistent variables to track velocity_history over time. irkb is
 % persistent so that the permuted value is only calculated once.
-persistent velocityHistory irkb;
+persistent velocityHistory irkb timeHistory FradHistory;
 
 % If this is the first time step (i.e. velocity_history is empty), 
 % define the persistent variables.
 if isempty(velocityHistory) 
     velocityHistory = zeros(length(cicTime), length(velocity)); % [nt LDOF]
     irkb = permute(irkbInput, [1 3 2]); % from [nt nDOF LDOF] to [nt LDOF nDOF]
+    timeHistory = zeros(3,1);
+    FradHistory = zeros(3,length(velocity));
 end 
 
 % shift velocity_history and set the first column as the current velocity
@@ -47,5 +51,13 @@ timeSeriesSum = squeeze(sum(timeSeries, 2)); % [nt nDOF]
 
 % integrate over time to get the wave radiation force
 Frad = squeeze(trapz(cicTime, timeSeriesSum, 1)); % [nDOF  1]
+
+% Prepare the variables used for extrapolation
+timeHistory = circshift(timeHistory, 1, 1); % [3  1]
+timeHistory(1,:) = time;
+FradHistory = circshift(FradHistory, 1, 1); % [3  nDOF]
+FradHistory(1,:) = Frad(:)';
+timeExtrap = timeHistory;
+FradExtrap = FradHistory;
 
 end
