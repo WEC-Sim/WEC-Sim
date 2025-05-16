@@ -478,14 +478,6 @@ sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
 numBody=simu.numHydroBodies;
 
-% nonHydro
-for ii=1:length(body(1,:))
-    eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;']);
-    eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');']);
-    eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');']);
-    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');']);
-end; clear ii
-
 % variable hydrodynamics
 for ii = 1:length(body(1,:))
     eval(['variableHydro' num2str(ii) ' = body(ii).variableHydro.option;']);
