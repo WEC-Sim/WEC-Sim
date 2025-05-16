@@ -373,7 +373,7 @@ hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT conventio
 hydro = addDefaultPlotVars(hydro);
 
 %% reading QTF files
-qtfDir = 'Results/QTF';
+qtfDir = [filedir,filesep,'Results',filesep,'QTF'];
 if isfolder(qtfDir)
     % Initalize qtffilename
     files = dir(qtfDir); % List all files in the directory
