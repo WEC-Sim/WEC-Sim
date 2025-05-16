@@ -14,14 +14,14 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % % Regular Waves  
-waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.height = 2.5;                     % Wave Height [m]
-waves.period = 8;                       % Wave Period [s]
+% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+% waves.height = 2.5;                     % Wave Height [m]
+% waves.period = 8;                       % Wave Period [s]
 
 % % Regular Waves with CIC
-% waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
-% waves.height = 2.5;                       % Wave Height [m]
-% waves.period = 8;                         % Wave Period [s]
+waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
+waves.height = 2.5;                       % Wave Height [m]
+waves.period = 8;                         % Wave Period [s]
 
 % % Irregular Waves using PM Spectrum 
 %  waves = waveClass('irregular');           % Initialize Wave Class and Specify Type

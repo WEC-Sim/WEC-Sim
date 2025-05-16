@@ -72,12 +72,12 @@ timeSeries = irkb .* velocityHistory; % [nt LDOF nDOF]
 timeSeriesSum = squeeze(sum(timeSeries, 2)); % [nt nDOF]
 
 % integrate over time to get the wave radiation force
-Frad = squeeze(trapz(cicTime, timeSeriesSum, 1)); % [nDOF  1]
+Frad = squeeze(trapz(cicTime, timeSeriesSum, 1)); % [nDOF 1]
 
 % Prepare the variables used for extrapolation
-timeHistory = circshift(timeHistory, 1, 1); % [3  1]
+timeHistory = circshift(timeHistory, 1, 1); % [3 1]
 timeHistory(1,:) = time;
-FradHistory = circshift(FradHistory, 1, 1); % [3  nDOF]
+FradHistory = circshift(FradHistory, 1, 1); % [3 nDOF]
 FradHistory(1,:) = Frad(:)';
 timeExtrap = timeHistory;
 FradExtrap = FradHistory;

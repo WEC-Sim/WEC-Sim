@@ -1,7 +1,7 @@
 function Frad =  extrapFrad(timeExtrap, FradExtrap, time)
 
 % This function is to extrapolate the radiation damping loads when using CIC. 
-% Since CIC uses persistent variables to track velocityHistory over timeDiff, 
+% Since CIC uses persistent variables to track velocityHistory over time, 
 % radiation damping loads cannot be updated at each sub-timeDiff step
 
 Frad                     =  zeros(length(FradExtrap(1,:)),1);
