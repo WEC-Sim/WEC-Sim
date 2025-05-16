@@ -856,7 +856,7 @@ classdef bodyClass<handle
 
             omegaMax = max(omegaCoarse);
 
-            [~, indexMax] = min(abs(omegaFine - 2*Omega_max*1.25)); % Uses a margin of 25% after the freq. range of intrest
+            [~, indexMax] = min(abs(omegaFine - 2*omegaMax*1.25)); % Uses a margin of 25% after the freq. range of intrest
             [~, timeIdx] = min(abs(time - max(waveAmpTime(end,1))));
             % remove the frequencies and amplitudes we know do not exist
             % in the spectrum
