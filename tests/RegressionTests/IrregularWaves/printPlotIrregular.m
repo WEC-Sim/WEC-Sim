@@ -18,26 +18,21 @@
 % irregular waves.
 
 %% Load Data
-cd irregularCIC
-load('irregularCIC.mat')       % Load WEC-Sim Run Data
-cd .. ; cd irregularSS
-load('irregularSS.mat')        % Load WEC-Sim Run Data
-cd ..
-
+load('./irregularCIC/irregularCIC.mat')       % Load WEC-Sim Run Data
+load('./irregularSS/irregularSS.mat')        % Load WEC-Sim Run Data
 
 %% Plot Heave Comparisons
 h=figure('units','normalized','outerposition',[0 0 1 1]);
 % First Row = All simulations, all times
 % Second Row = All simulations, t=350-400s
-% Third Row = Original and New WEC-Sim runs only, t=350-400s
 
 %First Column: Body 1 Heave
 startTime = 100;
 subplot(2,3,1)
 m = plot(irregularCIC.B1.WEC_Sim_new.time,irregularCIC.B1.WEC_Sim_new.heave,'r--',...
       irregularCIC.B1.WEC_Sim_new.time, irregularSS.B1.WEC_Sim_new.heave,'b-.');
-% a = get(m(1),'LineWidth')+1;
-% set(m(1),'LineWidth',a)  
+a = get(m(1),'LineWidth')+1;
+set(m(1),'LineWidth',a)  
 xlabel('time(s)')
 ylabel('Heave(m)')
 title('Float 1DOF 1200PTO')
@@ -49,6 +44,8 @@ m = plot(irregularCIC.B1.WEC_Sim_new.time(find( irregularCIC.B1.WEC_Sim_new.time
        irregularCIC.B1.WEC_Sim_new.heave(find(irregularCIC.B1.WEC_Sim_new.time==startTime):end),'r--',...
         irregularSS.B1.WEC_Sim_new.time(find(  irregularSS.B1.WEC_Sim_new.time==startTime):end),...
         irregularSS.B1.WEC_Sim_new.heave(find( irregularSS.B1.WEC_Sim_new.time==startTime):end),'b-.');
+a=get(m(1),'LineWidth')+1;
+set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
 xlim([100 200])
@@ -58,6 +55,8 @@ ylim([-2 2])
 subplot(2,3,2)
 m = plot(irregularCIC.B2.WEC_Sim_new.time,irregularCIC.B2.WEC_Sim_new.heave,'r--',...
       irregularSS.B2.WEC_Sim_new.time, irregularSS.B2.WEC_Sim_new.heave,'b-.');
+a=get(m(1),'LineWidth')+1;
+set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
 title('Spar/Plate 1DOF 1200PTO')
@@ -69,6 +68,8 @@ m = plot(irregularCIC.B2.WEC_Sim_new.time(find( irregularCIC.B2.WEC_Sim_new.time
        irregularCIC.B2.WEC_Sim_new.heave(find(irregularCIC.B2.WEC_Sim_new.time==startTime):end),'r--',...
         irregularSS.B2.WEC_Sim_new.time(find(  irregularSS.B2.WEC_Sim_new.time==startTime):end),...
         irregularSS.B2.WEC_Sim_new.heave(find( irregularSS.B2.WEC_Sim_new.time==startTime):end),'b-.');
+a=get(m(1),'LineWidth')+1;
+set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
 xlim([100 200])
@@ -78,6 +79,8 @@ ylim([-0.2 0.2])
 subplot(2,3,3)
 m = plot(irregularCIC.Rel.WEC_Sim_new.time,irregularCIC.Rel.WEC_Sim_new.heave,'r--',...
       irregularSS.Rel.WEC_Sim_new.time, irregularSS.Rel.WEC_Sim_new.heave,'b-.');
+a=get(m(1),'LineWidth')+1;
+set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
 title('Relative Motion 1DOF 1200PTO')
@@ -92,9 +95,13 @@ m = plot(irregularCIC.Rel.WEC_Sim_new.time(find( irregularCIC.Rel.WEC_Sim_new.ti
        irregularCIC.Rel.WEC_Sim_new.heave(find(irregularCIC.Rel.WEC_Sim_new.time==startTime):end),'r--',...
         irregularSS.Rel.WEC_Sim_new.time(find(  irregularSS.Rel.WEC_Sim_new.time==startTime):end),...
         irregularSS.Rel.WEC_Sim_new.heave(find( irregularSS.Rel.WEC_Sim_new.time==startTime):end),'b-.');
+a=get(m(1),'LineWidth')+1;
+set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
 xlim([100 200])
 ylim([-2 2])
+
+savefig(fullfile('figIrrSolver')); 
 
 clear a h l m B1_H_Tolerance B2_H_Tolerance Rel_H_Tolerance str1 str2

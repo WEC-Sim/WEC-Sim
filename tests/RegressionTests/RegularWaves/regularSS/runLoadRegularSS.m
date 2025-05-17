@@ -19,7 +19,6 @@
 % and Tp=8[s]. The RM3 WEC models has 2 bodies, restricted to heave motion
 % only, and has PTO damping=1200[kN-s/m]. 
 
-global plotNO
 locdir=pwd;
 %% Run Simulation
 wecSim;                     % Run Simulation
@@ -68,7 +67,7 @@ save('regularSS','regularSS');
 
 %% Plot Old vs. New Comparison
 
-if plotNO==1;
+if testCase.openCompare==1 
     cd ../..
     plotOldNew(B1,B2,Rel,[regularSS.B1_H_max ,regularSS.B1_H_I],...
         [regularSS.B2_H_max ,regularSS.B2_H_I],...
