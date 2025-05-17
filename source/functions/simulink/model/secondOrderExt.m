@@ -1,5 +1,5 @@
-function f  = secondOrderExt(time_vector,fastVaryingForce,slowVaryingForce,t)
-% The second-order forces related to the Quadratic Transfer Functions (QTFs) are calculated 
+function f_rotated  = secondOrderExt(time_vector,fastVaryingForce,slowVaryingForce,t,Displacement)
+% The second-order forces related to the Quadratic Transfer Functions (QTFs) are calculated
 % in the frequency domain during the initialization step within the methods of the bodyClass.
 
 % This function passes the force components that correspond to the current time step.
@@ -10,14 +10,16 @@ function f  = secondOrderExt(time_vector,fastVaryingForce,slowVaryingForce,t)
 %   (the time series can be obtained through an FFT).
 % - The time series of second-order forces will act on a single point at the origin
 %   (similarly to the first-order forces).
-% - Wave forces and moments are fixed to a reference frame that translates 
-%   (but does not rotate) with the platform. This can be implemented using force rotations.
+% - The function assumes small X-Y displacments (To be done in future releases).
 % - Wavelengths are large compared to the motion of the platform.
-% - Current WEC-Sim version solves the Full QTFs. 
 % - Single wave direction is assumed.
 
+% interpolate with time
 [~,Index] = min(abs(time_vector - t));
-
 f = fastVaryingForce(Index,:)' + slowVaryingForce(Index,:)';
 
+% Apply rotation
+[phi, theta, psi] = deal(Displacement(4), Displacement(5), Displacement(6));
+rotMat = eulXYZ2RotMat(phi, theta, psi);
+f_rotated = [rotMat*f(1:3) ; rotMat*f(4:end)];
 end
