@@ -19,7 +19,6 @@
 % and Tp=8[s]. The RM3 WEC models has 2 bodies, restricted to heave motion
 % only, and has PTO damping=1200[kN-s/m].
 
-global plotNO
 locdir=pwd;
 %% Run Simulation
 wecSim;                     % Run Simulation
@@ -75,7 +74,7 @@ irregularCIC.Sp  = Sp;
 save('irregularCIC','irregularCIC')
 
 %% Plot Old vs. New Comparison
-if plotNO==1 % global variable 
+if testCase.openCompare==1 
     cd ../..
     plotOldNew(B1,B2,Rel,[irregularCIC.B1_H_max ,irregularCIC.B1_H_I],...
         [irregularCIC.B2_H_max ,irregularCIC.B2_H_I],...

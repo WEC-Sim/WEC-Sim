@@ -18,20 +18,14 @@
 % regular waves.
 
 %% Load Data
-cd regular
-load('regular_org.mat')       % Load WEC-Sim Run Data
-cd .. ; cd regularCIC
-load('regularCIC_org.mat')    % Load WEC-Sim Run Data
-cd .. ; cd regularSS
-load('regularSS_org.mat')     % Load WEC-Sim Run Data
-cd .. 
-
+load('./regular/regular.mat')       
+load('./regularCIC/regularCIC.mat')    
+load('./regularSS/regularSS.mat')     
 
 %% Plot Heave Comparisons
 h=figure('units','normalized','outerposition',[0 0 1 1]);
 % First Row = All simulations, all times
 % Second Row = All simulations, t=350-400s
-% Third Row = Original and New WEC-Sim runs only, t=350-400s
 
 %First Column: Body 1 Heave
 startTime = 100;
@@ -117,5 +111,7 @@ xlabel('time(s)')
 ylabel('Heave(m)')
 xlim([100 150])
 ylim([-2 2])
+
+savefig(fullfile('figRegSolver'));  
 
 clear a h l m B1_H_Tolerance B2_H_Tolerance Rel_H_Tolerance str1 str2
