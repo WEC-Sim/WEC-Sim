@@ -1,4 +1,4 @@
-function [timeExtrap, FradExtrap] = ConvolutionIntegral_interp(velocity, irkbInput, cicTime, time)
+function [timeExtrap, FradExtrap] = convolutionIntegralInterp(velocity, irkbInput, cicTime, time)
 %#codegen
 % Function to calculate convolution integral. velocity is the only dynamic input.
 % irkb, nDOF and cicTime do not change with time.
