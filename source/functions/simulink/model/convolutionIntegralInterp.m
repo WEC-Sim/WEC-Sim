@@ -8,7 +8,7 @@ function [timeExtrap, FradExtrap] = convolutionIntegralInterp(velocity, irkbInpu
 % LDOF = radiating dofs from all bodies (6*Nbodies)
 % nt = length of cicTime (simu.cicEndTime / simu.cicDt)
 %
-% Paramters:
+% Parameters:
 %     velocity : float [1 LDOF]
 %         The current velocities of all bodies 
 %         e.g. 6 for 1 body, 12 for 2 bodies and B2B on

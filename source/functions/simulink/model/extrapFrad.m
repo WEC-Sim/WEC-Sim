@@ -1,10 +1,27 @@
 function Frad =  extrapFrad(timeExtrap, FradExtrap, time)
-
+%#codegen
 % This function is to extrapolate the radiation damping loads when using CIC. 
 % Since CIC uses persistent variables to track velocityHistory over time, 
 % radiation damping loads cannot be updated at each sub-time step
-
-Frad                     =  zeros(length(FradExtrap(1,:)),1);
+%
+% Dimensions:
+% nDOF = the body's number of degrees of freedom = body.dof
+%
+% Parameters:
+%     timeExtrap : float [nDOF 3]
+%       Previous 3 main time steps used for extrapolation
+% 
+%     FradExtrap : float [nDOF 3]
+%         Radiation force in each degree of freedom of the previous 3 main time steps, used for extrapolation
+% 
+%     time : float [1 1]
+%         The current time step
+%
+% Returns:
+%     Frad : float [nDOF 1]
+%       The radiation force in each degree of freedom, extrapolated to the current time step
+% 
+Frad                     =  zeros(length(FradExtrap(1,:)), 1);
 timeLength               =  nnz(timeExtrap);
 
 if timeLength           ==  0
