@@ -20,9 +20,9 @@ function [timeExtrap, FradExtrap] = ConvolutionIntegral_interp(velocity, irkbInp
 %         All CI times
 %
 % Returns:
-%     timeExtrap : float [nDOF,3]
+%     timeExtrap : float [3 1]
 %       Previous 3 main time steps used for extrapolation
-%     FradExtrap : float [nDOF 3]
+%     FradExtrap : float [3 nDOF]
 %         Radiation force in each degree of freedom of the previous 3 main time steps, used for extrapolation
 % 
 
@@ -35,7 +35,7 @@ persistent velocityHistory irkb timeHistory FradHistory;
 if isempty(velocityHistory) 
     velocityHistory = zeros(length(cicTime), length(velocity)); % [nt LDOF]
     irkb = permute(irkbInput, [1 3 2]); % from [nt nDOF LDOF] to [nt LDOF nDOF]
-    timeHistory = zeros(3,1);
+    timeHistory = [-1*(cicTime(2)-cicTime(1));-2*(cicTime(2)-cicTime(1));-3*(cicTime(2)-cicTime(1))];
     FradHistory = zeros(3,length(velocity));
 end 
 

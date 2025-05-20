@@ -28,9 +28,9 @@ function [timeExtrap, FradExtrap] = convolutionIntegralSurface(velocity, hydroFo
 %         All CI times
 %
 % Returns:
-%     timeExtrap : float [nDOF,3]
+%     timeExtrap : float [3 1]
 %       Previous 3 main time steps used for extrapolation
-%     FradExtrap : float [nDOF 3]
+%     FradExtrap : float [3 nDOF]
 %         Radiation force in each degree of freedom of the previous 3 main time steps, used for extrapolation
 % 
 
@@ -49,7 +49,7 @@ if isempty(velocityHistory)
     for i = 1:size(hydroForceIndexSurface, 1)
         hydroForceIndexSurface(i, 1, 1, hydroForceIndexInitial) = true;
     end
-    timeHistory = zeros(3,1);
+    timeHistory = [-1*(cicTime(2)-cicTime(1));-2*(cicTime(2)-cicTime(1));-3*(cicTime(2)-cicTime(1))];
     FradHistory = zeros(3,length(velocity));
 end
 
