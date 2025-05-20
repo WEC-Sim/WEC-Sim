@@ -51,10 +51,10 @@ classdef cicTest < matlab.unittest.TestCase
     
     methods(TestClassSetup)
         function calcForceRad(testCase)
-            clear ConvolutionIntegral_interp
+            clear convolutionIntegralInterp
             tmp = cputime;
             for it = 1:size(testCase.velocity,1)
-                testCase.Frad0(it,:) = ConvolutionIntegral_interp(testCase.velocity(it,:), testCase.irkbSurfaceInput(:,:,:,1), testCase.cicTime);
+                testCase.Frad0(it,:) = convolutionIntegralInterp(testCase.velocity(it,:), testCase.irkbSurfaceInput(:,:,:,1), testCase.cicTime);
             end
             testCase.t0 = cputime - tmp;
         end

@@ -1,4 +1,4 @@
-function [timeExtrap, FradExtrap] = ConvolutionIntegral_interp(velocity, irkbInput, cicTime, time)
+function [timeExtrap, FradExtrap] = convolutionIntegralInterp(velocity, irkbInput, cicTime, time)
 %#codegen
 % Function to calculate convolution integral. velocity is the only dynamic input.
 % irkb, nDOF and cicTime do not change with time.
@@ -8,7 +8,7 @@ function [timeExtrap, FradExtrap] = ConvolutionIntegral_interp(velocity, irkbInp
 % LDOF = radiating dofs from all bodies (6*Nbodies)
 % nt = length of cicTime (simu.cicEndTime / simu.cicDt)
 %
-% Paramters:
+% Parameters:
 %     velocity : float [1 LDOF]
 %         The current velocities of all bodies 
 %         e.g. 6 for 1 body, 12 for 2 bodies and B2B on
