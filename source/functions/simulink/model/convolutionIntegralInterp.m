@@ -18,6 +18,9 @@ function [timeExtrap, FradExtrap] = convolutionIntegralInterp(velocity, irkbInpu
 % 
 %     cicTime : float [1 nt]
 %         All CI times
+% 
+%     time : float [1 1]
+%         The current timestep
 %
 % Returns:
 %     timeExtrap : float [3 1]
@@ -36,7 +39,7 @@ if isempty(velocityHistory)
     velocityHistory = zeros(length(cicTime), length(velocity)); % [nt LDOF]
     irkb = permute(irkbInput, [1 3 2]); % from [nt nDOF LDOF] to [nt LDOF nDOF]
     timeHistory = [-1*(cicTime(2)-cicTime(1));-2*(cicTime(2)-cicTime(1));-3*(cicTime(2)-cicTime(1))];
-    FradHistory = zeros(3,length(velocity));
+    FradHistory = zeros(3, size(irkbInput, 2));
 end 
 
 % shift velocity_history and set the first column as the current velocity

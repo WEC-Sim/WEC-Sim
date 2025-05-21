@@ -26,6 +26,9 @@ function [timeExtrap, FradExtrap] = convolutionIntegralSurface(velocity, hydroFo
 % 
 %     cicTime : float [1 nt]
 %         All CI times
+% 
+%     time : float [1 1]
+%         The current timestep
 %
 % Returns:
 %     timeExtrap : float [3 1]
@@ -50,7 +53,7 @@ if isempty(velocityHistory)
         hydroForceIndexSurface(i, 1, 1, hydroForceIndexInitial) = true;
     end
     timeHistory = [-1*(cicTime(2)-cicTime(1));-2*(cicTime(2)-cicTime(1));-3*(cicTime(2)-cicTime(1))];
-    FradHistory = zeros(3,length(velocity));
+    FradHistory = zeros(3, size(irkbSurfaceInput, 2));
 end
 
 % shift velocity_history and set the first column as the current velocity
