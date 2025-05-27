@@ -57,28 +57,31 @@ classdef bodyClass<handle
             'area',                                 [0 0 0], ...            %
             'VME',                                  0     , ...             %
             'rgME',                                 [0 0 0], ...            %
-            'z',                                    [0 0 1])                % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``. 
-        name (1,:) {mustBeText}                     = ''                    % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
+            'z',                                    [0 0 1])                % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and inertial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``.
+        name (1,:) {mustBeText}                     = ''                    % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.
         nonHydro (1,1) {mustBeInteger}              = 0                     % (`integer`) Flag for non-hydro body, Options: 0 (hydro body), 1 (non-hydro body), 2 (drag body). Default = ``0``.
         nonlinearHydro (1,1) {mustBeInteger}        = 0                     % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
         quadDrag (1,:) struct                       = struct(...            % (`structure`)  Defines the viscous quadratic drag forces.
             'drag',                                 zeros(6), ...           %
             'cd',                                   [0 0 0 0 0 0], ...      %
-            'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
-        QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (on). Default = ``0``
+            'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.
+        QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (Full QTFs), 2 (Standing/Newman Approximation). Default = ``0``
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
         useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   % 
-            'hydroForceIndexInitial',               1,...
-            'radiationIrfSurface',                  [])
-        viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
+            'hydroForceIndexInitial',               1,...                   %
+            'radiationIrfSurface',                  [],...                  %
+            'mass',                                 [],...                  %
+            'inertia',                              [],...                  %
+            'inertiaProducts',                      [])                     % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydrodynamic data and h5File of the body at equilibrium. ``radiationIRFSurface`` (`array`) is not user-defined and is used to calculation the radiation convolution integral with varying states. ``mass`` (`array`), ``inertia`` (`array`), ``inertiaProducts`` (`array`) are user-defined values of the mass properties of the body over every varying state.
+        viz (1,1) struct                            = struct(...            % (`structure`) Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
-            'opacity',                              1)                      % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
+            'opacity',                              1)                      % (`structure`) Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         volume (1,:) {mustBeScalarOrEmpty}          = []                    % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation.
             'option',                               0,...                   %
-            'threshold',                            1)                      % (`structure`) Defines the passive yaw implementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
+            'threshold',                            1)                      % (`structure`) Defines the passive yaw implementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
@@ -186,13 +189,25 @@ classdef bodyClass<handle
             mustBeMember(obj.meanDrift,0:3)
             mustBeMember(obj.nonHydro,0:2)
             mustBeMember(obj.nonlinearHydro,0:2)
-            mustBeMember(obj.QTFs,0:1)
             mustBeMember(obj.paraview,[0 1])
             % QTF
-            mustBeMember(obj.QTFs,[0 1])
+            mustBeMember(obj.QTFs,0:2)
             % Variable hydro
             mustBeMember(obj.variableHydro.option, [0 1])
             mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
+
+            if ~isempty(obj.variableHydro.mass) || ~isempty(obj.variableHydro.inertia) || ~isempty(obj.variableHydro.inertiaProducts)
+                if obj.nonlinearHydro ~= 0
+                    % This might work, not implemented right now.
+                    error('Nonlinear hydrodynamics is not compatible with variable mass cases.');
+                end
+                warning(['For using a variable hydro case which varies the ' ...
+                    'mass/inertia, you will need to manually break the body ' ...
+                    'library link in your simulink model and use the ' ...
+                    'Simscape Multibody General Variable Mass block. The ' ...
+                    'default File Solid : Body Properties block cannot be used to ' ...
+                    'vary the mass. See the variable hydro WEC-Sim Application.'])
+            end
 
             % Check hydrodynamic data input
             if obj.useH5
@@ -256,6 +271,12 @@ classdef bodyClass<handle
             % Check passive yaw configuration
             if obj.yaw.option==1 && obj.yaw.threshold==1
                 warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+            end
+            % Check QTFs options
+            if obj.QTFs ~= 0 && obj.meanDrift ~= 0
+                obj.meanDrift = 0;
+                warning(['Mean drift force cannot be used while QTF is enabled.\n' ...
+                    'Turning off mean drift force calculation for body(%d).'], obj.number);
             end
             if obj.nonHydro==0
                 % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
@@ -365,7 +386,7 @@ classdef bodyClass<handle
             fprintf('\tBody Moments of Inertia       (kgm2) = [%G,%G,%G]\n',obj.inertia);
             fprintf('\tBody Products of Inertia      (kgm2) = [%G,%G,%G]\n',obj.inertiaProducts);
         end
-        
+
         function loadHydroData(obj, hydroData, iH)
             % WECSim function that loads the hydroData structure from a
             % MATLAB variable as alternative to reading the h5 file. This
@@ -416,14 +437,14 @@ classdef bodyClass<handle
             obj.hydroForce.hf1.linearDamping = obj.linearDamping;
             obj.dof = length(obj.quadDrag.drag);
         end
-        
+
         function hydroForcePre(obj, waveObj, simu, iH)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
             % 3. Loop through all included hydroData files
             waves = waveObj(1);
-            w = waves.omega; 
+            w = waves.omega;
             direction = waves.direction;
             cicTime = simu.cicTime;
             bemCount = waves.bem.count;
@@ -437,7 +458,9 @@ classdef bodyClass<handle
             B2B = simu.b2b;
             hfName = ['hf' num2str(iH)];
 
-            obj.setMassMatrix(rho)
+            if iH == obj.variableHydro.hydroForceIndexInitial
+                obj.setMassMatrix(rho);
+            end
             if (obj.gbmDOF>0)
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
@@ -449,13 +472,13 @@ classdef bodyClass<handle
                     obj.linearDamping = zeros(obj.dof);
                     obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0;
                 end
-                
+
                 for i = 1:length(obj.quadDrag)
                     tmp0 = obj.quadDrag(i).drag;
                     tmp1 = size(obj.quadDrag(i).drag);
                     obj.quadDrag(i).drag = zeros(obj.dof);
                     obj.quadDrag(i).drag(1:tmp1(1),1:tmp1(2)) = tmp0;
-                
+
                     obj.quadDrag(i).cd   = [obj.quadDrag(i).cd   zeros(1,obj.dof-length(obj.quadDrag(i).cd))];
                     obj.quadDrag(i).area = [obj.quadDrag(i).area zeros(1,obj.dof-length(obj.quadDrag(i).area))];
                 end
@@ -475,6 +498,8 @@ classdef bodyClass<handle
             obj.hydroForce.(hfName).linearDamping = obj.linearDamping(:,:,iH);
             obj.hydroForce.(hfName).volume = obj.hydroData(iH).properties.volume;
             obj.hydroForce.(hfName).centerBuoyancy = obj.hydroData(iH).properties.centerBuoyancy;
+            obj.hydroForce.(hfName).centerGravity = obj.hydroData(iH).properties.centerGravity';
+            obj.hydroForce.(hfName).centerGravityDifference = obj.hydroData(iH).properties.centerGravity' - obj.centerGravity;
             switch waveType
                 case {'noWave'}
                     obj.noExcitation(iH)
@@ -522,7 +547,7 @@ classdef bodyClass<handle
             end
         end
 
-        function adjustMassMatrix(obj, B2B)
+        function adjustMassMatrix(obj, B2B, rho)
             % Merge diagonal term of added mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
@@ -539,25 +564,36 @@ classdef bodyClass<handle
             end; clear iH
 
             if B2B == 1
-                % The body mass matrix can only be changed once. The
-                % manipulation done here cannot be time dependent on
-                % variable hydro. So, here we use hydroForceIndexInitial to
-                % select which hydroForce dataset is used to adjust the
-                % body mass during the simulation.
-                adjFAddedMass = diag(obj.hydroForce.(hfName0).fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
-                adjMass = sum(adjFAddedMass(1:3)) * obj.adjMassFactor;
-                adjInteriaProducts = [obj.hydroForce.(hfName0).fAddedMass(4,5+(iBod-1)*6) ...
-                                      obj.hydroForce.(hfName0).fAddedMass(4,6+(iBod-1)*6) ...
-                                      obj.hydroForce.(hfName0).fAddedMass(5,6+(iBod-1)*6)];
-                
-                % Adjust each hydroForce datasets added mass force using
-                % the same data that is used to manipulate the body mass
-                % matrix (based on hydroForceIndexInitial).
                 for iH = 1:length(obj.hydroData)
                     hfName = ['hf' num2str(iH)];
-                    obj.hydroForce.(hfName).mass = obj.mass + adjMass;
-                    obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
-                    obj.hydroForce.(hfName).inertiaProducts = obj.inertiaProducts + adjInteriaProducts;
+                    % The added mass is adjusted for each variable hydro
+                    % case independently. The impacts of any changes to the
+                    % mass will only be included if the general variable
+                    % mass block is included.
+                    adjFAddedMass = diag(obj.hydroForce.(hfName).fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
+                    adjMass = sum(adjFAddedMass(1:3)) * obj.adjMassFactor;
+                    adjInertiaProducts = [obj.hydroForce.(hfName).fAddedMass(4,5+(iBod-1)*6) ...
+                                          obj.hydroForce.(hfName).fAddedMass(4,6+(iBod-1)*6) ...
+                                          obj.hydroForce.(hfName).fAddedMass(5,6+(iBod-1)*6)];
+                    
+                    if isempty(obj.variableHydro.mass)
+                        obj.hydroForce.(hfName).mass = obj.mass;
+                        obj.hydroForce.(hfName).adjustedMass = obj.mass + adjMass;
+                        obj.hydroForce.(hfName).adjustedInertia = obj.inertia + adjFAddedMass(4:6)';
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
+                    else
+                        if strcmp(obj.massCalcMethod, 'equilibrium')
+                            obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
+                            obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
+                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
+                        else
+                            obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
+                            obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
+                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
+                        end
+                    end
 
                     obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) - adjMass;
                     obj.hydroForce.(hfName).fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(2,2+(iBod-1)*6) - adjMass;
@@ -565,32 +601,47 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fAddedMass(4,4+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(4,4+(iBod-1)*6) - adjFAddedMass(4);
                     obj.hydroForce.(hfName).fAddedMass(5,5+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(5,5+(iBod-1)*6) - adjFAddedMass(5);
                     obj.hydroForce.(hfName).fAddedMass(6,6+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,6+(iBod-1)*6) - adjFAddedMass(6);
-                    obj.hydroForce.(hfName).fAddedMass(4,5+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(4,5+(iBod-1)*6) - adjInteriaProducts(1);
-                    obj.hydroForce.(hfName).fAddedMass(4,6+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(4,6+(iBod-1)*6) - adjInteriaProducts(2);
-                    obj.hydroForce.(hfName).fAddedMass(5,6+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(5,6+(iBod-1)*6) - adjInteriaProducts(3);
+                    obj.hydroForce.(hfName).fAddedMass(4,5+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(4,5+(iBod-1)*6) - adjInertiaProducts(1);
+                    obj.hydroForce.(hfName).fAddedMass(4,6+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(4,6+(iBod-1)*6) - adjInertiaProducts(2);
+                    obj.hydroForce.(hfName).fAddedMass(5,6+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(5,6+(iBod-1)*6) - adjInertiaProducts(3);
                     
                     % the inertia matrix should be symmetric, but we still
                     % remove the symmetric components to preserve any
                     % numerical differences of the input
-                    obj.hydroForce.(hfName).fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(5,4+(iBod-1)*6) - adjInteriaProducts(1);
-                    obj.hydroForce.(hfName).fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,4+(iBod-1)*6) - adjInteriaProducts(2);
-                    obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) - adjInteriaProducts(3);
+                    obj.hydroForce.(hfName).fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(5,4+(iBod-1)*6) - adjInertiaProducts(1);
+                    obj.hydroForce.(hfName).fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,4+(iBod-1)*6) - adjInertiaProducts(2);
+                    obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) - adjInertiaProducts(3);
                 end; clear iH
             else
-                % Same process as for the B2B case, but the indexing is
-                % simplified.
-                adjFAddedMass = diag(obj.hydroForce.(hfName0).fAddedMass);
-                adjMass = sum(adjFAddedMass(1:3))*obj.adjMassFactor;
-                adjInteriaProducts = [obj.hydroForce.(hfName0).fAddedMass(4,5) ...
-                                      obj.hydroForce.(hfName0).fAddedMass(4,6) ...
-                                      obj.hydroForce.(hfName0).fAddedMass(5,6)];
-
-                
                 for iH = 1:length(obj.hydroData)
                     hfName = ['hf' num2str(iH)];
-                    obj.hydroForce.(hfName).mass = obj.mass + adjMass;
-                    obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
-                    obj.hydroForce.(hfName).inertiaProducts = obj.inertiaProducts + adjInteriaProducts;
+                    % The added mass is adjusted for each variable hydro
+                    % case independently. The impacts of any changes to the
+                    % mass will only be included if the general variable
+                    % mass block is included.
+                    adjFAddedMass = diag(obj.hydroForce.(hfName).fAddedMass);
+                    adjMass = sum(adjFAddedMass(1:3))*obj.adjMassFactor;
+                    adjInertiaProducts = [obj.hydroForce.(hfName).fAddedMass(4,5) ...
+                                          obj.hydroForce.(hfName).fAddedMass(4,6) ...
+                                          obj.hydroForce.(hfName).fAddedMass(5,6)];
+                    if isempty(obj.variableHydro.mass)
+                        obj.hydroForce.(hfName).mass = obj.mass;
+                        obj.hydroForce.(hfName).adjustedMass = obj.mass + adjMass;
+                        obj.hydroForce.(hfName).adjustedInertia = obj.inertia + adjFAddedMass(4:6)';
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
+                    else
+                        if strcmp(obj.massCalcMethod, 'equilibrium')
+                            obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
+                            obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
+                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
+                        else
+                            obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
+                            obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
+                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
+                        end
+                    end
 
                     obj.hydroForce.(hfName).fAddedMass(1,1) = obj.hydroForce.(hfName).fAddedMass(1,1) - adjMass;
                     obj.hydroForce.(hfName).fAddedMass(2,2) = obj.hydroForce.(hfName).fAddedMass(2,2) - adjMass;
@@ -598,14 +649,14 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fAddedMass(4,4) = obj.hydroForce.(hfName).fAddedMass(4,4) - adjFAddedMass(4);
                     obj.hydroForce.(hfName).fAddedMass(5,5) = obj.hydroForce.(hfName).fAddedMass(5,5) - adjFAddedMass(5);
                     obj.hydroForce.(hfName).fAddedMass(6,6) = obj.hydroForce.(hfName).fAddedMass(6,6) - adjFAddedMass(6);
-                    obj.hydroForce.(hfName).fAddedMass(4,5) = obj.hydroForce.(hfName).fAddedMass(4,5) - adjInteriaProducts(1);
-                    obj.hydroForce.(hfName).fAddedMass(4,6) = obj.hydroForce.(hfName).fAddedMass(4,6) - adjInteriaProducts(2);
-                    obj.hydroForce.(hfName).fAddedMass(5,6) = obj.hydroForce.(hfName).fAddedMass(5,6) - adjInteriaProducts(3);
-                    
+                    obj.hydroForce.(hfName).fAddedMass(4,5) = obj.hydroForce.(hfName).fAddedMass(4,5) - adjInertiaProducts(1);
+                    obj.hydroForce.(hfName).fAddedMass(4,6) = obj.hydroForce.(hfName).fAddedMass(4,6) - adjInertiaProducts(2);
+                    obj.hydroForce.(hfName).fAddedMass(5,6) = obj.hydroForce.(hfName).fAddedMass(5,6) - adjInertiaProducts(3);
+
                     % the inertia matrix should be symmetric, but we still remove the symmetric components to preserve any numerical differences
-                    obj.hydroForce.(hfName).fAddedMass(5,4) = obj.hydroForce.(hfName).fAddedMass(5,4) - adjInteriaProducts(1);
-                    obj.hydroForce.(hfName).fAddedMass(6,4) = obj.hydroForce.(hfName).fAddedMass(6,4) - adjInteriaProducts(2);
-                    obj.hydroForce.(hfName).fAddedMass(6,5) = obj.hydroForce.(hfName).fAddedMass(6,5) - adjInteriaProducts(3);
+                    obj.hydroForce.(hfName).fAddedMass(5,4) = obj.hydroForce.(hfName).fAddedMass(5,4) - adjInertiaProducts(1);
+                    obj.hydroForce.(hfName).fAddedMass(6,4) = obj.hydroForce.(hfName).fAddedMass(6,4) - adjInertiaProducts(2);
+                    obj.hydroForce.(hfName).fAddedMass(6,5) = obj.hydroForce.(hfName).fAddedMass(6,5) - adjInertiaProducts(3);
                 end; clear iH
             end
         end
@@ -770,7 +821,7 @@ classdef bodyClass<handle
             % second order excitation force
             % Used by hydroForcePre
             hfName = ['hf' num2str(iH)];
-            
+
             waveAmpTime(:,1) = wavesObj(1).waveAmpTime(:,1);
             waveAmpTime(:,2) = wavesObj(1).waveAmpTime(:,2);
 
@@ -778,84 +829,108 @@ classdef bodyClass<handle
                 waveAmpTime(:,2) = waveAmpTime(:,2) + wavesObj(iWaves).waveAmpTime(:,2);
             end
 
-            F_max = 1 / (waveAmpTime(2,1) - waveAmpTime(1,1)); % Maximum samplng freq.
-            Amp_freq = fft(waveAmpTime(:,2));
+            fMax = 1 / (waveAmpTime(2,1) - waveAmpTime(1,1)); % Maximum samplng freq.
+            ampFreq = fft(waveAmpTime(:,2));
 
-            N = length(Amp_freq); % Number of Lines, aliasing present.
+            N = length(ampFreq); % Number of Lines, aliasing present.
             if mod(N, 2) == 1
                 % Make sure that N is even
                 N = N + 1;
+                ampFreq(end+1) = 0;
             end
 
-            f = F_max/2 * linspace(0,1,N/2);
+            f = fMax/2 * linspace(0,1,N/2);
 
             time = 0:0.1:N*0.1-0.1;
 
-            Omega_fine = 2 * pi * f;
-            Omega_fine(N/2+2:N) = Omega_fine(N/2-1:-1:1); % symmetric vector
+            omegaFine = 2 * pi * f;
+            omegaFine(N/2+2:N) = omegaFine(N/2-1:-1:1); % symmetric vector
 
-            Omega_coarse = 2 * pi ./ obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(1).PER_i;
+            omegaCoarse = 2 * pi ./ obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(1).PER_i;
             waveDirectionCoarse = obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(1).BETA_i; % Future WEC-Sim should include the multiple wave directions QTFs calculations
 
-            n = length(Omega_coarse);
-            dOmega_coarse = Omega_coarse(2) - Omega_coarse(1);
-            QTF.Sum = zeros(n,n,obj.dof);
-            QTF.Diff = zeros(n,n,obj.dof);
+            n = length(omegaCoarse);
+            dOmegaCoarse = omegaCoarse(2) - omegaCoarse(1);
+            QTF.sum = zeros(n,n,obj.dof);
+            QTF.diff = zeros(n,n,obj.dof);
 
-            Omega_max = max(Omega_coarse);
+            omegaMax = max(omegaCoarse);
 
-            [~, index_max] = min(abs(Omega_fine - 2*Omega_max*1.25)); % Uses a margin of 25% after the freq. of intrest
-            [~,index_time] = min(abs(time - max(waveAmpTime(end,1))));
+            [~, indexMax] = min(abs(omegaFine - 2*omegaMax*1.25)); % Uses a margin of 25% after the freq. range of intrest
+            [~, timeIdx] = min(abs(time - max(waveAmpTime(end,1))));
             % remove the frequencies and amplitudes we know do not exist
             % in the spectrum
-            Omega_fine(index_max+1:end) = [];
-            Amp_freq(index_max+1:end) = [];
+            omegaFineExtended = omegaFine;
+            ampFreqExtended = ampFreq;
+            omegaFine(indexMax+1:end) = [];
+            ampFreq(indexMax+1:end) = [];
 
-            [Omega_x,Omega_y] = meshgrid(Omega_fine,Omega_fine);
+            [omegaX, omegaY] = meshgrid(omegaFine,omegaFine);
 
             for i = 1 : obj.dof
                 tmps = obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(i).Re_F_ij + 1i .* obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(i).Im_F_ij;
                 tmpd = obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Diff(i).Re_F_ij + 1i .* obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Diff(i).Im_F_ij;
-                QTF.Sum(:,:,i) = reshape(tmps,n,n);
-                QTF.Diff(:,:,i) = reshape(tmpd,n,n);
+                QTF.sum(:,:,i) = reshape(tmps,n,n);
+                QTF.diff(:,:,i) = reshape(tmpd,n,n);
             end
-            n = size(QTF.Sum,1);
+            n = size(QTF.sum,1);
 
             % Extend the coefficients to include the extreme points
-            QTF.DiffExtended = zeros(n+2,n+2,6);
-            QTF.DiffExtended(2:end-1,2:end-1,:) = QTF.Diff;
-            QTF.DiffExtended(:,end,:) = QTF.DiffExtended(:,end-1,:);
-            QTF.DiffExtended(end,:,:) = QTF.DiffExtended(end-1,:,:);
+            QTF.diffExtended = zeros(n+2,n+2,6);
+            QTF.diffExtended(2:end-1,2:end-1,:) = QTF.diff;
+            QTF.diffExtended(:,end,:) = QTF.diffExtended(:,end-1,:);
+            QTF.diffExtended(end,:,:) = QTF.diffExtended(end-1,:,:);
 
-            QTF.SumExtended = zeros(n+2,n+2,6);
-            QTF.SumExtended(2:end-1,2:end-1,:) = QTF.Sum;
-            QTF.SumExtended(:,end,:) = QTF.SumExtended(:,end-1,:);
-            QTF.SumExtended(end,:,:) = QTF.SumExtended(end-1,:,:);
+            QTF.sumExtended = zeros(n+2,n+2,6);
+            QTF.sumExtended(2:end-1,2:end-1,:) = QTF.sum;
+            QTF.sumExtended(:,end,:) = QTF.sumExtended(:,end-1,:);
+            QTF.sumExtended(end,:,:) = QTF.sumExtended(end-1,:,:);
 
-            Omega_coarse = [Omega_fine(1) Omega_coarse Omega_fine(end)];
-            nOmega = length(Omega_fine);
+            omegaCoarse = [0 omegaCoarse max(omegaFineExtended)];
 
-            if obj.QTFs == 1 % Calculates full difference QTFs
+            nOmega = length(omegaFine);
+
+            if obj.QTFs > 0          
                 for n = 1 : obj.dof
-                    % Slowly varing component calculation
-                    QTF.Diff_refined(:,:,n) = griddata(Omega_coarse, Omega_coarse, QTF.DiffExtended(:,:,n), Omega_x, Omega_y);
-                    tmp =  real(sum(Amp_freq .* conj(Amp_freq) .* diag(QTF.Diff_refined(:,:,n))));
-                    fMeanDriftLoad = 2/(N)^2 * sum(tmp)*ones(N,1) * 2; % Multiplied by 2 for the two-sided spectrum
-                    Hu = zeros(N,1);
-                    for nu = 1 : nOmega - 1
-                        for l = 1 : nOmega- nu
-                            Hu(nu+1) = Hu(nu+1) + 2*(Amp_freq(l+nu) .* conj(Amp_freq(l)) .* QTF.Diff_refined(l+nu,l,n));
+                    %% Slowly varing component calculation
+                    if obj.QTFs == 1   % Full QTFs calculation
+                        QTF.diffRefined(:,:,n) = griddata(omegaCoarse, omegaCoarse, QTF.diffExtended(:,:,n), omegaX, omegaY);
+                        tmp =  real(sum(ampFreq .* conj(ampFreq) .* diag(QTF.diffRefined(:,:,n))));
+                        fMeanDriftLoad = 2/(N)^2 * sum(tmp)*ones(N,1) * 2;      % Multiplied by 2 for the two-sided spectrum
+                        Hu = zeros(N,1);
+                        for nu = 1 : nOmega - 1
+                            for l = 1 : nOmega- nu
+                                Hu(nu+1) = Hu(nu+1) + 2*(ampFreq(l+nu) .* conj(ampFreq(l)) .* QTF.diffRefined(l+nu,l,n));
+                            end
                         end
+                        Hu(N/2+1:end) = conj(Hu(N/2:-1:1))';
+                        fSlowDriftLoad = 2 * ifft(Hu/N,'symmetric');
+                        obj.hydroForce.(hfName).QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1: timeIdx) + fMeanDriftLoad(1: timeIdx);
+
+                    elseif obj.QTFs == 2 % Standing/Newman approx. calculation
+
+                        QTF.diffDiag = interp1(omegaCoarse, real(diag(QTF.diffExtended(:,:,n), 0)), omegaFineExtended)';
+
+                        % Sanity check: match sizes before assigning
+                        assert(isequal(size(ampFreqExtended), size(QTF.diffDiag)), 'QTF: Size mismatch in Standing/Newman Approx. lines');
+
+                        Lp = zeros(N,1);
+                        Ln = zeros(N,1);
+                        Lp(1:N/2) = ampFreqExtended(1:N/2) .* sqrt( max(QTF.diffDiag(1:N/2), 0));
+                        Ln(1:N/2) = ampFreqExtended(1:N/2) .* sqrt(-min(QTF.diffDiag(1:N/2), 0));
+
+                        % Compute slow-varying forces
+                        fSlowNewman = abs(2*ifft(Lp)).^2 - abs(2*ifft(Ln)).^2;
+                        obj.hydroForce.(hfName).QTF.fSlowVaryingForces(:,n) = fSlowNewman(1: timeIdx);
                     end
-                    Hu(N/2+1:end) = conj(Hu(N/2:-1:1))';
-                    fSlowDriftLoad = 2 * ifft(Hu/N,'symmetric');
-                    obj.hydroForce.(hfName).QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1:index_time) + fMeanDriftLoad(1:index_time);
 
-                    % Fast varing component calculation
+                    %% Fast varing component calculation
+
+                    QTF.sumRefined(:,:,n) = griddata(omegaCoarse, omegaCoarse, QTF.sumExtended(:,:,n), omegaX, omegaY);
+
+                    % Diagonal terms
                     tmp = zeros(N,1);
-                    QTF.Sum_refined(:,:,n) = griddata(Omega_coarse, Omega_coarse, QTF.SumExtended(:,:,n), Omega_x, Omega_y);
-
-                    tmp(1:2:2*nOmega) = Amp_freq .* Amp_freq .* diag(QTF.Sum_refined(:,:,n));
+                    tmp(1:2:2*nOmega) = ampFreq .* ampFreq .* diag(QTF.sumRefined(:,:,n));
                     tmp(N/2+1:end) = conj(tmp(N/2:-1:1))';
 
                     fDiaginalElements = ifft(tmp/N,"symmetric");
@@ -864,20 +939,20 @@ classdef bodyClass<handle
                     tmp=zeros(N,1);
                     for nu = 2 : nOmega + 1
                         for l = 1 : floor((nu -1)/2)
-                            tmp(nu) = tmp(nu) + 2* Amp_freq(l) * Amp_freq(nu - l) * QTF.Sum_refined(l,nu - l,n);
+                            tmp(nu) = tmp(nu) + 2* ampFreq(l) * ampFreq(nu - l) * QTF.sumRefined(l,nu - l,n);
                         end
                     end
 
                     for nu = nOmega+2 : 2*nOmega
                         for l = nu-nOmega : floor((nu -1)/2)
-                            tmp(nu) = tmp(nu) + 2 * Amp_freq(l) * Amp_freq(nu - l) * QTF.Sum_refined(l,nu - l,n);
+                            tmp(nu) = tmp(nu) + 2 * ampFreq(l) * ampFreq(nu - l) * QTF.sumRefined(l,nu - l,n);
                         end
                     end
                     tmp(N/2+1:end) = conj(tmp(N/2:-1:1))';
 
-                    fOffDiaginalElements = 2 * ifft((tmp)/N,"symmetric");
-                    obj.hydroForce.(hfName).QTF.fFastVaryingForces(:,n) = fDiaginalElements(1:index_time) + fOffDiaginalElements(1:index_time);
-                    obj.hydroForce.(hfName).QTF.time = time(1:index_time);
+                    fOffDiaginalElements = 2 * ifft((tmp)/N, "symmetric");
+                    obj.hydroForce.(hfName).QTF.fFastVaryingForces(:,n) = fDiaginalElements(1:timeIdx) + fOffDiaginalElements(1:timeIdx);
+                    obj.hydroForce.(hfName).QTF.time = time(1:timeIdx);
                 end
             end
         end
@@ -920,7 +995,7 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
             end
         end
-        
+
         function irrExcitation(obj, wv, bemCount, direction, rho, g, dirBins, iH)
             % Irregular wave excitation force
             % Used by hydroForcePre
@@ -938,7 +1013,7 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
                     obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
                     obj.hydroForce.(hfName).fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
-                elseif ~isempty(dirBins) 
+                elseif ~isempty(dirBins)
                     [X,Y] = meshgrid(obj.hydroData(iH).simulation_parameters.w, sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction)));
                     obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
                     obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
@@ -969,7 +1044,7 @@ classdef bodyClass<handle
                     [obj.hydroForce.(hfName).fExt.qDofGrd,~,obj.hydroForce.(hfName).fExt.qWGrd] = ndgrid([1:nDOF],dirBins(1,:),wv); % this is necessary for nd interpolation; query grids be same size as dirBins.
                     if length(BEMdir)<3 || max(boundDiff)>15
                         warning(['BEM directions do not cover the directional spread bins or are too coarse to define spread bin distribution.' newline ...
-                        'Re-run with more bins']);
+                            'Re-run with more bins']);
                         clear boundDiff BEMdir
                     end
                 end
@@ -1012,7 +1087,7 @@ classdef bodyClass<handle
             obj.hydroForce.(hfName).fExt.im = zeros(1,nDOF);
             obj.hydroForce.(hfName).fExt.md = zeros(1,nDOF);
         end
-        
+
         function constAddedMassAndDamping(obj, w, rho, B2B, iH)
             % Set added mass and damping for a specific frequency
             % Used by hydroForcePre
@@ -1048,7 +1123,7 @@ classdef bodyClass<handle
                     end
             end
         end
-        
+
         function irfInfAddedMassAndDamping(obj, cicTime, stateSpace, rho, B2B, iH)
             % Set radiation force properties using impulse response function
             % Used by hydroForcePre
@@ -1137,7 +1212,7 @@ classdef bodyClass<handle
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = 'equilibrium';
                 if obj.nonHydro == 0 && obj.nonlinearHydro == 0
-                    obj.mass = obj.hydroData(1).properties.volume * rho;
+                    obj.mass = obj.hydroData(obj.variableHydro.hydroForceIndexInitial).properties.volume * rho;
                 elseif obj.nonHydro == 0 && obj.nonlinearHydro ~= 0
                     cg_tmp = obj.hydroData(1).properties.centerGravity;
                     z = obj.geometry.center(:,3) + cg_tmp(3);
@@ -1222,15 +1297,15 @@ classdef bodyClass<handle
                 dMass(1,1) = obj.hydroForce.(hfName).mass - obj.mass;
                 dMass(2,2) = obj.hydroForce.(hfName).mass - obj.mass;
                 dMass(3,3) = obj.hydroForce.(hfName).mass - obj.mass;
-                dMass(4,4) = obj.hydroForce.(hfName).inertia(1) - obj.inertia(1);
-                dMass(5,5) = obj.hydroForce.(hfName).inertia(2) - obj.inertia(2);
-                dMass(6,6) = obj.hydroForce.(hfName).inertia(3) - obj.inertia(3);
-                dMass(4,5) = obj.hydroForce.(hfName).inertiaProducts(1) - obj.inertiaProducts(1);
-                dMass(4,6) = obj.hydroForce.(hfName).inertiaProducts(2) - obj.inertiaProducts(2);
-                dMass(5,6) = obj.hydroForce.(hfName).inertiaProducts(3) - obj.inertiaProducts(3);
-                dMass(5,4) = obj.hydroForce.(hfName).inertiaProducts(1) - obj.inertiaProducts(1);
-                dMass(6,4) = obj.hydroForce.(hfName).inertiaProducts(2) - obj.inertiaProducts(2);
-                dMass(6,5) = obj.hydroForce.(hfName).inertiaProducts(3) - obj.inertiaProducts(3);
+                dMass(4,4) = obj.hydroForce.(hfName).adjustedInertia(1) - obj.inertia(1);
+                dMass(5,5) = obj.hydroForce.(hfName).adjustedInertia(2) - obj.inertia(2);
+                dMass(6,6) = obj.hydroForce.(hfName).adjustedInertia(3) - obj.inertia(3);
+                dMass(4,5) = obj.hydroForce.(hfName).adjustedInertiaProducts(1) - obj.inertiaProducts(1);
+                dMass(4,6) = obj.hydroForce.(hfName).adjustedInertiaProducts(2) - obj.inertiaProducts(2);
+                dMass(5,6) = obj.hydroForce.(hfName).adjustedInertiaProducts(3) - obj.inertiaProducts(3);
+                dMass(5,4) = obj.hydroForce.(hfName).adjustedInertiaProducts(1) - obj.inertiaProducts(1);
+                dMass(6,4) = obj.hydroForce.(hfName).adjustedInertiaProducts(2) - obj.inertiaProducts(2);
+                dMass(6,5) = obj.hydroForce.(hfName).adjustedInertiaProducts(3) - obj.inertiaProducts(3);
     
                 appliedForceAddedMass = obj.hydroForce.(hfName0).storage.output_forceAddedMass;
                 bodyComponentForceAddedMass = acc*dMass;
@@ -1248,15 +1323,15 @@ classdef bodyClass<handle
                     dMass(1,1) = obj.hydroForce.(hfName).mass - obj.mass;
                     dMass(2,2) = obj.hydroForce.(hfName).mass - obj.mass;
                     dMass(3,3) = obj.hydroForce.(hfName).mass - obj.mass;
-                    dMass(4,4) = obj.hydroForce.(hfName).inertia(1) - obj.inertia(1);
-                    dMass(5,5) = obj.hydroForce.(hfName).inertia(2) - obj.inertia(2);
-                    dMass(6,6) = obj.hydroForce.(hfName).inertia(3) - obj.inertia(3);
-                    dMass(4,5) = obj.hydroForce.(hfName).inertiaProducts(1) - obj.inertiaProducts(1);
-                    dMass(4,6) = obj.hydroForce.(hfName).inertiaProducts(2) - obj.inertiaProducts(2);
-                    dMass(5,6) = obj.hydroForce.(hfName).inertiaProducts(3) - obj.inertiaProducts(3);
-                    dMass(5,4) = obj.hydroForce.(hfName).inertiaProducts(1) - obj.inertiaProducts(1);
-                    dMass(6,4) = obj.hydroForce.(hfName).inertiaProducts(2) - obj.inertiaProducts(2);
-                    dMass(6,5) = obj.hydroForce.(hfName).inertiaProducts(3) - obj.inertiaProducts(3);
+                    dMass(4,4) = obj.hydroForce.(hfName).adjustedInertia(1) - obj.inertia(1);
+                    dMass(5,5) = obj.hydroForce.(hfName).adjustedInertia(2) - obj.inertia(2);
+                    dMass(6,6) = obj.hydroForce.(hfName).adjustedInertia(3) - obj.inertia(3);
+                    dMass(4,5) = obj.hydroForce.(hfName).adjustedInertiaProducts(1) - obj.inertiaProducts(1);
+                    dMass(4,6) = obj.hydroForce.(hfName).adjustedInertiaProducts(2) - obj.inertiaProducts(2);
+                    dMass(5,6) = obj.hydroForce.(hfName).adjustedInertiaProducts(3) - obj.inertiaProducts(3);
+                    dMass(5,4) = obj.hydroForce.(hfName).adjustedInertiaProducts(1) - obj.inertiaProducts(1);
+                    dMass(6,4) = obj.hydroForce.(hfName).adjustedInertiaProducts(2) - obj.inertiaProducts(2);
+                    dMass(6,5) = obj.hydroForce.(hfName).adjustedInertiaProducts(3) - obj.inertiaProducts(3);
         
                     appliedForceAddedMass = obj.hydroForce.(hfName0).storage.output_forceAddedMass(it,:);
                     bodyComponentForceAddedMass = acc(it,:)*dMass;

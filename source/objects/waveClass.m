@@ -502,7 +502,7 @@ classdef waveClass<handle
                     for im = 1:m
                         for in = 1:n
                             Xt(im,in) = X(m,n).*cos(obj.dirBins.*pi/180) + Y*sin(obj.dirBins.*pi/180);
-                            temp =  sqrt(repmat(obj.amplitude,[1,obj.nBins]) .* obj.spreadWeights .*repmat(obj.dOmega,[1,obj.bins])) .* cos(-1.*repmat(obj.wavenumber,[1,obj.bins]) .* Xt(im,in) ...
+                            temp =  sqrt(repmat(obj.amplitude,[1,obj.nBins]) .* obj.spreadWeights .*repmat(obj.dOmega,[1,obj.nBins])) .* cos(-1.*repmat(obj.wavenumber,[1,obj.nBins]) .* Xt(im,in) ...
                                 + repmat(obj.omega,[1,obj.nBins]) + obj.phase);
                             Z(im,in) = sum(temp,'all');
                         end
@@ -598,7 +598,9 @@ classdef waveClass<handle
             % Sets the irregular wave's random phase
             % used by: :meth:`waveClass.setup`.
             if obj.phaseSeed ~= 0
-                rng(obj.phaseSeed);     % Phase seed = 1,2,3,...,etc
+                s = RandStream('Threefry', 'Seed', 1);  % Global fixed seed
+                s.Substream = obj.phaseSeed;           % Substream based on phaseSeed
+                RandStream.setGlobalStream(s);         % Set globally
             else
                 rng('shuffle');         % Phase seed shuffled
             end
