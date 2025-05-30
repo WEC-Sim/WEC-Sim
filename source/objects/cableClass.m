@@ -298,7 +298,7 @@ classdef cableClass<handle
             elseif ~any(obj.cableLength) && any(obj.preTension)
                 obj.cableLength = sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
                 + (obj.base.location(2)-obj.follower.location(2)).^2 ...
-                + (obj.base.location(3)-obj.follower.location(3)).^2) + obj.preTension/obj.stiffness;            
+                + (obj.base.location(3)-obj.follower.location(3)).^2) - obj.preTension/obj.stiffness;            
             elseif ~any(obj.preTension) && any(obj.cableLength)
                 % NOTE: pretension is only defined here for easy reference.
                 % Tension calculations in Simulink are only based on the cable length and initial positions 
