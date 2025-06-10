@@ -34,6 +34,9 @@
 %   'compilationTest'  Run compilation tests. These tests do not check
 %                      correctness of the results. Default is true.
 %
+%   'runFromSimTest'   Run tests for execution of WECSim from Simulink.
+%                      Default is true.
+%
 %   'rotationTest'     Run rotation tests. Default is true.
 %
 %   'devTest'          Run developer focused tests. Default is true.
@@ -52,6 +55,7 @@ function results = wecSimTest(options)
         options.bemioTest = true
         options.regressionTest = true
         options.compilationTest = true
+        options.runFromSimTest = true
         options.rotationTest = true
         options.devTest = true
         options.cableTensionTest = true
@@ -74,6 +78,10 @@ function results = wecSimTest(options)
     
     if options.regressionTest
         suites = [suites TestSuite.fromFile('tests/regressionTest.m')];
+    end
+    
+    if options.runFromSimTest
+        suites = [suites TestSuite.fromFile('tests/runFromSimTest.m')];
     end
     
     if options.rotationTest
