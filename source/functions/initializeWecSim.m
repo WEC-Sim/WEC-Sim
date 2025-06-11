@@ -140,7 +140,11 @@ if exist('mooring','var') == 1
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
         if mooring(ii).lookupTableFlag == 1
-            mooring(ii).loadLookupTable();
+            if exist(mooring(ii).lookupTableFile, 'file')
+                mooring(ii).loadLookupTable();
+            else
+                mooring(ii).NLStatic_Setup(simu.rho, simu.gravity, body(ii).hydroData.simulation_parameters.waterDepth);
+            end
         end
         if mooring(ii).moorDyn == 1
             mooring(ii).checkPath();
@@ -151,6 +155,17 @@ if exist('mooring','var') == 1
     if simu.numMoorDyn > 0
         mooring.callMoorDynLib();
     end
+end
+
+% Mooring Configuration: count
+if exist('mooring','var') == 1
+    simu.numMoorings = length(mooring(1,:));
+    for ii = 1:simu.numMoorings
+        mooring(ii).checkInputs();
+        mooring(ii).setLoc();
+        mooring(ii).setNumber(ii);
+
+    end; clear ii
 end
 
 
@@ -261,24 +276,6 @@ if exist('windTurbine','var')
     end 
     clear ii
 
-end
-
-% Mooring Configuration: count
-if exist('mooring','var') == 1
-    simu.numMoorings = length(mooring(1,:));
-    for ii = 1:simu.numMoorings
-        mooring(ii).checkInputs();
-        mooring(ii).setLoc();
-        mooring(ii).setNumber(ii);
-        try
-            mooring(ii).loadLookupTable();
-        catch
-            try
-            mooring(ii).NLStatic_Setup(simu.rho,simu.gravity,body(ii).hydroData.simulation_parameters.waterDepth);
-            catch                
-            end
-        end
-    end; clear ii
 end
 
 toc
