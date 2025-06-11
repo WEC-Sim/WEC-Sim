@@ -1,4 +1,4 @@
-function Frad = convolutionIntegralSurface(velocity, hydroForceIndex, hydroForceIndexInitial, irkbSurfaceInput, cicTime)
+function [timeExtrap, FradExtrap] = convolutionIntegralSurface(velocity, hydroForceIndex, hydroForceIndexInitial, irkbSurfaceInput, cicTime, time)
 %#codegen
 % Function to calculate convolution integral from a surface varying in
 % time, DOF, and variable hydro state. 
@@ -26,16 +26,21 @@ function Frad = convolutionIntegralSurface(velocity, hydroForceIndex, hydroForce
 % 
 %     cicTime : float [1 nt]
 %         All CI times
+% 
+%     time : float [1 1]
+%         The current timestep
 %
 % Returns:
-%     Frad : float [nDOF 1]
-%         Radiation force in each degree of freedom
+%     timeExtrap : float [3 1]
+%       Previous 3 main time steps used for extrapolation
+%     FradExtrap : float [3 nDOF]
+%         Radiation force in each degree of freedom of the previous 3 main time steps, used for extrapolation
 % 
 
 % define persistent variables to track velocity_history and
 % hydroForceIndexSurface over time. irkb is persistent so that the permuted
 % value is only calculated once.
-persistent velocityHistory irkbSurface hydroForceIndexSurface;
+persistent velocityHistory irkbSurface hydroForceIndexSurface timeHistory FradHistory;
 
 % If this is the first time step (i.e. velocity_history is empty), 
 % define the persistent variables.
@@ -47,6 +52,8 @@ if isempty(velocityHistory)
     for i = 1:size(hydroForceIndexSurface, 1)
         hydroForceIndexSurface(i, 1, 1, hydroForceIndexInitial) = true;
     end
+    timeHistory = [-1*(cicTime(2)-cicTime(1));-2*(cicTime(2)-cicTime(1));-3*(cicTime(2)-cicTime(1))];
+    FradHistory = zeros(3, size(irkbSurfaceInput, 2));
 end
 
 % shift velocity_history and set the first column as the current velocity
@@ -68,6 +75,14 @@ timeSeries = irkb .* velocityHistory; % [nt LDOF nDOF]
 timeSeriesSum = squeeze(sum(timeSeries, 2)); % [nt nDOF]
 
 % integrate over time to get the wave radiation force
-Frad = squeeze(trapz(cicTime, timeSeriesSum, 1)); % [nDOF  1]
+Frad = squeeze(trapz(cicTime, timeSeriesSum, 1)); % [nDOF 1]
+
+% Prepare the variables used for extrapolation
+timeHistory = circshift(timeHistory, 1, 1); % [3 1]
+timeHistory(1,:) = time;
+FradHistory = circshift(FradHistory, 1, 1); % [3 nDOF]
+FradHistory(1,:) = Frad(:)';
+timeExtrap = timeHistory;
+FradExtrap = FradHistory;
 
 end

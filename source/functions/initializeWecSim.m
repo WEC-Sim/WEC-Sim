@@ -24,7 +24,7 @@
 % Clear old input, plots, log file and start new log file.
 diary off
 clear body waves simu output pto constraint ptoSim mooring values names InParam
-clear ConvolutionIntegral_interp convolutionIntegralSurface % reset functions with persistent variables
+clear convolutionIntegralInterp convolutionIntegralSurface % reset functions with persistent variables
 try delete('*.log'); end
 diary('simulation.log')
 

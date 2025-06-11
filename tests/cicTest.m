@@ -51,10 +51,11 @@ classdef cicTest < matlab.unittest.TestCase
     
     methods(TestClassSetup)
         function calcForceRad(testCase)
-            clear ConvolutionIntegral_interp
+            clear convolutionIntegralInterp
             tmp = cputime;
             for it = 1:size(testCase.velocity,1)
-                testCase.Frad0(it,:) = ConvolutionIntegral_interp(testCase.velocity(it,:), testCase.irkbSurfaceInput(:,:,:,1), testCase.cicTime);
+                [~,fRad] = convolutionIntegralInterp(testCase.velocity(it,:), testCase.irkbSurfaceInput(:,:,:,1), testCase.cicTime, testCase.time(it));
+                testCase.Frad0(it,:) = fRad(1);
             end
             testCase.t0 = cputime - tmp;
         end
@@ -64,7 +65,8 @@ classdef cicTest < matlab.unittest.TestCase
             clear convolutionIntegralSurface
             tmp = cputime;
             for it = 1:size(testCase.velocity,1)
-                testCase.FradS1(it,:) = convolutionIntegralSurface(testCase.velocity(it,:), 1, 1, testCase.irkbSurfaceInput, testCase.cicTime);
+                [~,fRad] = convolutionIntegralSurface(testCase.velocity(it,:), 1, 1, testCase.irkbSurfaceInput, testCase.cicTime, testCase.time(it));
+                testCase.FradS1(it,:) = fRad(1);
             end
             testCase.ts1 = cputime - tmp;
             
@@ -72,7 +74,8 @@ classdef cicTest < matlab.unittest.TestCase
             clear convolutionIntegralSurface
             tmp = cputime;
             for it = 1:size(testCase.velocity,1)
-                testCase.FradS2(it,:) = convolutionIntegralSurface(testCase.velocity(it,:), testCase.hydroForceIndex(it), 1, testCase.irkbSurfaceInput, testCase.cicTime);
+                [~,fRad] = convolutionIntegralSurface(testCase.velocity(it,:), testCase.hydroForceIndex(it), 1, testCase.irkbSurfaceInput, testCase.cicTime, testCase.time(it));
+                testCase.FradS2(it,:) = fRad(1);
             end
             testCase.ts2 = cputime - tmp;
         end
