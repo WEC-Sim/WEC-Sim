@@ -166,7 +166,7 @@ classdef windTurbineClass<handle
             data1 = importdata(obj.turbineName);
             data2 = importdata(obj.bladeDataName);
 
-            obj.generatorEfficiency = data1.gen_eff; %generator efficiency
+            obj.generatorEfficiency = data1.gen_eff; % generator efficiency
 
             obj.geometryFileTower = data1.geometryFileTower;
             obj.geometryFileNacelle = data1.geometryFileNacelle;
@@ -206,7 +206,7 @@ classdef windTurbineClass<handle
             obj.blade.BlCrvAng = interp1(data2.radius,data2.BlCrvAng,data1.blade.bladediscr)*pi/180;
         end
 
-        function CreateBEMstruct(obj,wind_Xdiscr,wind_Ydiscr,wind_Zdiscr)
+        function createBEMstruct(obj,wind_Xdiscr,wind_Ydiscr,wind_Zdiscr)
             bladedata = importdata(obj.bladeDataName);
 
             obj.BEMstruct.rho_air=obj.BEMdata.rho_air;

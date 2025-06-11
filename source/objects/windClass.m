@@ -45,7 +45,7 @@ classdef windClass<handle
 
     methods (Access = 'public')
 
-        function ComputeWindInput(obj)
+        function computeWindInput(obj)
             if obj.ConstantWindFlag==0
 
                 data = importdata(obj.WindDataFile);

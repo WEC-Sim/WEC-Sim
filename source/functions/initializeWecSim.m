@@ -237,29 +237,27 @@ end
 
 % WindClass
 if exist('wind','var') == 1 
-    wind.ComputeWindInput();
+    wind.computeWindInput();
 end
 
 % WindTurbines Class
-if exist('windTurbine','var') == 1
-    if not(exist('wind','var') == 1)
+if exist('windTurbine','var')
+    if ~exist('wind','var')
         error('If there are wind turbines, then there must be wind class')
     end
 
     for ii = 1:length(windTurbine)
-
         windTurbine(ii).setNumber(ii);
-        windTurbine(ii).loadTurbineData        
-        windTurbine(ii).importControl
-        if windTurbine(ii).aeroLoadsType==0
-        windTurbine(ii).importAeroLoadsTable
-        windTurbine(ii).CreateBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
-        elseif windTurbine(ii).aeroLoadsType==1
-        windTurbine(ii).CreateBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
+        windTurbine(ii).loadTurbineData();
+        windTurbine(ii).importControl();
+        if windTurbine(ii).aeroLoadsType == 0
+            windTurbine(ii).importAeroLoadsTable();
+            windTurbine(ii).createBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
+        elseif windTurbine(ii).aeroLoadsType == 1
+            windTurbine(ii).createBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
         else
             error('windTurbine.aeroLoadsType must be 0 (Look-up tables) or 1 (BEM)')
         end
-        
     end 
     clear ii
 
