@@ -8,6 +8,7 @@ classdef regressionTest < matlab.unittest.TestCase
         regularCIC
         regularSS
         irregularCIC
+        irregularCIC_OSWEC
         irregularSS
         OriginalDefault
     end
@@ -81,6 +82,14 @@ classdef regressionTest < matlab.unittest.TestCase
             runLoadIrregularSS;
             testCase.irregularSS = load('irregularSS.mat').("irregularSS");
             savefig(fullfile('..', 'figIrregSS'));
+            cd(testCase.testDir);
+        end
+
+        function runIrregCICTestOSWEC(testCase)
+            cd(fullfile(testCase.testDir,'RegressionTests','IrregularWaves','irregularCIC_OSWEC'))
+            runLoadIrregularCIC_OSWEC;
+            testCase.irregularSS = load('irregularCIC_OSWEC.mat').("irregularCIC_OSWEC");
+            savefig(fullfile('..', 'figIrregCIC_OSWEC'));
             cd(testCase.testDir);
         end
         
@@ -296,6 +305,36 @@ classdef regressionTest < matlab.unittest.TestCase
             new = testCase.irregularSS.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);
             fprintf(['2nd Order Spectral Moment, Diff = '       ...
+                     num2str(max(abs(org-new))) '\n']);
+        end
+
+        function body1_OSWEC_irreg_disp_pitch(testCase)
+            % Body1 Displacement in Heave
+            tol = 1e-5;
+            org = testCase.irregularCIC_OSWEC.B1.WEC_Sim_org.pitch;
+            new = testCase.irregularCIC_OSWEC.B1.WEC_Sim_new.pitch;
+            testCase.verifyEqual(new,org,'AbsTol',tol);
+            fprintf(['Body1 Displacement in Pitch for OSWEC, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
+        end
+
+        function irregCIC_OSWEC_0th_Spectral_Moment(testCase)
+            % 0th Order Spectral Moment
+            tol = 1e-5;
+            org = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_org.m0;
+            new = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_new.m0;
+            testCase.verifyEqual(new,org,'AbsTol',tol);
+            fprintf(['0th Order Spectral Moment for OSWEC, Diff = '       ...
+                     num2str(max(abs(org-new))) '\n']);
+        end
+        
+        function irregCIC_OSWEC_2nd_Spectral_Moment(testCase)
+            % 2nd Order Spectral Moment
+            tol = 1e-5;
+            org = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_org.m2;
+            new = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_new.m2;
+            testCase.verifyEqual(new,org,'AbsTol',tol);
+            fprintf(['2nd Order Spectral Moment for OSWEC, Diff = '       ...
                      num2str(max(abs(org-new))) '\n']);
         end
         
