@@ -1,5 +1,5 @@
-function hydro = badBemioFix_fcn(hydro, despike)
-% Oirignal author: Dominic D. Forbush
+function hydro = cleanBEM(hydro, despike)
+% Original author: Dominic D. Forbush
 % Based on the paper: 
 % 
 % This function cleans noisy BEM coefficients (A, B, ex) by:
@@ -35,7 +35,7 @@ function hydro = badBemioFix_fcn(hydro, despike)
 % Example 1:
 % >> hydro = readWAMIT(hydro, ...);
 % >> hydro = combineBEM(hydro);
-% >> hydro = badBemioFix_fcn(hydro, despike); 
+% >> hydro = cleanBEM(hydro, despike); 
 % >> hydro = radiationIRF(hydro, ...);
 % >> hydro = radiationIRFSS(hydro, ...);
 % >> hydro = excitationIRF(hydro, ...);
@@ -48,7 +48,7 @@ function hydro = badBemioFix_fcn(hydro, despike)
 % >> hydro = radiationIRF(hydro, ...);
 % >> hydro = radiationIRFSS(hydro, ...);
 % >> hydro = excitationIRF(hydro, ...);
-% >> hydro_clean = badBemioFix_fcn(hydro, despike); 
+% >> hydro_clean = cleanBEM(hydro, despike); 
 % >> hydro_clean = radiationIRF(hydro_clean, ...);
 % >> hydro_clean = radiationIRFSS(hydro_clean, ...);
 % >> hydro_clean = excitationIRF(hydro_clean, ...);
