@@ -65,22 +65,22 @@ if isempty(despike) % if the third argument is empty will use some default value
     despike.appFilt = 1; % boolean, 1 to apply low pass filter after despiking
 
     % thresholds: applied to 'Threshold' argument of findpeaks
-    despike.Threshold.B = 2e-4; % damping
-    despike.Threshold.A = 1e-3; % added mass
-    despike.Threshold.ExRe = 1e-3; % real part excitation
-    despike.Threshold.ExIm = 1e-3; % imag part excitation
+    despike.B.Threshold = 2e-4; % damping
+    despike.A.Threshold = 1e-3; % added mass
+    despike.ExRe.Threshold = 1e-3; % real part excitation
+    despike.ExIm.Threshold = 1e-3; % imag part excitation
 
     % minimum peak prominence, applied to 'MinPeakProminence' argument of findpeaks
-    despike.Prominence.B = 2e-4;
-    despike.Prominence.A = 1e-3;
-    despike.Prominence.ExRe = 1e-3;
-    despike.Prominence.ExIm = 1e-3;
+    despike.B.Prominence = 2e-4;
+    despike.A.Prominence = 1e-3;
+    despike.ExRe.Prominence = 1e-3;
+    despike.ExIm.Prominence = 1e-3;
 
     % minimum peak distance, applied to 'MinPeakDistance' argument of findpeaks
-    despike.MinPeakDistance.A = 3;
-    despike.MinPeakDistance.B = 3;
-    despike.MinPeakDistance.ExRe = 3;
-    despike.MinPeakDistance.ExIm = 3;
+    despike.A.MinPeakDistance = 3;
+    despike.B.MinPeakDistance = 3;
+    despike.ExRe.MinPeakDistance = 3;
+    despike.ExIm.MinPeakDistance = 3;
     despike.Filter.b = 0.02008336556421123561544384017452102853 .* [1 2 1];
     despike.Filter.a = [1 -1.561018075800718163392843962355982512236 0.641351538057563175243558362126350402832];
 
@@ -107,19 +107,23 @@ for i = 1:length(fieldsToRemove)
 end
 
 % Parse negative radiation damping along diagonal
-bMax = max(hydro.B, [], 3); % max damping in the frequency dimension for each DOF
-mask = hydro.B < -despike.negThresh * bMax;
-hydro.B(mask) = 0;
+for k = 1:size(hydro.B,1)
+    bMax(k,k) = max(squeeze(hydro.B(k,k,:)));
+    mask = hydro.B(k,k,:) < -despike.negThresh * bMax(k,k);
+    hydro.B(k,k,mask) = 0;
+end
 
 %% Peak smoothing
 [row, col, ~] = size(hydro.A);
 for k = 1:row
     for kk = 1:col
-        hydro.A(k,kk,:) = peakSmoothing(squeeze(hydro.A(k,kk,:)), hydro.w, despike);
-        hydro.B(k,kk,:) = peakSmoothing(squeeze(hydro.B(k,kk,:)), hydro.w, despike);
+        hydro.A(k,kk,:) = peakSmoothing(squeeze(hydro.A(k,kk,:)), hydro.w, despike.A, despike.N);
+        hydro.B(k,kk,:) = peakSmoothing(squeeze(hydro.B(k,kk,:)), hydro.w, despike.B, despike.N);
     end
-    hydro.ex_re(k,1,:) = peakSmoothing(squeeze(hydro.ex_re(k,1,:)), hydro.w, despike);
-    hydro.ex_im(k,1,:) = peakSmoothing(squeeze(hydro.ex_im(k,1,:)), hydro.w, despike);
+    for it = 1:despike.N
+        hydro.ex_re(k,1,:) = peakSmoothing(squeeze(hydro.ex_re(k,1,:)), hydro.w, despike.ExRe, 1);
+        hydro.ex_im(k,1,:) = peakSmoothing(squeeze(hydro.ex_im(k,1,:)), hydro.w, despike.ExIm, 1);
+    end
 end
 
 %% Filtering
@@ -165,21 +169,23 @@ end
 end
 
 %% Functions
-function outData = peakSmoothing(data, w, despike)
-    for it = despike.N
+function outData = peakSmoothing(data, w, despike, n)
+    for it = n % TODO: 1:n
         %%% There is a "maxPeakWidth" argument: this does not work as
         %%% the developer intends and is not recommended for use.
         % positive peaks
-        [peaks, peakLocs] = findpeaks(data,'MinPeakProminence',despike.Prominence.B,'Threshold',despike.Threshold.B,'MinPeakDistance',despike.MinPeakDistance.B);
+        [peaks, peakLocs] = findpeaks(data,'MinPeakProminence',despike.Prominence,'Threshold',despike.Threshold,'MinPeakDistance',despike.MinPeakDistance);
         
         % negative peaks
-        [peaksN, peakLocsN] = findpeaks(-1.*data,'MinPeakProminence',despike.Prominence.B,'Threshold',despike.Threshold.B,'MinPeakDistance',despike.MinPeakDistance.B);
+        [peaksN, peakLocsN] = findpeaks(-1.*data,'MinPeakProminence',despike.Prominence,'Threshold',despike.Threshold,'MinPeakDistance',despike.MinPeakDistance);
         
         % ignore peaks at the edges
-        edgeLocs = peakLocs>=length(data)-1 | peakLocs==1;
+        % edgeLocs = peakLocs==length(data) | peakLocs==1; TODO - this is more consistent
+        edgeLocs = peakLocs>length(data)-2 | peakLocs<2;
         peakLocs(edgeLocs) = [];
         peaks(edgeLocs) = [];
-        edgeLocsN = peakLocsN>=length(data)-1 | peakLocsN==1;
+        % edgeLocsN = peakLocsN==length(data) | peakLocsN==1; TODO - this is more consistent 
+        edgeLocsN = peakLocsN>length(data)-2 | peakLocsN<2;
         peakLocsN(edgeLocsN) = [];
         peaksN(edgeLocsN) = [];
         
@@ -198,6 +204,7 @@ function outData = peakSmoothing(data, w, despike)
             if ~isempty(hidx)
                 dataLog = [dataLog; k];
                 dataLogN = [dataLogN; hidx];
+                % TODO: dataRep = mean([peaks(k+[-it:it]); -1.*peaksN(hidx)]); smooth all points between the neighboring positive and negative peaks 
                 dataRep = mean([peaks(k); -1.*peaksN(hidx)]); % note dataPeaksN is already positive instead of negative, so this average correctly force the consecutive +- peaks to be the average value, not largely positive
                 data(peakLocs(k)) = dataRep; % replace both high and low peak with mean value
                 data(peakLocsN(hidx)) = dataRep;
@@ -214,16 +221,17 @@ function outData = peakSmoothing(data, w, despike)
     
         % Consolidate +/- peaks into one list
         peakLocs = [peakLocs; peakLocsN];
+        peakFrequencies = w(peakLocs)';
     
         % remove peaks from data and frequency list
         data(peakLocs) = [];
         w(peakLocs) = [];
         
         % Interpolate to the peak locations
-        smoothedPeaks = interp1(w, data, peakLocs, 'linear', 'extrap');
+        smoothedPeaks = interp1(w, data, peakFrequencies, 'linear', 'extrap');
 
         % Concatenate new data at the peaks and sort by frequency
-        w = [w'; peakLocs];
+        w = [w'; peakFrequencies];
         data = [data; smoothedPeaks];
         [w, sortMask] = sort(w);
         data = data(sortMask);
