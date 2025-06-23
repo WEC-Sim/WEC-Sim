@@ -83,14 +83,6 @@ if isempty(despike) % if the third argument is empty will use some default value
     despike.ExIm.MinPeakDistance = 3;
     despike.Filter.b = 0.02008336556421123561544384017452102853 .* [1 2 1];
     despike.Filter.a = [1 -1.561018075800718163392843962355982512236 0.641351538057563175243558362126350402832];
-
-    % IRF parameters
-    despike.IRF.wMin = 0.1;
-    despike.IRF.wMax = 15;
-    despike.IRF.irfDur = 30;
-
-    % debug plot
-    despike.debugPlot =0;
 end
 
 %% Input structure clean-up
@@ -120,10 +112,8 @@ for k = 1:row
         hydro.A(k,kk,:) = peakSmoothing(squeeze(hydro.A(k,kk,:)), hydro.w, despike.A, despike.N);
         hydro.B(k,kk,:) = peakSmoothing(squeeze(hydro.B(k,kk,:)), hydro.w, despike.B, despike.N);
     end
-    for it = 1:despike.N
-        hydro.ex_re(k,1,:) = peakSmoothing(squeeze(hydro.ex_re(k,1,:)), hydro.w, despike.ExRe, 1);
-        hydro.ex_im(k,1,:) = peakSmoothing(squeeze(hydro.ex_im(k,1,:)), hydro.w, despike.ExIm, 1);
-    end
+    hydro.ex_re(k,1,:) = peakSmoothing(squeeze(hydro.ex_re(k,1,:)), hydro.w, despike.ExRe, despike.N);
+    hydro.ex_im(k,1,:) = peakSmoothing(squeeze(hydro.ex_im(k,1,:)), hydro.w, despike.ExIm, despike.N);
 end
 
 %% Filtering
@@ -138,19 +128,19 @@ if despike.appFilt == 1
         % hydro.ex_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.ex_ma(k,1,:)));
         % hydro.ex_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.ex_ph(k,1,:)));
 
-        % if isfield(hydro,'sc_re')
-        %     hydro.sc_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_re(k,1,:)));
-        %     hydro.sc_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_im(k,1,:)));
-        %     % hydro.sc_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ma(k,1,:)));
-        %     % hydro.sc_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ph(k,1,:)));
-        % end
-        % 
-        % if isfield(hydro,'fk_re')
-        %     hydro.fk_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_re(k,1,:)));
-        %     hydro.fk_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_im(k,1,:)));
-        %     % hydro.fk_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ma(k,1,:)));
-        %     % hydro.fk_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ph(k,1,:)));
-        % end
+        if isfield(hydro,'sc_re')
+            hydro.sc_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_re(k,1,:)));
+            hydro.sc_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_im(k,1,:)));
+            % hydro.sc_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ma(k,1,:)));
+            % hydro.sc_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ph(k,1,:)));
+        end
+
+        if isfield(hydro,'fk_re')
+            hydro.fk_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_re(k,1,:)));
+            hydro.fk_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_im(k,1,:)));
+            % hydro.fk_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ma(k,1,:)));
+            % hydro.fk_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ph(k,1,:)));
+        end
     end
 end
 
@@ -170,7 +160,8 @@ end
 
 %% Functions
 function outData = peakSmoothing(data, w, despike, n)
-    for it = n % TODO: 1:n
+    w = w(:); % force w formatting
+    for it = 1:n
         %%% There is a "maxPeakWidth" argument: this does not work as
         %%% the developer intends and is not recommended for use.
         % positive peaks
@@ -180,12 +171,10 @@ function outData = peakSmoothing(data, w, despike, n)
         [peaksN, peakLocsN] = findpeaks(-1.*data,'MinPeakProminence',despike.Prominence,'Threshold',despike.Threshold,'MinPeakDistance',despike.MinPeakDistance);
         
         % ignore peaks at the edges
-        % edgeLocs = peakLocs==length(data) | peakLocs==1; TODO - this is more consistent
-        edgeLocs = peakLocs>length(data)-2 | peakLocs<2;
+        edgeLocs = peakLocs==length(data) | peakLocs==1;
         peakLocs(edgeLocs) = [];
         peaks(edgeLocs) = [];
-        % edgeLocsN = peakLocsN==length(data) | peakLocsN==1; TODO - this is more consistent 
-        edgeLocsN = peakLocsN>length(data)-2 | peakLocsN<2;
+        edgeLocsN = peakLocsN==length(data) | peakLocsN==1;
         peakLocsN(edgeLocsN) = [];
         peaksN(edgeLocsN) = [];
         
@@ -221,7 +210,7 @@ function outData = peakSmoothing(data, w, despike, n)
     
         % Consolidate +/- peaks into one list
         peakLocs = [peakLocs; peakLocsN];
-        peakFrequencies = w(peakLocs)';
+        peakFrequencies = w(peakLocs);
     
         % remove peaks from data and frequency list
         data(peakLocs) = [];
@@ -231,30 +220,10 @@ function outData = peakSmoothing(data, w, despike, n)
         smoothedPeaks = interp1(w, data, peakFrequencies, 'linear', 'extrap');
 
         % Concatenate new data at the peaks and sort by frequency
-        w = [w'; peakFrequencies];
+        w = [w; peakFrequencies];
         data = [data; smoothedPeaks];
         [w, sortMask] = sort(w);
         data = data(sortMask);
-
-        % % smooth peaks via interpolation amongst surrounding points
-        % for peakLoc = peakLocs'
-        %     if peakLoc <= 2 || peakLoc > length(w)-2
-        %         warning('Peak detected at edge of data set, despiked using data away from end, but check output');
-        %     end
-        %     if peakLoc == 2
-        %         indices = peakLoc + [-1 1 2 3];
-        %     elseif peakLoc == 1
-        %         indices = peakLoc + [1 2 3 4];
-        %     elseif peakLoc == length(w)
-        %         indices = peakLoc + [-4 -3 -2 -1];
-        %     elseif peakLoc == length(w)-1
-        %         indices = peakLoc + [-3 -2 -1 1];
-        %     else
-        %         indices = peakLoc + [-2 -1 1 2];
-        %     end
-        %     dataRep = interp1(w(indices), data(indices), w(peakLoc), 'linear');
-        %     data(peakLoc) = dataRep;
-        % end
     end
     outData = data;
 end
