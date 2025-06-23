@@ -57,7 +57,6 @@ function hydro = cleanBEM(hydro, despike)
 
 %% de-spiking parameters
 % maxPeakWidth is not recommended however as it has unexpected behavior
-
 if isempty(despike) % if the third argument is empty will use some default values
     despike = struct();
     despike.negThresh = 1e-3; % the threshold below which negative damping will be removed
@@ -89,7 +88,9 @@ end
 % rename so that original H5 is not overwritten
 hydro.file = [hydro.file '_clean'];
 
-% forcibly remove IRF values so that the structure is self-consistent
+% The IRFs and state-space fields need to be recalculated based on the
+% cleaned coefficients. Forcibly remove these fields here so that the
+% structure is self-consistent
 fieldsToRemove = {'ex_K','ex_t','ex_w','ra_K','ra_t','ra_w',...
     'ss_A','ss_B','ss_C','ss_D','ss_K','ss_conv','ss_R2','ss_O'};
 for i = 1:length(fieldsToRemove)
@@ -160,7 +161,10 @@ end
 
 %% Functions
 function outData = peakSmoothing(data, w, despike, n)
-    w = w(:); % force w formatting
+    % force consistent input formatting
+    w = w(:);
+    data = data(:);
+
     for it = 1:n
         %%% There is a "maxPeakWidth" argument: this does not work as
         %%% the developer intends and is not recommended for use.
