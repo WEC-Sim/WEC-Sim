@@ -129,19 +129,19 @@ if despike.appFilt == 1
         % hydro.ex_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.ex_ma(k,1,:)));
         % hydro.ex_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.ex_ph(k,1,:)));
 
-        if isfield(hydro,'sc_re')
-            hydro.sc_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_re(k,1,:)));
-            hydro.sc_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_im(k,1,:)));
-            % hydro.sc_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ma(k,1,:)));
-            % hydro.sc_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ph(k,1,:)));
-        end
+        % if isfield(hydro,'sc_re')
+        %     hydro.sc_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_re(k,1,:)));
+        %     hydro.sc_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_im(k,1,:)));
+        %     % hydro.sc_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ma(k,1,:)));
+        %     % hydro.sc_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.sc_ph(k,1,:)));
+        % end
 
-        if isfield(hydro,'fk_re')
-            hydro.fk_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_re(k,1,:)));
-            hydro.fk_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_im(k,1,:)));
-            % hydro.fk_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ma(k,1,:)));
-            % hydro.fk_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ph(k,1,:)));
-        end
+        % if isfield(hydro,'fk_re')
+        %     hydro.fk_re(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_re(k,1,:)));
+        %     hydro.fk_im(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_im(k,1,:)));
+        %     % hydro.fk_ma(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ma(k,1,:)));
+        %     % hydro.fk_ph(k,1,:) = filtfilt(despike.Filter.b,despike.Filter.a,squeeze(hydro.fk_ph(k,1,:)));
+        % end
     end
 end
 
