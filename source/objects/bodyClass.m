@@ -369,6 +369,10 @@ classdef bodyClass<handle
                     obj.variableHydro.option = 0;
                     warning('Drag bodies and nonhydro bodies not compatible with variable hydro. Turning variable hydro off.');
                 end
+            else
+                warning(['WEC-Sim v7.0 Deprecation Warning: The non-hydro and drag bodies are now combined. ' ...
+                    'The drag body is no longer a rigid body variant subsystem, but a distinct Drag Body block. ' ...
+                    'Update the simulink model to use WECSim_Lib_Body_Drag/Drag Body for this body type.']);
             end
         end
 
