@@ -86,6 +86,8 @@ if isempty(despike) % if the third argument is empty will use some default value
     despike.B.MinPeakDistance = 3;
     despike.ExRe.MinPeakDistance = 3;
     despike.ExIm.MinPeakDistance = 3;
+
+    % the b and a inputs to MATLAB's filtfilt(b,a,x) function
     despike.Filter.b = 0.02008336556421123561544384017452102853 .* [1 2 1];
     despike.Filter.a = [1 -1.561018075800718163392843962355982512236 0.641351538057563175243558362126350402832];
 end
