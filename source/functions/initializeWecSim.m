@@ -156,7 +156,6 @@ end
 
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0;
-numNonHydroBodies = 0;
 numDragBodies = 0;
 hydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
@@ -166,8 +165,8 @@ for ii = 1:length(body(1,:))
         body(ii).checkInputs(simu.explorer, simu.stateSpace, simu.FIR, waves(kk).typeNum);
     end
     if body(ii).nonHydro==0
-        if numNonHydroBodies > 0 || numDragBodies > 0
-            error('All hydro bodies must be specified before any drag or non-hydro bodies.')
+        if numDragBodies > 0
+            error('All hydro bodies must be specified before any drag bodies.')
         end
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;
@@ -503,20 +502,12 @@ for iW = 1:length(waves)
     waves(iW).listInfo();
 end; clear iW
 fprintf('\nList of Body:\n ');
-fprintf('Number of Hydro Bodies = %u \n',simu.numHydroBodies)
-for i = 1:simu.numHydroBodies
-    if body(i).nonHydro == 0
-        body(i).listInfo(i,'0')
-    end
-end;  clear i
-if numNonHydroBodies ~= 0
-    fprintf('\nNumber of Non-Hydro Bodies = %u \n',numNonHydroBodies)
-    for i = 1:(numNonHydroBodies+simu.numHydroBodies)
-        if body(i).nonHydro == 1
-            body(i).listInfo(i,'1')
-        end
-    end
-end; clear i
+fprintf('\nNumber of Hydro Bodies = %u \n',simu.numHydroBodies)
+fprintf('\nNumber of Drag Bodies = %u \n',numDragBodies)
+for i = 1:length(body)
+    body(i).listInfo(i)
+end
+
 fprintf('\nList of PTO(s): ');
 if (exist('pto','var') == 0)
     fprintf('No PTO in the system\n')
