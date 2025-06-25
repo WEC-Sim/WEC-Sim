@@ -797,8 +797,8 @@ To enable second-order excitation forces in WEC-Sim, use the following flag in y
 
 .. _user-advanced-features-non-hydro-body:
 
-Non-Hydrodynamic Bodies
-^^^^^^^^^^^^^^^^^^^^^^^
+Drag Bodies
+^^^^^^^^^^^
 
 For some simulations, it might be important to model bodies that do not have 
 hydrodynamic forces acting on them. This could be bodies that are completely 
@@ -807,52 +807,32 @@ or it could be bodies deeply submerged to the point where the hydrodynamics may
 be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces 
 acting on them and for which no BEM data is provided. 
 
-To do this, use a Body Block from the WEC-Sim Library and initialize it in the 
+To do this, use the Drag Body block from the WECSim_Lib_Body_Drag Library and initialize it in the 
 WEC-Sim input file as any other body but leave the name of the ``h5`` file as 
-an empty string. Specify :code:`body(i).nonHydro = 1;` and specify body name, 
+an empty string. Specify :code:`body(i).nonHydro;`, body name, 
 mass, moments of inertia, center of gravity, center of buoyancy, geometry file, 
 location, and displaced volume. You can also specify visualization options and 
 initial displacement. 
 
-To use non-hydrodynamic bodies, the following body class variable must be 
+To use drag bodies, the following body class variable must be 
 defined in the WEC-Sim input file, for example:: 
 
-    body(i).nonHydro = 1
+    body(i).nonHydro = 1; % or
+    body(i).nonHydro = 2;
 
-Non-hydrodynamic bodies require the following properties to be defined::
+Drag bodies require the following properties to be defined::
 
     body(i).mass
     body(i).inertia
     body(i).centerGravity
     body(i).volume
-    
-In the case where only non-hydrodynamic and drag bodies are used, WEC-Sim does
-not read an ``*.h5`` file. Users must define these additional parameters to 
-account for certain wave settings as there is no hydrodynamic body present in
-the simulation to define them::
 
-    waves.bem.range
-    waves.waterDepth
-
-
-For more information, refer to :ref:`webinar2`, and the **Nonhydro_Body** 
-example on the `WEC-Sim Applications 
-<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
-
-Drag Bodies
-^^^^^^^^^^^
-
-A body may be subjected to viscous drag or Morison forces, but does not 
-experience significant wave excitation or radiation. And example may be a 
+Drag bodies with no additional forces acting on them become non-hydrodynamic, no fluid forces act on them, 
+but they still couple other bodies together, and influence the multibody simulation.
+If a drag body is not subject to wave excitation, but damping, added mass, or viscous drag are still a concern,
+viscous drag, linear damping, or Morison element forces may be defined. An example of this body type is a 
 deeply-submerged heave plate of large surface area tethered to a float. In 
-these instances, the drag body implementation can be utilized by defining the 
-following body class variable:: 
-
-    body(i).nonHydro = 2
-
-
-Drag bodies have zero wave excitation or radiation forces, but viscous forces 
-can be applied in the same manner as a hydrodynamic body via the parameters:: 
+these instances, the additional forces can be specified by the parameters:
 
     body(i).quadDrag.drag
     body(i).quadDrag.cd
@@ -867,16 +847,21 @@ or if using Morison Elements::
     body(i).morisonElement.VME
     body(i).morisonElement.rgME
     
-which are described in more detail in the forthcoming section. At a minimum, it 
-is necessary to define:: 
-
-    body(i).mass
-    body(i).inertia
-    body(i).centerGravity
-    body(i).volume
-    
-to resolve drag body dynamics. One can additionally describe initial body 
+One can additionally describe initial body 
 displacement in the manner of a hydrodynamic body. 
+
+In the case where only drag bodies are used, WEC-Sim does
+not read an ``*.h5`` file. Users must define these additional parameters to 
+account for certain wave settings as there is no hydrodynamic body present in
+the simulation to define them::
+
+    waves.bem.range
+    waves.waterDepth
+
+For more information, refer to :ref:`webinar2`, and the **Nonhydro_Body** 
+example on the `WEC-Sim Applications 
+<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
+
 
 .. _user-advanced-features-b2b:
 
