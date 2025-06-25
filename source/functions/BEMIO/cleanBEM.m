@@ -1,6 +1,12 @@
 function hydro = cleanBEM(hydro, despike)
 % Original author: Dominic D. Forbush
+% 
 % Based on the paper: 
+% Kelly, T., Zabala, I., Peña-Sanchez, Y., Penalba, M., Ringwood, J. V.,
+% Henriques, J. C., & Blanco, J. M. (2022). A post-processing technique for
+% removing ‘irregular frequencies’ and other issues in the results from BEM
+% solvers. International Marine Energy Journal, 5(1), 123–131.
+% https://doi.org/10.36688/imej.5.123-131
 % 
 % This function cleans noisy BEM coefficients (A, B, ex) by:
 % - identifying and removing sharp peaks (IRR effects)
