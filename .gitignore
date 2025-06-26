@@ -81,6 +81,7 @@ examples/**/**/*.png
 !/tests/**/**/regularSS_org.mat
 !/tests/**/**/irregularSS_org.mat
 !/tests/**/**/irregularCIC_org.mat
+!/tests/**/**/irregularSpread_OSWEC_org.mat
 !/tests/**/**/RegYaw_org.mat
 !/tests/**/**/IrrYaw_org.mat
 
