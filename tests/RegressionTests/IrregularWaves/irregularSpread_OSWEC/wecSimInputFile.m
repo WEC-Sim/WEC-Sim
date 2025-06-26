@@ -18,8 +18,7 @@ waves.period = 8;                       % Peak Period [s]
 waves.spectrumType = 'PM';              % Specify Spectrum Type
 waves.direction = [0,30,90];            % Wave Directionality [deg]
 waves.spread = [0.1,0.2,0.7];           % Wave Directional Spreading [%]
-% Define phase seed
-
+waves.phaseSeed = 1;
 
 %% Body Data
 % Flap

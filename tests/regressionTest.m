@@ -8,7 +8,7 @@ classdef regressionTest < matlab.unittest.TestCase
         regularCIC
         regularSS
         irregularCIC
-        irregularCIC_OSWEC
+        irregularSpread_OSWEC
         irregularSS
         OriginalDefault
     end
@@ -41,6 +41,8 @@ classdef regressionTest < matlab.unittest.TestCase
         
         function runBEMIO(testCase)
             cd(fullfile(testCase.testDir,'..','examples','RM3','hydroData'));
+            bemio
+            cd(fullfile(testCase.testDir,'..','examples','OSWEC','hydroData'));
             bemio
             cd(testCase.testDir);
         end
@@ -84,12 +86,12 @@ classdef regressionTest < matlab.unittest.TestCase
             savefig(fullfile('..', 'figIrregSS'));
             cd(testCase.testDir);
         end
-
-        function runIrregCICTestOSWEC(testCase)
-            cd(fullfile(testCase.testDir,'RegressionTests','IrregularWaves','irregularCIC_OSWEC'))
-            runLoadIrregularCIC_OSWEC;
-            testCase.irregularSS = load('irregularCIC_OSWEC.mat').("irregularCIC_OSWEC");
-            savefig(fullfile('..', 'figIrregCIC_OSWEC'));
+        
+        function runIrregSpreadTestOSWEC(testCase)
+            cd(fullfile(testCase.testDir,'RegressionTests','IrregularWaves','irregularSpread_OSWEC'))
+            runLoadIrregularSpread_OSWEC;
+            testCase.irregularSpread_OSWEC = load('irregularSpread_OSWEC.mat').("irregularSpread_OSWEC");
+            savefig(fullfile('..', 'figIrregSpread_OSWEC'));
             cd(testCase.testDir);
         end
         
@@ -144,7 +146,6 @@ classdef regressionTest < matlab.unittest.TestCase
                      num2str(max(abs(org-new))) '\n']);
         end
         
-        
         function body1_regCIC_disp_heave(testCase)
             % Body1 Displacement in Heave
             tol = 1e-5;
@@ -175,7 +176,6 @@ classdef regressionTest < matlab.unittest.TestCase
                      num2str(max(abs(org-new))) '\n']);
         end
         
-        
         function body1_regSS_disp_heave(testCase)
             % Body1 Displacement in Heave
             tol = 1e-5;
@@ -205,7 +205,6 @@ classdef regressionTest < matlab.unittest.TestCase
             fprintf(['Relative Displacement in Heave, Diff = '  ...
                      num2str(max(abs(org-new))) '\n']);
         end
-        
         
         function body1_irreg_disp_heave(testCase)
             % Body1 Displacement in Heave
@@ -257,7 +256,6 @@ classdef regressionTest < matlab.unittest.TestCase
                       num2str(max(abs(org-new))) '\n']);
         end
         
-        
         function body1_irregSS_disp_heave(testCase)
             % Body1 Displacement in Heave
             tol = 1e-5;
@@ -307,22 +305,22 @@ classdef regressionTest < matlab.unittest.TestCase
             fprintf(['2nd Order Spectral Moment, Diff = '       ...
                      num2str(max(abs(org-new))) '\n']);
         end
-
+        
         function body1_OSWEC_irreg_disp_pitch(testCase)
             % Body1 Displacement in Heave
             tol = 1e-5;
-            org = testCase.irregularCIC_OSWEC.B1.WEC_Sim_org.pitch;
-            new = testCase.irregularCIC_OSWEC.B1.WEC_Sim_new.pitch;
+            org = testCase.irregularSpread_OSWEC.B1.WEC_Sim_org.pitch;
+            new = testCase.irregularSpread_OSWEC.B1.WEC_Sim_new.pitch;
             testCase.verifyEqual(new,org,'AbsTol',tol);
             fprintf(['Body1 Displacement in Pitch for OSWEC, Diff = '     ...
                      num2str(max(abs(org-new))) '\n']);
         end
-
+        
         function irregCIC_OSWEC_0th_Spectral_Moment(testCase)
             % 0th Order Spectral Moment
             tol = 1e-5;
-            org = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_org.m0;
-            new = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_new.m0;
+            org = testCase.irregularSpread_OSWEC.Sp.WEC_Sim_org.m0;
+            new = testCase.irregularSpread_OSWEC.Sp.WEC_Sim_new.m0;
             testCase.verifyEqual(new,org,'AbsTol',tol);
             fprintf(['0th Order Spectral Moment for OSWEC, Diff = '       ...
                      num2str(max(abs(org-new))) '\n']);
@@ -331,8 +329,8 @@ classdef regressionTest < matlab.unittest.TestCase
         function irregCIC_OSWEC_2nd_Spectral_Moment(testCase)
             % 2nd Order Spectral Moment
             tol = 1e-5;
-            org = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_org.m2;
-            new = testCase.irregularCIC_OSWEC.Sp.WEC_Sim_new.m2;
+            org = testCase.irregularSpread_OSWEC.Sp.WEC_Sim_org.m2;
+            new = testCase.irregularSpread_OSWEC.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);
             fprintf(['2nd Order Spectral Moment for OSWEC, Diff = '       ...
                      num2str(max(abs(org-new))) '\n']);

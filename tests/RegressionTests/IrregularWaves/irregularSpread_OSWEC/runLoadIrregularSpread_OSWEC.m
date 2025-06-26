@@ -14,12 +14,11 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Run the WEC-Sim RM3 Test Case for 1DOF w/PTO
-% This script will run the RM3 in WEC-Sim for irregular waves with Hs=2.5[m] 
-% and Tp=8[s]. The RM3 WEC models has 2 bodies, restricted to heave motion
-% only, and has PTO damping=1200[kN-s/m].
+%% Run the WEC-Sim OSWEC Test Case for pitch DOF w/PTO
+% This script will run the OSWEC in WEC-Sim for irregular waves with Hs=2.5[m] 
+% and Tp=8[s] and a default wave spread. The OSWEC WEC model has 2 bodies, 
+% restricted to pitch motion only, and has PTO damping=12[kNm-s/rad].
 
-global plotNO
 locdir=pwd;
 %% Run Simulation
 wecSim;                     % Run Simulation
@@ -41,8 +40,8 @@ Sp.WEC_Sim_new.m0 = calcSpectralMoment(waves.omega,waves.spectrum,0);
 Sp.WEC_Sim_new.m2 = calcSpectralMoment(waves.omega,waves.spectrum,2);
 
 %% Load Data
-irrCICouput_new=output;        % Keeps the new run in the workspace
-load('irregularCIC_OSWEC_org.mat')    % Load Previous WEC-Sim Data
+irrSpreadouput_new=output;        % Keeps the new run in the workspace
+load('irregularSpread_OSWEC_org.mat')    % Load Previous WEC-Sim Data
 
 %% Post-Process Data
 % Body 1
@@ -63,23 +62,23 @@ Sp.WEC_Sim_org.m2 = calcSpectralMoment(waves.omega,waves.spectrum,2);
 clear Pshift1 Pshift2
 
 %% Quantify Maximum Difference Between Saved and Current WEC-Sim Runs
-[irregularCIC_OSWEC.B1_P_max ,irregularCIC_OSWEC.B1_P_I]=max(abs(B1.WEC_Sim_org.pitch-B1.WEC_Sim_new.pitch));
-[irregularCIC_OSWEC.B2_P_max ,irregularCIC_OSWEC.B2_P_I]=max(abs(B2.WEC_Sim_org.pitch-B2.WEC_Sim_new.pitch));
-[irregularCIC_OSWEC.Rel_P_max,irregularCIC_OSWEC.Rel_P_I]=max(abs(Rel.WEC_Sim_org.pitch-Rel.WEC_Sim_new.pitch));
+[irregularSpread_OSWEC.B1_P_max ,irregularSpread_OSWEC.B1_P_I]=max(abs(B1.WEC_Sim_org.pitch-B1.WEC_Sim_new.pitch));
+[irregularSpread_OSWEC.B2_P_max ,irregularSpread_OSWEC.B2_P_I]=max(abs(B2.WEC_Sim_org.pitch-B2.WEC_Sim_new.pitch));
+[irregularSpread_OSWEC.Rel_P_max,irregularSpread_OSWEC.Rel_P_I]=max(abs(Rel.WEC_Sim_org.pitch-Rel.WEC_Sim_new.pitch));
 
-irregularCIC_OSWEC.B1  = B1;
-irregularCIC_OSWEC.B2  = B2;
-irregularCIC_OSWEC.Rel = Rel;
-irregularCIC_OSWEC.Sp  = Sp;
+irregularSpread_OSWEC.B1  = B1;
+irregularSpread_OSWEC.B2  = B2;
+irregularSpread_OSWEC.Rel = Rel;
+irregularSpread_OSWEC.Sp  = Sp;
 
-save('irregularCIC_OSWEC','irregularCIC_OSWEC')
+save('irregularSpread_OSWEC','irregularSpread_OSWEC')
 
 %% Plot Old vs. New Comparison
-if plotNO==1 % global variable 
+if testCase.openCompare==1 
     cd ../..
-    plotOldNew(B1,B2,Rel,[irregularCIC_OSWEC.B1_P_max ,irregularCIC_OSWEC.B1_P_I],...
-        [irregularCIC_OSWEC.B2_P_max ,irregularCIC_OSWEC.B2_P_I],...
-        [irregularCIC_OSWEC.Rel_P_max,irregularCIC_OSWEC.Rel_P_I],'irregularCIC_OSWEC');
+    plotOldNewOSWEC(B1,B2,Rel,[irregularSpread_OSWEC.B1_P_max ,irregularSpread_OSWEC.B1_P_I],...
+        [irregularSpread_OSWEC.B2_P_max ,irregularSpread_OSWEC.B2_P_I],...
+        [irregularSpread_OSWEC.Rel_P_max,irregularSpread_OSWEC.Rel_P_I],'irregularSpreadOSWEC');
     cd(locdir)
 end
 %% Clear output and .slx directory
