@@ -157,18 +157,6 @@ if exist('mooring','var') == 1
     end
 end
 
-% Mooring Configuration: count
-if exist('mooring','var') == 1
-    simu.numMoorings = length(mooring(1,:));
-    for ii = 1:simu.numMoorings
-        mooring(ii).checkInputs();
-        mooring(ii).setLoc();
-        mooring(ii).setNumber(ii);
-
-    end; clear ii
-end
-
-
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0;
 numNonHydroBodies = 0;
@@ -251,14 +239,14 @@ if exist('ptoSim','var') == 1
 end
 
 % WindClass
-if exist('wind','var') == 1 
+if exist('wind','var')
     wind.computeWindInput();
 end
 
 % WindTurbines Class
 if exist('windTurbine','var')
     if ~exist('wind','var')
-        error('If there are wind turbines, then there must be wind class')
+        error('If there are wind turbines, then there must be an instance wind class')
     end
 
     for ii = 1:length(windTurbine)
