@@ -246,7 +246,7 @@ end
 % WindTurbines Class
 if exist('windTurbine','var')
     if ~exist('wind','var')
-        error('If there are wind turbines, then there must be an instance wind class')
+        error('If there are wind turbines, then there must be an instance of the wind class.')
     end
 
     for ii = 1:length(windTurbine)
