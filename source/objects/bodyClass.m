@@ -576,23 +576,34 @@ classdef bodyClass<handle
                                           obj.hydroForce.(hfName).fAddedMass(4,6+(iBod-1)*6) ...
                                           obj.hydroForce.(hfName).fAddedMass(5,6+(iBod-1)*6)];
                     
-                    if isempty(obj.variableHydro.mass)
+                    if ~isempty(obj.variableHydro.mass)
+                        % Setting variable hydro mass properties according to inputs.
+                        assert(length(obj.variableHydro.mass) == length(obj.hydroData),['For variable mass, ' ...
+                            'the mass vector should be the same length as the hydrodata (h5) vector.'])
+                        obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
+                        obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
+                        obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        if isempty(obj.variableHydro.inertiaProducts)
+                            warning('Variable hydro inertia products are not set. Setting to zero by default.')
+                            obj.variableHydro.inertiaProducts(iH,:) = [0 0 0];
+                        end
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
+                    elseif strcmp(obj.massCalcMethod, 'equilibrium') && ~isempty(obj.variableHydro.inertia)
+                        % Setting variable hydro mass properties according to hydrostatic equilibrium.
+                        obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
+                        obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
+                        obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        if isempty(obj.variableHydro.inertiaProducts)
+                            warning('Variable hydro inertia products are not set. Setting to zero by default.')
+                            obj.variableHydro.inertiaProducts(iH,:) = [0 0 0];
+                        end
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
+                    else
+                        % Setting variable hydro mass as constant.
                         obj.hydroForce.(hfName).mass = obj.mass;
                         obj.hydroForce.(hfName).adjustedMass = obj.mass + adjMass;
                         obj.hydroForce.(hfName).adjustedInertia = obj.inertia + adjFAddedMass(4:6)';
                         obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
-                    else
-                        if strcmp(obj.massCalcMethod, 'equilibrium')
-                            obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
-                            obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
-                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
-                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
-                        else
-                            obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
-                            obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
-                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
-                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
-                        end
                     end
 
                     obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) - adjMass;
@@ -624,23 +635,35 @@ classdef bodyClass<handle
                     adjInertiaProducts = [obj.hydroForce.(hfName).fAddedMass(4,5) ...
                                           obj.hydroForce.(hfName).fAddedMass(4,6) ...
                                           obj.hydroForce.(hfName).fAddedMass(5,6)];
-                    if isempty(obj.variableHydro.mass)
+                    
+                    if ~isempty(obj.variableHydro.mass)
+                        % Setting variable hydro mass properties according to inputs.
+                        assert(length(obj.variableHydro.mass) == length(obj.hydroData),['For variable mass, ' ...
+                            'the mass vector should be the same length as the hydrodata (h5) vector.'])
+                        obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
+                        obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
+                        obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        if isempty(obj.variableHydro.inertiaProducts)
+                            warning('Variable hydro inertia products are not set. Setting to zero by default.')
+                            obj.variableHydro.inertiaProducts(iH,:) = [0 0 0];
+                        end
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
+                    elseif strcmp(obj.massCalcMethod, 'equilibrium') && ~isempty(obj.variableHydro.inertia)
+                        % Setting variable hydro mass properties according to hydrostatic equilibrium.
+                        obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
+                        obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
+                        obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
+                        if isempty(obj.variableHydro.inertiaProducts)
+                            warning('Variable hydro inertia products are not set. Setting to zero by default.')
+                            obj.variableHydro.inertiaProducts(iH,:) = [0 0 0];
+                        end
+                        obj.hydroForce.(hfName).adjustedInertiaProducts = obj.variableHydro.inertiaProducts + adjInertiaProducts;
+                    else
+                        % Setting variable hydro mass as constant.
                         obj.hydroForce.(hfName).mass = obj.mass;
                         obj.hydroForce.(hfName).adjustedMass = obj.mass + adjMass;
                         obj.hydroForce.(hfName).adjustedInertia = obj.inertia + adjFAddedMass(4:6)';
                         obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
-                    else
-                        if strcmp(obj.massCalcMethod, 'equilibrium')
-                            obj.hydroForce.(hfName).mass = obj.hydroData(iH).properties.volume*rho;
-                            obj.hydroForce.(hfName).adjustedMass = obj.hydroData(iH).properties.volume*rho + adjMass;
-                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
-                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
-                        else
-                            obj.hydroForce.(hfName).mass = obj.variableHydro.mass(iH);
-                            obj.hydroForce.(hfName).adjustedMass = obj.variableHydro.mass(iH) + adjMass;
-                            obj.hydroForce.(hfName).adjustedInertia = obj.variableHydro.inertia(iH,:) + adjFAddedMass(4:6)';
-                            obj.hydroForce.(hfName).adjustedInertiaProducts = obj.inertiaProducts + adjInertiaProducts;
-                        end
                     end
 
                     obj.hydroForce.(hfName).fAddedMass(1,1) = obj.hydroForce.(hfName).fAddedMass(1,1) - adjMass;
