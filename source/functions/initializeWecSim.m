@@ -255,7 +255,6 @@ if exist('windTurbine','var')
         windTurbine(ii).importControl();
         if windTurbine(ii).aeroLoadsType == 0
             windTurbine(ii).importAeroLoadsTable();
-            windTurbine(ii).createBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
         elseif windTurbine(ii).aeroLoadsType == 1
             windTurbine(ii).createBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
         else
