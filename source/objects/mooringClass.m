@@ -44,18 +44,18 @@ classdef mooringClass<handle
         moorDynInputFile (1,:) {mustBeText}                 = 'Mooring/lines.txt'   % (`string`) Name of the MoorDyn input file path. Outputs will be written to this path. Default = ``Mooring/lines.txt``
         lookupTableFlag                                     = 0;            % (`integer`) Flag to indicate a mooring look-up table, 0 or 1. Default = ``0``
         lookupTableFile                                     = '';           % (`string`) Mooring look-up table file name. Default =  ``''``;
-        Data_moor                                           = struct(...    % Struct for NLStatic Computation
-            'd',                                            0.333, ...
-            'L',                                            850, ...
-            'linear_mass_air',                              685, ...
-            'number_lines',                                 3, ...
-            'nodes',                                        [-58 0 -14 ; -837 0 -inf]', ... % [Fairlead; Anchor] positions (first line, -inf means water depth)
-            'EA',                                           3.27e9, ...
-            'CB',                                           1, ...  
-            'MaxIter',                                      50, ...
+        nonlinearStaticData                                 = struct(...    % Struct for nonLinearStatic Computation
+            'd',                                            0, ...
+            'L',                                            0, ...
+            'linearMassAir',                                0, ...
+            'nLines',                                       0, ...
+            'nodes',                                        [0 0 0; 0 0 0]', ... % [Fairlead; Anchor] positions
+            'EA',                                           0, ...
+            'CB',                                           0, ...  
+            'MaxIter',                                      0, ...
             'TolFun',                                       1e-7, ...
             'TolX',                                         1e-7, ...
-            'HV0_try',                                      [1e6 2e6]);
+            'HV0_try',                                      [0 0]);
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
@@ -146,7 +146,7 @@ classdef mooringClass<handle
         end
         
         function obj = loadLookupTable(obj)
-           
+            % Method to load the lookup table and assign to the mooringClass
             data = load(obj.lookupTableFile);
             obj.lookupTable = data.moor_LUT;
 
@@ -166,46 +166,26 @@ classdef mooringClass<handle
             end
         end
 
-        function obj = NLStatic_Setup(obj,rho,gravity,depth)
-            obj.Data_moor.fminsearch_options = optimset('MaxIter',obj.Data_moor.MaxIter,'TolFun',obj.Data_moor.TolFun,'TolX',obj.Data_moor.TolX);
-            obj.Data_moor.beta = linspace(0,360*(1-1/obj.Data_moor.number_lines),obj.Data_moor.number_lines);
-            obj.Data_moor.w = (obj.Data_moor.linear_mass_air-pi*obj.Data_moor.d^2/4*rho)*gravity;
-            obj.Data_moor.HV0 = zeros(obj.Data_moor.number_lines,2);
-            obj.Data_moor.nodes(obj.Data_moor.nodes==-inf) = -depth;
-            obj.Data_moor.nodes = repmat(obj.Data_moor.nodes,1,obj.Data_moor.number_lines);
+        function obj = nonlinearStaticSetup(obj,rho,gravity,depth)
+            obj.nonlinearStaticData.fminsearch_options = optimset( ...
+                'MaxIter', obj.nonlinearStaticData.MaxIter, ...
+                'TolFun', obj.nonlinearStaticData.TolFun, ...
+                'TolX', obj.nonlinearStaticData.TolX);
+            obj.nonlinearStaticData.beta = linspace(0, 360*(1-1/obj.nonlinearStaticData.number_lines), obj.nonlinearStaticData.number_lines);
+            obj.nonlinearStaticData.w = (obj.nonlinearStaticData.linearMassAir-pi*obj.nonlinearStaticData.d^2/4*rho)*gravity;
+            obj.nonlinearStaticData.HV0 = zeros(obj.nonlinearStaticData.number_lines, 2);
+            obj.nonlinearStaticData.nodes(obj.nonlinearStaticData.nodes==-inf) = -depth;
+            obj.nonlinearStaticData.nodes = repmat(obj.nonlinearStaticData.nodes, 1, obj.nonlinearStaticData.number_lines);
 
-            for i = 2:obj.Data_moor.number_lines
-                obj.Data_moor.nodes(:,2*i-1:2*i) = [cosd(obj.Data_moor.beta(i))  -sind(obj.Data_moor.beta(i))   0;
-                      sind(obj.Data_moor.beta(i))   cosd(obj.Data_moor.beta(i))   0;
-                      0                             0                1]*obj.Data_moor.nodes(:,2*i-1:2*i);
+            for i = 2:obj.nonlinearStaticData.number_lines
+                obj.nonlinearStaticData.nodes(:,2*i-1:2*i) = [
+                    cosd(obj.nonlinearStaticData.beta(i))  -sind(obj.nonlinearStaticData.beta(i))   0;
+                    sind(obj.nonlinearStaticData.beta(i))   cosd(obj.nonlinearStaticData.beta(i))   0;
+                    0                             0                             1]*obj.nonlinearStaticData.nodes(:,2*i-1:2*i);
             end
 
-            for i=1:obj.Data_moor.number_lines
-                FairleadNotrasl = obj.Data_moor.nodes(:,2*i-1);
-                DX = obj.Data_moor.nodes(:,2*i)-FairleadNotrasl ;
-                h = abs(DX(3));
-                r = norm(DX(1:2));
-                [obj.Data_moor.HV0(i,:)] = fminsearch(@(HV)Calc_HV(HV,h,r,obj.Data_moor),obj.Data_moor.HV0_try,obj.Data_moor.fminsearch_options);
-            end
+            [~, obj.nonlinearStaticData.HV0] = nonLinearStaticMooring([0 0 0], obj.nonlinearStaticData.HV0_try, obj.nonlinearStaticData);
 
-            function err = Calc_HV(HV,h,r,Data_moor)
-                % Calculate the length of the bottom segment of the line
-                LB=Data_moor.L-HV(2)/Data_moor.w;
-
-                if LB > 0  % If the line touchs the seabed
-                    g = LB-HV(1)/Data_moor.CB/Data_moor.w;
-                    lambda = double(g>0)*g;
-
-                    x = LB+HV(1)/Data_moor.w*asinh(Data_moor.w* (Data_moor.L-LB)/HV(1))+HV(1)*Data_moor.L/Data_moor.EA+Data_moor.CB*Data_moor.w/2/Data_moor.EA*(g*lambda-LB^2);
-                    z = HV(1)/Data_moor.w*((sqrt(1+(Data_moor.w*(Data_moor.L-LB)/HV(1)).^2))-1)+Data_moor.w*(Data_moor.L-LB).^2/2/Data_moor.EA;
-                else % If the line does not touch the seabed
-                    Va = HV(2)-Data_moor.w*Data_moor.L;
-                    x = HV(1)/Data_moor.w * (asinh((Va+Data_moor.w*Data_moor.L)/HV(1)) - asinh((Va)/HV(1) )) + HV(1)*Data_moor.L/Data_moor.EA;
-                    z = HV(1)/Data_moor.w * (sqrt(1+((Va+Data_moor.w*Data_moor.L)/HV(1)).^2) - sqrt(1+(Va/HV(1))^2)) + (Va*Data_moor.L+Data_moor.w*Data_moor.L.^2/2)/Data_moor.EA;
-                end
-
-                err = sqrt((x-r)^2 + (z-h)^2);
-            end
         end
         
         function listInfo(obj)

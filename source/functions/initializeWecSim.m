@@ -143,7 +143,7 @@ if exist('mooring','var') == 1
             if exist(mooring(ii).lookupTableFile, 'file')
                 mooring(ii).loadLookupTable();
             else
-                mooring(ii).NLStatic_Setup(simu.rho, simu.gravity, body(ii).hydroData.simulation_parameters.waterDepth);
+                mooring(ii).nonlinearStaticSetup(simu.rho, simu.gravity, body(ii).hydroData.simulation_parameters.waterDepth);
             end
         end
         if mooring(ii).moorDyn == 1
