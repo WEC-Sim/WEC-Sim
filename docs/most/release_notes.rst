@@ -6,6 +6,14 @@ Release Notes
 .. _most-citation:
 
 
+`MOST v2.0.0 (within WEC-Sim v7.0) <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
+---------------------------------------------------------------------------------------------
+
+**New Features**
+
+* Change in wind load calculations. Blade element momentum theory based instead of look-up table based.
+
+
 `MOST v1.0.0 (within WEC-Sim v6.0) <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
 ---------------------------------------------------------------------------------------------
 
