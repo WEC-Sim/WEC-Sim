@@ -141,8 +141,8 @@ This geometry is a special case with a large DOF in which different WEC bodies c
 Variable Hydrodynamics
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The first example demonstrates WEC-Sim's variable hydrodynamics feature by comparing it to the passive yaw implementation. 
-The second case provides an example for variable mass in which the draft, mass, and center of gravity change during the simulation.
+The Variable_Hydro/Passive_Yaw case demonstrates WEC-Sim's variable hydrodynamics feature by comparing it to the passive yaw implementation. 
+The Variable_Hydro/Variable_Mass case provides an example for variable mass in which the draft, mass, and center of gravity change during the simulation.
 
 Visualization Markers
 ^^^^^^^^^^^^^^^^^^^^^^

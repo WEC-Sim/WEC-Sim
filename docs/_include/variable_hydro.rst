@@ -72,7 +72,8 @@ every body in a simulation. To implement variable hydrodynamics for a given body
 
     If no mass vector is specified but ``body(1).mass`` is set to equilibrium, the data from H5 
     files will be used to calculate the variable mass based on displaced volume and water density. 
-    However, the inertia vector will still need to be specified or else it will be assumed constant.
+    However, the full inertia vector (``body(1).variableHydro.inertia``) will still need to be 
+    specified or else it will be assumed to be constant and equal to ``body(1).inertia``.
 
 2. Enable Variable Hydrodynamics
     Set the ``body.variableHydro.option`` flag to enable variable hydrodynamics:
