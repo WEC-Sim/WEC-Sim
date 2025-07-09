@@ -3,7 +3,7 @@
 Overview
 ========
 
-MOST (Matlab for Offshore Simulation Tool), is a simulation tool operating in the WEC-Sim environment for simulating floating offshore wind turbines, hybrid wind-wave energy converters, platforms with multiple turbines, etc. 
+Matlab for Offshore Simulation Tool (MOST), is a simulation tool operating in the WEC-Sim environment for simulating floating offshore wind turbines, hybrid wind-wave energy converters, platforms with multiple turbines, etc. 
 MOST builds on WEC-Sim in MATLAB/Simulink to add ``windClass`` and ``windTurbineClass`` objects that can define a given turbine and weather conditions.
 Currently, MOST supports single-tower, three-bladed, horizontal-axis wind turbines controlled by Baseline or ROSCO controllers and providing geometric and inertial data as input.
 
