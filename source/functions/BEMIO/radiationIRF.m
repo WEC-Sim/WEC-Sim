@@ -68,7 +68,7 @@ end
 % Calculate the infinite frequency added mass
 ra_Ainf_temp = zeros(length(hydro.w),1);                                    %Initialize the variable
 [~,F] = size(hydro);                                                        %Last data set in
-if isempty(hydro.Ainf) == 1 || isfield(hydro,'Ainf') == 0 || strcmp(hydro(F).code,'WAMIT')==0
+if isempty(hydro.Ainf) || ~isfield(hydro,'Ainf') || ~strcmp(hydro(F).code,'WAMIT')
     for i = 1:sum(hydro.dof)
         for j = 1:sum(hydro.dof)
             ra_A            = interp1(hydro.w,squeeze(hydro.A(i,j,:)),w);

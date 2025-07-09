@@ -279,7 +279,7 @@ equations. In general, a linear system is desired such that:
     \dot{X}_{r} \left( t \right) =
         \mathbf{A_{r}} X_{r} \left( t \right) +
         \mathbf{B_{r}} \mathbf{u} (t);~~X_{r}\left( 0 \right) = 0~~ \nonumber \\
-    \int_{0}^{t} \mathbf{K_{r}} \left( t- \tau \right) d\tau \approx
+    \int_{0}^{t} \mathbf{K_{r}} \left( t- \tau \right) \dot{X} \left( \tau \right) d\tau \approx
         \mathbf{C_{r}} X_{r} \left( t \right) +
         \mathbf{D_{r}} \mathbf{u} \left( t \right)~~
 
