@@ -143,8 +143,11 @@ if exist('mooring','var') == 1
             if exist(mooring(ii).lookupTableFile, 'file')
                 mooring(ii).loadLookupTable();
             else
-                mooring(ii).nonlinearStaticSetup(simu.rho, simu.gravity, body(ii).hydroData.simulation_parameters.waterDepth);
+                error('Mooring look-up table file does not exist.');
             end
+        end
+        if mooring(ii).nonlinearStaticData.flag == 1
+            mooring(ii).nonlinearStaticSetup(simu.rho, simu.gravity, body(ii).hydroData.simulation_parameters.waterDepth);
         end
         if mooring(ii).moorDyn == 1
             mooring(ii).checkPath();
