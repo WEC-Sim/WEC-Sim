@@ -410,7 +410,7 @@ following lines in the WEC-Sim input file, where ``i`` is the body number and
     body(i).geometryFile = '<geomFile>.stl'; 
 
 WEC-Sim bodies may be one of three types\: hydrodynamic and rigid, hydrodynamic and flexible, 
-or drag. These types represent varying degrees of complexity
+or nonhydrodynamic and rigid (drag body). These types represent varying degrees of complexity
 and require various input parameters and BEM data, detailed in the table below.
 The :ref:`user-advanced-features-body` section contains more details on these
 important distinctions. 
@@ -472,6 +472,13 @@ The Body Class is most closely associated with the Body Elements library.
 The Body Elements library shown below contains three body types in three blocks: 
 the ``Hydrodynamic Body`` block, the ``Flex Body`` block, and the ``Drag Body`` block.
 The flex body block is used to represent hydrodynamic 
+
+The Body Elements library shown below contains three body types in two blocks: 
+the ``Rigid Body`` block and the ``Flex Body`` block. The rigid body block is 
+used to represent hydrodynamic and drag bodies, each subset being 
+a `Variant Sub-system <https://www.mathworks.com/help/simulink/slref/variant-subsystems.html>`_ of a Rigid Body.
+Before simulation, one variant is activated by a flag in the body object 
+(body.nonHydro=0,1,2). The flex body block is used to represent hydrodynamic 
 bodies that contain additional flexible degrees of freedom ('generalized body 
 modes'). The flex body is determined automatically by the degrees of freedom 
 contained in the BEM input data. At least one instance of a body 
