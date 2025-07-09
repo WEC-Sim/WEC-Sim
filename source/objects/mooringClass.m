@@ -149,7 +149,12 @@ classdef mooringClass<handle
         function obj = loadLookupTable(obj)
             % Method to load the lookup table and assign to the mooringClass
             data = load(obj.lookupTableFile);
-            obj.lookupTable = data.moor_LUT;
+            % Logic allows the look-up table file's data to have an arbitrary variable name
+            dataFields = fields(data);
+            if length(dataFields) > 1
+                warning('Mooring look-up table file contains multiple datasets. Ensure that look-up table data contains one variable.');
+            end
+            obj.lookupTable = data.(dataFields{1});
 
             % Check that all components are present in the look-up table
             tableFields = fields(obj.lookupTable);
