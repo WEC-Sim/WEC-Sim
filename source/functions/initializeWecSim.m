@@ -243,7 +243,7 @@ end
 
 % WindClass
 if exist('wind','var')
-    wind.computeWindInput();
+    wind.computeWindInput(simu);
 end
 
 % WindTurbines Class
