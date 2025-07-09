@@ -63,7 +63,17 @@ every body in a simulation. To implement variable hydrodynamics for a given body
         ``body(1) = bodyClass({'H5FILE_1.h5','H5FILE_2.h5','H5FILE_3.h5','H5FILE_4.h5','H5FILE_5.h5');``
 
     If only one H5 file is used to initialize a body object, variable hydrodynamics
-    will not be used, regardless of the ``option`` flag below.
+    will not be used, regardless of the ``option`` flag below. 
+
+    For variable mass cases, a vector can also be used for the variable hydrodynamics mass, 
+    inertia, and inertia products:
+
+        ``body(1).variableHydro.mass = [mass1, mass2, mass3, mass4, mass5];``
+
+    If no mass vector is specified but ``body(1).mass`` is set to equilibrium, the data from H5 
+    files will be used to calculate the variable mass based on displaced volume and water density. 
+    However, the full inertia vector (``body(1).variableHydro.inertia``) will still need to be 
+    specified or else it will be assumed to be constant and equal to ``body(1).inertia``.
 
 2. Enable Variable Hydrodynamics
     Set the ``body.variableHydro.option`` flag to enable variable hydrodynamics:
