@@ -370,21 +370,15 @@ end
 % Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
 for ii = 1:length(body(1,:))
     if body(ii).morisonElement.option == 1
-        if body(ii).nonHydro ~=1
-            [rgME,~] = size(body(ii).morisonElement.rgME);
-            for jj = 1:rgME
-                if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
-                    warning(['"body.morisonElement.z" is not used for "body.morisonElement.option = 1". Check body ',num2str(ii),' element ',num2str(jj)])
-                end
-                if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.area(jj,:)) ~= 3
-                    error(['cd, ca, and area coefficients for each element for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
-                end
-            end; clear jj
-        else
-            if body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
-                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+        [rgME,~] = size(body(ii).morisonElement.rgME);
+        for jj = 1:rgME
+            if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
+                warning(['"body.morisonElement.z" is not used for "body.morisonElement.option = 1". Check body ',num2str(ii),' element ',num2str(jj)])
             end
-        end
+            if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.area(jj,:)) ~= 3
+                error(['cd, ca, and area coefficients for each element for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+            end
+        end; clear jj
     elseif body(ii).morisonElement.option == 2
         [rgME,~] = size(body(ii).morisonElement.rgME);
         for jj = 1:rgME
@@ -455,6 +449,13 @@ B2B = simu.b2b;
 sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
 numBody=simu.numHydroBodies;
+
+% drag
+for ii=1:length(body(1,:))
+    eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;']);
+    eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');']);
+    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '>0'');']);
+end; clear ii
 
 % variable hydrodynamics
 for ii = 1:length(body(1,:))
