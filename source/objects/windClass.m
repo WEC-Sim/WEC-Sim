@@ -20,10 +20,7 @@ classdef windClass<handle
     % workspace. 
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    
     properties (SetAccess = 'public', GetAccess = 'public') %input file   
-
         windDataFile = '';                        % Wind table of turbolent wind from Turbsim.           
         constantWindFlag = 0;                     % Choice of constant wind (ConstantWindFlag=1) or turbolent wind (ConstantWindFlag=0)
         timeBreakpoints = [];                     % Constant wind speed time breakpoints, the last should be equal or higher than simu time (only used for ConstantWindFlag=1)

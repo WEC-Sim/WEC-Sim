@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Copyright 2023 MOREnergy Lab
-
+% 
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.
 % You may obtain a copy of the License at
@@ -20,8 +20,6 @@ classdef windTurbineClass<handle
     % workspace.
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
     properties (SetAccess = 'public', GetAccess = 'public')  % Input file
         name  = []                                           % (`string`) Specifies the windTurbine name
         turbineName = '';                                    % Name of file including wind turbine properties
@@ -44,10 +42,7 @@ classdef windTurbineClass<handle
             'func_tol2',                       1e-3,...
             'root_tol_rel2',                   1/40,...  
             'maxit2',                          50,...
-            'eps',                             1e-6);        
-        
-        
-        
+            'eps',                             1e-6);
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')
@@ -65,7 +60,6 @@ classdef windTurbineClass<handle
             'cog_rel',              [0 0 0], ...             % Center of Gravity relative to tower offset
             'height',                     0, ...             % Height of tower
             'offset',                     0);                % Lower point of tower relative to Sea Water Level
-            
         nacelle = struct(...                                 % Nacelle structure properties
             'mass',                       0, ...             % Mass of nacelle
             'inertia',              [0 0 0], ...             % Moments of inertia of nacelle
