@@ -27,6 +27,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             run('stopWecSim');
             close_system(simFile, 0);
             bdclose('all')
+            cd(testCase.testDir)
         end    
     end
 end
