@@ -52,37 +52,8 @@ Simulink.fileGenControl('set',...
     'CacheFolder',fullfile(projectRootDir,''))
 
 
-%% Read input file
-tic
-
-% Set input parameters based on how the simulation is called
-if exist('runWecSimCML','var') && runWecSimCML==1
-    % wecSim input from wecSimInputFile.m of case directory in the standard manner
-    fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');
-    bdclose('all');
-    run('wecSimInputFile');
-else
-    % Get global reference frame parameters
-    blocks = find_system(bdroot,'Type','Block');
-    mask = contains(blocks,'Global Reference Frame');
-    referenceFramePath = blocks{mask};
-    values = get_param(referenceFramePath,'MaskValues');    % Cell array containing all Masked Parameter values
-    names = get_param(referenceFramePath,'MaskNames');      % Cell array containing all Masked Parameter names
-    % j = find(strcmp(names,'InputMethod'));    
-    % if strcmp(values{j},'Input File')
-        % wecSim input from input file selected in Simulink block
-    fprintf('\nWEC-Sim Input From Simulink model... \n');
-        % i = find(strcmp(names,'InputFile'));
-        % run(values{i});
-    % elseif strcmp(values{j},'Custom Parameters')
-    %     % wecSim input from custom parameters in Simulink block
-    %     fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
-    %     inputFile = 'wecSimInputFile_simulinkCustomParameters';
-    %     writeInputFromBlocks(inputFile);
-    run('wecSimInputFile');
-    % end
-end
-clear values names i j;
+%% Run the input file
+run('wecSimInputFile');
 
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
@@ -105,6 +76,7 @@ if exist('mcr','var') == 1
     end
 end
 
+%% Set-up objects
 % Waves and Simu: check inputs
 for iW = 1:length(waves)
     waves(iW).checkInputs();
@@ -529,9 +501,9 @@ else
 end
 fprintf('\n')
 
-%% Load simMechanics file & Run Simulation
+%% Load simMechanics file and update some parameters in Simulink
 tic
-fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
+
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
     body(iBod).adjustMassMatrix(simu.b2b, simu.rho);
@@ -550,10 +522,12 @@ warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 warning('off','Simulink:blocks:MatchingFromNotFound') % prevent unnecessary warning for the library-supplied GoTo tags for body excitation and total forces
-set_param(0, 'ErrorIfLoadNewModel', 'off')
 
 % Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
+set_param(0, 'ErrorIfLoadNewModel', 'off')
 set_param(getActiveConfigSet(gcs),'UnderspecifiedInitializationDetection','Simplified')
 
 toc
+
+fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
