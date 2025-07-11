@@ -415,8 +415,6 @@ and require various input parameters and BEM data, detailed in the table below.
 The :ref:`user-advanced-features-body` section contains more details on these
 important distinctions. 
 
-.. TO DO: This table is not rendering properly (each code line does not render on a new line)
-
 +-------------------------+---------------------------------------------+
 |**Body Type**            |**Description**                              |
 +=========================+=============================================+
