@@ -420,7 +420,7 @@ important distinctions.
 +-------------------------+---------------------------------------------+
 |**Body Type**            |**Description**                              |
 +=========================+=============================================+
-|Hydrodynamic Body        |``body(i)=bodyClass('<bemData>.h5')``        |
+|Ridid Body	          |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
 |                         |``body(i).intertia``                         |
@@ -468,12 +468,7 @@ For more information about application of WEC-Sim's body class, refer to
 Body Blocks
 """"""""""""""
 
-The Body Class is most closely associated with the Body Elements library.
-The Body Elements library shown below contains three body types in three blocks: 
-the ``Hydrodynamic Body`` block, the ``Flex Body`` block, and the ``Drag Body`` block.
-The flex body block is used to represent hydrodynamic 
-
-The Body Elements library shown below contains three body types in two blocks: 
+The Body Elements library shown below contains two blocks: 
 the ``Rigid Body`` block and the ``Flex Body`` block. The rigid body block is 
 used to represent hydrodynamic and drag bodies, each subset being 
 a `Variant Sub-system <https://www.mathworks.com/help/simulink/slref/variant-subsystems.html>`_ of a Rigid Body.

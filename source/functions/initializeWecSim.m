@@ -68,19 +68,19 @@ else
     referenceFramePath = blocks{mask};
     values = get_param(referenceFramePath,'MaskValues');    % Cell array containing all Masked Parameter values
     names = get_param(referenceFramePath,'MaskNames');      % Cell array containing all Masked Parameter names
-    j = find(strcmp(names,'InputMethod'));    
-    if strcmp(values{j},'Input File')
+    % j = find(strcmp(names,'InputMethod'));    
+    % if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block
-        fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
-        i = find(strcmp(names,'InputFile'));
-        run(values{i});
-    elseif strcmp(values{j},'Custom Parameters')
-        % wecSim input from custom parameters in Simulink block
-        fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
-        inputFile = 'wecSimInputFile_simulinkCustomParameters';
-        writeInputFromBlocks(inputFile);
-        run(inputFile);
-    end
+    fprintf('\nWEC-Sim Input From Simulink model... \n');
+        % i = find(strcmp(names,'InputFile'));
+        % run(values{i});
+    % elseif strcmp(values{j},'Custom Parameters')
+    %     % wecSim input from custom parameters in Simulink block
+    %     fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
+    %     inputFile = 'wecSimInputFile_simulinkCustomParameters';
+    %     writeInputFromBlocks(inputFile);
+    run('wecSimInputFile');
+    % end
 end
 clear values names i j;
 
@@ -504,7 +504,7 @@ for iW = 1:length(waves)
 end; clear iW
 fprintf('\nList of Body:\n ');
 fprintf('\nNumber of Hydro Bodies = %u \n',simu.numHydroBodies)
-fprintf('\nNumber of Drag Bodies = %u \n',numDragBodies)
+% fprintf('\nNumber of Drag Bodies = %u \n',numDragBodies)
 for i = 1:length(body)
     body(i).listInfo(i)
 end
