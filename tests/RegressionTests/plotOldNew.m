@@ -29,7 +29,7 @@
 % titstr: Title string to be displayed
 
 function plotOldNew(B1,B2,Rel,InfoDiffB1, InfoDiffB2, InfoDiffRel,titstr)
-h=figure('units','normalized','outerposition',[0 0 1 1]);
+h=figure('units','normalized');
 % figure;
 subplot(2,3,1)
 %First Column: Body 1 Heave
@@ -105,8 +105,7 @@ set(n(1),'LineWidth',b)
 xlim([0 200])
 ylim([-2 2])
 l=legend('WEC-Sim Org','WEC-Sim New');
-set(l,'Position',[0.92 0.90 0.07 0.07],'Units','normalized',...
-    'FontSize',12);
+set(l,'Units','normalized','FontSize',12);
 
 subplot(2,3,6)
     m=plot(Rel.WEC_Sim_org.time(find(Rel.WEC_Sim_org.time==startTime):end),...

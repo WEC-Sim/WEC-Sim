@@ -30,7 +30,7 @@
 % titstr: Title string to be displayed
 
 function plotOldNewOSWEC(B1,B2,Rel,InfoDiffB1, InfoDiffB2, InfoDiffRel,titstr)
-h=figure('units','normalized','outerposition',[0 0 1 1]);
+h=figure('units','normalized');
 % figure;
 subplot(2,3,1)
 %First Column: Body 1 Pitch
@@ -90,7 +90,7 @@ ylabel('Pitch(rad)')
 xlim([100 200])
 ylim([-0.1 0.1])
 
-%Third Column: Relative Heave
+%Third Column: Relative Pitch
 subplot(2,3,3)
 n=plot(Rel.WEC_Sim_org.time,Rel.WEC_Sim_org.pitch,'r:',...
     Rel.WEC_Sim_new.time,Rel.WEC_Sim_new.pitch,'k-');
@@ -106,8 +106,7 @@ set(n(1),'LineWidth',b)
 xlim([0 200])
 ylim([-0.3 0.3])
 l=legend('WEC-Sim Org','WEC-Sim New');
-set(l,'Position',[0.92 0.90 0.07 0.07],'Units','normalized',...
-    'FontSize',12);
+set(l,'Units','normalized','FontSize',12);
 
 subplot(2,3,6)
     m=plot(Rel.WEC_Sim_org.time(find(Rel.WEC_Sim_org.time==startTime):end),...
