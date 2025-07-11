@@ -62,9 +62,15 @@ or link to another software.
 Running from Simulink
 """""""""""""""""""""
 
-WEC-Sim can also be run directly from Simulink. 
-The Run From Simulink advanced feature allows users to initialize WEC-Sim from the command window and then begin the simulation from Simulink. 
-This allows greater compatibility with other models or hardware-in-the-loop simulations that must start in Simulink. 
+WEC-Sim can also be run directly from Simulink with the following steps:
+
+* Type ``initializeWecSim`` in the Command Window
+* Run the model from Simulink and wait for the simulation to complete
+* Type ``stopWecSim`` in the Command Window
+
+This allows users to initialize WEC-Sim from the command window and then start the simulation from Simulink, 
+allowing for greater compatibility with other models or hardware-in-the-loop simulations. 
+
 
 .. _user-advanced-features-mcr:
 

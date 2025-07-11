@@ -70,18 +70,9 @@ Simulink Model Functions should be saved to the ``$WECSIM/source/functions/simul
 Simulink Mask Functions should be saved to the ``$WECSIM/source/functions/simulink/mask`` directory. 
 Refer to the :ref:`dev-library-format` section for details on block color formatting.
 
-
 The ``$WECSIM/source/functions/simulink/model`` directory contains functions called by the Simulink model during runtime. 
 These functions implement physics equations such as calculation of the irregular excitation force or the radiation damping convolution integral. These functions greatly affect the accuracy of WEC-Sim.
-Whereas the functions in the ``$WECSIM/source/functions/simulink/mask`` directory are only used in preprocessing when running WEC-Sim from Simulink, refer to Run from Simulink :ref:`dev-run-sim-lib`.
 
-.. _dev-run-sim:
-
-Run from Simulink
----------------------
-The :ref:`user-advanced-features-simulink` feature allows users to initialize WEC-Sim from the command window and then run the simulation directly from Simulink. 
-This feature allows greater compatibility with other models or hardware-in-the-loop simulations.      
-      
 .. _dev-merge-tool:
 
 MATLAB Merge Tool

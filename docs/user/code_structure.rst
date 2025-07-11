@@ -409,26 +409,26 @@ following lines in the WEC-Sim input file, where ``i`` is the body number and
     body(i)=bodyClass('<bemData>.h5')
     body(i).geometryFile = '<geomFile>.stl'; 
 
-WEC-Sim bodies may be one of three types\: hydrodynamic and rigid, hydrodynamic and flexible, 
-or nonhydrodynamic and rigid (drag body). These types represent varying degrees of complexity
+WEC-Sim bodies may be one of three types\: hydrodynamic, drag, or flexible.
+These types represent varying degrees of complexity
 and require various input parameters and BEM data, detailed in the table below.
 The :ref:`user-advanced-features-body` section contains more details on these
 important distinctions. 
 
-.. TO DO: This table is not rendering properly
+.. TO DO: This table is not rendering properly (each code line does not render on a new line)
 
 +-------------------------+---------------------------------------------+
 |**Body Type**            |**Description**                              |
 +=========================+=============================================+
-|Ridid Body	          |``body(i)=bodyClass('<bemData>.h5')``        |
+|Hydrodynamic Body        |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).intertia``                         |
+|                         |``body(i).inertia``                          |
 +-------------------------+---------------------------------------------+
 |Drag Body                |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).intertia``                         |
+|                         |``body(i).inertia``                          |
 |                         |``body(i).centerGravity``                    |
 |                         |``body(i).centerBuoyancy``                   |
 |                         |``body(i).volume``                           |
@@ -437,7 +437,7 @@ important distinctions.
 |Flexible Body            |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).intertia``                         |
+|                         |``body(i).inertia``                          |
 +-------------------------+---------------------------------------------+
 
 Users may specify other body class properties using the ``body`` object for 
