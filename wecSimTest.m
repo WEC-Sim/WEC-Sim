@@ -31,9 +31,6 @@
 %   'regressionTest'   Run regression tests. These tests check if values
 %                      have changed from a previous run. Default is true.
 %
-%   'compilationTest'  Run compilation tests. These tests do not check
-%                      correctness of the results. Default is true.
-%
 %   'runFromSimTest'   Run tests for execution of WECSim from Simulink.
 %                      Default is true.
 %
@@ -54,7 +51,6 @@ function results = wecSimTest(options)
     arguments
         options.bemioTest = true
         options.regressionTest = true
-        options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
         options.devTest = true

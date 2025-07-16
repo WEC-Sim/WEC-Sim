@@ -81,11 +81,12 @@ if testCase.openCompare==1
         [irregularSpread_OSWEC.Rel_P_max,irregularSpread_OSWEC.Rel_P_I],'irregularSpreadOSWEC');
     cd(locdir)
 end
-%% Clear output and .slx directory
 
+%% Clear output and .slx directory
 try
 	rmdir('output','s')
 	rmdir('slprj','s')
 	delete('OSWEC.slx.autosave', 'OSWEC_sfun.mexmaci64')
+    bdclose('all');
 catch
 end

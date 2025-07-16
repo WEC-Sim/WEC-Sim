@@ -111,6 +111,10 @@ classdef regressionTest < matlab.unittest.TestCase
                 printPlotIrregular;
             end
         end
+
+        function closeModel(testCase)
+            bdclose('all');
+        end
     
     end
     
