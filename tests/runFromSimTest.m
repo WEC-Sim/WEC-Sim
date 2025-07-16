@@ -16,6 +16,12 @@ classdef runFromSimTest < matlab.unittest.TestCase
         end        
     end
     
+    methods(TestClassTeardown)
+        function closeModel(testCase)
+            bdclose('all');
+        end
+    end
+
     methods(Test)
         function runFromSimulink(testCase)
             % Run WEC-Sim from Simulink
