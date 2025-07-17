@@ -83,49 +83,6 @@ for iW = 1:length(waves)
 end
 simu.checkInputs();
 
-% Constraints: count & set orientation
-if exist('constraint','var') == 1
-    simu.numConstraints = length(constraint(1,:));
-    for ii = 1:simu.numConstraints
-        constraint(ii).checkInputs();
-        constraint(ii).setNumber(ii);
-        constraint(ii).setOrientation();
-    end; clear ii
-end
-
-% PTOs: count & set orientation & set pretension
-if exist('pto','var') == 1
-    simu.numPtos = length(pto(1,:));
-    for ii = 1:simu.numPtos
-        pto(ii).checkInputs();
-        pto(ii).setNumber(ii);
-        pto(ii).setOrientation();
-        pto(ii).setPretension();
-    end; clear ii
-end
-
-% Mooring Configuration: count
-if exist('mooring','var') == 1
-    simu.numMoorings = length(mooring(1,:));
-    for ii = 1:simu.numMoorings
-        mooring(ii).checkInputs();
-        mooring(ii).setLoc();
-        mooring(ii).setNumber(ii);
-        if mooring(ii).lookupTableFlag == 1
-            mooring(ii).loadLookupTable();
-        end
-        if mooring(ii).moorDyn == 1
-            mooring(ii).checkPath();
-            simu.numMoorDyn = simu.numMoorDyn+1;
-        end
-    end; clear ii
-    % Initialize MoorDyn
-    if simu.numMoorDyn > 0
-        mooring.callMoorDynLib();
-    end
-end
-
-
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0;
 numDragBodies = 0;
@@ -176,6 +133,55 @@ for ii = 1:simu.numHydroBodies
     end
 end; clear ii iH
 
+% Constraints: count & set orientation
+if exist('constraint','var') == 1
+    simu.numConstraints = length(constraint(1,:));
+    for ii = 1:simu.numConstraints
+        constraint(ii).checkInputs();
+        constraint(ii).setNumber(ii);
+        constraint(ii).setOrientation();
+    end; clear ii
+end
+
+% PTOs: count & set orientation & set pretension
+if exist('pto','var') == 1
+    simu.numPtos = length(pto(1,:));
+    for ii = 1:simu.numPtos
+        pto(ii).checkInputs();
+        pto(ii).setNumber(ii);
+        pto(ii).setOrientation();
+        pto(ii).setPretension();
+    end; clear ii
+end
+
+% Mooring Configuration: count
+if exist('mooring','var') == 1
+    simu.numMoorings = length(mooring(1,:));
+    for ii = 1:simu.numMoorings
+        mooring(ii).checkInputs();
+        mooring(ii).setLoc();
+        mooring(ii).setNumber(ii);
+        if mooring(ii).lookupTableFlag == 1
+            if exist(mooring(ii).lookupTableFile, 'file')
+                mooring(ii).loadLookupTable();
+            else
+                error('Mooring look-up table file does not exist.');
+            end
+        end
+        if mooring(ii).nonlinearStaticData.flag == 1
+            mooring(ii).nonlinearStaticSetup(simu.rho, simu.gravity, body(1).hydroData.simulation_parameters.waterDepth);
+        end
+        if mooring(ii).moorDyn == 1
+            mooring(ii).checkPath();
+            simu.numMoorDyn = simu.numMoorDyn+1;
+        end
+    end; clear ii
+    % Initialize MoorDyn
+    if simu.numMoorDyn > 0
+        mooring.callMoorDynLib();
+    end
+end
+
 % Cable Configuration: count, set Cg/Cb, PTO loc, L0 and initialize bodies
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
@@ -202,20 +208,31 @@ if exist('ptoSim','var') == 1
     end; clear ii
 end
 
-% Wind: check inputs
-if exist('wind','var') == 1 && wind.constantWindFlag == 0
-    wind.importTurbSimOutput();
+% WindClass
+if exist('wind','var')
+    wind.computeWindInput(simu);
 end
 
-% Wind turbines: count, check inputs, import controller
-if exist('windTurbine','var') == 1
-    for ii = 1:length(windTurbine)
-        windTurbine(ii).importAeroLoadsTable()
-        windTurbine(ii).loadTurbineData()
-        windTurbine(ii).setNumber(ii);
-        windTurbine(ii).importControl
+% WindTurbines Class
+if exist('windTurbine','var')
+    if ~exist('wind','var')
+        error('If there are wind turbines, then there must be an instance of the wind class.')
     end
+
+    for ii = 1:length(windTurbine)
+        windTurbine(ii).setNumber(ii);
+        windTurbine(ii).loadTurbineData();
+        windTurbine(ii).importControl();
+        if windTurbine(ii).aeroLoadsType == 0
+            windTurbine(ii).importAeroLoadsTable();
+        elseif windTurbine(ii).aeroLoadsType == 1
+            windTurbine(ii).createBEMstruct(wind.Xdiscr,wind.Ydiscr,wind.Zdiscr)
+        else
+            error('windTurbine.aeroLoadsType must be 0 (Look-up tables) or 1 (BEM)')
+        end
+    end 
     clear ii
+
 end
 
 toc
@@ -448,15 +465,16 @@ end
 try
     % wind turbine
     for ii=1:length(windTurbine)
-        eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
-        eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
-        eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])
+        eval(['ControlChoice' num2str(ii) ' = windTurbine(ii).control;'])
+        eval(['sv_t' num2str(ii) '_control0 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
+        eval(['sv_t' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');']) 
+
+        eval(['AeroLoadsChoice' num2str(ii) ' = windTurbine(ii).aeroLoadsType;'])
+        eval(['sv_t' num2str(ii) '_AeroLoads0 = Simulink.Variant(''AeroLoadsChoice' num2str(ii) '==0'');'])
+        eval(['sv_t' num2str(ii) '_AeroLoads1 = Simulink.Variant(''AeroLoadsChoice' num2str(ii) '==1'');']) 
+
     end; clear ii
 
-    % wind
-    WindChoice = wind.constantWindFlag;
-    sv_wind_constant = Simulink.Variant('WindChoice==1');
-    sv_wind_turbulent = Simulink.Variant('WindChoice==0');
 end
 
 % Visualization Blocks
