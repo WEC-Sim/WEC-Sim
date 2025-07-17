@@ -56,7 +56,7 @@ classdef mooringClass<handle
             'MaxIter',                                      0, ...               % (`Integer`) Maximum number of optimizer iterations
             'TolFun',                                       1e-7, ...            % (`Float`) Optimizer tolerance on function value for convergence
             'TolX',                                         1e-7, ...            % (`Float`) Optimizer tolerance on parameter change for convergence
-            'HV0_try',                                      [0 0]);              % (`1x2 Float Array`) Initial guess for [Horizontal, Vertical] fairlead forces at rest
+            'HV0_try',                                      [0 0; 0 0; 0 0]);    % (`1x2 Float Array`) Initial guess for each line's [Horizontal, Vertical] fairlead forces at rest
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
@@ -177,20 +177,20 @@ classdef mooringClass<handle
                 'MaxIter', obj.nonlinearStaticData.MaxIter, ...
                 'TolFun', obj.nonlinearStaticData.TolFun, ...
                 'TolX', obj.nonlinearStaticData.TolX);
-            obj.nonlinearStaticData.beta = linspace(0, 360*(1-1/obj.nonlinearStaticData.number_lines), obj.nonlinearStaticData.number_lines);
+            obj.nonlinearStaticData.beta = linspace(0, 360*(1-1/obj.nonlinearStaticData.nLines), obj.nonlinearStaticData.nLines);
             obj.nonlinearStaticData.w = (obj.nonlinearStaticData.linearMassAir-pi*obj.nonlinearStaticData.d^2/4*rho)*gravity;
-            obj.nonlinearStaticData.HV0 = zeros(obj.nonlinearStaticData.number_lines, 2);
+            obj.nonlinearStaticData.HV0 = zeros(obj.nonlinearStaticData.nLines, 2);
             obj.nonlinearStaticData.nodes(obj.nonlinearStaticData.nodes==-inf) = -depth;
-            obj.nonlinearStaticData.nodes = repmat(obj.nonlinearStaticData.nodes, 1, obj.nonlinearStaticData.number_lines);
+            obj.nonlinearStaticData.nodes = repmat(obj.nonlinearStaticData.nodes, 1, obj.nonlinearStaticData.nLines);
 
-            for i = 2:obj.nonlinearStaticData.number_lines
+            for i = 2:obj.nonlinearStaticData.nLines
                 obj.nonlinearStaticData.nodes(:,2*i-1:2*i) = [
                     cosd(obj.nonlinearStaticData.beta(i))  -sind(obj.nonlinearStaticData.beta(i))   0;
                     sind(obj.nonlinearStaticData.beta(i))   cosd(obj.nonlinearStaticData.beta(i))   0;
                     0                             0                             1]*obj.nonlinearStaticData.nodes(:,2*i-1:2*i);
             end
 
-            [~, obj.nonlinearStaticData.HV0] = nonLinearStaticMooring([0 0 0], obj.nonlinearStaticData.HV0_try, obj.nonlinearStaticData);
+            [~, obj.nonlinearStaticData.HV0] = nonLinearStaticMooring([0 0 0 0 0 0], obj.nonlinearStaticData.HV0_try, obj.nonlinearStaticData);
 
         end
         
