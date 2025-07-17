@@ -23,7 +23,7 @@ load('./regularCIC/regularCIC.mat')
 load('./regularSS/regularSS.mat')     
 
 %% Plot Heave Comparisons
-h=figure('units','normalized','outerposition',[0 0 1 1]);
+h=figure('units','normalized');
 % First Row = All simulations, all times
 % Second Row = All simulations, t=350-400s
 
@@ -95,8 +95,7 @@ title('Relative Motion 1DOF 1200PTO')
 xlim([0 150])
 ylim([-2 2])
 l=legend('"regular"','"regularCIC"','"regularCIC" with State Space');
-set(l,'Position',[0.765 0.84 0.07 0.07],'Units','normalized',...
-    'FontSize',12);
+set(l,'Units','normalized','FontSize',12);
 
 subplot(2,3,6)
 m=plot(   regular.Rel.WEC_Sim_new.time(find(    regular.Rel.WEC_Sim_new.time==startTime):end),...

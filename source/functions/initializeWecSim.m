@@ -52,37 +52,8 @@ Simulink.fileGenControl('set',...
     'CacheFolder',fullfile(projectRootDir,''))
 
 
-%% Read input file
-tic
-
-% Set input parameters based on how the simulation is called
-if exist('runWecSimCML','var') && runWecSimCML==1
-    % wecSim input from wecSimInputFile.m of case directory in the standard manner
-    fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');
-    bdclose('all');
-    run('wecSimInputFile');
-else
-    % Get global reference frame parameters
-    blocks = find_system(bdroot,'Type','Block');
-    mask = contains(blocks,'Global Reference Frame');
-    referenceFramePath = blocks{mask};
-    values = get_param(referenceFramePath,'MaskValues');    % Cell array containing all Masked Parameter values
-    names = get_param(referenceFramePath,'MaskNames');      % Cell array containing all Masked Parameter names
-    j = find(strcmp(names,'InputMethod'));    
-    if strcmp(values{j},'Input File')
-        % wecSim input from input file selected in Simulink block
-        fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
-        i = find(strcmp(names,'InputFile'));
-        run(values{i});
-    elseif strcmp(values{j},'Custom Parameters')
-        % wecSim input from custom parameters in Simulink block
-        fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
-        inputFile = 'wecSimInputFile_simulinkCustomParameters';
-        writeInputFromBlocks(inputFile);
-        run(inputFile);
-    end
-end
-clear values names i j;
+%% Run the input file
+run('wecSimInputFile');
 
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
@@ -105,6 +76,7 @@ if exist('mcr','var') == 1
     end
 end
 
+%% Set-up objects
 % Waves and Simu: check inputs
 for iW = 1:length(waves)
     waves(iW).checkInputs();
@@ -162,10 +134,8 @@ end
 
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0;
-numNonHydroBodies = 0;
 numDragBodies = 0;
 hydroBodLogic = zeros(length(body(1,:)),1);
-nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).setNumber(ii);
@@ -173,15 +143,12 @@ for ii = 1:length(body(1,:))
         body(ii).checkInputs(simu.explorer, simu.stateSpace, simu.FIR, waves(kk).typeNum);
     end
     if body(ii).nonHydro==0
-        if numNonHydroBodies > 0 || numDragBodies > 0
-            error('All hydro bodies must be specified before any drag or non-hydro bodies.')
+        if numDragBodies > 0
+            error('All hydro bodies must be specified before any drag bodies.')
         end
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;
-    elseif body(ii).nonHydro==1
-        numNonHydroBodies = numNonHydroBodies + 1;
-        nonHydroBodLogic(ii) = 1;
-    elseif body(ii).nonHydro==2
+    elseif body(ii).nonHydro>0
         numDragBodies = numDragBodies + 1;
         dragBodLogic(ii) = 1;
     end
@@ -324,15 +291,6 @@ if ~isempty(idx)
     end
 end; clear kk idx ii
 
-% nonHydroPre
-idx = find(nonHydroBodLogic==1);
-if ~isempty(idx)
-    for kk = 1:length(idx)
-        ii = idx(kk);
-        body(ii).nonHydroForcePre(simu.rho);
-    end
-end; clear kk idx ii
-
 % dragBodyPre
 idx = find(dragBodLogic == 1);
 if ~isempty(idx)
@@ -401,34 +359,22 @@ end
 % Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
 for ii = 1:length(body(1,:))
     if body(ii).morisonElement.option == 1
-        if body(ii).nonHydro ~=1
-            [rgME,~] = size(body(ii).morisonElement.rgME);
-            for jj = 1:rgME
-                if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
-                    warning(['"body.morisonElement.z" is not used for "body.morisonElement.option = 1". Check body ',num2str(ii),' element ',num2str(jj)])
-                end
-                if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.area(jj,:)) ~= 3
-                    error(['cd, ca, and area coefficients for each element for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
-                end
-            end; clear jj
-        else
-            if body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
-                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+        [rgME,~] = size(body(ii).morisonElement.rgME);
+        for jj = 1:rgME
+            if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
+                warning(['"body.morisonElement.z" is not used for "body.morisonElement.option = 1". Check body ',num2str(ii),' element ',num2str(jj)])
             end
-        end
+            if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.area(jj,:)) ~= 3
+                error(['cd, ca, and area coefficients for each element for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+            end
+        end; clear jj
     elseif body(ii).morisonElement.option == 2
-        if body(ii).nonHydro ~=1
-            [rgME,~] = size(body(ii).morisonElement.rgME);
-            for jj = 1:rgME
-                if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.area(jj,3) ~= 0
-                    warning(['cd, ca, and area coefficients for "body.morisonElement.option == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
-                end
-            end; clear jj
-        else
-            if body(ii).morisonElement.option ==1 || body(ii).morisonElement.option ==2
-                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+        [rgME,~] = size(body(ii).morisonElement.rgME);
+        for jj = 1:rgME
+            if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.area(jj,3) ~= 0
+                warning(['cd, ca, and area coefficients for "body.morisonElement.option == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
             end
-        end
+        end; clear jj
     end; clear ii
 end
 
@@ -451,11 +397,9 @@ end; clear ii;
 
 % Morison Element
 for ii=1:length(body(1,:))
-    if body(ii).nonHydro ~=1
-        eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
-        eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
-        eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
-    end
+    eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
+    eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
+    eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
 end; clear ii;
 
 % Radiation Damping
@@ -495,12 +439,11 @@ sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
 numBody=simu.numHydroBodies;
 
-% nonHydro
+% drag
 for ii=1:length(body(1,:))
     eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;']);
     eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');']);
-    eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');']);
-    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');']);
+    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '>0'');']);
 end; clear ii
 
 % variable hydrodynamics
@@ -550,20 +493,12 @@ for iW = 1:length(waves)
     waves(iW).listInfo();
 end; clear iW
 fprintf('\nList of Body:\n ');
-fprintf('Number of Hydro Bodies = %u \n',simu.numHydroBodies)
-for i = 1:simu.numHydroBodies
-    if body(i).nonHydro == 0
-        body(i).listInfo(i,'0')
-    end
-end;  clear i
-if numNonHydroBodies ~= 0
-    fprintf('\nNumber of Non-Hydro Bodies = %u \n',numNonHydroBodies)
-    for i = 1:(numNonHydroBodies+simu.numHydroBodies)
-        if body(i).nonHydro == 1
-            body(i).listInfo(i,'1')
-        end
-    end
-end; clear i
+fprintf('\nNumber of Hydro Bodies = %u \n',simu.numHydroBodies)
+% fprintf('\nNumber of Drag Bodies = %u \n',numDragBodies)
+for i = 1:length(body)
+    body(i).listInfo(i)
+end
+
 fprintf('\nList of PTO(s): ');
 if (exist('pto','var') == 0)
     fprintf('No PTO in the system\n')
@@ -584,9 +519,9 @@ else
 end
 fprintf('\n')
 
-%% Load simMechanics file & Run Simulation
+%% Load simMechanics file and update some parameters in Simulink
 tic
-fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
+
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
     body(iBod).adjustMassMatrix(simu.b2b, simu.rho);
@@ -594,9 +529,7 @@ end; clear iBod
 
 % Create the buses for hydroForce
 for iBod = 1:length(body)
-    if body(iBod).nonHydro == 0 || body(iBod).nonHydro == 2
-        [~, ~] = struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce'], 1, {}, {});
-    end
+    [~, ~] = struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce'], 1, {}, {});
 end; clear iBod
 
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
@@ -614,3 +547,5 @@ simu.loadSimMechModel(simu.simMechanicsFile);
 set_param(getActiveConfigSet(gcs),'UnderspecifiedInitializationDetection','Simplified')
 
 toc
+
+fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)

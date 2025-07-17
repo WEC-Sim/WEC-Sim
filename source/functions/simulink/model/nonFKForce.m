@@ -7,7 +7,9 @@ function [f, wp, wpMeanFS]  = nonFKForce(x,elv,direction,spread,center,tnorm,are
 % NOTE: This function assumes that the STL file is imported with its CG at 0,0,0
 
 % Logic to calculate nonFKForce at reduced sample time
-[f, wp, wpMeanFS] = calc_force(x,elv,direction,spread,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand);
+f = zeros(1,length(x));
+[f6, wp, wpMeanFS] = calc_force(x,elv,direction,spread,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand);
+f(1:6) = f6;
 end
 
 function [f, wp, wpMeanFS]  = calc_force(x,elv,direction,spread,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand)
