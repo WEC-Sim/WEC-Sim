@@ -83,55 +83,6 @@ for iW = 1:length(waves)
 end
 simu.checkInputs();
 
-% Constraints: count & set orientation
-if exist('constraint','var') == 1
-    simu.numConstraints = length(constraint(1,:));
-    for ii = 1:simu.numConstraints
-        constraint(ii).checkInputs();
-        constraint(ii).setNumber(ii);
-        constraint(ii).setOrientation();
-    end; clear ii
-end
-
-% PTOs: count & set orientation & set pretension
-if exist('pto','var') == 1
-    simu.numPtos = length(pto(1,:));
-    for ii = 1:simu.numPtos
-        pto(ii).checkInputs();
-        pto(ii).setNumber(ii);
-        pto(ii).setOrientation();
-        pto(ii).setPretension();
-    end; clear ii
-end
-
-% Mooring Configuration: count
-if exist('mooring','var') == 1
-    simu.numMoorings = length(mooring(1,:));
-    for ii = 1:simu.numMoorings
-        mooring(ii).checkInputs();
-        mooring(ii).setLoc();
-        mooring(ii).setNumber(ii);
-        if mooring(ii).lookupTableFlag == 1
-            if exist(mooring(ii).lookupTableFile, 'file')
-                mooring(ii).loadLookupTable();
-            else
-                error('Mooring look-up table file does not exist.');
-            end
-        end
-        if mooring(ii).nonlinearStaticData.flag == 1
-            mooring(ii).nonlinearStaticSetup(simu.rho, simu.gravity, body(ii).hydroData.simulation_parameters.waterDepth);
-        end
-        if mooring(ii).moorDyn == 1
-            mooring(ii).checkPath();
-            simu.numMoorDyn = simu.numMoorDyn+1;
-        end
-    end; clear ii
-    % Initialize MoorDyn
-    if simu.numMoorDyn > 0
-        mooring.callMoorDynLib();
-    end
-end
-
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0;
 numDragBodies = 0;
@@ -181,6 +132,55 @@ for ii = 1:simu.numHydroBodies
         end
     end
 end; clear ii iH
+
+% Constraints: count & set orientation
+if exist('constraint','var') == 1
+    simu.numConstraints = length(constraint(1,:));
+    for ii = 1:simu.numConstraints
+        constraint(ii).checkInputs();
+        constraint(ii).setNumber(ii);
+        constraint(ii).setOrientation();
+    end; clear ii
+end
+
+% PTOs: count & set orientation & set pretension
+if exist('pto','var') == 1
+    simu.numPtos = length(pto(1,:));
+    for ii = 1:simu.numPtos
+        pto(ii).checkInputs();
+        pto(ii).setNumber(ii);
+        pto(ii).setOrientation();
+        pto(ii).setPretension();
+    end; clear ii
+end
+
+% Mooring Configuration: count
+if exist('mooring','var') == 1
+    simu.numMoorings = length(mooring(1,:));
+    for ii = 1:simu.numMoorings
+        mooring(ii).checkInputs();
+        mooring(ii).setLoc();
+        mooring(ii).setNumber(ii);
+        if mooring(ii).lookupTableFlag == 1
+            if exist(mooring(ii).lookupTableFile, 'file')
+                mooring(ii).loadLookupTable();
+            else
+                error('Mooring look-up table file does not exist.');
+            end
+        end
+        if mooring(ii).nonlinearStaticData.flag == 1
+            mooring(ii).nonlinearStaticSetup(simu.rho, simu.gravity, body(1).hydroData.simulation_parameters.waterDepth);
+        end
+        if mooring(ii).moorDyn == 1
+            mooring(ii).checkPath();
+            simu.numMoorDyn = simu.numMoorDyn+1;
+        end
+    end; clear ii
+    % Initialize MoorDyn
+    if simu.numMoorDyn > 0
+        mooring.callMoorDynLib();
+    end
+end
 
 % Cable Configuration: count, set Cg/Cb, PTO loc, L0 and initialize bodies
 if exist('cable','var')==1
