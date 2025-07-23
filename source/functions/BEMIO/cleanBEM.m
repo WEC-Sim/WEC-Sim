@@ -1,6 +1,7 @@
-function hydro = cleanBEM(hydro, despike)
+ function hydro = cleanBEM(hydro, despike)
 % Original author: Dominic D. Forbush
-% 
+% Contributors: Adam Keester
+
 % Based on the paper: 
 % Kelly, T., Zabala, I., Peña-Sanchez, Y., Penalba, M., Ringwood, J. V.,
 % Henriques, J. C., & Blanco, J. M. (2022). A post-processing technique for
