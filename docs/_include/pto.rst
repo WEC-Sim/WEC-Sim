@@ -59,14 +59,15 @@ these limits if an inadequate spring and/or damping coefficient is specified,
 acting instead as a soft motion constraint. More detail on this implementation 
 can be found in the `Simscape documentation <https://www.mathworks.com/help/physmod/sm/ref/prismaticjoint.html#mw_316368a1-4b9e-4cfb-86e0-9abdd0c4d7a8>`_.
 To specify joint or actuation stroke limits for a PTO, the following parameters 
-must be specified in ``wecSimInputFile.m`` 
+must be specified in ``wecSimInputFile.m``::
 
-	:code: `pto(i).hardStops.upperLimitSpecify = 'on'`
-	:code: `pto(i).hardStops.lowerLimitSpecify = 'on'`
+	pto(i).hardStops.upperLimitSpecify = 'on'
+	pto(i).hardStops.lowerLimitSpecify = 'on'
 
-to enable upper and lower stroke limits, respectively. The specifics of the 
+
+The specifics of the 
 limit and the acting forces at the upper and lower limits are described in turn 
-by 
+by::
 
 	pto(i).hardStops.upperLimitBound
 	pto(i).hardStops.upperLimitStiffness
