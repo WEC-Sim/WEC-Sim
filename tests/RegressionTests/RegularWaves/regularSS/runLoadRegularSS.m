@@ -76,11 +76,10 @@ if testCase.openCompare==1
 end
 
 %% Clear output and .slx directory
-
 try
 	rmdir('output','s')
 	rmdir('slprj','s')
 	delete('RM3.slx.autosave', 'RM3_sfun.mexmaci64')
-
+    bdclose('all');
 catch
 end

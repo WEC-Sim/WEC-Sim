@@ -36,7 +36,6 @@
 %%
 
 % Initialize WEC-Sim
-runWecSimCML = 1;
 run('initializeWecSim');
 
 try

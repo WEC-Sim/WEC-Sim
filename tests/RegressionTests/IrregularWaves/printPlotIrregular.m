@@ -22,7 +22,7 @@ load('./irregularCIC/irregularCIC.mat')       % Load WEC-Sim Run Data
 load('./irregularSS/irregularSS.mat')        % Load WEC-Sim Run Data
 
 %% Plot Heave Comparisons
-h=figure('units','normalized','outerposition',[0 0 1 1]);
+h=figure('units','normalized');
 % First Row = All simulations, all times
 % Second Row = All simulations, t=350-400s
 
@@ -87,8 +87,7 @@ title('Relative Motion 1DOF 1200PTO')
 xlim([0 200])
 ylim([-2 2])
 l=legend('"irregular"','"irregular" with State Space');
-set(l,'Position',[0.765 0.86 0.07 0.05],'Units','normalized',...
-    'FontSize',12);
+set(l,'Units','normalized','FontSize',12);
 
 subplot(2,3,6)
 m = plot(irregularCIC.Rel.WEC_Sim_new.time(find( irregularCIC.Rel.WEC_Sim_new.time==startTime):end),...
