@@ -218,7 +218,7 @@ if exist('windTurbine','var') == 1
     clear ii
 end
 
-toc
+%toc
 
 %% Pre-processing start
 tic
