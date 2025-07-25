@@ -118,6 +118,10 @@ classdef waveClass<handle
             %         waveClass object
             %
 
+            arguments
+                type (1,1) internal.waveType
+            end
+
             obj.type = type;
             switch obj.type
                 case {'noWave'}         % No Waves with Constant Hydrodynamic Coefficients
@@ -164,12 +168,6 @@ classdef waveClass<handle
             mustBeInRange(obj.direction,-360, 360)
             mustBeInRange(obj.spread,0, 1)
 
-            % check wave type
-            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport','spectrumImportFullDir', 'elevationImport'};
-            if sum(strcmp(types,obj.type)) ~= 1
-                error(['Unexpected wave environment type setting, choose from: ' ...
-                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", "spectrumImportFullDir", and "elevationImport".'])
-            end
             % check 'waves.bem' fields
             if length(fieldnames(obj.bem)) ~=4
                 error(['Unrecognized method, property, or field for class "waveClass", ' ...
