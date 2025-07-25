@@ -7,6 +7,7 @@ classdef waveType
         regularCIC
         irregular
         spectrumImport
+        spectrumImportFullDir
         elevationImport
     end
 
