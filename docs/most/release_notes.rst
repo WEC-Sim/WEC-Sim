@@ -11,7 +11,10 @@ Release Notes
 
 **New Features**
 
-* Change in wind load calculations. Blade element momentum theory based instead of look-up table based.
+* Added a blade element momentum theory based wind turbine load method
+* Added a nonlinear static mooring line block
+* Refactoring of the wind turbine and wind classes
+* New examples of MOST v2.0 available on the `MOREnergylab GitHub <https://github.com/MOREnergylab/MOST>`_
 
 
 `MOST v1.0.0 (within WEC-Sim v6.0) <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
