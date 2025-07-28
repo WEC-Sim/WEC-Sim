@@ -123,16 +123,21 @@ classdef responseClass<handle
     %    
     %   * ``name`` (`string`) = 'windTurbineName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``windSpeed`` (`array`) = [# of time-steps x 1]
-    %   * ``turbinePower`` (`array`) = [# of time-steps x 1]
-    %   * ``rotorSpeed`` (`array`) = [# of time-steps x 1]
-    %   * ``bladePitch`` (`array`) = [# of time-steps x 1] Pitch position of blade 1
-    %   * ``nacelleAcceleration`` (`array`) = [# of time-steps x 1]
+    %   * ``windSpeed`` (`array`) = [# of time-steps x 3] x-y-z wind speed components at hub rest position
+    %   * ``turbinePower`` (`array`) = [# of time-steps x 1] wind turbine power
+    %   * ``rotorSpeed`` (`array`) = [# of time-steps x 1] rotor angular speed
+    %   * ``bladePitch`` (`array`) = [# of time-steps x 1] Pitch position of blades
+    %   * ``nacelleAcceleration`` (`array`) = [# of time-steps x 3] x-y-z nacelle acceleration components
+    %   * ``NacXdot`` (`array`) = [# of time-steps x 3] nacelle speed along x-direction
     %   * ``towerBaseLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the floating body and tower base
     %   * ``towerTopLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the tower base and tower nacelle 
-    %   * ``bladeRootLoad`` (`array`) = [# of time-steps x 1] 6DOF force at the constraint between blade 1 and the hub 
+    %   * ``blade1RootLoad`` (`array`) = [# of time-steps x 1] 6DOF force at the constraint between blade 1 and the hub (blade root)
     %   * ``genTorque`` (`array`) = [# of time-steps x 1] Torque on the generator
     %   * ``azimuth`` (`array`) = [# of time-steps x 1] azimuthal angle of the generator 
+    %   * ``blade1AeroLoad`` (`array`) = [# of time-steps x 1] 6DOF aeroloads blade 1
+    %   * ``blade2AeroLoad`` (`array`) = [# of time-steps x 1] 6DOF aeroloads blade 2
+    %   * ``blade3AeroLoad`` (`array`) = [# of time-steps x 1] 6DOF aeroloads blade 3
+    %   * ``DeltaYaw`` (`array`) = [# of time-steps x 1] DeltaYaw
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')
@@ -224,8 +229,9 @@ classdef responseClass<handle
 
             if isstruct(windTurbineOutput)
                 % Wind turbine
-                signals = {'windSpeed','turbinePower','rotorSpeed','bladePitch','nacelleAcceleration','towerBaseLoad','towerTopLoad','bladeRootLoad','genTorque','azimuth'};
-                outputDim = [1 1 1 1 1 6 6 6 1 1];
+                signals = {'windSpeed','turbinePower','rotorSpeed','bladePitch','nacelleAcceleration','NacXdot','towerBaseLoad','towerTopLoad',...
+                    'blade1RootLoad','genTorque','azimuth','blade1AeroLoad','blade2AeroLoad','blade3AeroLoad','DeltaYaw'};
+                outputDim = [3 1 1 1 3 1 6 6 6 1 1 6 6 6 1];
                 for ii = 1:length(windTurbineOutput)
                     obj.windTurbine(ii).name = windTurbineOutput(ii).name;
                     obj.windTurbine(ii).time = windTurbineOutput(ii).time;
