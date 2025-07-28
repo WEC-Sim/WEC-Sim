@@ -218,8 +218,6 @@ if exist('windTurbine','var') == 1
     clear ii
 end
 
-%toc
-
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
