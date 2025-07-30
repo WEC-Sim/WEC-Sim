@@ -56,8 +56,8 @@ B2.WEC_Sim_org.pitch=output.bodies(2).position(:,5)-Pshift2;
 Rel.WEC_Sim_org.time=B1.WEC_Sim_org.time;
 Rel.WEC_Sim_org.pitch=B1.WEC_Sim_org.pitch-B2.WEC_Sim_org.pitch;
 % Spectrum
-Sp.WEC_Sim_org.m0 = calcSpectralMoment(waves.omega,waves.spectrum,0);
-Sp.WEC_Sim_org.m2 = calcSpectralMoment(waves.omega,waves.spectrum,2);
+Sp.WEC_Sim_org.m0 = calcSpectralMoment(waves.w,waves.S,0);
+Sp.WEC_Sim_org.m2 = calcSpectralMoment(waves.w,waves.S,2);
 
 clear Pshift1 Pshift2
 

@@ -25,7 +25,7 @@ waves.height = 2.5;                     % Significant Wave Height [m]
 waves.period = 8;                       % Peak Period [s]
 waves.spectrumType = 'PM';              % Specify Spectrum Type
 waves.direction = [0,30,90];            % Wave Directionality [deg]
-waves.spread = [0.1,0.2,0.7];           % Wave Directional Spreading [%}
+waves.spread = [0.1,0.2,0.7];           % Wave Directional Spreading [%]
 
 % % Irregular Waves with imported spectrum
 % waves = waveClass('spectrumImport');      % Create the Wave Variable and Specify Type
