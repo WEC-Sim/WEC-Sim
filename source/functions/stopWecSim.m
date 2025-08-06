@@ -19,7 +19,7 @@ clear nhbod* sv_b* sv_noWave sv_regularWaves* sv_irregularWaves* sv_udfWaves sv_
 clear sv_visualizationOFF sv_visualizationON visON X Y
 clear sv_FIR
 clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro* yaw*;
-clear sv_1_control* sv_wind_* WindChoice ControlChoice*
+clear sv_t*_control* sv_wind_* sv_t*_AeroLoads* WindChoice ControlChoice* AeroLoadsChoice*
 clear iW secondOrderExt_* sv_fullDirIrregularWaves_*
 
 toc
