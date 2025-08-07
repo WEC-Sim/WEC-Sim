@@ -550,12 +550,16 @@ classdef waveClass<handle
                 rampTime double {mustBeReal, mustBeNonNan, mustBeFinite} = 0
             end
 
+            waveElevationSum = zeros(size(obj(1).waveAmpTime(:,2)));
+            for i = 1:numel(obj)
+                waveElevationSum = waveElevationSum + obj(i).waveAmpTime(:,2);
+            end
             figure
-            plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
+            plot(obj(1).waveAmpTime(:,1),waveElevationSum)
             title('Wave Surfave Elevation')
             if nargin==2
                 hold on
-                line([rampTime,rampTime],[1.5*min(obj.waveAmpTime(:,2)),1.5*max(obj.waveAmpTime(:,2))],'Color','k')
+                line([rampTime,rampTime],[1.5*min(obj(1).waveAmpTime(:,2)),1.5*max(obj(1).waveAmpTime(:,2))],'Color','k')
                 title(['Wave Surface Elevation, Ramp Time ' num2str(rampTime) ' (s)'])
             end
             xlabel('Time (s)')
