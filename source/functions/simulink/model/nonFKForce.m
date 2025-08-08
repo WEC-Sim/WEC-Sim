@@ -66,12 +66,12 @@ elseif typeNum <30
         for i=1:length(AH)
             if deepWater == 0 && wDepth <= 0.5*pi/k(i)
                 z=(center(:,3)-elv*elvCorr).*wDepth./(wDepth+elv*elvCorr);
-                f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i,kk));
-                fk(:,1) = fk(:,1) + spread(kk) .* f_tmp.*(cosh(k(i).*(z+wDepth))./cosh(k(i).*wDepth));
+                f_tmp = rho.*g.*sqrt(spread(kk).*AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i,kk));
+                fk(:,1) = fk(:,1) + f_tmp.*(cosh(k(i).*(z+wDepth))./cosh(k(i).*wDepth));
             else
                 z=(center(:,3)-elv*elvCorr);
-                f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i));
-                fk(:,1) = fk(:,1) + spread(kk) .*f_tmp.*exp(k(i).*z);
+                f_tmp = rho.*g.*sqrt(spread(kk).*AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i));
+                fk(:,1) = fk(:,1) + f_tmp.*exp(k(i).*z);
             end
         end
         f=fk+f;
