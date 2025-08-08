@@ -53,7 +53,7 @@ for it = 1:length(t)
     fprintf(fid, '<?xml version="1.0"?>\n');
     fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
     fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
-    fprintf(fid, ['<!--   wave:  ' waves.type ' -->\n']);
+    fprintf(fid, ['<!--   wave:  ' char(waves.type) ' -->\n']);
     fprintf(fid, ['<!--   time:  ' num2str(TimeBodyParav(it)) ' -->\n']);
     fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
     fprintf(fid, '  <PolyData>\n');
