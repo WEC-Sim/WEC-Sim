@@ -306,7 +306,7 @@ end; clear ii iH baseHydroData;
 
 % Check for all waves(#) are of the same type
 for iW = 2:length(waves)
-    if strcmp(waves(iW).type, waves(1).type) ~=1
+    if strcmp(char(waves(iW).type), char(waves(1).type)) ~=1
         error('All Wave-Spectra should be the same type as waves(1)')
     end
 end; clear iW
