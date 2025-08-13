@@ -550,12 +550,16 @@ classdef waveClass<handle
                 rampTime double {mustBeReal, mustBeNonNan, mustBeFinite} = 0
             end
 
+            waveElevationSum = zeros(size(obj(1).waveAmpTime(:,2)));
+            for i = 1:numel(obj)
+                waveElevationSum = waveElevationSum + obj(i).waveAmpTime(:,2);
+            end
             figure
-            plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
+            plot(obj(1).waveAmpTime(:,1),waveElevationSum)
             title('Wave Surfave Elevation')
             if nargin==2
                 hold on
-                line([rampTime,rampTime],[1.5*min(obj.waveAmpTime(:,2)),1.5*max(obj.waveAmpTime(:,2))],'Color','k')
+                line([rampTime,rampTime],[1.5*min(obj(1).waveAmpTime(:,2)),1.5*max(obj(1).waveAmpTime(:,2))],'Color','k')
                 title(['Wave Surface Elevation, Ramp Time ' num2str(rampTime) ' (s)'])
             end
             xlabel('Time (s)')
@@ -570,23 +574,28 @@ classdef waveClass<handle
             %     figure : fig
             %         Plot of wave spectrum versus wave frequency
             %
-            m0 = trapz(obj.omega,obj.spectrum);
-            HsTest = 4*sqrt(m0);
-            [~,I] = max(abs(obj.spectrum));
-            wp = obj.omega(I);
-            TpTest = 2*pi/wp;
+            for i = 1:length(obj)
+                m0 = trapz(obj(i).omega,obj(i).spectrum);
+                Hs(i) = 4*sqrt(m0);
+                [sMax(i),I] = max(abs(obj(i).spectrum));
+                wp(i) = obj(i).omega(I);
+                Tp(i) = 2*pi/wp(i);
+            end
 
             figure
-            plot(obj.omega,obj.spectrum,'s-')
+            legendStrings = {};
             hold on
-            line([wp,wp],[0,max(obj.spectrum)],'Color','k')
-            xlim([0 max(obj.omega)])
-            title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], '  'H_m_0= ' num2str(HsTest), ' [m]'])
-            if strcmp(obj.spectrumType,'JS') == 1
-                title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], H_m_0= ' num2str(HsTest), ' [m], gamma = ' num2str(obj.gamma)])
+            for i = 1:length(obj)
+                plot(obj(i).omega, obj(i).spectrum, 's-', ...
+                    [wp(i), wp(i)], [0, sMax(i)], '--');
+                legendStrings{end+1} = ['waves(' num2str(i) ') spectrum'];
+                legendStrings{end+1} = ['waves(' num2str(i) ') peak period'];
             end
+            legend(legendStrings);
+            xlim([0 max(obj(1).omega)])
             xlabel('Frequency (rad/s)')
             ylabel('Spectrum (m^2-s/rad)');
+            title('Wave Spectra');
         end
 
     end
