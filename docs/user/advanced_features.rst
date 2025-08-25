@@ -62,50 +62,14 @@ or link to another software.
 Running from Simulink
 """""""""""""""""""""
 
-WEC-Sim can also be run directly from Simulink. 
-The Run From Simulink advanced feature allows users to initialize WEC-Sim from the command window and then begin the simulation from Simulink. 
-This allows greater compatibility with other models or hardware-in-the-loop simulations that must start in Simulink. 
-The WEC-Sim library contains mask options that allow users to either:
+WEC-Sim can also be run directly from Simulink with the following steps:
 
-   1. Define an standard input file to use in WEC-Sim or 
-   2. Define custom parameters inside the block masks.
+* Type ``initializeWecSim`` in the Command Window
+* Run the model from Simulink and wait for the simulation to complete
+* Type ``stopWecSim`` in the Command Window
 
-The Global Reference Frame mask controls whether an input file or custom 
-parameters are used for WEC-Sim. Note that when the Custom Parameters options is 
-selected, WEC-Sim will only use those variable in the block masks. Certain options 
-become visible when the correct flag is set. For example, ``body.morisonElement.cd`` 
-will not be visible unless ``body.morisonElement.on > 0``. This method of running 
-WEC-Sim may help some users visualize the interplay between the blocks and classes.
-For more information on how the blocks and classes are related, see the 
-:ref:`user-code-structure` section.
-
-To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to 
-use an input file or custom parameters in the Global Reference Frame. Next type 
-``initializeWecSim`` in the MATLAB Command Window. Then, run the model from the 
-Simulink interface. Lastly, after the simulation has completed, type ``stopWecSim`` 
-in the MATLAB Command Window to run post-processing.
-
-* Run from Simulink with a wecSimInputFile.m
-	* Open the WEC-Sim Simulink file (``.slx``).
-	* Set the Global Reference Frame to use an input file
-	* Type ``initializeWecSim`` in the Command Window
-	* Run the model from Simulink
-	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
-* Run from Simulink with custom parameters
-	* Open the Simulink file (``.slx``).
-	* Set the Global  Reference Frame to use custom parameters
-	* (Optional) prefill parameters by loading an input file.
-	* Edit custom parameters as desired
-	* Type ``initializeWecSim`` in the Command Window
-	* Run the model from Simulink
-	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
-	
-After running WEC-Sim from Simulink with custom parameters, a 
-``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
-directory. This file specifies all non-default WEC-Sim parameters used for the 
-WEC-Sim simulation. This file serves as a record of how the case was run for 
-future reference. It may be used in the same manner as other input files when 
-renamed to ``wecSimInputFile.m``
+This allows users to initialize WEC-Sim from the command window and then start the simulation from Simulink, 
+allowing for greater compatibility with other models or hardware-in-the-loop simulations. 
 
 
 .. _user-advanced-features-mcr:
@@ -166,9 +130,11 @@ which allows parallel capability for :ref:`user-advanced-features-mcr` but adds
 an additional MATLAB dependency to use this feature. Similar to MCR, this 
 feature can be executed in three ways (Options 1~3). 
 
-For PCT runs, the ``*.h5`` hydrodynamic data must be reload, regardless the 
+For PCT runs, the ``*.h5`` hydrodynamic data must be reloaded, regardless the 
 setting for ``simu.reloadH5Data`` in the WEC-Sim input file. 
 
+The option ``simu.keepPool=1`` will retain the parallel pool after simulations have finished to facilitate
+parallel post-processing. If the pool is no longer needed or needs reinitialization, ``simu.keepPool=0`` will close the parallel pool after simulations have completed.     
 
 .. Note::
     The ``userDefinedFunctionsMCR.m`` is not compatible with ``wecSimPCT``. 
@@ -732,10 +698,71 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
     Morison Elements cannot be used with :code:`elevationImport`.
 
+.. _user-advanced-features-second-order-excitation-forces:
+
+Second-Order Excitation Forces and Quadratic Transfer Functions (QTFs)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For large offshore structures, second-order wave excitation forces can significantly influence system behavior—particularly in surge, pitch, and other low-frequency motions. These forces arise from interactions between pairs of wave frequencies, :math:`\omega_i` and :math:`\omega_j`, within the wave spectrum.
+
+There are two types of second-order forces:
+
+- **Sum-frequency forces** (:math:`\omega_i + \omega_j`): High-frequency components that can excite fast body motions.
+- **Difference-frequency forces** (:math:`\omega_i - \omega_j`): Low-frequency components that can induce slow-drift responses, commonly in surge or pitch.
+
+WEC-Sim supports **Quadratic Transfer Functions (QTFs)** to model second-order excitation forces. These can be imported from hydrodynamic solvers such as **WAMIT** and **NEMOH**. BEMIO functions will automatically read, process, and write QTF coefficients from WAMIT and NEMOH to the ``*.h5`` file.
+
+File Naming and Conventions
+"""""""""""""""""""""""""""""""""
+
+The QTF file naming depends on the hydrodynamics solver:
+
+**WAMIT**
+
+- QTF files should be located in the same folder as the `.out` file.
+- File naming format:
+  
+  ::
+  
+    qtfResults_<body#>.11s
+    qtfResults_<body#>.11d
+
+  Example: ``qtfWAMIT_1.11s``
+
+- Note: WAMIT uses **1-based indexing** for body numbers.
+
+**NEMOH**
+
+- QTF files should follow this naming format:
+
+  ::
+  
+    OUT_QTFP_N_<body#>.dat   (for sum-frequency QTFs)
+    OUT_QTFM_N_<body#>.dat   (for difference-frequency QTFs)
+
+- NEMOH uses **0-based indexing** for body numbers.
+
+Activating QTFs in WEC-Sim
+""""""""""""""""""""""""""""""""
+
+To enable second-order excitation forces in WEC-Sim, use the following flag in your `body(i)` definition:
+
+- ``body(i).QTFs = 1`` — Enables **full QTF-based** second-order excitation.
+- ``body(i).QTFs = 2`` — Enables **Standing approximation** for **difference-frequency** forces.
+  - In this case, sum-frequency components are still computed using full QTFs.
+
+.. note::
+
+   Do **not** use ``body[i].QTFs`` and ``body[i].meanDrift`` together.
+   This will result in **double-counting** of mean drift forces — once from the QTFs and once from the linear mean drift formulation.
+   If both ``body[i].QTFs`` and ``body[i].meanDrift`` are enabled, a warning will be issued and the standalone mean drift flag will be disabled. Only the QTFs will be used to compute the mean drift forces.
+
+   The **Standing approximation** is a modified form of **Newman's approximation**. While mathematically equivalent, Standing's formulation is expressed differently and is designed to support multidirectional wave environments. Unlike Newman's original version, it does not require high-frequency filtering after application.
+
 .. _user-advanced-features-non-hydro-body:
 
-Non-Hydrodynamic Bodies
-^^^^^^^^^^^^^^^^^^^^^^^
+Drag Bodies
+^^^^^^^^^^^
 
 For some simulations, it might be important to model bodies that do not have 
 hydrodynamic forces acting on them. This could be bodies that are completely 
@@ -744,52 +771,32 @@ or it could be bodies deeply submerged to the point where the hydrodynamics may
 be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces 
 acting on them and for which no BEM data is provided. 
 
-To do this, use a Body Block from the WEC-Sim Library and initialize it in the 
+To do this, use the Drag Body block from the WECSim_Lib_Body_Drag Library and initialize it in the 
 WEC-Sim input file as any other body but leave the name of the ``h5`` file as 
-an empty string. Specify :code:`body(i).nonHydro = 1;` and specify body name, 
+an empty string. Specify :code:`body(i).nonHydro;`, body name, 
 mass, moments of inertia, center of gravity, center of buoyancy, geometry file, 
 location, and displaced volume. You can also specify visualization options and 
 initial displacement. 
 
-To use non-hydrodynamic bodies, the following body class variable must be 
+To use drag bodies, the following body class variable must be 
 defined in the WEC-Sim input file, for example:: 
 
-    body(i).nonHydro = 1
+    body(i).nonHydro = 1; % or
+    body(i).nonHydro = 2;
 
-Non-hydrodynamic bodies require the following properties to be defined::
+Drag bodies require the following properties to be defined::
 
     body(i).mass
     body(i).inertia
     body(i).centerGravity
     body(i).volume
-    
-In the case where only non-hydrodynamic and drag bodies are used, WEC-Sim does
-not read an ``*.h5`` file. Users must define these additional parameters to 
-account for certain wave settings as there is no hydrodynamic body present in
-the simulation to define them::
 
-    waves.bem.range
-    waves.waterDepth
-
-
-For more information, refer to :ref:`webinar2`, and the **Nonhydro_Body** 
-example on the `WEC-Sim Applications 
-<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
-
-Drag Bodies
-^^^^^^^^^^^
-
-A body may be subjected to viscous drag or Morison forces, but does not 
-experience significant wave excitation or radiation. And example may be a 
+Drag bodies with no additional forces acting on them become non-hydrodynamic, no fluid forces act on them, 
+but they still couple other bodies together, and influence the multibody simulation.
+If a drag body is not subject to wave excitation, but damping, added mass, or viscous drag are still a concern,
+viscous drag, linear damping, or Morison element forces may be defined. An example of this body type is a 
 deeply-submerged heave plate of large surface area tethered to a float. In 
-these instances, the drag body implementation can be utilized by defining the 
-following body class variable:: 
-
-    body(i).nonHydro = 2
-
-
-Drag bodies have zero wave excitation or radiation forces, but viscous forces 
-can be applied in the same manner as a hydrodynamic body via the parameters:: 
+these instances, the additional forces can be specified by the parameters:
 
     body(i).quadDrag.drag
     body(i).quadDrag.cd
@@ -804,16 +811,21 @@ or if using Morison Elements::
     body(i).morisonElement.VME
     body(i).morisonElement.rgME
     
-which are described in more detail in the forthcoming section. At a minimum, it 
-is necessary to define:: 
-
-    body(i).mass
-    body(i).inertia
-    body(i).centerGravity
-    body(i).volume
-    
-to resolve drag body dynamics. One can additionally describe initial body 
+One can additionally describe initial body 
 displacement in the manner of a hydrodynamic body. 
+
+In the case where only drag bodies are used, WEC-Sim does
+not read an ``*.h5`` file. Users must define these additional parameters to 
+account for certain wave settings as there is no hydrodynamic body present in
+the simulation to define them::
+
+    waves.bem.range
+    waves.waterDepth
+
+For more information, refer to :ref:`webinar2`, and the **Nonhydro_Body** 
+example on the `WEC-Sim Applications 
+<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
+
 
 .. _user-advanced-features-b2b:
 
@@ -954,6 +966,22 @@ Variable Hydrodynamics
 ^^^^^^^^^^^^^^^^^^^^^^
 
 .. include:: /_include/variable_hydro.rst
+
+Body Initialization
+^^^^^^^^^^^^^^^^^^^
+The bodyClass is typically defined by inputting one or more paths to H5 files in the body constructor. 
+Alternatively, users may input a ``hydroData`` structure directly to the body constructor to bypass the 
+pre-processing steps that require writing the H5 file with BEMIO and then reloading it in the bodyClass.
+This workflow may save users time in computationally expensive scenarios.
+
+This alternate workflow is used by defining a body as: :code:`body(i) = bodyClass(hydroData)`. 
+Users should take care to ensure that the ``hydroData`` structure passed is identical in form to that 
+which ``initializeWecSim`` obtains by calling:
+
+:code:`hydroData = readBEMIOH5('pathToH5File', body.number, body.meanDrift);`
+
+The function :code:`rebuildHydroStruct()` may be used to convert the BEMIO :code:`hydro` structure
+into the bodyClass :code:`hydroData` format.
 
 
 .. _user-advanced-features-pto:

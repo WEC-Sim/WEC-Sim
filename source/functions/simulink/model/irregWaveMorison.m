@@ -46,7 +46,7 @@ for ii = 1:rr
         curramp        = currentSpeedDepth;
     end
     %Vel should be a column vector
-    Vel2    = [Vel(1),Vel(2),Vel(3)] + wxr + [curramp*cosd(currentDirection),curramp*sind(currentDirection),0];
+    Vel2    = [Vel(1),Vel(2),Vel(3)] + wxr;
     % Update translational and rotational acceleration
     % dotw refers to \dot{\omega} = rotational acceleration
     Accelt  = [Accel(4),Accel(5),Accel(6)];
@@ -58,7 +58,7 @@ for ii = 1:rr
     %% Calculate Directionality
     for aa = 1:length(direction)
 
-        %% Calculate Orbital Velocity
+        %% Calculate Fluid Velocity and Acceleration
         for jj = 1:ff
             waveDirRad      = direction(aa)*pi/180;
             phaseArg        = w(jj,1)*Time - k(jj,1)*(ShiftCg(1)*cos(waveDirRad) + ShiftCg(2)*sin(waveDirRad)) + randPhase(jj,1);
@@ -92,8 +92,9 @@ for ii = 1:rr
 
         % Sum the wave components to obtain the x, y, z orbital velocities
         uV = sum(uVt); uA   = sum(uAt); vV = sum(vVt); vA = sum(vAt); wV = sum(wVt); wA = sum(wAt);
-        fluidV              = [uV, vV, wV];
-        fluidA              = [uA, vA, wA];
+        % Total fluid velocity and acceleration
+        fluidV          = [uV, vV, wV] + [curramp*cosd(currentDirection) curramp*sind(currentDirection) 0];
+        fluidA          = [uA, vA, wA];
         if bodyMorison == 2
             %% Decompose Fluid Velocity
             % Tangential Velocity
@@ -133,22 +134,30 @@ for ii = 1:rr
             areaRot         = abs(mtimes(Area(ii,:),RotMax));
             CdRot           = mtimes(abs(Cd(ii,:)),RotMax);
             CaRot           = abs(mtimes(Ca(ii,:),RotMax));
+            % Fluid velocity relative to the body
+            uVdiff          = fluidV(1) - Vel2(1);
+            vVdiff          = fluidV(2) - Vel2(2);
+            wVdiff          = fluidV(3) - Vel2(3);
+            % Fluid acceleration relative to the body
+            uAdiff          = fluidA(1) - Accel2(1);
+            vAdiff          = fluidA(2) - Accel2(2);
+            wAdiff          = fluidA(3) - Accel2(3);
             % Forces from velocity drag
-            uVdiff          = uV - Vel2(1); FxuV = (1/2)*abs(uVdiff)*uVdiff*rho*CdRot(1)*areaRot(1);
-            vVdiff          = vV - Vel2(2); FxvV = (1/2)*abs(vVdiff)*vVdiff*rho*CdRot(2)*areaRot(2);
-            wVdiff          = wV - Vel2(3); FxwV = (1/2)*abs(wVdiff)*wVdiff*rho*CdRot(3)*areaRot(3);
+            FxuV            = (1/2)*abs(uVdiff)*uVdiff*rho*CdRot(1)*areaRot(1);
+            FxvV            = (1/2)*abs(vVdiff)*vVdiff*rho*CdRot(2)*areaRot(2);
+            FxwV            = (1/2)*abs(wVdiff)*wVdiff*rho*CdRot(3)*areaRot(3);
             % Forces from body acceleration inertia
-            uAdiff          = uA - Accel2(1); FxuA = uAdiff*rho*Vol(ii,:)*CaRot(1);
-            vAdiff          = vA - Accel2(2); FxvA = vAdiff*rho*Vol(ii,:)*CaRot(2);
-            wAdiff          = wA - Accel2(3); FxwA = wAdiff*rho*Vol(ii,:)*CaRot(3);
+            FxuA            = uAdiff*rho*Vol(ii,:)*CaRot(1);
+            FxvA            = vAdiff*rho*Vol(ii,:)*CaRot(2);
+            FxwA            = wAdiff*rho*Vol(ii,:)*CaRot(3);
             % Forces from fluid acceleration inertia
             FxuAf           = uA*Vol(ii,:)*rho;
             FxvAf           = vA*Vol(ii,:)*rho;
             FxwAf           = wA*Vol(ii,:)*rho;
             % Total Force from the Morison Element
             F               = [FxuV + FxuA + FxuAf,...
-                FxvV + FxvA + FxvAf,...
-                FxwV + FxwA + FxwAf];
+                               FxvV + FxvA + FxvAf,...
+                               FxwV + FxwA + FxwAf];
         end
 
         FMd(aa,:) = F;

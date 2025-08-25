@@ -125,9 +125,13 @@ waveOutput.waveAmpTime = waves.waveAmpTime;
 % Wind Turbine
 if exist('windTurbine','var')
     for iTurb = 1:length(windTurbine)
+        eval(['windTurbine' num2str(iTurb) '_out.name = windTurbine(' num2str(iTurb) ').name;']);
+        if iTurb == 1
+            windTurbineOutput = windTurbine1_out;
+        end
         windTurbineOutput(iTurb) = eval(['windTurbine' num2str(iTurb) '_out']);
-        windTurbineOutput(iTurb).name = windTurbine(iTurb).name;
         eval(['clear windTurbine' num2str(iTurb) '_out'])
+
     end; clear iTurb
 else
     windTurbineOutput = 0;
@@ -138,9 +142,11 @@ output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,ca
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput windTurbineOutput
 
 % MoorDyn
+mooringLineCount = 0;
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
-        output.loadMoorDyn(mooring(iMoor).moorDynLines, mooring(iMoor).moorDynInputFile);
+        output.loadMoorDyn(mooring(iMoor).moorDynLines, mooring(iMoor).moorDynInputFile, iMoor, mooringLineCount);
+        mooringLineCount = mooringLineCount + mooring(iMoor).moorDynLines;
     end
 end; clear iMoor
 
@@ -154,6 +160,6 @@ for iBod = 1:simu.numHydroBodies
     body(iBod).restoreMassMatrix();
     body(iBod).storeForceAddedMass(output.bodies(iBod).forceAddedMass, output.bodies(iBod).forceTotal);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration);
+    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration, output.bodies(iBod).hydroForceIndex);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod

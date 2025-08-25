@@ -42,13 +42,25 @@ for ii = 1:rr
         curramp        = currentSpeedDepth;
     end
     %Vel should be a column vector
-    Vel2    = [Vel(1),Vel(2),Vel(3)] + wxr + [curramp*cosd(currentDirection),curramp*sind(currentDirection),0];
+    Vel2    = [Vel(1),Vel(2),Vel(3)] + wxr;
     % Update translational and rotational acceleration
     % dotw refers to \dot{\omega} = rotational acceleration
     Accelt  = [Accel(4),Accel(5),Accel(6)];
     dotwxr  = cross(Accelt,r(ii,:));
     wxwxr   = cross(Velt,wxr);
     Accel2  = [Accel(1),Accel(2),Accel(3)] + dotwxr + wxwxr;
+    %% Calculate Fluid Velocity and Acceleration
+    % Orbital Velocity
+    uV              = 0;
+    vV              = 0;
+    wV              = 0;
+    % Orbital Acceleration
+    uA              = 0;
+    vA              = 0;
+    wA              = 0;
+    % Total fluid velocity and acceleration
+    fluidV          = [uV, vV, wV] + [curramp*cosd(currentDirection) curramp*sind(currentDirection) 0];
+    fluidA          = [uA, vA, wA];
     if bodyMorison == 2
         %% Decompose Body Velocity
         % Tangential Velocity
@@ -74,14 +86,22 @@ for ii = 1:rr
         areaRot     = abs(mtimes(Area(ii,:),RotMax));
         CdRot       = mtimes(abs(Cd(ii,:)),RotMax);
         CaRot       = abs(mtimes(Ca(ii,:),RotMax));
-        % Forces from body velocity drag
-        FxuV        = (1/2)*abs(-1*Vel2(1))*-1*Vel2(1)*rho*CdRot(1)*areaRot(1);
-        FxvV        = (1/2)*abs(-1*Vel2(2))*-1*Vel2(2)*rho*CdRot(2)*areaRot(2);
-        FxwV        = (1/2)*abs(-1*Vel2(3))*-1*Vel2(3)*rho*CdRot(3)*areaRot(3);
+        % Fluid velocity relative to the body
+        uVdiff      = fluidV(1) - Vel2(1);
+        vVdiff      = fluidV(2) - Vel2(2);
+        wVdiff      = fluidV(3) - Vel2(3);
+        % Fluid acceleration relative to the body
+        uAdiff      = fluidA(1) - Accel2(1);
+        vAdiff      = fluidA(2) - Accel2(2);
+        wAdiff      = fluidA(3) - Accel2(3);
+        % Forces from velocity drag
+        FxuV        = (1/2)*abs(uVdiff)*uVdiff*rho*CdRot(1)*areaRot(1);
+        FxvV        = (1/2)*abs(vVdiff)*vVdiff*rho*CdRot(2)*areaRot(2);
+        FxwV        = (1/2)*abs(wVdiff)*wVdiff*rho*CdRot(3)*areaRot(3);
         % Forces from body acceleration inertia
-        FxuA        = rho*Vol(ii,:)*CaRot(1)*-1*Accel2(1);
-        FxvA        = rho*Vol(ii,:)*CaRot(2)*-1*Accel2(2);
-        FxwA        = rho*Vol(ii,:)*CaRot(3)*-1*Accel2(3);
+        FxuA        = uAdiff*rho*Vol(ii,:)*CaRot(1);
+        FxvA        = vAdiff*rho*Vol(ii,:)*CaRot(2);
+        FxwA        = wAdiff*rho*Vol(ii,:)*CaRot(3);
         % Sum the force contributions
         F           = [FxuV + FxuA,FxvV + FxvA,FxwV + FxwA];
     end

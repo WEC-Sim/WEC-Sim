@@ -7,7 +7,9 @@ function [f, wp, wpMeanFS]  = nonFKForce(x,elv,direction,spread,center,tnorm,are
 % NOTE: This function assumes that the STL file is imported with its CG at 0,0,0
 
 % Logic to calculate nonFKForce at reduced sample time
-[f, wp, wpMeanFS] = calc_force(x,elv,direction,spread,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand);
+f = zeros(1,length(x));
+[f6, wp, wpMeanFS] = calc_force(x,elv,direction,spread,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand);
+f(1:6) = f6;
 end
 
 function [f, wp, wpMeanFS]  = calc_force(x,elv,direction,spread,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand)
@@ -32,8 +34,8 @@ tnorm = rotateXYZ(tnorm,[0 0 1],x(6));
 av = tnorm .* [area area area];
 
 % Calculate the free surface
-wpMeanFS = pDis(centerMeanFS,0,direction,spread,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
-wp = pDis(center,elv,direction,spread,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
+wpMeanFS = pDis(centerMeanFS,elv,0,direction,spread,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
+wp = pDis(center,elv,1,direction,spread,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
 
 % Calculate forces
 f_linear   =FK(centerMeanFS,       cg,avMeanFS,wpMeanFS);
@@ -41,7 +43,7 @@ f_nonLinear=FK(center      ,x(1:3)+cg,av      ,wp      );
 f = f_nonLinear-f_linear;
 end
 
-function f=pDis(center,elv,direction,spread,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
+function f=pDis(center,elv,elvCorr,direction,spread,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
 % Function to calculate pressure distribution
 f = zeros(length(center(:,3)),1);
 fk= zeros(length(center(:,3)),1);
@@ -50,10 +52,10 @@ if typeNum <10
 elseif typeNum <20
     f = rho.*g.*elv;
     if deepWater == 0
-        z=(center(:,3)-elv).*wDepth./(wDepth+elv);
+        z=(center(:,3)-elv*elvCorr).*wDepth./(wDepth+elv*elvCorr);
         f = f.*(cosh(k(1).*(z+wDepth))./cosh(k(1)*wDepth));
     else
-        z=(center(:,3)-elv);
+        z=(center(:,3)-elv*elvCorr);
         f = f.*exp(k(1).*z);
     end
 elseif typeNum <30
@@ -63,13 +65,13 @@ elseif typeNum <30
         X = cx*cos(direction(kk)*pi/180) + cy*sin(direction(kk)*pi/180);
         for i=1:length(AH)
             if deepWater == 0 && wDepth <= 0.5*pi/k(i)
-                z=(center(:,3)-elv).*wDepth./(wDepth+elv);
-                f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i,kk));
-                fk(:,1) = fk(:,1) + spread(kk) .* f_tmp.*(cosh(k(i).*(z+wDepth))./cosh(k(i).*wDepth));
+                z=(center(:,3)-elv*elvCorr).*wDepth./(wDepth+elv*elvCorr);
+                f_tmp = rho.*g.*sqrt(spread(kk).*AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i,kk));
+                fk(:,1) = fk(:,1) + f_tmp.*(cosh(k(i).*(z+wDepth))./cosh(k(i).*wDepth));
             else
-                z=(center(:,3)-elv);
-                f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i));
-                fk(:,1) = fk(:,1) + spread(kk) .*f_tmp.*exp(k(i).*z);
+                z=(center(:,3)-elv*elvCorr);
+                f_tmp = rho.*g.*sqrt(spread(kk).*AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i));
+                fk(:,1) = fk(:,1) + f_tmp.*exp(k(i).*z);
             end
         end
         f=fk+f;

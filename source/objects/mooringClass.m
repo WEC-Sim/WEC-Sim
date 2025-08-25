@@ -44,6 +44,19 @@ classdef mooringClass<handle
         moorDynInputFile (1,:) {mustBeText}                 = 'Mooring/lines.txt'   % (`string`) Name of the MoorDyn input file path. Outputs will be written to this path. Default = ``Mooring/lines.txt``
         lookupTableFlag                                     = 0;            % (`integer`) Flag to indicate a mooring look-up table, 0 or 1. Default = ``0``
         lookupTableFile                                     = '';           % (`string`) Mooring look-up table file name. Default =  ``''``;
+        nonlinearStaticData                                 = struct(...    % Struct for nonLinearStatic Computation
+            'flag',                                         0, ...
+            'd',                                            0, ...               % (`float`) Mooring line diamater (m)
+            'L',                                            0, ...               % (`float`) Unstretched mooring line length (m) 
+            'linearMassAir',                                0, ...               % (`float`) Linear weight in air [kg/m]    
+            'nLines',                                       0, ...               % (`interger`) Number of mooring lines (angularly equispaced).
+            'nodes',                                        [0 0 0; 0 0 0]', ... % (`float`)[Fairlead; Anchor] positions
+            'EA',                                           0, ...               % (`float`) Lines stiffness (N/m)         
+            'CB',                                           0, ...               % (`float`) Seabed friction coefficient
+            'MaxIter',                                      0, ...               % (`Integer`) Maximum number of optimizer iterations
+            'TolFun',                                       1e-7, ...            % (`Float`) Optimizer tolerance on function value for convergence
+            'TolX',                                         1e-7, ...            % (`Float`) Optimizer tolerance on parameter change for convergence
+            'HV0_try',                                      [0 0; 0 0; 0 0]);    % (`1x2 Float Array`) Initial guess for each line's [Horizontal, Vertical] fairlead forces at rest
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
@@ -87,7 +100,6 @@ classdef mooringClass<handle
             % this method checks the moordyn path is correct for reading in outputs
             assert(isequal(length(strsplit(obj.moorDynInputFile, '.')),2),'MoorDyn input file must only contain a single "." character')
             assert(isfile(obj.moorDynInputFile), append('The file "', obj.moorDynInputFile, '" does not exist'))
-
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -137,9 +149,7 @@ classdef mooringClass<handle
         function obj = loadLookupTable(obj)
             % Method to load the lookup table and assign to the mooringClass
             data = load(obj.lookupTableFile);
-
-            % Logic allows the look-up table file's data to have an
-            % arbitrary variable name
+            % Logic allows the look-up table file's data to have an arbitrary variable name
             dataFields = fields(data);
             if length(dataFields) > 1
                 warning('Mooring look-up table file contains multiple datasets. Ensure that look-up table data contains one variable.');
@@ -160,6 +170,28 @@ classdef mooringClass<handle
             if err
                 error(errStr);
             end
+        end
+
+        function obj = nonlinearStaticSetup(obj,rho,gravity,depth)
+            obj.nonlinearStaticData.fminsearch_options = optimset( ...
+                'MaxIter', obj.nonlinearStaticData.MaxIter, ...
+                'TolFun', obj.nonlinearStaticData.TolFun, ...
+                'TolX', obj.nonlinearStaticData.TolX);
+            obj.nonlinearStaticData.beta = linspace(0, 360*(1-1/obj.nonlinearStaticData.nLines), obj.nonlinearStaticData.nLines);
+            obj.nonlinearStaticData.w = (obj.nonlinearStaticData.linearMassAir-pi*obj.nonlinearStaticData.d^2/4*rho)*gravity;
+            obj.nonlinearStaticData.HV0 = zeros(obj.nonlinearStaticData.nLines, 2);
+            obj.nonlinearStaticData.nodes(obj.nonlinearStaticData.nodes==-inf) = -depth;
+            obj.nonlinearStaticData.nodes = repmat(obj.nonlinearStaticData.nodes, 1, obj.nonlinearStaticData.nLines);
+
+            for i = 2:obj.nonlinearStaticData.nLines
+                obj.nonlinearStaticData.nodes(:,2*i-1:2*i) = [
+                    cosd(obj.nonlinearStaticData.beta(i))  -sind(obj.nonlinearStaticData.beta(i))   0;
+                    sind(obj.nonlinearStaticData.beta(i))   cosd(obj.nonlinearStaticData.beta(i))   0;
+                    0                             0                             1]*obj.nonlinearStaticData.nodes(:,2*i-1:2*i);
+            end
+
+            [~, obj.nonlinearStaticData.HV0] = nonLinearStaticMooring([0 0 0 0 0 0], obj.nonlinearStaticData.HV0_try, obj.nonlinearStaticData);
+
         end
         
         function listInfo(obj)

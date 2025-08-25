@@ -102,7 +102,10 @@ lines and each line may have multiple nodes. The number of MoorDyn lines and nod
 each line should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) 
 and (``mooring(i).moorDynNodes(iLine) = <Number of mooring nodes in line>`` - only used 
 for ParaView visualization), respectively and should match the number of lines and nodes 
-specified in the MoorDyn input file. 
+specified in the MoorDyn input file. The order of the lines should also be the same 
+between the WEC-Sim and MoorDyn input files (i.e., for a model with two MoorDyn 
+connections, all lines corresponding to ``mooring(1)`` should be defined in the 
+MoorDyn input file before the lines for ``mooring(2)``).
 
 A mooring folder that includes a MoorDyn input file (``lines.txt``) is required 
 in the simulation folder. The body and corresponding mooring attachment points are 

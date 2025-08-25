@@ -123,16 +123,21 @@ classdef responseClass<handle
     %    
     %   * ``name`` (`string`) = 'windTurbineName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``windSpeed`` (`array`) = [# of time-steps x 1]
-    %   * ``turbinePower`` (`array`) = [# of time-steps x 1]
-    %   * ``rotorSpeed`` (`array`) = [# of time-steps x 1]
-    %   * ``bladePitch`` (`array`) = [# of time-steps x 1] Pitch position of blade 1
-    %   * ``nacelleAcceleration`` (`array`) = [# of time-steps x 1]
+    %   * ``windSpeed`` (`array`) = [# of time-steps x 3] x-y-z wind speed components at hub rest position
+    %   * ``turbinePower`` (`array`) = [# of time-steps x 1] wind turbine power
+    %   * ``rotorSpeed`` (`array`) = [# of time-steps x 1] rotor angular speed
+    %   * ``bladePitch`` (`array`) = [# of time-steps x 1] Pitch position of blades
+    %   * ``nacelleAcceleration`` (`array`) = [# of time-steps x 3] x-y-z nacelle acceleration components
+    %   * ``NacXdot`` (`array`) = [# of time-steps x 3] nacelle speed along x-direction
     %   * ``towerBaseLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the floating body and tower base
     %   * ``towerTopLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the tower base and tower nacelle 
-    %   * ``bladeRootLoad`` (`array`) = [# of time-steps x 1] 6DOF force at the constraint between blade 1 and the hub 
+    %   * ``blade1RootLoad`` (`array`) = [# of time-steps x 1] 6DOF force at the constraint between blade 1 and the hub (blade root)
     %   * ``genTorque`` (`array`) = [# of time-steps x 1] Torque on the generator
     %   * ``azimuth`` (`array`) = [# of time-steps x 1] azimuthal angle of the generator 
+    %   * ``blade1AeroLoad`` (`array`) = [# of time-steps x 1] 6DOF aeroloads blade 1
+    %   * ``blade2AeroLoad`` (`array`) = [# of time-steps x 1] 6DOF aeroloads blade 2
+    %   * ``blade3AeroLoad`` (`array`) = [# of time-steps x 1] 6DOF aeroloads blade 3
+    %   * ``DeltaYaw`` (`array`) = [# of time-steps x 1] DeltaYaw
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')
@@ -205,6 +210,8 @@ classdef responseClass<handle
                 end
                 if bodiesOutput(ii).variableHydroOption == 1
                     obj.bodies(ii).hydroForceIndex = bodiesOutput(ii).hydroForceIndex;
+                else
+                    obj.bodies(ii).hydroForceIndex = [];
                 end
             end
             
@@ -222,8 +229,9 @@ classdef responseClass<handle
 
             if isstruct(windTurbineOutput)
                 % Wind turbine
-                signals = {'windSpeed','turbinePower','rotorSpeed','bladePitch','nacelleAcceleration','towerBaseLoad','towerTopLoad','bladeRootLoad','genTorque','azimuth'};
-                outputDim = [1 1 1 1 1 6 6 6 1 1];
+                signals = {'windSpeed','turbinePower','rotorSpeed','bladePitch','nacelleAcceleration','NacXdot','towerBaseLoad','towerTopLoad',...
+                    'blade1RootLoad','genTorque','azimuth','blade1AeroLoad','blade2AeroLoad','blade3AeroLoad','DeltaYaw'};
+                outputDim = [3 1 1 1 3 1 6 6 6 1 1 6 6 6 1];
                 for ii = 1:length(windTurbineOutput)
                     obj.windTurbine(ii).name = windTurbineOutput(ii).name;
                     obj.windTurbine(ii).time = windTurbineOutput(ii).time;
@@ -321,7 +329,7 @@ classdef responseClass<handle
             end
         end
         
-        function obj = loadMoorDyn(obj,linesNum, inputFile)            
+        function obj = loadMoorDyn(obj,linesNum, inputFile, iMoor, previousLineCount)            
             % This method reads MoorDyn outputs for each instance of the
             % ``mooringClass``
             %            
@@ -331,12 +339,19 @@ classdef responseClass<handle
             %         the number of MoorDyn lines
             %     inputFile : text
             %         the infile text name 
+            %     iMoor : integer
+            %         the index defining the MoorDyn connection
+            %     previousLineCount : integer
+            %         the number of mooring lines from previous MoorDun
+            %         connections
             %
             
             arguments
                 obj
                 linesNum (1,1) double {mustBeInteger}
                 inputFile (1,:) {mustBeText}
+                iMoor (1,1) double {mustBeInteger}
+                previousLineCount (1,1) double {mustBeInteger}
             end
             
             % load out files. First find the path and rootname. 
@@ -354,13 +369,13 @@ classdef responseClass<handle
             tmp = size(data);
             ncol = tmp(2);clear tmp
             for icol=1:ncol
-               eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
+               eval(['obj.moorDyn(' num2str(iMoor) ').Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
             end
             fclose(fid);
             % load Line#.out
             for iline=1:linesNum
-                eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
-                filename = [append(fileRootPath,'_Line') num2str(iline) '.out'];
+                eval(['obj.moorDyn(' num2str(iMoor) ').Line' num2str(iline) '=struct();']);
+                filename = [append(fileRootPath,'_Line') num2str(iline+previousLineCount) '.out'];
                 try
                     fid = fopen(filename);
                     header = strsplit(strtrim(fgetl(fid)));
@@ -368,7 +383,7 @@ classdef responseClass<handle
                     tmp = size(data);
                     ncol = tmp(2);clear tmp
                     for icol=1:ncol
-                        eval(['obj.moorDyn.Line' num2str(iline) '.' header{icol} ' = data(:,' num2str(icol) ');']);
+                        eval(['obj.moorDyn(' num2str(iMoor) ').Line' num2str(iline) '.' header{icol} ' = data(:,' num2str(icol) ');']);
                     end
                     fclose(fid);
                 catch

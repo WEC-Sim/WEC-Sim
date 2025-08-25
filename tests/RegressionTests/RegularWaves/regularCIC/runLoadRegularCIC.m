@@ -74,12 +74,12 @@ if testCase.openCompare==1
         [regularCIC.Rel_H_max,regularCIC.Rel_H_I], 'RegularCIC');
     cd(locdir)
 end
-%% Clear output and .slx directory
 
+%% Clear output and .slx directory
 try
 	rmdir('output','s')
 	rmdir('slprj','s')
 	delete('RM3.slx.autosave', 'RM3_sfun.mexmaci64')
-
+    bdclose('all');
 catch
 end

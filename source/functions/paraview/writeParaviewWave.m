@@ -1,4 +1,4 @@
-function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, paraviewPath,TimeBodyParav,g)
+function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, numMoorDyn, paraviewPath,TimeBodyParav,g)
 % Method to write ``vtp`` Paraview visualization files for the waveClass.
 % Executed by paraviewVisualization.m when simu.paraview.option=1 in the 
 % wecSimInputFile.m
@@ -19,8 +19,8 @@ function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, 
 %       The simMechanics ``.slx`` filename
 %   simdate : string
 %       Date and time of the simulation
-%   mooring : int
-%       MoorDyn flag
+%   numMoorDyn : int
+%       Number of MoorDyn connections
 %   paraviewPath : directory
 %       Directory the Paraview files were saved
 %   TimeBodyParav : float vector
@@ -34,7 +34,7 @@ filename = [paraviewPath, filesep 'ground.txt'];
 fid = fopen(filename, 'w');
 fprintf(fid,[num2str(domainSize) '\n']);
 fprintf(fid,[num2str(waves.waterDepth) '\n']);
-fprintf(fid,[num2str(mooring) '\n']);
+fprintf(fid,[num2str(numMoorDyn) '\n']);
 fclose(fid);
 % wave
 x = linspace(-domainSize, domainSize, numPointsX);
@@ -53,7 +53,7 @@ for it = 1:length(t)
     fprintf(fid, '<?xml version="1.0"?>\n');
     fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
     fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
-    fprintf(fid, ['<!--   wave:  ' waves.type ' -->\n']);
+    fprintf(fid, ['<!--   wave:  ' char(waves.type) ' -->\n']);
     fprintf(fid, ['<!--   time:  ' num2str(TimeBodyParav(it)) ' -->\n']);
     fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
     fprintf(fid, '  <PolyData>\n');

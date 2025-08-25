@@ -29,7 +29,7 @@ classdef simulationClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input 
         b2b (1,1) {mustBeInteger}                       = 0                 % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
-        cicDt (1,:) {mustBeScalarOrEmpty}               = []                % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
+        cicDt (1,:) {mustBeScalarOrEmpty}               = []                % (`float`) Time step to calculate the radiation convolution integral. Default = ``dt``
         cicEndTime (1,:) {mustBeScalarOrEmpty}          = 60                % (`float`) Convolution integral time. Default = ``60`` s
         domainSize (1,1) {mustBePositive}               = 200               % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         dt (1,1) {mustBePositive}                       = 0.1               % (`float`) Simulation time step. Default = ``0.1`` s
@@ -37,6 +37,7 @@ classdef simulationClass<handle
         endTime (1,:) {mustBeScalarOrEmpty}             = []                % (`float`) Simulation end time. Default = ``[]``
         explorer (1,:) {mustBeText}                     = 'on'              % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         gravity (1,1) {mustBePositive}                  = 9.81              % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        keepPool (1,1) logical                          = 1                 % (`logical`) Flag to keep parallel pool open after use of wecSimPCT. Default = ``1``
         mcrMatFile (1,:) {mustBeText}                   = ''                % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
         mcrExcelFile (1,:) {mustBeText}                 = ''                % (`string`) File name from which to load wave statistics data. Default = ``[]``        
         mode (1,:) {mustBeText}                         = 'normal'          % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
@@ -46,7 +47,7 @@ classdef simulationClass<handle
             'option',                                   0,...               % 
             'startTime',                                [], ...             %
             'endTime',                                  [], ...             %
-            'dt',                                       [], ...            % 
+            'dt',                                       [], ...             % 
             'path',                                     'vtk')              % (`structure`) Defines the Paraview visualization. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.      
         pressure (1,1) {mustBeInteger}                  = 0                 % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime (1,1) {mustBeNumeric}                  = 100               % (`float`) Ramp time for wave forcing. Default = ``100`` s        
@@ -85,7 +86,7 @@ classdef simulationClass<handle
         date                = datetime                                     % (`string`) Simulation date and time
         gitCommit           = []                                           % (`string`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
-        wsVersion           = '6.1.2'                                      % (`string`) WEC-Sim version
+        wsVersion           = '7.0.0'                                      % (`string`) WEC-Sim version
     end
 
     methods

@@ -67,18 +67,18 @@ save('regular','regular')
 
 %% Plot Old vs. New Comparison
 if testCase.openCompare==1 
-cd ../.. 
+    cd ../.. 
     plotOldNew(B1,B2,Rel,[regular.B1_H_max ,regular.B1_H_I],...
-        [regular.B2_H_max ,regular.B2_H_I]...
-    ,[regular.Rel_H_max,regular.Rel_H_I],'Regular');
-cd(locdir)
+        [regular.B2_H_max ,regular.B2_H_I],...
+        [regular.Rel_H_max,regular.Rel_H_I],'Regular');
+    cd(locdir)
 end
-%% Clear output and .slx directory
 
+%% Clear output and .slx directory
 try
 	rmdir('output','s')
 	rmdir('slprj','s')
 	delete('RM3.slx.autosave', 'RM3_sfun.mexmaci64')
-    
+    bdclose('all'); 
 catch
 end

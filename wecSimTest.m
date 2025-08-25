@@ -26,22 +26,22 @@
 %
 %   Parameters
 %   ----------
-%   'bemioTest'       Run tests for BEMIO. Default is true.
+%   'bemioTest'        Run tests for BEMIO. Default is true.
 %
-%   'regressionTest'  Run regression tests. These tests check if values
-%                     have changed from a previous run. Default is true.
+%   'regressionTest'   Run regression tests. These tests check if values
+%                      have changed from a previous run. Default is true.
 %
-%   'compilationTest' Run compilation tests. These tests do not check
-%                     correctness of the results. Default is true.
+%   'runFromSimTest'   Run tests for execution of WECSim from Simulink.
+%                      Default is true.
 %
-%   'runFromSimTest'  Run tests for execution of WECSim from Simulink.
-%                     Default is true.
+%   'rotationTest'     Run rotation tests. Default is true.
 %
-%   'rotationTest'    Run rotation tests. Default is true.
+%   'devTest'          Run developer focused tests. Default is true.
 %
-%   'devTest'         Run developer focused tests. Default is true.
-%
-%   'devTest'         Run cable tension tests. Default is true.
+%   'cableTensionTest' Run cable tension tests. Default is true.
+% 
+%   'cicTest'          Run convolution integral surface calculation test. 
+%                      Default is true.
 %
 %   Users should also run the appropriate applications tests when
 %   creating a PR into the WEC-Sim repository.
@@ -51,11 +51,11 @@ function results = wecSimTest(options)
     arguments
         options.bemioTest = true
         options.regressionTest = true
-        options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
         options.devTest = true
         options.cableTensionTest = true
+        options.cicTest = true
     end
     
     % Import MATLAB unittest
@@ -92,6 +92,10 @@ function results = wecSimTest(options)
         suites = [suites TestSuite.fromFile('tests/cableTensionTest.m')];
     end
     
+    if options.cicTest
+        suites = [suites TestSuite.fromFile('tests/cicTest.m')];
+    end
+    
     % Create TestRunner
     runner = TestRunner.withTextOutput; % Contains TestRunProgressPlugin,
                                         %          DiagnosticsOutputPlugin
@@ -99,7 +103,7 @@ function results = wecSimTest(options)
     runner.addPlugin(CodeCoveragePlugin.forFolder(                      ...
                                             './source',                 ...
                                              'IncludingSubfolders',     ...
-                                             true));    
+                                             true));
     
     % Run the tests
     results = runner.run(suites);
