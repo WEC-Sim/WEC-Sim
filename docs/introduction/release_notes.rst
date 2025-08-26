@@ -11,11 +11,11 @@ Citing WEC-Sim
 To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cite the following WEC-Sim publication.
 
 
-`WEC-Sim v6.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.1>`_
+`WEC-Sim v7.0.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v7.0.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
-[1] Kelley Ruehl, Adam Keester, Dominic Forbush, Jeff Grasberger, Salman Husain, Jorge Leon, David Ogden, and Mohamed Shabara, "WEC-Sim v6.1". Zenodo, September 16, 2024. https://doi.org/10.5281/zenodo.13770349.
+[1] Kelley Ruehl, Adam Keester, Dominic Forbush, Jeff Grasberger, Salman Husain, Mohamed Shabara, Jorge Leon, and David Ogden "WEC-Sim v7.0.0". Zenodo, August 26, 2025. https://doi.org/10.5281/zenodo.16950906.
 
 .. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
@@ -27,20 +27,20 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
                           Dominic Forbush, 
                           Jeff Grasberger, 
                           Salman Husain,
+                          Mohamed A. Shabara,
                           Jorge Leon,
-                          David Ogden,
-                          Mohamed A. Shabara},
-	  title        = {WEC-Sim v6.1.2},
-	  month        = December,
-	  year         = 2024,
+                          David Ogden},
+	  title        = {WEC-Sim v7.0.0},
+	  month        = August,
+	  year         = 2025,
 	  publisher    = {Zenodo},
-	  version      = {v6.1.2},
-	  doi          = {10.5281/zenodo.14549050},
-	  url          = {https://doi.org/10.5281/zenodo.14549050}
+	  version      = {v7.0.0},
+	  doi          = {10.5281/zenodo.16950906},
+	  url          = {https://doi.org/10.5281/zenodo.16950906}
 	}
     
 
-.. NOTE: badge does NOT need to be updated, doi badge is always for the lastest release
+.. NOTE: this badge does NOT need to be updated, doi badge is always for the lastest release
 
 .. image:: https://zenodo.org/badge/20451353.svg
    :target: https://zenodo.org/badge/latestdoi/20451353
@@ -48,7 +48,108 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
 
 Publication
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
+[1] M. Shabara, A. Keester, S. Husain, D. Ogden, J. Grasberger, D. Forbush, K. Ruehl, J. Leon, "Review on Recent WEC-Sim Applications Developments in v6.0" in Proceedings of the 2024 UMERC+METS Marine Energy Research Conference, UMERC+METS 2024, Duluth, MN, 2024. 
+
+
+
+`WEC-Sim v7.0.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v7.0.0>`_
+--------------------------------------------------------------------------------
+
+**New Features and Improvements**
+
+* Resolve issue #1305 - MATLAB deprecation warning in readWAMIT by @akeeste in `#1340 <https://github.com/WEC-Sim/WEC-Sim/pull/1340>`_
+* WEC-Sim QTFs compatability with NEMOH by @MShabara in `#1353 <https://github.com/WEC-Sim/WEC-Sim/pull/1353>`_
+* update body library block mask to address #1346 on dev branch by @dforbush2 in `#1350 <https://github.com/WEC-Sim/WEC-Sim/pull/1350>`_
+* Minor bug fix related to PR #1353 by @MShabara in `#1359 <https://github.com/WEC-Sim/WEC-Sim/pull/1359>`_
+* Resolve unit discrepancy from #1356 by @kmruehl in `#1366 <https://github.com/WEC-Sim/WEC-Sim/pull/1366>`_
+* MoorDyn variable path support by @RyanDavies19 in `#1378 <https://github.com/WEC-Sim/WEC-Sim/pull/1378>`_
+* User Defined Body Propterties v2 by @MShabara in `#1355 <https://github.com/WEC-Sim/WEC-Sim/pull/1355>`_
+* Update cable tension for negative displacements by @akeeste in `#1349 <https://github.com/WEC-Sim/WEC-Sim/pull/1349>`_
+* Full dir spectra (resolved conflicts) by @jtgrasb in `#1332 <https://github.com/WEC-Sim/WEC-Sim/pull/1332>`_
+* Update flex body (GBM) to allow for nonlinear hydrodynamics (on first 6 DOF) by @jtgrasb in `#1379 <https://github.com/WEC-Sim/WEC-Sim/pull/1379>`_
+* Fix mooring path check by @jtgrasb in `#1382 <https://github.com/WEC-Sim/WEC-Sim/pull/1382>`_
+* Enable multiple wave trains with and add full directional wave block to flex body by @jtgrasb in `#1384 <https://github.com/WEC-Sim/WEC-Sim/pull/1384>`_
+* Resave body library to resolve simscape logging error by @jtgrasb in `#1388 <https://github.com/WEC-Sim/WEC-Sim/pull/1388>`_
+* Override main to be dev by @MShabara in `#1390 <https://github.com/WEC-Sim/WEC-Sim/pull/1390>`_
+* Applied recent commits to main into dev by @MShabara in `#1397 <https://github.com/WEC-Sim/WEC-Sim/pull/1397>`_
+* fix #1288, cleanup waveclass (main) by @dforbush2 in `#1417 <https://github.com/WEC-Sim/WEC-Sim/pull/1417>`_
+* fix waveClass and irregExc functions for #1288 (dev) by @dforbush2 in `#1416 <https://github.com/WEC-Sim/WEC-Sim/pull/1416>`_
+* Updates the Ubuntu and Matlab versions by @MShabara in `#1420 <https://github.com/WEC-Sim/WEC-Sim/pull/1420>`_
+* Fix irregular wave elevation with multiple directions by @jtgrasb in `#1403 <https://github.com/WEC-Sim/WEC-Sim/pull/1403>`_
+* Add function to make sure BEM directions span 360 degrees for passive yaw and full directional spectra cases by @jtgrasb in `#1419 <https://github.com/WEC-Sim/WEC-Sim/pull/1419>`_
+* Dev: fix badBEMIOFix_fcn by @dforbush2 in `#1447 <https://github.com/WEC-Sim/WEC-Sim/pull/1447>`_
+* KeepParallelPool by @pm-gusmano in `#1418 <https://github.com/WEC-Sim/WEC-Sim/pull/1418>`_
+* build Body from hydro structure directly by @degoeden in `#1421 <https://github.com/WEC-Sim/WEC-Sim/pull/1421>`_
+* elevationToSpectrum.m Function Enhancements by @pm-gusmano in `#1423 <https://github.com/WEC-Sim/WEC-Sim/pull/1423>`_
+* Variable hydro improvements by @akeeste in `#1411 <https://github.com/WEC-Sim/WEC-Sim/pull/1411>`_
+* ParaView feature for multiple mooring connections #1440 by @kmruehl in `#1455 <https://github.com/WEC-Sim/WEC-Sim/pull/1455>`_
+* QTF Standing (Newman) Approximation by @MShabara in `#1461 <https://github.com/WEC-Sim/WEC-Sim/pull/1461>`_
+* Enable Variable Mass by @jtgrasb in `#1465 <https://github.com/WEC-Sim/WEC-Sim/pull/1465>`_
+* Fix wave generation with phaseSeed in waveClass for PCT by @jleonqu in `#1467 <https://github.com/WEC-Sim/WEC-Sim/pull/1467>`_
+* Fix mask for flex body by @jtgrasb in `#1468 <https://github.com/WEC-Sim/WEC-Sim/pull/1468>`_
+* Radiation damping load extrapolation by @TianyuanWangi in `#1476 <https://github.com/WEC-Sim/WEC-Sim/pull/1476>`_
+* Update variable mass implementation and add documentation by @jtgrasb in `#1494 <https://github.com/WEC-Sim/WEC-Sim/pull/1494>`_
+* Irregular CIC test for OSWEC by @jleonqu in `#1484 <https://github.com/WEC-Sim/WEC-Sim/pull/1484>`_
+* Body Library Refactoring by @akeeste in `#1474 <https://github.com/WEC-Sim/WEC-Sim/pull/1474>`_
+* Refactor badBemioFix_fcn by @akeeste in `#1489 <https://github.com/WEC-Sim/WEC-Sim/pull/1489>`_
+* Adds the QTF rotaions feature by @MShabara in `#1511 <https://github.com/WEC-Sim/WEC-Sim/pull/1511>`_
+* Universal PTO joint by @akeeste in `#1466 <https://github.com/WEC-Sim/WEC-Sim/pull/1466>`_
+* `waveClass` Constructor Improvements by @pm-gusmano in `#1515 <https://github.com/WEC-Sim/WEC-Sim/pull/1515>`_
+* Updated MOST source code by @akeeste in `#1470 <https://github.com/WEC-Sim/WEC-Sim/pull/1470>`_
+* OSWEC Test Case - Irregular Waves by @jleonqu in `#1516 <https://github.com/WEC-Sim/WEC-Sim/pull/1516>`_
+* Fix for the elevation plot when multiple wave classes are defined by @MShabara in `#1526 <https://github.com/WEC-Sim/WEC-Sim/pull/1526>`_
+* v7.0.0 by @akeeste in `#1541 <https://github.com/WEC-Sim/WEC-Sim/pull/1541>`_
+
+**Documentation**
+
+* Fixing documentation inconsistency for PTO-Sim blocks (#1330) by @kmruehl in `#1341 <https://github.com/WEC-Sim/WEC-Sim/pull/1341>`_
+* Variable hydro documentation by @akeeste in `#1343 <https://github.com/WEC-Sim/WEC-Sim/pull/1343>`_
+
+**Bug Fixes**
+
+* Pull bugfixes #1369 and #1362 from main to dev by @akeeste in `#1370 <https://github.com/WEC-Sim/WEC-Sim/pull/1370>`_
+* Pull #1373 into dev by @akeeste in `#1380 <https://github.com/WEC-Sim/WEC-Sim/pull/1380>`_
+* Qtf bug time interpolation by @MShabara in `#1396 <https://github.com/WEC-Sim/WEC-Sim/pull/1396>`_
+* Bug fixes for applications by @akeeste in `#1401 <https://github.com/WEC-Sim/WEC-Sim/pull/1401>`_
+* Pull a few fixes from dev into main by @akeeste in `#1429 <https://github.com/WEC-Sim/WEC-Sim/pull/1429>`_
+* Fix treatment of the inertia products in body.adjustMassMatrix by @akeeste in `#1425 <https://github.com/WEC-Sim/WEC-Sim/pull/1425>`_
+* Pull bug fixes from main into dev by @akeeste in `#1436 <https://github.com/WEC-Sim/WEC-Sim/pull/1436>`_
+* Excitation spread fix by @dforbush2 in `#1439 <https://github.com/WEC-Sim/WEC-Sim/pull/1439>`_
+* adding spread fix to flex by @dforbush2 in `#1453 <https://github.com/WEC-Sim/WEC-Sim/pull/1453>`_
+* Excitation spread fix dev by @dforbush2 in `#1454 <https://github.com/WEC-Sim/WEC-Sim/pull/1454>`_
+* Fix paraview output function by @jtgrasb in `#1441 <https://github.com/WEC-Sim/WEC-Sim/pull/1441>`_
+* Bug fix for drag and nonhydro body block mass  by @akeeste in `#1464 <https://github.com/WEC-Sim/WEC-Sim/pull/1464>`_
+* Merging bug-fixes from main into dev by @kmruehl in `#1469 <https://github.com/WEC-Sim/WEC-Sim/pull/1469>`_
+* Bug fix in BodyClass and minor change in BEMIO by @MShabara in `#1472 <https://github.com/WEC-Sim/WEC-Sim/pull/1472>`_
+* Modified sign convention when a cable pretension is defined by @ttran18 in `#1478 <https://github.com/WEC-Sim/WEC-Sim/pull/1478>`_
+* Match PR 1478 on main by @dforbush2 in `#1479 <https://github.com/WEC-Sim/WEC-Sim/pull/1479>`_
+* Fixing Regression Tests for RM3 by @jleonqu in `#1473 <https://github.com/WEC-Sim/WEC-Sim/pull/1473>`_
+* Pulling bugfix PR #1473 into dev by @kmruehl in `#1480 <https://github.com/WEC-Sim/WEC-Sim/pull/1480>`_
+* Nonhydro and drag body mass bugfix by @akeeste in `#1499 <https://github.com/WEC-Sim/WEC-Sim/pull/1499>`_
+* Resolve issue #1512 by @akeeste in `#1518 <https://github.com/WEC-Sim/WEC-Sim/pull/1518>`_
+* Nonlinear FK force bug Fix introduced in v6.1.2 by @MShabara in `#1527 <https://github.com/WEC-Sim/WEC-Sim/pull/1527>`_
+* Fix spread with nonlinear hydro by @jtgrasb in `#1528 <https://github.com/WEC-Sim/WEC-Sim/pull/1528>`_
+* [BUG] Fix paraview outputs for new wave types by @jtgrasb in `#1525 <https://github.com/WEC-Sim/WEC-Sim/pull/1525>`_
+* [BUG] Add back MoorDyn blocks (removed by #1470) by @jtgrasb in `#1522 <https://github.com/WEC-Sim/WEC-Sim/pull/1522>`_
+* Pull PRs 1473 and 1470 into dev by @akeeste in `#1531 <https://github.com/WEC-Sim/WEC-Sim/pull/1531>`_
+* fix bug in flex body mask by @akeeste in `#1536 <https://github.com/WEC-Sim/WEC-Sim/pull/1536>`_
+* Fix wave current velocity by @akeeste in `#1540 <https://github.com/WEC-Sim/WEC-Sim/pull/1540>`_
+
+**New Contributors**
+
+* @degoeden made their first contribution in `#1421 <https://github.com/WEC-Sim/WEC-Sim/pull/1421>`_
+* @TianyuanWangi made their first contribution in `#1476 <https://github.com/WEC-Sim/WEC-Sim/pull/1476>`_
+* @ttran18 made their first contribution in `#1478 <https://github.com/WEC-Sim/WEC-Sim/pull/1478>`_
+
+**Issues and Pull Requests**
+
+* `v7.0.0 Changelog <https://github.com/WEC-Sim/WEC-Sim/compare/v6.1.2...v7.0.0>`_
+* 68 issues closed since v6.1.2
+* 52 PRs merged since v6.1.2
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.16950906.svg
+  :target: https://doi.org/10.5281/zenodo.16950906
+
 
 
 `WEC-Sim v6.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.1>`_
