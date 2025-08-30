@@ -206,7 +206,7 @@ The mean drift force is combined with the excitation force in the response class
 .. ACTION: Add QTF documentation here
 
 .. Note::
-    Currently, WEC-Sim only supports mean drift coefficients and QTF from WAMIT.
+    Currently, WEC-Sim supports mean drift coefficients and QTF from WAMIT and NEMOH.
 
 .. _cic_theory:
 
@@ -545,7 +545,7 @@ A more general description of a wave field can be expressed
     
 where :math:`D(\omega,\theta)` indicates that the directional components of a wave can also
 vary with frequency. The total energy in the directional spectrum must be the same at each frequency
-as the total energy in the one-dimensional spectrum. At each frequency,:math:`D(\theta)` is often parameterized by an
+as the total energy in the one-dimensional spectrum. At each frequency, :math:`D(\theta)` is often parameterized by an
 analytical distribution about a mean value, called a spreading function. The default spreading function
 used by WEC-Sim is a Gaussian defined by a mean :math:`\theta` and a standard deviation `\psi`.
 
