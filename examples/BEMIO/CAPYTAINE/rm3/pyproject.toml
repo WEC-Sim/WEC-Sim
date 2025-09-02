@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "RM3 wave energy converter study with Capytaine"
 requires-python = ">=3.8,<3.14"
 dependencies = [
-    "capytaine>=2.0",
+    "capytaine>=2.3",
     "xarray<2025.8",
     "vtk",
     "joblib"
