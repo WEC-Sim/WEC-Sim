@@ -63,10 +63,12 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 
 # sphinxcontrib.bibtex settings
-bibtex_bibfiles = ['refs/WEC-Sim_Adv_Features.bib',
-                   'refs/WEC-Sim_Theory.bib',
-                   'refs/WEC-Sim_Tutorials.bib',
-                   'most/MOST.bib']
+bibtex_bibfiles = [
+    str(docs_source_dir / "refs" / "WEC-Sim_Adv_Features.bib"),
+    str(docs_source_dir / "refs" / "WEC-Sim_Theory.bib"),
+    str(docs_source_dir / "refs" / "WEC-Sim_Tutorials.bib"),
+    str(docs_source_dir / "most" / "MOST.bib"),
+]
 
 # sphinxcontrib.matlab settings
 primary_domain = 'mat'
