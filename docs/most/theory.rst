@@ -509,10 +509,3 @@ platform (:cite:`Gaertner2020` and :cite:`Allen2020`).
    :width: 100%
    :align: center
 
-
-References
-----------
-
-.. bibliography:: ../most/MOST.bib
-   :style: unsrt
-   :labelprefix: D
