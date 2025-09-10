@@ -1054,13 +1054,13 @@ optimal causal controls. The WEC impedance can be modeled by the following equat
 
 By characterizing the impedance of the WEC, a greater understanding of the 
 dynamics can be reached. The figure below is a bode plot of the impedance of 
-the RM3 float body. The natural frequency is defined by the point at which the 
+the RM3 float body. The resonant frequency is defined by the point at which the 
 phase of impedance is zero. By also plotting the frequency of the incoming 
-wave, it is simple to see the difference between the natural frequency of 
+wave, it is simple to see the difference between the resonant frequency of 
 the device and the wave frequency. Complex conjugate control (and some other
-control methods) seeks to adjust the natural frequency of the device to match 
-the wave frequency. Matching the natural frequency to the wave frequency leads 
-to resonance, which allows for theoretically optimal mechanical power. 
+control methods) seeks to adjust the resonant frequency of the system to match 
+the wave frequency. Matching the reonance frequency to the wave frequency leads 
+to system resonance, which allows for theoretically optimal mechanical power. 
 
 .. figure:: /_static/images/impedance.png
    :width: 300pt 
@@ -1170,7 +1170,7 @@ Latching control combines a traditional passive controller with a latching mecha
 a large braking force during a portion of the oscillation. By locking the device for 
 part of the oscillation, latching control attempts to adjust the phase of the motion to 
 match the phase of incoming waves. Latching control can slow the device motion to match 
-wave motion and is therefore most often used when the wave period is longer than the natural 
+wave motion and is therefore most often used when the wave period is longer than the resonant 
 period. Latching control is still considered passive as no energy input is required (assuming velocity 
 is zero while latched).
 
@@ -1184,9 +1184,9 @@ adjusted based on the device's properties :cite:`babarit2006optimal`:
 Because latching achieves phase matching between the waves and device, the optimal 
 damping can be assumed the same as for reactive control. Lastly, the main control 
 variable, latching time, needs to be determined. For regular waves, it is 
-desired for the device to move for a time equal to its natural frequency, meaning 
+desired for the device to move for a time equal to its resonant frequency, meaning 
 the optimal latching time is likely close to half the difference between the wave 
-period and the natural period :cite:`babarit2006optimal` (accounting for 2 latching periods per wave period).
+period and the resonant period :cite:`babarit2006optimal` (accounting for 2 latching periods per wave period).
 
 .. math::
 
@@ -1222,7 +1222,7 @@ Declutching Control
 
 Declutching control is essentially the opposite of latching. Instead of locking the device, 
 it is allowed to move freely (no PTO force) for a portion of the oscillation. Often, 
-declutching is used when the wave period is smaller than the natural period, allowing the 
+declutching is used when the wave period is smaller than the resonant period, allowing the 
 device motion to "catch up" to the wave motion. Declutching is also considered 
 a passive control method.
 
@@ -1230,7 +1230,7 @@ The optimal declutching time and damping values are slightly harder to estimate 
 latching. The device's motion still depends on its impedance during the declutching period, 
 meaning the device does not really move "freely" during this time. Hence, in opposition to 
 optimal latching the declutching time was assumed to be near half the difference between 
-the natural period and the wave period, but is further examined through tests.
+the resonant period and the wave period, but is further examined through tests.
 
 .. math::
 
@@ -1242,7 +1242,7 @@ period, it is likely that a larger damping is required. Thus, the optimal passiv
 damping value was used for the following simulations, although a more 
 optimal damping value likely exists for delclutching.
 
-Since declutching is most desired when the wave period is smaller than the natural period, 
+Since declutching is most desired when the wave period is smaller than the resonant period, 
 a wave period of 3.5 seconds was tested with a height of 1 m. For comparison to traditional 
 passive control, the optimal passive damping value was tested for these conditions, leading
 to a power of 5.75 kW. The mcrBuildTimes.m file sets up a sweep of the declutching times, 
