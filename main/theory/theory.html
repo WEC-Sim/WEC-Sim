@@ -1,0 +1,1314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Manual" href="../user/index.html" />
+    <link rel="prev" title="Theory Manual" href="index.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f6b2a393820>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Theory Manual</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coordinate-system">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#boundary-element-method-bem">Boundary Element Method (BEM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#time-domain-formulation">Time-Domain Formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#numerical-methods">Numerical Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ramp-function">Ramp Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sinusoidal-steady-state-response">Sinusoidal Steady-State Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#state-space">State Space</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#calculation-of-k-r-from-state-space-matrices">Calculation of <span class="math notranslate nohighlight">\(K_{r}\)</span> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#regular-waves">Regular Waves</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dispersion-relation">Dispersion Relation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#regular-wave-power">Regular Wave Power</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#irregular-waves">Irregular Waves</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wave-spectra">Wave Spectra</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frequency-varying-direction-and-spread">Frequency-varying direction and spread</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#irregular-wave-power">Irregular Wave Power</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pierson-moskowitz-pm-spectrum">Pierson–Moskowitz (PM) Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jonswap-js-spectrum">JONSWAP (JS) Spectrum</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ocean-current">Ocean Current</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#option-1">Option 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-2">Option 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-3">Option 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#power-take-off-pto">Power Take-Off (PTO)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linear-pto">Linear PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hydraulic-pto">Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mechanical-pto">Mechanical PTO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mooring">Mooring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mooring-matrix">Mooring Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mooring-lookup-table">Mooring Lookup Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">MoorDyn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#nonlinear-buoyancy-and-froude-krylov-wave-excitation">Nonlinear Buoyancy and Froude-Krylov Wave Excitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#viscous-damping">Viscous Damping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#morison-elements">Morison Elements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#generalized-body-modes">Generalized Body Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Theory Manual</a></li>
+      <li class="breadcrumb-item active">Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/theory/theory.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="overview">
+<span id="theory-theory"></span><h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
+<p>Modeling wave energy converters (WECs) involves the interaction between the
+incident waves, device motion, power-take-off (PTO mechanism), and mooring.
+WEC-Sim uses a radiation and diffraction method <span id="id1">[<a class="reference internal" href="#id27" title="Ye Li and Yi-Hsiang Yu. A Synthesis of Numerical Methods for Modeling Wave Energy Converter-Point Absorbers. Renewable and Sustainable Energy Reviews, 16(6):4352–4364, 2012.">B1</a>, <a class="reference internal" href="#id28" title="Aurélien Babarit, J. Hals, M.J. Muliawan, A. Kurniawan, T. Moan, and J. Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. Renewable Energy, 41:44–63, 2012.">B2</a>]</span> to
+predict power performance and design optimization. The radiation and
+diffraction method generally obtains the hydrodynamic forces from a
+frequency-domain boundary element method (BEM) solver using linear coefficients
+to solve the system dynamics in the time domain.</p>
+<figure class="align-center" id="wec-sim-methodology">
+<img alt="../_images/Physics.png" src="../_images/Physics.png" />
+</figure>
+</section>
+<section id="coordinate-system">
+<h1>Coordinate System<a class="headerlink" href="#coordinate-system" title="Link to this heading"></a></h1>
+<p>The <a class="reference internal" href="#id2"><span class="std std-ref">WEC-Sim Coordinate System</span></a> figure illustrates a
+3-D floating point absorber subject to incoming waves in water. The figure also
+defines the coordinates and the 6 degree of freedom (DOF) in WEC-Sim. The
+WEC-Sim coordinate system assumes that the positive X-axis defines a wave angle
+heading of zero (e.g., a wave propagating with along a zero-degree direction is
+moving in the +X direction). The positive Z-axis is in the vertical upwards
+direction, and the positive Y-axis direction is defined by the right-hand rule.
+In the vectors and matrices used in the code, Surge (x), Sway (y), and Heave
+(z) correspond to the first, second and third position respectively. Roll (Rx),
+Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position
+respectively.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/coordinateSystem.png"><img alt="../_images/coordinateSystem.png" src="../_images/coordinateSystem.png" style="width: 200pt;" />
+</a>
+<figcaption>
+<div class="legend">
+<p><em>WEC-Sim Coordinate System</em></p>
+</div>
+</figcaption>
+</figure>
+</section>
+<section id="units">
+<h1>Units<a class="headerlink" href="#units" title="Link to this heading"></a></h1>
+<p>All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and
+angular measurements are specified in radians (except for wave directionality
+which is defined in degrees).</p>
+</section>
+<section id="boundary-element-method-bem">
+<h1>Boundary Element Method (BEM)<a class="headerlink" href="#boundary-element-method-bem" title="Link to this heading"></a></h1>
+<p>In WEC-Sim, wave forcing components are modeled using linear coefficients
+obtained from a frequency-domain potential flow Boundary Element Method (BEM)
+solver (e.g., WAMIT <span id="id3">[<a class="reference internal" href="#id35" title="CH Lee and JN Newman. WAMIT User Manual. 2006.">B3</a>]</span>, Aqwa <span id="id4">[<a class="reference internal" href="#id33" title="ANSYS Aqwa. URL: http://www.ansys.com/Products/Other+Products/ANSYS+AQWA (visited on May 21, 2014).">B4</a>]</span>, NEMOH <span id="id5">[<a class="reference internal" href="#id34" title="Nemoh a Open source BEM. URL: http://openore.org/tag/nemoh/ (visited on May 21, 2014).">B5</a>]</span>, and Capytaine <span id="id6">[<a class="reference internal" href="#id36" title="Matthieu Ancellin and Frédéric Dias. Capytaine: a Python-based linear potential flow solver. Journal of Open Source Software, 4(36):1341, apr 2019. URL: https://doi.org/10.21105%2Fjoss.01341, doi:10.21105/joss.01341.">B6</a>, <a class="reference internal" href="#id37" title="Aurélien Babarit and Gérard Delhommeau. Theoretical and numerical aspects of the open source BEM solver NEMOH. In Proceedings of the 11th European Wave and Tidal Energy Conference (EWTEC2015). Nantes, France, 2015.">B7</a>]</span>).
+The BEM solutions are obtained by solving the Laplace equation
+for the velocity potential, which assumes the flow is inviscid, incompressible,
+and irrotational. More details on the theory for the frequency-domain BEM can
+be found in <span id="id7">[<a class="reference internal" href="#id35" title="CH Lee and JN Newman. WAMIT User Manual. 2006.">B3</a>]</span>.</p>
+<p>WEC-Sim imports nondimensionalized hydrodynamic coefficients from an <code class="docutils literal notranslate"><span class="pre">*.h5</span></code>
+data structure generated by <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-bemio"><span class="std std-ref">BEMIO</span></a> for the BEM solvers: WAMIT,
+Aqwa, NEMOH or Capytaine. Alternatively, the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data structure can be
+manually defined by the user. The WEC-Sim code scales the hydrodynamic
+coefficients according to the equations below, where <span class="math notranslate nohighlight">\(\rho\)</span> is the water
+density, <span class="math notranslate nohighlight">\(\omega\)</span> is the wave frequency in rad/s, and <span class="math notranslate nohighlight">\(g\)</span> is
+gravity:</p>
+<div class="math notranslate nohighlight">
+\begin{gather*}
+|\overline{F_{exc}(\omega)}| = \frac{|F_{exc}(\omega)|}{\rho g} \\
+\overline{A(\omega)}         = \frac{A(\omega)}{\rho} \\
+\overline{B(\omega)}         = \frac{B(\omega)}{\rho \omega} \\
+\overline{K_{hs}}            = \frac{K_{hs}}{\rho g}
+\end{gather*}</div><p>where <span class="math notranslate nohighlight">\(F_{exc}\)</span> is the wave-excitation force and torque vector, <span class="math notranslate nohighlight">\(A\)</span>
+is the radiation added mass coefficient, <span class="math notranslate nohighlight">\(B\)</span> is the radiation wave
+damping coefficient, and <span class="math notranslate nohighlight">\(K_{hs}\)</span> is the linear hydrostatic restoring
+coefficient.</p>
+</section>
+<section id="time-domain-formulation">
+<span id="theory-time-domain"></span><h1>Time-Domain Formulation<a class="headerlink" href="#time-domain-formulation" title="Link to this heading"></a></h1>
+<p>A common approach to determining the hydrodynamic forces is to use linear wave
+theory which assumes the waves are the sum of incident, radiated, and
+diffracted wave components. The dynamic response of the system is calculated by
+solving WEC system equations of motion <span id="id8">[<a class="reference internal" href="#id28" title="Aurélien Babarit, J. Hals, M.J. Muliawan, A. Kurniawan, T. Moan, and J. Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. Renewable Energy, 41:44–63, 2012.">B2</a>, <a class="reference internal" href="#id38" title="Jerica D. Nolte and R. C. Ertekin. Wave power calculations for a wave energy conversion device connected to a drogue. Journal of Renewable and Sustainable Energy, 2014.">B8</a>]</span>. The
+equation of motion for a floating body about its center of gravity can be given
+as:</p>
+<div class="math notranslate nohighlight">
+\[m\ddot{X}=F_{exc}(t)+F_{md}(t)+F_{rad}(t)+F_{pto}(t)+F_{v}(t)+F_{me}(t)+F_{B}(t)+F_{m}(t)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ddot{X}\)</span> is the (translational and rotational) acceleration
+vector of the device, <span class="math notranslate nohighlight">\(m\)</span> is the mass matrix, <span class="math notranslate nohighlight">\(F_{exc}(t)\)</span> is the
+wave excitation force and torque (6-element) vector,  <span class="math notranslate nohighlight">\(F_{md}(t)\)</span> is the
+mean drift force and torque vector, <span class="math notranslate nohighlight">\(F_{rad}(t)\)</span> is the
+force and torque vector resulting from wave radiation, <span class="math notranslate nohighlight">\(F_{pto}(t)\)</span> is
+the PTO force and torque vector, <span class="math notranslate nohighlight">\(F_{v}(t)\)</span> is the damping force and
+torque vector, <span class="math notranslate nohighlight">\(F_{me}(t)\)</span> is the Morison Element force and torque
+vector, <span class="math notranslate nohighlight">\(F_{B}(t)\)</span> is the net buoyancy restoring force and torque vector,
+and <span class="math notranslate nohighlight">\(F_{m}(t)\)</span> is the force and torque vector resulting from the mooring
+connection.</p>
+<p><span class="math notranslate nohighlight">\(F_{exc}(t)\)</span> , <span class="math notranslate nohighlight">\(F_{rad}(t)\)</span> , and <span class="math notranslate nohighlight">\(F_{B}(t)\)</span> are calculated
+using hydrodynamic coefficients provided by the frequency-domain BEM solver.
+The radiation term includes an added-mass term, matrix <span class="math notranslate nohighlight">\(A(\omega)\)</span>, and
+wave damping term, matrix <span class="math notranslate nohighlight">\(B(\omega)\)</span>, associated with the acceleration
+and velocity of the floating body, respectively, and given as functions of
+radian frequency (<span class="math notranslate nohighlight">\(\omega\)</span>) by the BEM solver. The wave excitation term
+<span class="math notranslate nohighlight">\(F_{exc}(\omega)\)</span> includes a Froude-Krylov force component generated by
+the undisturbed incident waves and a diffraction component that results from
+the presence of the floating body. The buoyancy term <span class="math notranslate nohighlight">\(F_{B}(t)\)</span> depends
+on the hydrostatic stiffness <span class="math notranslate nohighlight">\(K_{hs}\)</span> coefficient, displacement of the
+body, and its mass.</p>
+</section>
+<section id="numerical-methods">
+<h1>Numerical Methods<a class="headerlink" href="#numerical-methods" title="Link to this heading"></a></h1>
+<p>WEC-Sim can be used for regular and irregular wave simulations, but note that
+<span class="math notranslate nohighlight">\(F_{rad}(t)\)</span> is calculated differently for
+sinusoidal steady-state response scenarios and random sea simulations. The
+sinusoidal steady-state response is often used for simple WEC designs with
+regular incoming waves. However, for random sea simulations or any simulations
+where fluid memory effects of the system are essential, the convolution
+integral method is recommended to represent the fluid memory retardation force
+on the floating body. To speed computation of the convolution integral, the
+state space representation method can be specified to approximate this
+calculation as a system of linear ordinary differential equations.</p>
+<section id="ramp-function">
+<h2>Ramp Function<a class="headerlink" href="#ramp-function" title="Link to this heading"></a></h2>
+<p>A ramp function (<span class="math notranslate nohighlight">\(R_{f}\)</span>), necessary to avoid strong transient flows at
+the earlier time steps of the simulation, is used to calculate the wave
+excitation force. The ramp function is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}R_{f}(t)=\begin{cases}
+\frac{1}{2}(1+\cos(\pi+\frac{\pi t}{t_{r}})) &amp; \frac{t}{t_{r}}&lt;1\\
+1 &amp; \frac{t}{t_{r}}\geq1
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(t\)</span> is the simulation time and <span class="math notranslate nohighlight">\(t_{r}\)</span> is the ramp time.</p>
+</section>
+<section id="sinusoidal-steady-state-response">
+<h2>Sinusoidal Steady-State Response<a class="headerlink" href="#sinusoidal-steady-state-response" title="Link to this heading"></a></h2>
+<p>This approach assumes that the system response is in sinusoidal steady-state
+form; therefore, it is only valid for regular wave simulations. The radiation
+term can be calculated using the added mass and the wave radiation damping term
+for a given wave frequency, which is obtained from</p>
+<div class="math notranslate nohighlight">
+\[F_{rad}(t)=-A(\omega)\ddot{X}-B(\omega)\dot{X}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\dot{X}\)</span> is the velocity vector of the floating body,
+<span class="math notranslate nohighlight">\(A(\omega)\)</span> is the added mass matrix, and <span class="math notranslate nohighlight">\(B(\omega)\)</span> is the
+radiation damping matrix.</p>
+<p>The free surface profile is based on linear wave theory for a given wave
+height, wave frequency, and water depth. The regular wave excitation force is
+obtained from</p>
+<div class="math notranslate nohighlight">
+\[F_{exc}(t)=\Re\left[ R_{f}(t)\frac{H}{2}F_{exc}(\omega, \theta)e^{i\omega t} \right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Re\)</span> denotes the real part of the formula, <span class="math notranslate nohighlight">\(R_{f}\)</span> is the
+ramp function, <span class="math notranslate nohighlight">\(H\)</span> is the wave height, <span class="math notranslate nohighlight">\(F_{exc}\)</span> is the frequency
+dependent complex wave-excitation amplitude vector, and <span class="math notranslate nohighlight">\(\theta\)</span> is the
+wave direction.</p>
+<p>The mean drift force has two contributions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>2nd-order hydrodynamic pressure due to the first-order wave</p></li>
+<li><p>Interaction between the first-order motion and the first-order wave</p></li>
+</ul>
+</div></blockquote>
+<p>Currently, WEC-Sim only reads mean drift coefficients representing the first contribution.
+The mean drift force can optionally be included if these coefficients are defined in the BEM data.
+The mean drift force is obtained from:</p>
+<div class="math notranslate nohighlight">
+\[F_{md}(t)=\left(\frac{H}{2}\right)^2F_{md}(\omega,\theta)\]</div>
+<p>The mean drift force is combined with the excitation force in the response class output.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, WEC-Sim supports mean drift coefficients and QTF from WAMIT and NEMOH.</p>
+</div>
+</section>
+<section id="convolution-integral-formulation">
+<span id="cic-theory"></span><h2>Convolution Integral Formulation<a class="headerlink" href="#convolution-integral-formulation" title="Link to this heading"></a></h2>
+<p>In the case of an irregular wave spectrum, the fluid memory has an important
+impact on the WEC dynamics. This fluid memory effect is captured by the
+convolution integral formulation based upon the Cummins equation
+<span id="id9">[<a class="reference internal" href="#id41" title="WE Cummins. The Impulse Response Function and Ship Motions. Technical Report, David Taylor Model Dasin-DTNSRDC, 1962.">B9</a>]</span> is used. The radiation term can be calculated by</p>
+<div class="math notranslate nohighlight">
+\[F_{rad}(t)=-A_{\infty}\ddot{X}-\intop_{0}^{t}K_{r}(t-\tau)\dot{X}(\tau)d\tau\]</div>
+<p>where <span class="math notranslate nohighlight">\(A_{\infty}\)</span> is the added mass matrix at infinite frequency and
+<span class="math notranslate nohighlight">\(K_{r}\)</span> is the radiation impulse response function. This representation
+also assumes that there is no motion for <span class="math notranslate nohighlight">\(t&lt;0\)</span>. The radiation impulse
+response function is defined as</p>
+<div class="math notranslate nohighlight">
+\[K_{r}(t) = \frac{2}{\pi} \intop_{0}^{\infty} B(\omega) cos(\omega t) d\omega\]</div>
+<p>For regular waves, the equation described in the last subsection is used to
+calculate the wave excitation vector. For irregular waves, the free surface
+elevation is constructed from a linear superposition of a number of regular
+wave components. Each regular wave component is extracted from a wave spectrum,
+<span class="math notranslate nohighlight">\(S(\omega)\)</span>, describing the wave energy distribution over a range of wave
+frequencies, generally characterized by a significant wave height and peak wave
+period. The irregular excitation force can be calculated as the real part of an
+integral term across all wave frequencies as follows</p>
+<div class="math notranslate nohighlight">
+\[F_{exc}(t)=\Re\left[ R_{f}(t) \sum_{j=1}^{N}
+                     F_{exc}(\omega_{j}, \theta)
+                     e^{i(\omega_{j}t+\phi_{j})}
+                     \sqrt{2S(\omega_{j})d\omega_{j}} \right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi\)</span> is the randomized phase angle and <span class="math notranslate nohighlight">\(N\)</span> is the number of
+frequency bands selected to discretize the wave spectrum. For repeatable
+simulation of an irregular wave field <span class="math notranslate nohighlight">\(S(\omega)\)</span>, WEC-Sim allows
+specification of <span class="math notranslate nohighlight">\(\phi\)</span>, refer to the <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-seeded-phase"><span class="std std-ref">Multiple Wave-Spectra</span></a>
+section.</p>
+<p>Additionally, an excitation force impulse response function is defined
+as</p>
+<div class="math notranslate nohighlight">
+\[K_{e}(t) = \frac{1}{2\pi} \intop_{-\infty}^{\infty}
+                            F_{exc}(\omega,\theta)e^{i\omega t} d\omega\]</div>
+<p>The excitation impulse response function is only used for the userDefinedElevation wave case.</p>
+</section>
+<section id="state-space">
+<h2>State Space<a class="headerlink" href="#state-space" title="Link to this heading"></a></h2>
+<p>It is highly desirable to represent the radiation convolution integral
+described in the last subsection in state space (SS) form <span id="id10">[<a class="reference internal" href="#id29" title="Z. Yu and J. Falnes. State-space Modelling of a Vertical Cylinder in Heave. Applied Ocean Research, 5:265-275, 1996.">B10</a>]</span>. This
+has been shown to dramatically increase computational speeds
+<span id="id11">[<a class="reference internal" href="#id30" title="R. Taghipour, T. Perez, and T. Moan. Hybrid Frequency-time Domain Models for Dynamic Response Analysis of Marine Structures. Ocean Engineering, 7:685-705, 2008.">B11</a>]</span> and allow utilization of conventional control methods
+that rely on linear state space models. An approximation will need to be made
+as <span class="math notranslate nohighlight">\(K_{r}\)</span> is solved from a set of partial differential equations where
+as a <cite>linear state space</cite> is constructed from a set of ordinary differential
+equations. In general, a linear system is desired such that:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{X}_{r} \left( t \right) =
+    \mathbf{A_{r}} X_{r} \left( t \right) +
+    \mathbf{B_{r}} \mathbf{u} (t);~~X_{r}\left( 0 \right) = 0~~ \nonumber \\
+\int_{0}^{t} \mathbf{K_{r}} \left( t- \tau \right) \dot{X} \left( \tau \right) d\tau \approx
+    \mathbf{C_{r}} X_{r} \left( t \right) +
+    \mathbf{D_{r}} \mathbf{u} \left( t \right)~~\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{A_{r}},~\mathbf{B_{r}},~\mathbf{C_{r}},~\mathbf{D_{r}}\)</span>
+being the time-invariant state, input, output, and feed through matrices, while
+<span class="math notranslate nohighlight">\(u\)</span> is the input to the system and <span class="math notranslate nohighlight">\(X_{r}\)</span> is the state vector
+describing the convolution kernel as time progresses.</p>
+<section id="calculation-of-k-r-from-state-space-matrices">
+<h3>Calculation of <span class="math notranslate nohighlight">\(K_{r}\)</span> from State Space Matrices<a class="headerlink" href="#calculation-of-k-r-from-state-space-matrices" title="Link to this heading"></a></h3>
+<p>The impulse response of a single-input zero-state state-space model is
+represented by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{x} &amp;= \mathbf{A_{r}} x + \mathbf{B_{r}} u \\
+      y &amp;= \mathbf{C_{r}} x\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(u\)</span> is an impulse. If the initial state is set to <span class="math notranslate nohighlight">\(x(0)=
+\mathbf{B_{r}} u\)</span> the response of the unforced (<span class="math notranslate nohighlight">\(u=0\)</span>) system</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{x} &amp;= \mathbf{A_{r}} x \\
+      y &amp;= \mathbf{C_{r}} x\end{split}\]</div>
+<p>is clearly equivalent to the zero-state impulse response. The impulse response
+of a continuous system with a nonzero <span class="math notranslate nohighlight">\(\mathbf{D_r}\)</span> matrix is infinite
+at <span class="math notranslate nohighlight">\(t=0\)</span>; therefore, the lower continuity value
+<span class="math notranslate nohighlight">\(\mathbf{C_{r}}\mathbf{B_{r}}\)</span> is reported at <span class="math notranslate nohighlight">\(t=0\)</span>. The general
+solution to a linear time invariant (LTI) system is given by:</p>
+<div class="math notranslate nohighlight">
+\[x(t) = e^{\mathbf{A_{r}}t} x(0) +
+    \int_{0}^{t} e^{\mathbf{A_{r}}(t-\tau)} \mathbf{B_{r}} u (\tau) d\tau~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(e^{\mathbf{A_{r}}}\)</span> is the matrix exponential and the calculation
+of <span class="math notranslate nohighlight">\(K_{r}\)</span> follows:</p>
+<div class="math notranslate nohighlight">
+\[K_{r}(t) = \mathbf{C_{r}}e^{\mathbf{A_{r}}t}\mathbf{B_{r}}~~\]</div>
+</section>
+<section id="realization-theory">
+<h3>Realization Theory<a class="headerlink" href="#realization-theory" title="Link to this heading"></a></h3>
+<p>The state space realization of the hydrodynamic radiation coefficients can be
+pursued in the time domain (TD). This consists of finding the minimal order of
+the system and the discrete time state matrices
+(<span class="math notranslate nohighlight">\(\mathbf{A_{d}},~\mathbf{B_{d}},~\mathbf{C_{d}},~\mathbf{D_{d}}\)</span>) from
+samples of the impulse response function. This problem is easier to handle for
+a discrete-time system than for continuous-time. The reason being is that the
+impulse response function of a discrete-time system is given by the Markov
+parameters of the system:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\tilde{K}_{r}} \left( t_{k} \right) =
+                    \mathbf{C_{d}}\mathbf{A_{d}}^{k}\mathbf{B_{d}}~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(t_{k}=k\Delta t\)</span> for <span class="math notranslate nohighlight">\(k=0,~1,~2,~\ldots\)</span> with <span class="math notranslate nohighlight">\(\Delta
+t\)</span> being the sampling period. The feedthrough matrix <span class="math notranslate nohighlight">\(\mathbf{D_d}\)</span> is
+assumed to be zero in order to maintain causality of the system, as a non-zero
+<span class="math notranslate nohighlight">\(\mathbf{D_d}\)</span> results in an infinite value at <span class="math notranslate nohighlight">\(t=0\)</span>.</p>
+<p>The most common algorithm to obtain the realization is to perform a Singular
+Value Decomposition (SVD) on the Hankel matrix of the impulse response
+function, as proposed by Kung <span id="id12">[<a class="reference internal" href="#id31" title="Sun-Yuan Kung. A new identification and model reduction algorithm via singular value decomposition. In Proc. 12th Asilomar Conf. Circuits, Syst. Comput., Pacific Grove, CA, 705–714. 1978.">B12</a>]</span>. The order of the system and
+state-space parameters are determined from the number of significant singular
+values and the factors of the SVD. The Hankel matrix (<span class="math notranslate nohighlight">\(H\)</span>) of the impulse
+response function</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}H = \begin{bmatrix}
+        \mathbf{K_{r}}(2) &amp; \mathbf{K_{r}}(3) &amp; \ldots &amp; \mathbf{K_{r}}(n) \\
+        \mathbf{K_{r}}(3) &amp; \mathbf{K_{r}}(4) &amp; \ldots &amp; 0 \\
+        \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+        \mathbf{K_{r}}(n) &amp; 0 &amp; \cdots &amp; 0
+    \end{bmatrix} &amp;\\\end{split}\]</div>
+<p>can be reproduced exactly by the SVD as</p>
+<div class="math notranslate nohighlight">
+\[H = \mathbf{U} \Sigma \mathbf{V^{*}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Sigma\)</span> is a diagonal matrix containing the Hankel singular values
+in descending order. Examination of the Hankel singular values reveals there
+are only a small number of significant states and that the rank of <span class="math notranslate nohighlight">\(H\)</span>
+can be greatly reduced without a significant loss in accuracy
+<span id="id13">[<a class="reference internal" href="#id30" title="R. Taghipour, T. Perez, and T. Moan. Hybrid Frequency-time Domain Models for Dynamic Response Analysis of Marine Structures. Ocean Engineering, 7:685-705, 2008.">B11</a>, <a class="reference internal" href="#id32" title="Erlend Kristiansen, Åsmund Hjulstad, and Olav Egeland. State-space representation of radiation forces in time-domain vessel models. Ocean Engineering, 32(17):2195–2216, 2005.">B13</a>]</span>. Further detail into the SVD method and
+calculation of the state space parameters will not be discussed here and the
+reader is referred to <span id="id14">[<a class="reference internal" href="#id30" title="R. Taghipour, T. Perez, and T. Moan. Hybrid Frequency-time Domain Models for Dynamic Response Analysis of Marine Structures. Ocean Engineering, 7:685-705, 2008.">B11</a>, <a class="reference internal" href="#id32" title="Erlend Kristiansen, Åsmund Hjulstad, and Olav Egeland. State-space representation of radiation forces in time-domain vessel models. Ocean Engineering, 32(17):2195–2216, 2005.">B13</a>]</span>.</p>
+</section>
+</section>
+</section>
+<section id="regular-waves">
+<h1>Regular Waves<a class="headerlink" href="#regular-waves" title="Link to this heading"></a></h1>
+<p>Regular waves are defined as planar sinusoidal waves, where the incident wave is defined as <span class="math notranslate nohighlight">\(\eta(x,y,t)\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[\eta(x,y,t)= \frac{H}{2} \cos( \omega t - k (x\cos \theta + y\sin \theta) + \phi)\]</div>
+<p>where <span class="math notranslate nohighlight">\(H\)</span> is the wave height, <span class="math notranslate nohighlight">\(\omega\)</span> is the wave frequency
+(<span class="math notranslate nohighlight">\(\omega = \frac{2\pi}{T}\)</span>), <span class="math notranslate nohighlight">\(k\)</span> is the wave number (<span class="math notranslate nohighlight">\(k =
+\frac{2\pi}{\lambda}\)</span>), <span class="math notranslate nohighlight">\(\theta\)</span> is the wave direction, and <span class="math notranslate nohighlight">\(\phi\)</span>
+is the wave phase.</p>
+<section id="dispersion-relation">
+<h2>Dispersion Relation<a class="headerlink" href="#dispersion-relation" title="Link to this heading"></a></h2>
+<p>For ocean waves, the dispersion relation is a relation between the wave angular frequency and the wave number (i.e. wavelength).
+The dispersion relation is derived using separation of variables to satisfy the free surface kinematic and dynamic boundary conditions.
+For a more detailed derivation please the reader is referred <a class="reference external" href="https://web.mit.edu/13.021/demos/lectures/lecture19.pdf">here</a> The dispersion relation that WEC-sim uses is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\omega^{2} = gk\tanh\left(kh\right) \approx \begin{cases}
+gk &amp; \text{as } kh \rightarrow \infty \\
+gk^{2}h &amp; \text{as } kh \rightarrow 0
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\omega\)</span> is the wave angular frequency (<span class="math notranslate nohighlight">\(\omega = \frac{2\pi}{T}\)</span>), <span class="math notranslate nohighlight">\(g\)</span> is gravitational acceleration,
+<span class="math notranslate nohighlight">\(k\)</span> is the wave number (<span class="math notranslate nohighlight">\(k=\frac{2\pi}{\lambda}\)</span>), and <span class="math notranslate nohighlight">\(h\)</span> is the water depth. The dispersion relation can be
+simplified if the floating body is located in deep water, <span class="math notranslate nohighlight">\(h \rightarrow \infty\)</span> . The simplification comes from the hyperbolic
+tangent function having an asympote of 1 as its argument tends to infinity (<span class="math notranslate nohighlight">\(\tanh \left( \infty \right) \rightarrow 1\)</span>).
+The deep water condition can still be met if the water depth is not infinite while the following expression holds <span class="math notranslate nohighlight">\(kh \geq \pi\)</span> .
+The dispersion relation can then be used to derive the phase velocity which refers to the speed that an observer would need to travel for
+the wave to appear stationary (unchanging). The phase velocity of a two-dimensional progressive wave is given by the following expression:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}c_{p} = \frac{\omega}{k} = \sqrt{\frac{g}{k}\tanh\left(kh\right)} \approx \begin{cases}
+\sqrt{\frac{g}{k}}=\frac{g}{\omega} &amp; \text{as } kh \rightarrow \infty \\
+\sqrt{gh} &amp; \text{as } kh \rightarrow 0
+\end{cases}\end{split}\]</div>
+</section>
+<section id="regular-wave-power">
+<h2>Regular Wave Power<a class="headerlink" href="#regular-wave-power" title="Link to this heading"></a></h2>
+<p>The time-averaged power, per unit wave crest with, for a propagating water wave</p>
+<div class="math notranslate nohighlight">
+\[P_{w} = \frac{1}{2}\rho g A^{2} c_{g}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho\)</span> is the fluid density, <span class="math notranslate nohighlight">\(g\)</span> is gravitational acceleration, <span class="math notranslate nohighlight">\(A\)</span> is the wave amplitude, and <span class="math notranslate nohighlight">\(c_{g}\)</span> is wave group velocity.
+The group velocity is the speed of propagation of a packet of waves which is always slower than the wave phase velocity. For a more detailed derivation on the
+group velocity the reader is referred <a class="reference external" href="http://web.mit.edu/2.016/www/handouts/2005Reading7.pdf">here</a>. The group velocity of a two-dimensional progressive wave
+is given by the following expression:</p>
+<div class="math notranslate nohighlight">
+\[c_{g} = \frac{\delta \omega}{\delta k} = \frac{1}{2} \sqrt{\frac{g}{k}\tanh\left(kh\right)} \left( 1 + \frac{2kh}{\sinh \left( 2kh \right)} \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sinh\)</span> is the hyperbolic sine function. The square root term is the phase velocity which can be used to simplify the group velocity expression as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}c_{g} = \frac{1}{2} c_{p} \left( 1 + \frac{2kh}{\sinh \left( 2kh \right)} \right) \approx \begin{cases}
+\frac{1}{2} c_{p} &amp; \text{as } kh \rightarrow \infty \\
+1                 &amp; \text{as } kh \rightarrow 0
+\end{cases}\end{split}\]</div>
+<p>Inserting the full expression for the group velocity into the wave power equation provides the following:</p>
+<div class="math notranslate nohighlight">
+\[P_{w} = \frac{1}{4}\rho g A^{2} \sqrt{\frac{g}{k}\tanh\left(kh\right)} \left[ 1 + \frac{2kh}{\sinh \left( 2kh \right)} \right]\]</div>
+<p>Similar to the other wave property expressions, the wave power expression can be simplified for both deep and shallow water conditions as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}P_{w} \approx
+\begin{cases}
+\frac{1}{4}\rho g A^{2} \sqrt{\frac{g}{k}} = \frac{1}{8\pi}\rho g^{2} A^{2} T &amp; \text{as } kh \rightarrow \infty \\
+\frac{1}{4}\rho g A^{2} \sqrt{gh}                 &amp; \text{as } kh \rightarrow 0
+\end{cases}\end{split}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The deep water condition is often used without proper validation of the wave environment which can have a significant effect on wave power.
+WEC-Sim by default will calculate the wave power using the full expression, no simplification, unless the hydrodynamic data is imported with
+the assumption of infinite water depth.</p>
+</div>
+</section>
+</section>
+<section id="irregular-waves">
+<h1>Irregular Waves<a class="headerlink" href="#irregular-waves" title="Link to this heading"></a></h1>
+<p>Irregular waves are modeled as the linear superposition of a large number of
+harmonic waves at different frequencies and angles of incidence, where the
+incident wave is defined as <span class="math notranslate nohighlight">\(\eta(x,y,t)\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[\eta(x,y,t) = \sum_{i} \frac{H_{i}}{2} \cos( \omega_{i} t -
+                k_{i} (x\cos \theta_{i} + y \sin \theta_{i}) + \phi_{i})\]</div>
+<p>where <span class="math notranslate nohighlight">\(H\)</span> is the wave height, <span class="math notranslate nohighlight">\(\omega\)</span> is the wave frequency
+(<span class="math notranslate nohighlight">\(\omega = \frac{2\pi}{T}\)</span>), <span class="math notranslate nohighlight">\(k\)</span> is the wave number (<span class="math notranslate nohighlight">\(k =
+\frac{2\pi}{\lambda}\)</span>), <span class="math notranslate nohighlight">\(\theta\)</span> is the wave direction, and <span class="math notranslate nohighlight">\(\phi\)</span>
+is the wave phase (randomized for irregular waves).</p>
+<section id="wave-spectra">
+<span id="theory-wave-spectra"></span><h2>Wave Spectra<a class="headerlink" href="#wave-spectra" title="Link to this heading"></a></h2>
+<p>The linear superposition of regular waves of distinct amplitudes and periods is
+characterized in the frequency domain by a wave spectrum. Through statistical
+analysis, spectra are characterized by specific parameters such as significant
+wave height, peak period, wind speed, fetch length, and others. Common types of
+wave spectra that are used by the offshore industry are discussed in the
+following sections. The general form of the wave spectra available in WEC-Sim
+is given by:</p>
+<div class="math notranslate nohighlight">
+\[S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(S\left( f\right)\)</span> is the wave power spectrum, <span class="math notranslate nohighlight">\(f\)</span> is the
+wave frequency (in Hertz), <span class="math notranslate nohighlight">\(D\left( \theta \right)\)</span> is the directional
+distribution, and <span class="math notranslate nohighlight">\(\theta\)</span> is the wave direction (in Degrees). The
+formulation of <span class="math notranslate nohighlight">\(D\left( \theta \right)\)</span> requires that</p>
+<div class="math notranslate nohighlight">
+\[\int_{0}^{\infty} \int_{-\pi}^{\pi}
+    S \left( f \right) D \left( \theta \right) d\theta df =
+                                \int_{0}^{\infty} S\left( f \right) df\]</div>
+<p>so that the total energy in the directional spectrum must be the same as the
+total energy in the one-dimensional spectrum. An example one-dimensional spectrum is.</p>
+<div class="math notranslate nohighlight">
+\[S\left( f \right) = A_{ws} f^{-5}\exp\left[-B_{ws} f^{-4} \right]~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(A_{ws}\)</span> and <span class="math notranslate nohighlight">\(B_{ws}\)</span> are coefficients that vary depending on
+the wave spectrum and <span class="math notranslate nohighlight">\(\exp\)</span> stands for the exponential function.
+Spectral moments of the wave spectrum, denoted <span class="math notranslate nohighlight">\(m_{k}~,~k=0, 1, 2,...\)</span>,
+are defined as</p>
+<div class="math notranslate nohighlight">
+\[m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~\]</div>
+<p>The spectral moment, <span class="math notranslate nohighlight">\(m_{0}\)</span> is the variance of the free surface which
+allows one to define the mean wave height of the tallest third of waves,
+significant wave height <span class="math notranslate nohighlight">\(H_{m0}\)</span> (in m), as:</p>
+<div class="math notranslate nohighlight">
+\[H_{m0} = 4 \sqrt{m_{0}}~~\]</div>
+<section id="frequency-varying-direction-and-spread">
+<h3>Frequency-varying direction and spread<a class="headerlink" href="#frequency-varying-direction-and-spread" title="Link to this heading"></a></h3>
+<p>A more general description of a wave field can be expressed</p>
+<div class="math notranslate nohighlight">
+\[S(\omega,\theta)=S(\omega)D(\omega,\theta)\]</div>
+<p>where <span class="math notranslate nohighlight">\(D(\omega,\theta)\)</span> indicates that the directional components of a wave can also
+vary with frequency. The total energy in the directional spectrum must be the same at each frequency
+as the total energy in the one-dimensional spectrum. At each frequency, <span class="math notranslate nohighlight">\(D(\theta)\)</span> is often parameterized by an
+analytical distribution about a mean value, called a spreading function. The default spreading function
+used by WEC-Sim is a Gaussian defined by a mean <span class="math notranslate nohighlight">\(\theta\)</span> and a standard deviation <cite>psi</cite>.</p>
+<div class="math notranslate nohighlight">
+\[D(\overline{\theta},\psi) = \frac{1}{\psi \sqrt(2 \pi)}\exp(-\overline{\theta}^2/(2\psi^2))\]</div>
+<p>When treated computationally, <span class="math notranslate nohighlight">\(D(\overline{\theta},\psi)\)</span> must be discretized into a finite number
+of bins spanning a non-infinite range: in order to ensure that the total energy is preserved, the resulting
+discretization of <span class="math notranslate nohighlight">\(D(\overline{\theta},\psi)\)</span> must be normalized by the fraction of energy contained in the included bins. The wave elevation for frequency-varying direction and spread can then be expressed as</p>
+<div class="math notranslate nohighlight">
+\[\eta(x,y,t)\ = \sum_i \sum_j\ \sqrt{2S(\omega_i)(P(\omega_i,\theta_j))(\Delta f)}(\cos(\omega_i\ t\ -\ k_i(x \cos(\theta_j) + y \sin(\theta_j))+ \phi_{ij})\]</div>
+<p>where <span class="math notranslate nohighlight">\((P(\omega_n,\theta_m))\)</span> is the appropriate normalization of <span class="math notranslate nohighlight">\(D(\omega,\theta)\)</span> into <span class="math notranslate nohighlight">\(j\)</span> directional bins. Note that the phase <span class="math notranslate nohighlight">\(\phi_{ij}\)</span> must be specified in both frequency and direction.</p>
+</section>
+</section>
+<section id="irregular-wave-power">
+<h2>Irregular Wave Power<a class="headerlink" href="#irregular-wave-power" title="Link to this heading"></a></h2>
+<p>The time-averaged wave power available for a given irregular sea state can be calcuated from:</p>
+<div class="math notranslate nohighlight">
+\[P_{w} = \rho g \int_{0}^{\infty} S \left( f \right) c_{g} \left( f \right) df\]</div>
+<p>where the expression for group velocity for regular waves can be inserted for each frequency used
+to describe the sea spectrum.</p>
+<section id="pierson-moskowitz-pm-spectrum">
+<h3>Pierson–Moskowitz (PM) Spectrum<a class="headerlink" href="#pierson-moskowitz-pm-spectrum" title="Link to this heading"></a></h3>
+<p>The PM spectrum is applicable to a fully developed sea, when the growth of the
+waves is not limited by the fetch <span id="id15">[<a class="reference internal" href="#id39" title="W. J. Pierson and L. A. Moskowitz. Proposed Spectral Form for Fully Developed Wind Seas Based on the Similarity Theory of S. A. Kitaigorodskii. Geophysical Research, 69:5181-5190, 1964.">B14</a>]</span>. The two-parameter PM spectrum is
+based on a significant wave height and peak wave frequency. For a given
+significant wave height, the peak frequency can be varied to cover a range of
+conditions including developing and decaying seas. In general, the parameters
+depend strongly on wind speed, and also wind direction, fetch, and locations of
+storm fronts. The spectral density of the surface elevation defined by the PM
+spectrum <span id="id16">[<a class="reference internal" href="#id26" title="IEC 62600-2. Marine Energy - Wave, Tidal, and other water current converters. URL: https://webstore.iec.ch/publication/62399 (visited on June 8, 2020).">B15</a>]</span> is defined by:</p>
+<div class="math notranslate nohighlight">
+\[S_{PM}\left( f \right) = \frac{{H_{m0}}^2}{4}
+ \left( 1.057f_{p} \right)^{4} f^{-5} \exp
+    \left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\]</div>
+<p>This implies coefficients of the general form:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A_{ws} &amp;= \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx
+    \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B_{ws}}{4}{H_{m0}}^2 \\
+B_{ws} &amp;= \left(1.057f_{p}\right)^{4} \approx \frac{5}{4}{f_{p}}^{4}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(H_{m0}\)</span> is the significant wave height, <span class="math notranslate nohighlight">\(f_{p}\)</span> is the peak
+wave frequency <span class="math notranslate nohighlight">\(\left(=1/T_{p}\right)\)</span>, and <span class="math notranslate nohighlight">\(f\)</span> is the wave
+frequency.</p>
+</section>
+<section id="jonswap-js-spectrum">
+<h3>JONSWAP (JS) Spectrum<a class="headerlink" href="#jonswap-js-spectrum" title="Link to this heading"></a></h3>
+<p>The JONSWAP (Joint North Sea Wave Project) spectrum is formulated as a
+modification of the PM spectrum for developing sea sate in a fetch-limited
+situation <span id="id17">[<a class="reference internal" href="#id40" title="K. Hasselman, T.P. Barnett, E. Bouws, H. Carlson, D.E. Cartwright, K. Enke, J.A. Ewing, H. Gienapp, D.E. Hasselmann, P. Kruseman, A. Meerburg, P. Mller, D.J. Olbers, K. Richter, W. Sell, and H. Walden. Measurements of wind-wave growth and swell decay during the Joint North Sea Wave Project (JONSWAP). Technical Report 12, German Hydrographic Institute, 1973.">B16</a>]</span>. The spectrum accounts for a higher peak and a narrower
+spectrum in a storm situation for the same total energy as compared to the PM
+spectrum. The spectral density of the surface elevation defined by the JS
+spectrum <span id="id18">[<a class="reference internal" href="#id26" title="IEC 62600-2. Marine Energy - Wave, Tidal, and other water current converters. URL: https://webstore.iec.ch/publication/62399 (visited on June 8, 2020).">B15</a>]</span> is defined by:</p>
+<div class="math notranslate nohighlight">
+\[S_{JS}\left( f \right) = C_{ws} \left(\gamma\right) S_{PM} \gamma^{\alpha}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma\)</span> is the nondimensional peak-shape parameter.</p>
+<p>The normalizing factor, <span class="math notranslate nohighlight">\(C_{ws}\left(\gamma\right)\)</span>, is defined as:</p>
+<div class="math notranslate nohighlight">
+\[C_{ws}\left(\gamma\right) = \frac{\int_{0}^{\infty} S_{PM}\left( f \right)df}
+    {\int_{0}^{\infty}S_{PM}\left(f\right)\gamma^{\alpha}df} =
+                                            1 -0.287\ln\left(\gamma\right)\]</div>
+<p>The peak-shape parameter exponent <span class="math notranslate nohighlight">\(\alpha\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\alpha = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~
+\sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~\end{split}\]</div>
+<p>The peak-shape parameter is defined based on the following relationship between
+the significant wave height, <span class="math notranslate nohighlight">\(H_{m0}\)</span>, and peak period, <span class="math notranslate nohighlight">\(T_{p}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\gamma = \begin{cases}
+    5                                                        &amp; \text{for } \frac{T_{p}}{\sqrt{H_{m0}}} \leq 3.6        \\
+    \exp\left(5.75 - 1.15\frac{T_{p}}{\sqrt{H_{m0}}} \right) &amp; \text{for } 3.6 \leq \frac{T_{p}}{\sqrt{H_{m0}}} \leq 5 \\
+    1                                                        &amp; \text{for } \frac{T_{p}}{\sqrt{H_{m0}}} &gt; 5
+\end{cases}\end{split}\]</div>
+<p>with general form coefficients thus defined:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A_{ws} &amp;= \frac{B_{ws}}{4}{H_{m0}}^2 C_{ws}\left(\gamma \right) \gamma^{\alpha} \\
+B_{ws} &amp;= \frac{5}{4}{f_{p}}^{4}\end{split}\]</div>
+</section>
+</section>
+</section>
+<section id="ocean-current">
+<span id="theory-current"></span><h1>Ocean Current<a class="headerlink" href="#ocean-current" title="Link to this heading"></a></h1>
+<p>An ocean current is a continuous, directed movement of sea water generated by a number of forces acting upon the water, including wind,
+the Coriolis effect, breaking waves, cabbeling, temperature and salinity differences, and other ocean phenomena. Depth contours, shoreline configurations, and
+interactions with other currents influence a current’s direction and strength. Ocean current can vary in space and time, but are generally modeled assuming a
+horizontally uniform flow field of constant velocity and direction, varying only as a function of depth.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/oceanCurrentProfiles.png"><img alt="../_images/oceanCurrentProfiles.png" src="../_images/oceanCurrentProfiles.png" style="width: 400pt;" />
+</a>
+<figcaption>
+<div class="legend">
+<p><em>Ocean Current Profiles Within WEC-Sim</em></p>
+</div>
+</figcaption>
+</figure>
+<p>Within WEC-Sim there are three options to model ocean currents:</p>
+<section id="option-1">
+<h2>Option 1<a class="headerlink" href="#option-1" title="Link to this heading"></a></h2>
+<p>In Option 1, the sub-surface current is depth independent and is equal to the current at the water surface:</p>
+<div class="math notranslate nohighlight">
+\[\vec{U}_{ss,current}(z) = U_{ss,current}(0)\left[ \cos \left(\theta_{c} \right) \hat{i} + \sin \left(\theta_{c} \right) \hat{j} \right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta_{c}\)</span> is the current direction.</p>
+</section>
+<section id="option-2">
+<h2>Option 2<a class="headerlink" href="#option-2" title="Link to this heading"></a></h2>
+<p>In Option 2, the sub-surface current profile varies with depth following a 1/7th power law:</p>
+<div class="math notranslate nohighlight">
+\[\vec{U}_{ss,current}(z) = U_{ss,current}(0)\left[ 1 + \frac{z}{d_{current}} \right]^{1/7} \left[ \cos \left(\theta_{c}\right) \hat{i} + \sin \left(\theta_{c} \right) \hat{j} \right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(d_{current}\)</span> is the water depth where the sub-surface current is 0.</p>
+</section>
+<section id="option-3">
+<h2>Option 3<a class="headerlink" href="#option-3" title="Link to this heading"></a></h2>
+<p>In Option 3, the sub-surface current profile varies linearly with depth:</p>
+<div class="math notranslate nohighlight">
+\[\vec{U}_{ss,current}(z) = U_{ss,current}(0)\left[ 1 + \frac{z}{d_{current}} \right] \left[ \cos \left(\theta_{c} \right) \hat{i} + \sin \left(\theta_{c} \right) \hat{j} \right]\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>WEC-Sim does not adjust the linear wave hydrodynamics based on the presence
+of ocean currents and assumes a linear superposition between current and
+wave forces. The ocean current option is used only in the Morison Element
+force calculation.</p>
+</div>
+</section>
+</section>
+<section id="power-take-off-pto">
+<h1>Power Take-Off (PTO)<a class="headerlink" href="#power-take-off-pto" title="Link to this heading"></a></h1>
+<p>Throughout the following sections, unless specification is made between linear
+and rotary PTOs, units are not explicitly stated.</p>
+<section id="linear-pto">
+<h2>Linear PTO<a class="headerlink" href="#linear-pto" title="Link to this heading"></a></h2>
+<p>The PTO mechanism is represented as a linear spring-damper system where the
+reaction force is given by:</p>
+<div class="math notranslate nohighlight">
+\[F_{pto}=-K{}_{pto}X_{rel}-C_{pto}\dot{X}_{rel}\]</div>
+<p>where <span class="math notranslate nohighlight">\(K_{pto}\)</span> is the stiffness of the PTO, <span class="math notranslate nohighlight">\(C_{pto}\)</span> is the
+damping of the PTO, and <span class="math notranslate nohighlight">\(X_{rel}\)</span> and <span class="math notranslate nohighlight">\(\dot{X}_{rel}\)</span> are the
+relative motion and velocity between two bodies. The instantaneous power
+absorbed by the PTO is given by:</p>
+<div class="math notranslate nohighlight">
+\[P_{pto} = -F_{pto}\dot{X}_{rel} = \left(K_{pto}X_{rel} \dot{X}_{rel} +
+                                    C_{pto} \dot{X}^{2}_{rel} \right)\]</div>
+</section>
+<section id="hydraulic-pto">
+<h2>Hydraulic PTO<a class="headerlink" href="#hydraulic-pto" title="Link to this heading"></a></h2>
+<p>The PTO mechanism is modeled as a hydraulic system <span id="id19">[<a class="reference internal" href="#id42" title="R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In Proceedings of OMAE 2015. 2015.">B17</a>]</span>, where the
+reaction force is given by:</p>
+<div class="math notranslate nohighlight">
+\[F_{pto}=\Delta{} p_{piston}A_{piston}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Delta{} p_{piston}\)</span> is the differential pressure of the hydraulic
+piston and <span class="math notranslate nohighlight">\(A_{piston}\)</span> is the piston area. The instantaneous hydraulic
+power absorbed by the PTO is given by:</p>
+<div class="math notranslate nohighlight">
+\[P_{pto}=-F_{pto}\dot{X}_{rel}\]</div>
+</section>
+<section id="mechanical-pto">
+<h2>Mechanical PTO<a class="headerlink" href="#mechanical-pto" title="Link to this heading"></a></h2>
+<p>The PTO mechanism is modeled as a direct-drive linear generator system
+<span id="id20">[<a class="reference internal" href="#id42" title="R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In Proceedings of OMAE 2015. 2015.">B17</a>]</span>, where the reaction force is given by:</p>
+<div class="math notranslate nohighlight">
+\[F_{pto}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tau_{pm}\)</span> is the magnet pole pitch (the center-to-center distance
+of adjacent magnetic poles), <span class="math notranslate nohighlight">\(\lambda_{fd}\)</span> is the flux linkage of the
+stator <span class="math notranslate nohighlight">\(d\)</span>-axis winding due to flux produced by the rotor magnets, and
+<span class="math notranslate nohighlight">\(i_{sq}\)</span> is the stator <span class="math notranslate nohighlight">\(q\)</span>-axis current. The instantaneous
+mechanical power absorbed by the PTO is given by:</p>
+<div class="math notranslate nohighlight">
+\[P_{pto}=-F_{pto}\dot{X}_{rel}\]</div>
+<p>For more information about application of pto systems in WEC-Sim, refer to
+<a class="reference internal" href="../user/advanced_features.html#user-advanced-features-pto"><span class="std std-ref">Constraint and PTO Features</span></a> section.</p>
+</section>
+</section>
+<section id="mooring">
+<h1>Mooring<a class="headerlink" href="#mooring" title="Link to this heading"></a></h1>
+<p>The mooring load is represented using a linear quasi-static mooring stiffness
+or by using the mooring forces calculated from <a class="reference external" href="http://www.matt-hall.ca/moordyn">MoorDyn</a>, which is an
+open-source lumped-mass mooring dynamics model.</p>
+<section id="mooring-matrix">
+<h2>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Link to this heading"></a></h2>
+<p>When linear quasi-static mooring stiffness is used, the mooring load can be
+calculated by</p>
+<div class="math notranslate nohighlight">
+\[F_{m}=-K_{m}X-C_{m}\dot{X}\]</div>
+<p>where <span class="math notranslate nohighlight">\(K_{m}\)</span> and <span class="math notranslate nohighlight">\(C_{m}\)</span> are the stiffness and damping matrices
+for the mooring system, and <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(\dot{X}\)</span> are the displacement
+and velocity of the body, respectively.</p>
+</section>
+<section id="mooring-lookup-table">
+<h2>Mooring Lookup Table<a class="headerlink" href="#mooring-lookup-table" title="Link to this heading"></a></h2>
+<p>The Mooring Lookup Table searches a user-supplied 6DOF force lookup table.
+The lookup table must contain six parameters: the resultant mooring force in each degree of freedom.
+Each force must be indexed by position in all six degrees of freedom, as shown below.
+The mooringClass does not assume a value for empty indices or forces.
+All degrees of freemdom must be initialized and supplied by the user.
+The mooring force is linearly interpolated between indexed positions based on the instantaneous position of the mooring system using a Simulink N-D Lookup Table for each force component.
+The fidelity of the mooring lookup table is entirely dependent on the user-defined input.</p>
+</section>
+<section id="id21">
+<h2>MoorDyn<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized
+line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with
+gravitational and buoyancy forces, hydrodynamic loads, and reactions from
+contact with the seabed. Hydrodynamic drag and added mass
+are calculated based on Morison’s equation. A mooring line’s axial stiffness
+is modeled by applying a linear stiffness to each line segment in tension only.
+A damping term is also applied in each segment to dampen non-physical resonance
+caused by the lumped-mass discretization. Bending and torsional stiffnesses are
+neglected. Bottom contact is represented by vertical stiffness and damping
+forces applied at the nodes when a node is located below the seabed.
+<span id="id22">[<a class="reference internal" href="#id43" title="Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. Ocean Engineering, 104:590–603, 2015.">B18</a>, <a class="reference internal" href="#id44" title="Matthew Hall. Moordyn v2: new capabilities in mooring system components and load cases. In International Conference on Offshore Mechanics and Arctic Engineering, volume 84416, V009T09A078. American Society of Mechanical Engineers, 2020.">B19</a>]</span>.</p>
+<figure class="align-center" id="moordynfig">
+<a class="reference internal image-reference" href="../_images/MoorDyn_Graphic.png"><img alt="../_images/MoorDyn_Graphic.png" src="../_images/MoorDyn_Graphic.png" style="width: 529.1999999999999px; height: 324.79999999999995px;" />
+</a>
+<figcaption>
+<div class="legend">
+<p><em>MoorDyn mooring model elements</em></p>
+</div>
+</figcaption>
+</figure>
+<p>For more information about application of mooring systems in WEC-Sim, refer to
+<a class="reference internal" href="../user/advanced_features.html#user-advanced-features-mooring"><span class="std std-ref">Mooring Features</span></a> section.</p>
+</section>
+</section>
+<section id="nonlinear-buoyancy-and-froude-krylov-wave-excitation">
+<h1>Nonlinear Buoyancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#nonlinear-buoyancy-and-froude-krylov-wave-excitation" title="Link to this heading"></a></h1>
+<p>The linear model assumes that the body motion and the waves consist of small
+amplitudes in comparison to the wavelengths. A weakly nonlinear approach is
+applied to account for the nonlinear hydrodynamic forces induced by the
+instantaneous water surface elevation and body position. Rather than using the
+BEM calculated linear wave-excitation and hydrostatic coefficients, the
+nonlinear buoyancy and the Froude-Krylov force components can be obtained by
+integrating the static and dynamic pressures over each panel along the wetted
+body surface at each time step. Linear wave theory is used to determine the
+flow velocity and pressure field, so the values become unrealistically large
+for wetted panels that are above the mean water level. To correct this, the
+Wheeler stretching method is applied <span id="id23">[<a class="reference internal" href="#id46" title="J D Wheeler and others. Methods for calculating forces produced by irregular waves. In Offshore Technology Conference. 1969.">B20</a>]</span>, which applies
+a correction to the instantaneous wave elevation that forces its height to be
+equal to the water depth when calculating the flow velocity and pressure,</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[z^* = \frac{D(D+z)}{(D+\eta)} - D\]</div>
+</div></blockquote>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is the mean water depth, and <span class="math notranslate nohighlight">\(\eta\)</span> is the z-value on the
+instantaneous water surface.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The nonlinear WEC-Sim method is not intended to model highly nonlinear hydrodynamic events, such as wave slamming and wave breaking.</p>
+</div>
+<p>For more information about application of nonlinear hydrodynamics in WEC-Sim,
+refer to <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-nonlinear"><span class="std std-ref">Nonlinear Buoyancy and Froude-Krylov Excitation</span></a> section.</p>
+</section>
+<section id="viscous-damping-and-morison-elements">
+<span id="theory-viscous-damping-morison"></span><h1>Viscous Damping and Morison Elements<a class="headerlink" href="#viscous-damping-and-morison-elements" title="Link to this heading"></a></h1>
+<p>Additional damping and added-mass can be added to the WEC system. This
+facilitates experimental validation of the WEC-Sim code, particularly in the
+event that the BEM hydrodynamic outputs are not sufficiently representative of
+the physical system.</p>
+<section id="viscous-damping">
+<h2>Viscous Damping<a class="headerlink" href="#viscous-damping" title="Link to this heading"></a></h2>
+<p>Linear damping and quadratic drag forces add flexibility to the definition of viscous forcing</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}F_{v} &amp;= -C_{v}\dot{X}-\frac{C_{d} \rho A_{d}}{2}\dot{X}|\dot{X}| \\
+      &amp;= -C_{v}\dot{X}-C_{D}\dot{X}|\dot{X}|\end{split}\]</div>
+</div></blockquote>
+<p>where <span class="math notranslate nohighlight">\(C_{v}\)</span> is the linear (viscous) damping coefficient, <span class="math notranslate nohighlight">\(C_{d}\)</span>
+is the quadratic drag coefficient, <span class="math notranslate nohighlight">\(\rho\)</span> is the fluid density, and
+<span class="math notranslate nohighlight">\(A_{d}\)</span> is the characteristic area for drag calculation. Alternatively,
+one can define <span class="math notranslate nohighlight">\(C_{D}\)</span> directly.</p>
+<p>Because BEM codes are potential flow solvers and neglect the effects of
+viscosity, <span class="math notranslate nohighlight">\(F_{v}\)</span> generally must be included to accurately model device
+performance. However, it can be difficult to select representative drag
+coefficients, as they depend on device geometry, scale, and relative velocity
+between the body and the flow around it. Empirical data on the drag coefficient
+can be found in various literature and standards, but is generally limited to
+simple geometries evaluated at a limited number of scales and flow conditions.
+For realistic device geometries, the use of computational fluid dynamic
+simulations or experimental data is encouraged.</p>
+</section>
+<section id="morison-elements">
+<h2>Morison Elements<a class="headerlink" href="#morison-elements" title="Link to this heading"></a></h2>
+<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a
+structure of slender cylinders or other similar geometries arise partly from
+pressure effects from potential flow and partly from viscous effects. A slender
+cylinder implies that the diameter, D, is small relative to the wave length,
+<span class="math notranslate nohighlight">\(\lambda\)</span>, which is generally met when <span class="math notranslate nohighlight">\(D/\lambda &lt; 0.1 - 0.2\)</span>. If
+this condition is not met, wave diffraction effects must be taken into account.
+Assuming that the geometries are slender, the resulting force can be
+approximated by a modified Morison formulation <span id="id24">[<a class="reference internal" href="#id45" title="J R Morison, M P O'brien, J W Johnson, and S A Schaaf. The force exerted by surface waves on piles. Petroleum Transactions, AIME, 189:149–154, 1950.">B21</a>]</span>. The
+formulation for each element on the body can be given as</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[F_{me}=\rho\forall\dot{v} + \rho\forall C_{a}(\dot{v}-\ddot{X}) +
+                    \frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|\]</div>
+</div></blockquote>
+<p>where <span class="math notranslate nohighlight">\(v\)</span> is the fluid particle velocity due to the wave and current speed,
+<span class="math notranslate nohighlight">\(C_{a}\)</span> is the coefficient of added mass, and <span class="math notranslate nohighlight">\(\forall\)</span> is the
+displaced volume.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>WEC-Sim  does not consider buoyancy effects when calculating the forces
+from Morison elements.</p>
+</div>
+<p>For more information about application of Morison Elements in WEC-Sim, refer to
+<a class="reference internal" href="../user/advanced_features.html#user-advanced-features-morison"><span class="std std-ref">Morison Elements</span></a> section.</p>
+</section>
+</section>
+<section id="generalized-body-modes">
+<h1>Generalized Body Modes<a class="headerlink" href="#generalized-body-modes" title="Link to this heading"></a></h1>
+<p>Additional generalized body modes (GBM) are included to account for solving a
+multibody system with relative body motions, dynamics, or structural
+deformation. This implementation assumes the modal properties are given,
+obtainable in closed-form expressions or with finite element analysis. Once the
+hydrodynamic coefficients that include these additional flexible DOF are
+obtained from the BEM solver, the 6DOF rigid body motion for each body and the
+additional GBM DOFs are solved together in one system of equations. See this
+example and <a class="reference internal" href="../user/advanced_features.html#user-advanced-features"><span class="std std-ref">Advanced Features</span></a> for more details on implementing GBM.</p>
+</section>
+<section id="terminology">
+<h1>Terminology<a class="headerlink" href="#terminology" title="Link to this heading"></a></h1>
+<table class="docutils align-default" id="theory-terminology">
+<thead>
+<tr class="row-odd"><th class="head"><p>Term or Variable</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(A(\omega)\)</span></p></td>
+<td><p>Frequency dependent radiation added mass and inertia (kg and kg-m^2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\overline{A(\omega)}\)</span></p></td>
+<td><p>Normalized frequency dependent radiation added mass</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(A_{\infty}\)</span></p></td>
+<td><p>Added mass and inertia at infinite frequency (kg and kg-m^2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(A_{d}\)</span></p></td>
+<td><p>Characteristic drag area</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{A_d}\)</span></p></td>
+<td><p>State space discrete time state matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{A_r}\)</span></p></td>
+<td><p>State space time-invariant state matrix</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(A_{ws}\)</span></p></td>
+<td><p>Wave spectrum coefficient</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\alpha\)</span></p></td>
+<td><p>Wave spectrum coefficient (JONSWAP)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B(\omega)\)</span></p></td>
+<td><p>Frequency dependent radiation wave damping (N/m/s)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\overline{B(\omega)}\)</span></p></td>
+<td><p>Normalized frequency dependent radiation wave damping</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{B_d}\)</span></p></td>
+<td><p>State space discrete time input matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{B_r}\)</span></p></td>
+<td><p>State space time-invariant input matrix</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B_{ws}\)</span></p></td>
+<td><p>Wave spectrum coefficient</p></td>
+</tr>
+<tr class="row-odd"><td><p>BEM</p></td>
+<td><p>Boundary Element Method</p></td>
+</tr>
+<tr class="row-even"><td><p>BEMIO</p></td>
+<td><p>Boundary Element Method Input/Output</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(cg\)</span></p></td>
+<td><p>Center of gravity</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(cb\)</span></p></td>
+<td><p>Center of buoyancy</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(C_{a}\)</span></p></td>
+<td><p>Morison element coefficient of added mass</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(C_{d}\)</span></p></td>
+<td><p>Quadratic drag coefficient</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(C_{m}\)</span></p></td>
+<td><p>Mooring damping matrix (N/m/s)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(C_{pto}\)</span></p></td>
+<td><p>PTO damping coefficient (N/m/s)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{C_d}\)</span></p></td>
+<td><p>State space discrete time output matrix</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{C_r}\)</span></p></td>
+<td><p>State space time-invariant output matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(C_{ws}\)</span></p></td>
+<td><p>Wave spectrum coefficient (JONSWAP)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(C_{v}\)</span></p></td>
+<td><p>Linear viscous damping coefficient (N/m/s)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$CASE</span></code></p></td>
+<td><p>WEC-Sim case directory</p></td>
+</tr>
+<tr class="row-even"><td><p>dof</p></td>
+<td><p>Degree of freedom</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D\)</span></p></td>
+<td><p>Mean water depth</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{D_d}\)</span></p></td>
+<td><p>State space discrete time feed through matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{D_r}\)</span></p></td>
+<td><p>State space time-invariant feed through matrix</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\eta\)</span></p></td>
+<td><p>Incident wave (m)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(f\)</span></p></td>
+<td><p>Wave frequency (Hz)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(f_{p}\)</span></p></td>
+<td><p>Peak wave frequency (Hz)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(F_{B}\)</span></p></td>
+<td><p>Net buoyancy restoring force (N) or torque (Nm)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(F_{exc}\)</span></p></td>
+<td><p>Wave excitation force (N) or torque (Nm)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\overline{F_{exc}}\)</span></p></td>
+<td><p>Normalized wave excitation force (m^3) or torque (m^4)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(F_{rad}\)</span></p></td>
+<td><p>Wave radiation force (N) or torque (Nm)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(F_{pto}\)</span></p></td>
+<td><p>Power take-off force (N) or torque (Nm)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(F_{me}\)</span></p></td>
+<td><p>Morison element force (N) or torque (Nm)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(F_{v}\)</span></p></td>
+<td><p>Damping or friction force (N) or torque (Nm)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(F_{m}\)</span></p></td>
+<td><p>Mooring connection force (N) or torque (Nm)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(g\)</span></p></td>
+<td><p>Gravitational acceleration (m/s/s)</p></td>
+</tr>
+<tr class="row-even"><td><p>GBM</p></td>
+<td><p>Generalized body mode</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(h\)</span></p></td>
+<td><p>Water depth (m)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(H\)</span></p></td>
+<td><p>Wave height (m)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{H}\)</span></p></td>
+<td><p>Hankel matrix of the impulse response function</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(H_{s}\)</span></p></td>
+<td><p>Significant wave height, mean wave height of the tallest third of waves (m)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(H_{m0}\)</span></p></td>
+<td><p>Spectrally derived significant wave height (m)</p></td>
+</tr>
+<tr class="row-even"><td><p>Heave (Z)</p></td>
+<td><p>Motion along the Z-axis</p></td>
+</tr>
+<tr class="row-odd"><td><p>IRF</p></td>
+<td><p>Impulse Response function</p></td>
+</tr>
+<tr class="row-even"><td><p>JS</p></td>
+<td><p>JONSWAP Spectrum</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(k\)</span></p></td>
+<td><p>Wave number (rad/m), <span class="math notranslate nohighlight">\(k = \frac{2\pi}{\lambda}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K_e\)</span></p></td>
+<td><p>Excitation impulse response function</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\overline{K_e}\)</span></p></td>
+<td><p>Normalized excitation impulse response function</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K_{hs}\)</span></p></td>
+<td><p>Linear hydrostatic restoring coefficient (N/m)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\overline{K_{hs}}\)</span></p></td>
+<td><p>Normalized linear hydrostatic restoring coefficient</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K_{m}\)</span></p></td>
+<td><p>Mooring stiffness matrix (N/m)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(K_{pto}\)</span></p></td>
+<td><p>PTO stiffness coefficient (N/m)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K_r\)</span></p></td>
+<td><p>Radiation impulse response function</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\overline{K_r}\)</span></p></td>
+<td><p>Normalized radiation impulse response function</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
+<td><p>Wave length (m)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\lambda_{fd}\)</span></p></td>
+<td><p>Flux linkage</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
+<td><p>Mass of body (kg)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(m_k\)</span></p></td>
+<td><p>Spectral moment of k, for k = 0,1,2,…</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\omega\)</span></p></td>
+<td><p>Wave frequency (rad/s), <span class="math notranslate nohighlight">\(\omega = \frac{2\pi}{T}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\phi\)</span></p></td>
+<td><p>Wave phase (rad)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>Wave spectrum coefficient (JONSWAP)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\gamma\)</span></p></td>
+<td><p>Wave spectrum nondimensional peak shape parameter</p></td>
+</tr>
+<tr class="row-even"><td><p>Pitch (RY)</p></td>
+<td><p>Rotation about the Y-axis</p></td>
+</tr>
+<tr class="row-odd"><td><p>PM</p></td>
+<td><p>Pierson-Moskowitz Spectrum</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(P_{PTO}\)</span></p></td>
+<td><p>Power from the PTO</p></td>
+</tr>
+<tr class="row-odd"><td><p>PTO</p></td>
+<td><p>Power Take-Off</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R_{f}\)</span></p></td>
+<td><p>Ramp function</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td><p>Water density (kg/m3)</p></td>
+</tr>
+<tr class="row-even"><td><p>Roll (RX)</p></td>
+<td><p>Rotation about the X-axis</p></td>
+</tr>
+<tr class="row-odd"><td><p>Surge (X)</p></td>
+<td><p>Motion along the X-axis</p></td>
+</tr>
+<tr class="row-even"><td><p>Sway (Y)</p></td>
+<td><p>Motion along the Y-axis</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(S(\omega)\)</span></p></td>
+<td><p>Frequency dependent wave spectrum</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>Simulation time (s)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(t_{r}\)</span></p></td>
+<td><p>Ramp time (s)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\theta\)</span></p></td>
+<td><p>Wave direction (Degrees)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(T_{p}\)</span></p></td>
+<td><p>Peak period (s)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\tau\)</span></p></td>
+<td><p>Magnetic pole pitch</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span></p></td>
+<td><p>State space input</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(V_0\)</span></p></td>
+<td><p>Displaced water volume (m^3)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code></p></td>
+<td><p>WEC-Sim source code directory</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(X\)</span></p></td>
+<td><p>Translation and rotation displacement vector (m) or (rad)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(X_r\)</span></p></td>
+<td><p>State space state vector</p></td>
+</tr>
+<tr class="row-even"><td><p>Yaw (RZ)</p></td>
+<td><p>Rotation about the Z-axis</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading"></a></h1>
+<div class="docutils container" id="id25">
+<div role="list" class="citation-list">
+<div class="citation" id="id27" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">B1</a><span class="fn-bracket">]</span></span>
+<p>Ye Li and Yi-Hsiang Yu. A Synthesis of Numerical Methods for Modeling Wave Energy Converter-Point Absorbers. <em>Renewable and Sustainable Energy Reviews</em>, 16(6):4352–4364, 2012.</p>
+</div>
+<div class="citation" id="id28" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>B2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id8">2</a>)</span>
+<p>Aurélien Babarit, J. Hals, M.J. Muliawan, A. Kurniawan, T. Moan, and J. Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. <em>Renewable Energy</em>, 41:44–63, 2012.</p>
+</div>
+<div class="citation" id="id35" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>B3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id7">2</a>)</span>
+<p>CH Lee and JN Newman. WAMIT User Manual. 2006.</p>
+</div>
+<div class="citation" id="id33" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">B4</a><span class="fn-bracket">]</span></span>
+<p>ANSYS Aqwa. URL: <a class="reference external" href="http://www.ansys.com/Products/Other+Products/ANSYS+AQWA">http://www.ansys.com/Products/Other+Products/ANSYS+AQWA</a> (visited on May 21, 2014).</p>
+</div>
+<div class="citation" id="id34" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">B5</a><span class="fn-bracket">]</span></span>
+<p>Nemoh a Open source BEM. URL: <a class="reference external" href="http://openore.org/tag/nemoh/">http://openore.org/tag/nemoh/</a> (visited on May 21, 2014).</p>
+</div>
+<div class="citation" id="id36" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">B6</a><span class="fn-bracket">]</span></span>
+<p>Matthieu Ancellin and Frédéric Dias. Capytaine: a Python-based linear potential flow solver. <em>Journal of Open Source Software</em>, 4(36):1341, apr 2019. URL: <a class="reference external" href="https://doi.org/10.21105%2Fjoss.01341">https://doi.org/10.21105%2Fjoss.01341</a>, <a class="reference external" href="https://doi.org/10.21105/joss.01341">doi:10.21105/joss.01341</a>.</p>
+</div>
+<div class="citation" id="id37" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">B7</a><span class="fn-bracket">]</span></span>
+<p>Aurélien Babarit and Gérard Delhommeau. Theoretical and numerical aspects of the open source BEM solver NEMOH. In <em>Proceedings of the 11th European Wave and Tidal Energy Conference (EWTEC2015)</em>. Nantes, France, 2015.</p>
+</div>
+<div class="citation" id="id38" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">B8</a><span class="fn-bracket">]</span></span>
+<p>Jerica D. Nolte and R. C. Ertekin. Wave power calculations for a wave energy conversion device connected to a drogue. <em>Journal of Renewable and Sustainable Energy</em>, 2014.</p>
+</div>
+<div class="citation" id="id41" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">B9</a><span class="fn-bracket">]</span></span>
+<p>WE Cummins. The Impulse Response Function and Ship Motions. Technical Report, David Taylor Model Dasin-DTNSRDC, 1962.</p>
+</div>
+<div class="citation" id="id29" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">B10</a><span class="fn-bracket">]</span></span>
+<p>Z. Yu and J. Falnes. State-space Modelling of a Vertical Cylinder in Heave. <em>Applied Ocean Research</em>, 5:265–275, 1996.</p>
+</div>
+<div class="citation" id="id30" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>B11<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id13">2</a>,<a role="doc-backlink" href="#id14">3</a>)</span>
+<p>R. Taghipour, T. Perez, and T. Moan. Hybrid Frequency-time Domain Models for Dynamic Response Analysis of Marine Structures. <em>Ocean Engineering</em>, 7:685–705, 2008.</p>
+</div>
+<div class="citation" id="id31" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">B12</a><span class="fn-bracket">]</span></span>
+<p>Sun-Yuan Kung. A new identification and model reduction algorithm via singular value decomposition. In <em>Proc. 12th Asilomar Conf. Circuits, Syst. Comput., Pacific Grove, CA</em>, 705–714. 1978.</p>
+</div>
+<div class="citation" id="id32" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>B13<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id13">1</a>,<a role="doc-backlink" href="#id14">2</a>)</span>
+<p>Erlend Kristiansen, Åsmund Hjulstad, and Olav Egeland. State-space representation of radiation forces in time-domain vessel models. <em>Ocean Engineering</em>, 32(17):2195–2216, 2005.</p>
+</div>
+<div class="citation" id="id39" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">B14</a><span class="fn-bracket">]</span></span>
+<p>W. J. Pierson and L. A. Moskowitz. Proposed Spectral Form for Fully Developed Wind Seas Based on the Similarity Theory of S. A. Kitaigorodskii. <em>Geophysical Research</em>, 69:5181–5190, 1964.</p>
+</div>
+<div class="citation" id="id26" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>B15<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id16">1</a>,<a role="doc-backlink" href="#id18">2</a>)</span>
+<p>IEC 62600-2. Marine Energy - Wave, Tidal, and other water current converters. URL: <a class="reference external" href="https://webstore.iec.ch/publication/62399">https://webstore.iec.ch/publication/62399</a> (visited on June 8, 2020).</p>
+</div>
+<div class="citation" id="id40" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">B16</a><span class="fn-bracket">]</span></span>
+<p>K. Hasselman, T.P. Barnett, E. Bouws, H. Carlson, D.E. Cartwright, K. Enke, J.A. Ewing, H. Gienapp, D.E. Hasselmann, P. Kruseman, A. Meerburg, P. Mller, D.J. Olbers, K. Richter, W. Sell, and H. Walden. Measurements of wind-wave growth and swell decay during the Joint North Sea Wave Project (JONSWAP). Technical Report 12, German Hydrographic Institute, 1973.</p>
+</div>
+<div class="citation" id="id42" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>B17<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id19">1</a>,<a role="doc-backlink" href="#id20">2</a>)</span>
+<p>R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. 2015.</p>
+</div>
+<div class="citation" id="id43" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id22">B18</a><span class="fn-bracket">]</span></span>
+<p>Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. <em>Ocean Engineering</em>, 104:590–603, 2015.</p>
+</div>
+<div class="citation" id="id44" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id22">B19</a><span class="fn-bracket">]</span></span>
+<p>Matthew Hall. Moordyn v2: new capabilities in mooring system components and load cases. In <em>International Conference on Offshore Mechanics and Arctic Engineering</em>, volume 84416, V009T09A078. American Society of Mechanical Engineers, 2020.</p>
+</div>
+<div class="citation" id="id46" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">B20</a><span class="fn-bracket">]</span></span>
+<p>J D Wheeler and others. Methods for calculating forces produced by irregular waves. In <em>Offshore Technology Conference</em>. 1969.</p>
+</div>
+<div class="citation" id="id45" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id24">B21</a><span class="fn-bracket">]</span></span>
+<p>J R Morison, M P O'brien, J W Johnson, and S A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</p>
+</div>
+</div>
+</div>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Theory Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../user/index.html" class="btn btn-neutral float-right" title="User Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/theory/theory.html">dev</a></dd>
+      <dd><a href="theory.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Workflow" href="workflow.html" />
+    <link rel="prev" title="User Manual" href="index.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7fe2ec3647c0>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Manual</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#matlab-requirements">MATLAB Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-wec-sim">Download WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-wec-sim">Install WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-add-wec-sim-to-the-matlab-path">Step 1. Add WEC-Sim to the MATLAB Path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-verify-the-path">Step 2. Verify the Path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-add-wec-sim-library-to-simulink">Step 3. Add WEC-Sim Library to Simulink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-test-the-installation">Step 4. Test the Installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">WEC-Sim Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html">Training Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Manual</a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/user/getting_started.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="getting-started">
+<span id="user-getting-started"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>This section provides instructions on how to download and install WEC-Sim.</p>
+<section id="matlab-requirements">
+<h2>MATLAB Requirements<a class="headerlink" href="#matlab-requirements" title="Link to this heading"></a></h2>
+<p>WEC-Sim is developed in MATLAB/Simulink, and requires the following toolboxes:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Required Toolbox</strong></p></td>
+<td><p><strong>Oldest Compatible Version</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>MATLAB</p></td>
+<td><p>Version 9.9  (R2020b)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simulink</p></td>
+<td><p>Version 10.2 (R2020b)</p></td>
+</tr>
+<tr class="row-even"><td><p>Simscape</p></td>
+<td><p>Version 5.0  (R2020b)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simscape Multibody</p></td>
+<td><p>Version 7.2  (R2020b)</p></td>
+</tr>
+</tbody>
+</table>
+<p>WEC-Sim’s Simulink Library is saved in MATLAB R2020b, and WEC-Sim tests are run on the last four releases of MATLAB.
+Any version of MATLAB newer than R2020b should be compatible with WEC-Sim, however we do not test all MATLAB releases.
+The stability of each MATLAB release is available via <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/actions">WEC-Sim’s GitHub Actions</a>.
+Certain advanced features rely on external functions (such as <a class="reference internal" href="advanced_features.html#mooring-moordyn"><span class="std std-ref">MoorDyn</span></a>), and additional MATLAB Toolboxes (such as <a class="reference internal" href="advanced_features.html#user-advanced-features-pct"><span class="std std-ref">Parallel Computing Toolbox (PCT)</span></a>).</p>
+<p>Verify that the MATLAB required toolboxes are installed by typing <code class="docutils literal notranslate"><span class="pre">ver</span></code> in the MATLAB Command Window:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="nb">ver</span>
+<span class="go">-----------------------------------------------------------------------------------------------------</span>
+<span class="go">MATLAB Version: 9.9.0.1592791 (R2020b)</span>
+<span class="go">-----------------------------------------------------------------------------------------------------</span>
+<span class="go">MATLAB                                                Version 9.9         (R2020b)</span>
+<span class="go">Simulink                                              Version 10.2        (R2020b)</span>
+<span class="go">Simscape                                              Version 5.0         (R2020b)</span>
+<span class="go">Simscape Multibody                                    Version 7.2         (R2020b)</span>
+</pre></div>
+</div>
+</section>
+<section id="download-wec-sim">
+<h2>Download WEC-Sim<a class="headerlink" href="#download-wec-sim" title="Link to this heading"></a></h2>
+<p>The WEC-Sim source code is hosted on <a class="reference external" href="https://github.com/WEC-Sim/wec-sim">WEC-Sim’s GitHub repository</a>.
+WEC-Sim users should clone WEC-Sim’s Github repository.
+Cloning the repository allows users to easily pull the latest updates to the WEC-Sim source code.
+The WEC-Sim source code can be cloned by installing <a class="reference external" href="https://git-lfs.github.com/">Git Large File Storage</a> (git lfs) to access large files (e.g. <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files), and <a class="reference external" href="https://help.github.com/articles/cloning-a-repository/">cloning</a> the WEC-Sim GitHub repository.</p>
+<p>To install WEC-Sim using <a class="reference external" href="https://git-scm.com/">git</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">lfs</span> <span class="n">install</span>
+<span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span>
+</pre></div>
+</div>
+<p>The local copy of WEC-Sim can easily be updated to include updates from the main version of the WEC-Sim source code hosted on the GitHub by using the git pull command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">main</span>
+</pre></div>
+</div>
+<p>For users who are new to git, it is recommended to go through examples on <a class="reference external" href="https://docs.github.com/en/free-pro-team&#64;latest/github/getting-started-with-github">GitHub</a> or other sources while getting started.
+If you have problems downloading or installing please see the <a class="reference internal" href="troubleshooting.html#user-troubleshooting"><span class="std std-ref">Troubleshooting</span></a> page.</p>
+<p>For developers who wish to contribute to WEC-Sim, refer to the Developer <a class="reference internal" href="../developer/getting_started.html#dev-getting-started"><span class="std std-ref">Getting Started</span></a> section.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Users may also download a static version of WEC-Sim from the latest tagged
+<a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim Release</a>.  This is
+the easiest way to obtain the WEC-Sim code, however users must manually
+download new releases for updates.</p>
+</div>
+</section>
+<section id="install-wec-sim">
+<span id="user-install"></span><h2>Install WEC-Sim<a class="headerlink" href="#install-wec-sim" title="Link to this heading"></a></h2>
+<p>Once you have downloaded the WEC-Sim source code, take the following steps to install WEC-Sim.
+The directory where the WEC-Sim source code is saved is referred to as <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>).</p>
+<section id="step-1-add-wec-sim-to-the-matlab-path">
+<h3>Step 1. Add WEC-Sim to the MATLAB Path<a class="headerlink" href="#step-1-add-wec-sim-to-the-matlab-path" title="Link to this heading"></a></h3>
+<p>To run WEC-Sim, the source directory must be on the MATLAB path.
+Users have two options to do this:</p>
+<p><strong>Option 1. Automatically add the WEC-Sim source on MATLAB startup.</strong></p>
+<p>Open <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/addWecSimSource.m</span></code> and copy contents to a new file called <code class="docutils literal notranslate"><span class="pre">startup.m</span></code>.
+Set the WEC-Sim  path to the local <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code> directory, e.g. <code class="docutils literal notranslate"><span class="pre">wecSimSource</span> <span class="pre">=</span> <span class="pre">'C:/User/Documents/GitHub/WEC-Sim/source</span></code>.
+Save <code class="docutils literal notranslate"><span class="pre">startup.m</span></code> to the <a class="reference external" href="https://www.mathworks.com/help/matlab/ref/startup.html">MATLAB Startup Folder</a>.
+Restart MATLAB, and the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code> directory will automatically be added to the MATLAB path.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% This script adds the WEC-Sim source to the MATLAB path. </span>
+
+<span class="c">% Define WEC-Sim source and add to MATLAB path</span>
+<span class="n">wecSimSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="nb">pwd</span><span class="p">,</span><span class="s">&#39;source&#39;</span><span class="p">);</span>
+<span class="nb">addpath</span><span class="p">(</span><span class="nb">genpath</span><span class="p">(</span><span class="n">wecSimSource</span><span class="p">));</span>
+
+<span class="c">% Allow opening of Simulink models saved in a newer version</span>
+<span class="n">set_param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;ErrorIfLoadNewModel&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="nb">clear</span><span class="w"> </span><span class="n">wecSimSource</span>
+</pre></div>
+</div>
+<p><strong>Option 2. Manually add and remove the WEC-Sim source from the MATLAB path.</strong></p>
+<p>This option requires users to run a script each time MATLAB is opened to add the WEC-Sim source directory to the path.
+Navigate to the <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> directory and run <code class="docutils literal notranslate"><span class="pre">addWecSimSource</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code> directory will then be added to the MATLAB path for this instance of MATLAB.
+To remove WEC-Sim from the path, run <code class="docutils literal notranslate"><span class="pre">removeWecSimSource</span></code>.</p>
+</section>
+<section id="step-2-verify-the-path">
+<h3>Step 2. Verify the Path<a class="headerlink" href="#step-2-verify-the-path" title="Link to this heading"></a></h3>
+<p>Verify the path was set up correctly by checking that the WEC-Sim source directory is listed in the MATLAB search path.
+The WEC-Sim source directory, <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code>, and its subfolders should be listed.
+To view the MATLAB path, type <code class="docutils literal notranslate"><span class="pre">path</span></code> in the MATLAB Command Window:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">path</span>
+
+        <span class="n">MATLABPATH</span>
+
+<span class="n">C</span><span class="p">:</span><span class="o">/</span><span class="n">User</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">GitHub</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/</span><span class="n">source</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-add-wec-sim-library-to-simulink">
+<h3>Step 3. Add WEC-Sim Library to Simulink<a class="headerlink" href="#step-3-add-wec-sim-library-to-simulink" title="Link to this heading"></a></h3>
+<p>Open the Simulink Library Browser by typing <code class="docutils literal notranslate"><span class="pre">slLibraryBrowser</span></code> in the MATLAB
+Command Window:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">slLibraryBrowser</span>
+</pre></div>
+</div>
+<p>Once the Simulink Library Browser opens, <a class="reference external" href="https://www.mathworks.com/help/simulink/slref/librarybrowser.librarybrowser2.refresh.html">refresh the Simulink Library</a>.
+The WEC-Sim Library should now be visible, as shown in the figure below.
+The WEC-Sim Library will now be accessible every time Simulink is opened.
+For more information on using and modifying library blocks refer to the <a class="reference external" href="http://www.mathworks.com/help/simulink/">Simulink Documentation</a>.</p>
+<figure class="align-center">
+<img alt="../_images/WEC-Sim_Lib.PNG" src="../_images/WEC-Sim_Lib.PNG" />
+</figure>
+</section>
+<section id="step-4-test-the-installation">
+<h3>Step 4. Test the Installation<a class="headerlink" href="#step-4-test-the-installation" title="Link to this heading"></a></h3>
+<p>Both users and contributors can test the installation using the following steps.
+In the MATLAB Command Window type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt; cd $WECSIM/examples/RM3
+&gt;&gt; wecSim
+</pre></div>
+</div>
+<p>This should run an example case using the Reference Model 3 (RM3) point absorber.
+A Mechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs.
+Both the RM3 and the OSWEC examples (<code class="docutils literal notranslate"><span class="pre">$WECSIM/examples/OSWEC</span></code>) come ready-to-run and can be used once WEC-Sim is installed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a git lfs error is produced, there was a problem with git-lfs
+installation. You may need to manually install <a class="reference external" href="https://git-lfs.github.com/">Git Large File
+Storage</a> , or run
+<code class="docutils literal notranslate"><span class="pre">$WECSIM/examples/RM3/hydroData/bemio.m</span></code> to generate the correct
+<code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code> file.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="User Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workflow.html" class="btn btn-neutral float-right" title="Workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="getting_started.html">dev</a></dd>
+      <dd><a href="../../main/user/getting_started.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

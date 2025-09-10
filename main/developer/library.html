@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEC-Sim Library &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Features" href="advanced_features.html" />
+    <link rel="prev" title="Software Tests" href="software_tests.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f6b2a562d00>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pull_requests.html">Pull Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_tests.html">Software Tests</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">WEC-Sim Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#formatting">Formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#library-development">Library Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulink-functions">Simulink Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matlab-merge-tool">MATLAB Merge Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Manual</a></li>
+      <li class="breadcrumb-item active">WEC-Sim Library</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/library.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="wec-sim-library">
+<span id="dev-library"></span><h1>WEC-Sim Library<a class="headerlink" href="#wec-sim-library" title="Link to this heading"></a></h1>
+<p>The WEC-Sim Library is in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/lib</span></code> directory, and includes the following files:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Simulink Library</strong></p></td>
+<td><p><strong>File name</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>WEC-Sim Library</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib.slx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Frames Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Frames.slx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Body Elements Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Body_Elements.slx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Constraints Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Constraints.slx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>PTOs Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_PTOs.slx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cables Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Cables.slx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Moorings Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Moorings.slx</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>GitHub tracks when a change is made to a binary file (e.g. <code class="docutils literal notranslate"><span class="pre">*.slx</span></code>), but not the specific revisions made.
+This makes tracking revisions to the WEC-Sim Library more challenging than revisions to text files (e.g. <code class="docutils literal notranslate"><span class="pre">*.m</span></code>).
+The WEC-Sim Library is saved as a <a class="reference external" href="https://www.mathworks.com/help/simulink/ug/creating-block-libraries.html">Custom Simulink Library</a> with sublibaries.
+To ensure backwards compatibility, a <a class="reference external" href="https://www.mathworks.com/help/simulink/ug/make-backward-compatible-changes-to-libraries.html">Forwarding Table</a> is used.</p>
+<section id="formatting">
+<span id="dev-library-format"></span><h2>Formatting<a class="headerlink" href="#formatting" title="Link to this heading"></a></h2>
+<p>Please format the color of library blocks according to their function:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Library Function</strong></p></td>
+<td><p><strong>Color</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Input</p></td>
+<td><p>Green</p></td>
+</tr>
+<tr class="row-odd"><td><p>Output</p></td>
+<td><p>Red</p></td>
+</tr>
+<tr class="row-even"><td><p>From Workspace</p></td>
+<td><p>Yellow</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simulink Function</p></td>
+<td><p>Orange</p></td>
+</tr>
+<tr class="row-even"><td><p>Subsystem</p></td>
+<td><p>Gray</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linked Block</p></td>
+<td><p>Light Blue</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/library_format.png"><img alt="../_images/library_format.png" src="../_images/library_format.png" style="width: 400pt;" />
+</a>
+<figcaption>
+<p><span class="caption-text">WEC-Sim Library blocks with color formatting</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="library-development">
+<span id="dev-library-development"></span><h2>Library Development<a class="headerlink" href="#library-development" title="Link to this heading"></a></h2>
+<p>When masks are modified, Simulink executes the mask initialization code. If Simulink does not have access to the WEC-Sim objects in the Simulink workspace, Simulink will throw an error message and would not allow any changes.</p>
+<p>In order to modify blocks masks the variable being modified must be accesible to Simulink’s workspace. This can be acheived by running any <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script without executing WEC-Sim. Running the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script populates the MATLAB worskpace with the pertinent data objects using WEC-Sim’s class definitions. This enables the block masks to have access to the properties and methods for the pertinent class (e.g., <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> etc.).</p>
+<p>Simulink then executes each block mask’s initialization code before accepting any changes. Some of the WEC-Sim library blocks auto-generate additional blocks based on the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script. To ensure that the library block auto-generates such blocks only when WEC-Sim is run, make sure to delete the auto-generated blocks before saving the modified block to the WEC-Sim library.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is especially important for the Wave Markers and for B2B</p>
+</div>
+</section>
+<section id="simulink-functions">
+<span id="dev-sim-funcs"></span><h2>Simulink Functions<a class="headerlink" href="#simulink-functions" title="Link to this heading"></a></h2>
+<p>Whenever a Simulink Function is called from the WEC-Sim Library, save the function to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/simulink/functions</span></code> directory.
+This allows revisions to Simulink Functions to be more easily tracked by Git.
+Simulink Model Functions should be saved to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/model</span></code> directory.
+Simulink Mask Functions should be saved to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/mask</span></code> directory.
+Refer to the <a class="reference internal" href="#dev-library-format"><span class="std std-ref">Formatting</span></a> section for details on block color formatting.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/model</span></code> directory contains functions called by the Simulink model during runtime.
+These functions implement physics equations such as calculation of the irregular excitation force or the radiation damping convolution integral. These functions greatly affect the accuracy of WEC-Sim.</p>
+</section>
+<section id="matlab-merge-tool">
+<span id="dev-merge-tool"></span><h2>MATLAB Merge Tool<a class="headerlink" href="#matlab-merge-tool" title="Link to this heading"></a></h2>
+<p>It is recommended that developers use the <a class="reference external" href="https://www.mathworks.com/help/simulink/ug/customize-external-source-control-to-use-matlab-for-comparison-and-merge.html">MATLAB Merge Tool</a> to compare library versions when there are merge conflicts.
+The MATLAB Merge Tool allows users to compare changes directly in Simulink.
+The merge tool will open a special Simulink GUI that allows users to compare code versions both textually and within the block diagram.
+To use the tool, merge both branches locally and resolve any conflicts using the merge tool.</p>
+<p>For example, take the branches <code class="docutils literal notranslate"><span class="pre">&lt;dev&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;new_feature&gt;</span></code> that each contain new WEC-Sim features.
+In the Git for Windows command line, these changes can be merged using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checkout the &lt;dev&gt; branch and pull the latest</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">dev</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="o">&lt;</span><span class="n">remote</span><span class="o">&gt;/&lt;</span><span class="n">dev</span><span class="o">&gt;</span>
+
+<span class="c1"># Merge &lt;new_feature&gt; branch into &lt;dev&gt; branch</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="o">&lt;</span><span class="n">new_feature</span><span class="o">&gt;</span>
+
+<span class="c1"># Resolve library conflicts using the MATLAB merge tool</span>
+<span class="n">git</span> <span class="n">mergetool</span> <span class="o">-</span><span class="n">t</span> <span class="n">mlMerge</span> <span class="n">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/&lt;</span><span class="n">library_file</span><span class="o">&gt;.</span><span class="n">slx</span>
+
+<span class="c1"># Save desired revisions, then add and commit changes</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/&lt;</span><span class="n">library_file</span><span class="o">&gt;.</span><span class="n">slx</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;merge &lt;dev&gt; with &lt;new_feature&gt;&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="software_tests.html" class="btn btn-neutral float-left" title="Software Tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advanced_features.html" class="btn btn-neutral float-right" title="Advanced Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/developer/library.html">dev</a></dd>
+      <dd><a href="library.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

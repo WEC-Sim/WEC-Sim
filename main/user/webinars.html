@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Training Materials &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
+    <link rel="prev" title="WEC-Sim Applications" href="applications.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f6b29e435b0>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">WEC-Sim Applications</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Training Materials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#online-training-course">Online Training Course</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#theory-workflow">Theory &amp; Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#code-structure">Code Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bemio">BEMIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wave-class">Wave Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#body-class">Body Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tutorial">Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-features-series">Advanced Features Series</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#series-1-multiple-condition-runs-mcr">Series 1 - Multiple Condition Runs (MCR)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-2-nonlinear-buoyancy-and-froude-krylov-wave-excitation">Series 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-3-non-hydrodynamic-bodies">Series 3 - Non-hydrodynamic Bodies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-4-body-to-body-interactions">Series 4 - Body-to-Body Interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-5-pto-sim">Series 5 - PTO-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-6-wec-sim-controls">Series 6 - WEC-Sim Controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-7-modeling-cables">Series 7 - Modeling Cables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-8-using-moordyn-with-wec-sim">Series 8 - Using MoorDyn with WEC-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-9-modeling-owc-devices">Series 9 - Modeling OWC Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-10-desalination">Series 10 - Desalination</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#series-11-wec-sim-visualization">Series 11 - WEC-Sim Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Manual</a></li>
+      <li class="breadcrumb-item active">Training Materials</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/user/webinars.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="training-materials">
+<span id="intro-webinars"></span><h1>Training Materials<a class="headerlink" href="#training-materials" title="Link to this heading"></a></h1>
+<p>The WEC-Sim team developed an online training course, and hosted advanced features webinars.
+Recordings of each course are available below, along with the presentations.</p>
+<section id="online-training-course">
+<h2>Online Training Course<a class="headerlink" href="#online-training-course" title="Link to this heading"></a></h2>
+<p>The WEC-Sim team developed an online training course.
+This course provides an overview of what that WEC-Sim software does, and how to use it.
+Recordings of each course are available below, along with the presentations.</p>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
+<p>The section provides a big-picture overview of the WEC-Sim software.
+The WEC-Sim Overview presentation is available for download here (<a class="reference external" href="../_static/downloads/1_WEC-Sim_Overview.pdf">WEC-Sim
+Overview Slides</a>), and the
+recording is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/fjUc-Xipf3A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="theory-workflow">
+<h3>Theory &amp; Workflow<a class="headerlink" href="#theory-workflow" title="Link to this heading"></a></h3>
+<p>This section discusses the WEC-Sim theory and workflow.
+The WEC-Sim Theory &amp; Workflow presentation is available
+for download here (<a class="reference external" href="../_static/downloads/2_WEC-Sim_TheoryWorkFlow.pdf">Theory &amp; Workflow Slides</a>), and the recording is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/HsRQ7V8N4gQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
+<p>This section described how to install WEC-Sim.
+The WEC-Sim Installation presentation is available to download here (<a class="reference external" href="../_static/downloads/3_WEC-Sim_Installation.pdf">Theory &amp; Workflow Slides</a>), and the recording is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/HlIhYOVCAWA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="code-structure">
+<span id="user-webinars-code-structure"></span><h3>Code Structure<a class="headerlink" href="#code-structure" title="Link to this heading"></a></h3>
+<p>This section provides an overview of how the WEC-Sim code is
+structured by describing the <a class="reference internal" href="code_structure.html#user-code-structure-src"><span class="std std-ref">WEC-Sim Source Code</span></a> (e.g.
+<a class="reference internal" href="code_structure.html#user-code-structure-classes"><span class="std std-ref">WEC-Sim Classes</span></a> and <a class="reference internal" href="code_structure.html#user-code-structure-library"><span class="std std-ref">WEC-Sim Library</span></a>, and
+how they are defined in the <a class="reference internal" href="workflow.html#user-workflow-input-files"><span class="std std-ref">WEC-Sim Case Files</span></a> (i.e.
+<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;Simulink_model_name&gt;.slx</span></code>).
+The Code Structure Overview presentation is available to download here (<a class="reference external" href="../_static/downloads/4_WEC-Sim_CodeStructure.pdf">WEC-Sim Code
+Structure Slides</a>), and the
+recording is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/vtT4Ad-qbe0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="bemio">
+<h3>BEMIO<a class="headerlink" href="#bemio" title="Link to this heading"></a></h3>
+<p>This section of the course discusses how BEMIO is used to extract the hydrodynamic coefficients generated by a BEM software,
+and post-process themfor use by WEC-Sim.
+The BEMIO routines also help calculate impulse response functions, and plot data.
+The BEMIO presentation can be donloaded here (<a class="reference external" href="../_static/downloads/5_WEC-Sim_BEMIO.pdf">BEMIO Slides</a>), and the
+recording is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/qafl-JUX6hQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="wave-class">
+<h3>Wave Class<a class="headerlink" href="#wave-class" title="Link to this heading"></a></h3>
+<p>This section of the course provides an overview of how waves are implemented in
+the WEC-Sim code, both in the <a class="reference internal" href="code_structure.html#user-code-structure-wave-class"><span class="std std-ref">Wave Class</span></a>, and in the
+<a class="reference internal" href="code_structure.html#user-code-structure-library"><span class="std std-ref">WEC-Sim Library</span></a>.
+The Wave Class presentation is
+available for download here (<a class="reference external" href="../_static/downloads/6_WEC-Sim_WaveClass.pdf">Wave Implementation Slides</a>), and the recording
+is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/vSFokVIdxOg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="body-class">
+<h3>Body Class<a class="headerlink" href="#body-class" title="Link to this heading"></a></h3>
+<p>This section of the course provides an overview of how bodies are implemented
+in the WEC-Sim code, both in the <a class="reference internal" href="code_structure.html#user-code-structure-body-class"><span class="std std-ref">Body Class</span></a>, and in
+the <a class="reference internal" href="code_structure.html#user-code-structure-library"><span class="std std-ref">WEC-Sim Library</span></a>. The Body Class presentation is
+available for download here (<a class="reference external" href="../_static/downloads/7_WEC-Sim_BodyClass.pdf">Body Implementation Slides</a>), and the recording
+is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/Y_4ExGw5l04?start=5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="tutorial">
+<h3>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h3>
+<p>This section shows users how to set up an run a the WEC-Sim tutorial.
+The Tutorial presentation is available to download here (<a class="reference external" href="../_static/downloads/8_WEC-Sim_Tutorial.pdf">WEC-Sim Tutorial</a>), and the recording
+is available below.</p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/SUA_6Nd1w9g?start=5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+</section>
+<section id="advanced-features-series">
+<h2>Advanced Features Series<a class="headerlink" href="#advanced-features-series" title="Link to this heading"></a></h2>
+<p>The WEC-Sim team hosted a series of Advanced Features Series. The
+topics are listed below. Recordings of each are available below, along with the
+presentations.</p>
+<blockquote>
+<div><table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Series</strong></p></td>
+<td><p><strong>Topic</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Multiple Condition Runs (MCR)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Nonlinear Hydrodynamics</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Non-hydrodynamic Bodies</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Body-to-Body Interactions</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>PTO-Sim</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>WEC-Sim Controls</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Modeling Cables</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>Using Moordyn with WEC-Sim</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>Modeling OWC Devices</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>Desalination</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>WEC-Sim Visualization</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<section id="series-1-multiple-condition-runs-mcr">
+<span id="webinar1"></span><h3>Series 1 - Multiple Condition Runs (MCR)<a class="headerlink" href="#series-1-multiple-condition-runs-mcr" title="Link to this heading"></a></h3>
+<p>The series presents an overview of how to run multiple cases in WEC-Sim. The
+presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/1_WEC-Sim_AdvFeatures_MCR_Batch_Runs.pdf">Series 1 Slides</a> ), and the recording is
+available below.</p>
+<p><strong>Series 1 - Multiple Condition Runs (MCR)</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/gyZ2GFKe68Y?si=DJwVGB6BIH0KO9p5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-2-nonlinear-buoyancy-and-froude-krylov-wave-excitation">
+<span id="webinar2"></span><h3>Series 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#series-2-nonlinear-buoyancy-and-froude-krylov-wave-excitation" title="Link to this heading"></a></h3>
+<p>This section is focused on how to implement Nonlinear Buoyancy and Froude-Krylov Wave Excitation forces in WEC-Sim.
+The presentation is available
+for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/2_WEC-Sim_AdvFeatures_Nonlinear_hydro.pdf">Series 2 Slides</a> ),
+and the recordings are available below.</p>
+<p><strong>Series 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/lYi3w20eYVc?si=TuiMEKNDNPjTVrU_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-3-non-hydrodynamic-bodies">
+<span id="webinar3"></span><h3>Series 3 - Non-hydrodynamic Bodies<a class="headerlink" href="#series-3-non-hydrodynamic-bodies" title="Link to this heading"></a></h3>
+<p>This webinar presents an overview of the non-hydrodynamic body implementation in WEC-Sim. The
+presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/3_WEC-Sim_AdvFeatures_Non_hydro.pdf">Series 3 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 3 - Non-hydrodynamic Bodies</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/ZGKR23xNVjQ?si=FgKBEEGkKzzUsIdu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-4-body-to-body-interactions">
+<span id="webinar4"></span><h3>Series 4 - Body-to-Body Interactions<a class="headerlink" href="#series-4-body-to-body-interactions" title="Link to this heading"></a></h3>
+<p>This is section of the Advanced Features Series presents some examples of how body-to-body interactions are modeled in WEC-Sim.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/4_WEC-Sim_AdvFeatures_B2B.pdf">Series 4 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 4 - Body-to-Body Interactions</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/IotT-tC67w4?si=5NKswvCzRaMjVDKQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-5-pto-sim">
+<span id="webinar5"></span><h3>Series 5 - PTO-Sim<a class="headerlink" href="#series-5-pto-sim" title="Link to this heading"></a></h3>
+<p>This section is focused on PTO-Sim.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/5_WEC-Sim_AdvFeatures_PTOSim.pdf">Series 5 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 5 - PTO-Sim</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/JFEnFhqkGB4?si=LUaotglac4jrNgjY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-6-wec-sim-controls">
+<span id="webinar6"></span><h3>Series 6 - WEC-Sim Controls<a class="headerlink" href="#series-6-wec-sim-controls" title="Link to this heading"></a></h3>
+<p>This section presents some examples of how to implement control algorithms for WECs using WEC-Sim.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/6_WEC-Sim_AdvFeatures_Controls.pdf">Series 6 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 6 - WEC-Sim Controls</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/6NocmT5qZYc?si=h3RUgYrm6xK-UXtO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-7-modeling-cables">
+<span id="webinar7"></span><h3>Series 7 - Modeling Cables<a class="headerlink" href="#series-7-modeling-cables" title="Link to this heading"></a></h3>
+<p>This section is focused on the Cable Block from WEC-Sim.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/7_WEC-Sim_AdvFeatures_Cable.pdf">Series 7 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 7 - Modeling Cables</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/0W5Ndzx3j6Y?si=Z5N7yu9tAZsao9Vf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-8-using-moordyn-with-wec-sim">
+<span id="webinar8"></span><h3>Series 8 - Using MoorDyn with WEC-Sim<a class="headerlink" href="#series-8-using-moordyn-with-wec-sim" title="Link to this heading"></a></h3>
+<p>This section presents an overview of how to use MoorDyn with WEC-Sim.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/8_WEC-Sim_AdvFeatures_MoorDyn.pdf">Series 8 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 8 - Using MoorDyn with WEC-Sim</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/rqUVK9dCsU0?si=pEKY0jXbKIU7bngl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above MoorDyn webinar is based on MoorDyn v1 and is in the process of being updated
+for MoorDyn v2. Please refer to <a class="reference internal" href="advanced_features.html#user-advanced-features-mooring"><span class="std std-ref">Mooring Features</span></a> for instruction on
+using WEC-Sim with MoorDyn v2.</p>
+</div>
+</section>
+<section id="series-9-modeling-owc-devices">
+<span id="webinar9"></span><h3>Series 9 - Modeling OWC Devices<a class="headerlink" href="#series-9-modeling-owc-devices" title="Link to this heading"></a></h3>
+<p>This section presents an overview of how to use model OWC devices using WEC-Sim.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/9_WEC-Sim_AdvFeatures_OWC_Modeling.pdf">Series 9 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 9 - Modeling OWC Devices</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/fd6yA7EATAo?si=8VS2uJEeWZChLF8M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-10-desalination">
+<span id="webinar10"></span><h3>Series 10 - Desalination<a class="headerlink" href="#series-10-desalination" title="Link to this heading"></a></h3>
+<p>This section presents an overview of how to use WEC-Sim to model a desalination application.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/10_WEC-Sim_AdvFeatures_Desal.pdf">Series 10 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 10 - Desalination</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/sQ_lEEz44Dg?si=fn3xMEjAXeVlkE1I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+<section id="series-11-wec-sim-visualization">
+<span id="webinar11"></span><h3>Series 11 - WEC-Sim Visualization<a class="headerlink" href="#series-11-wec-sim-visualization" title="Link to this heading"></a></h3>
+<p>This section presents an overview of how to post-process results in WEC-Sim.
+The presentation is available for download here ( <a class="reference external" href="../_static/downloads/advancedFeaturesWebinars/11_WEC-Sim_AdvFeatures_Visualization.pdf">Series 11 Slides</a> ), and the recordings are
+available below.</p>
+<p><strong>Series 11 - WEC-Sim Visualization</strong></p>
+<blockquote>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/-CCZ32sIBlM?si=WL339Ww5hGd7h5vD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></blockquote>
+</section>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="applications.html" class="btn btn-neutral float-left" title="WEC-Sim Applications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/user/webinars.html">dev</a></dd>
+      <dd><a href="webinars.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

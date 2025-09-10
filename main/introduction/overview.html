@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Acknowledgements" href="acknowledgements.html" />
+    <link rel="prev" title="Introduction" href="index.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f6b2a5a3310>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/introduction/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="overview">
+<span id="intro-overview"></span><h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
+<p>WEC-Sim (Wave Energy Converter SIMulator) is an open-source software for simulating wave energy converters.
+It is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody.
+WEC-Sim has the ability to model devices that are comprised of hydrodynamic bodies, joints and constraints, power take-off systems, and mooring systems.
+Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in the 6 rigid Cartesian degrees-of-freedom.
+A body may also contain any number of generalized body modes to represent hydrodynamic effects in shear, torsion, bending, and others.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/WEC-Sim_flowChart.png"><img alt="../_images/WEC-Sim_flowChart.png" src="../_images/WEC-Sim_flowChart.png" style="width: 750pt;" />
+</a>
+</figure>
+<p>At a high level, the only external input WEC-Sim requires is hydrodynamic data from boundary element method (BEM) software such as WAMIT, NEMOH, Aqwa, and Capytaine.
+The boundary element method data represents the hydrodynamic response of the device for a given wave frequency.
+WEC-Sim uses this data to simulate devices in the time-domain where they can be coupled with controls, power take-off systems, and other external bodies and forces.
+WEC-Sim outputs the motions, forces, and power for individual bodies, joints and PTOs in MATLAB for custom post-processing or coupling with external tools.</p>
+<p>Several interfaces with Simulink are included that allow users to couple WEC-Sim with a wide variety of other models and scripts relevant to their devices.
+Complex power take-off systems and advanced control algorithms are just two examples of the advanced tools that can be coupled with WEC-Sim.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/OSWEC_with_ptosim.png"><img alt="../_images/OSWEC_with_ptosim.png" src="../_images/OSWEC_with_ptosim.png" style="width: 750pt;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Block diagram of an OSWEC device with hydraulic PTO created with PTO-Sim.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/wecccomp_diagram.png"><img alt="../_images/wecccomp_diagram.png" src="../_images/wecccomp_diagram.png" style="width: 400pt;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Block diagram of the WECCCOMP device with advanced controller.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Together with PTO and control systems, WEC-Sim is able to model a wide variety of marine devices.
+The WEC-Sim Applications repository contains a wide variety of scenarios that WEC-Sim can model.
+This repository includes both demonstrations of WEC-Sim’s advanced features and applications of WEC-Sim to unique devices.</p>
+<p>WEC-Sim’s capabilities include the ability to model both nonlinear hydrodynamic effects (Froude-Krylov forces and hydrostatic stiffness) and nonhydrodynamic bodies, body-to-body interactions, mooring systems, passive yawing.
+WEC-Sim contains numerous numerical options and ability to perform highly customizable batch simulations. WEC-Sim can take in data from a variety of boundary element method software using its BEMIO (BEM-in/out) functionality and can output paraview files for visualization.
+Some of its advanced features are highlighted in the figures below.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>Advanced Features Demonstration</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../_images/nlhydro_comparison4.png"><img alt="nlh" class="align-middle" src="../_images/nlhydro_comparison4.png" style="width: 400pt; height: 175pt;" /></a>
+Nonlinear hydrodynamics</p></td>
+<td><p><a class="reference internal" href="../_images/numOpt_comparison.png"><img alt="num" class="align-middle" src="../_images/numOpt_comparison.png" style="width: 400pt; height: 175pt;" /></a>
+Various numerical options</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../_images/b2b_comparison2.png"><img alt="b2b" class="align-middle" src="../_images/b2b_comparison2.png" style="width: 400pt; height: 175pt;" /></a>
+Body-to-body interactions</p></td>
+<td><p><a class="reference internal" href="../_images/passiveYaw_comparison.png"><img alt="yaw" class="align-middle" src="../_images/passiveYaw_comparison.png" style="width: 400pt; height: 175pt;" /></a>
+Passive yaw</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../_images/mcr_waveElev-heaveResp.png"><img alt="mcr1" class="align-middle" src="../_images/mcr_waveElev-heaveResp.png" style="width: 400pt; height: 175pt;" /></a>
+Multiple case run: elevation</p></td>
+<td><p><a class="reference internal" href="../_images/mcr_powerMatrix.png"><img alt="mcr2" class="align-middle" src="../_images/mcr_powerMatrix.png" style="width: 400pt; height: 175pt;" /></a>
+Multiple case run: power matrix</p></td>
+</tr>
+</tbody>
+</table>
+<p>WEC-Sim can model a wide variety of marine renewable energy and offshore devices.
+The figures below highlight a small sample of devices that WEC-Sim has successfully modeled in the past.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>Sample of devices that have been with WEC-Sim</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/main/examples/RM3"><img alt="rm3" class="align-middle" src="../_images/rm3_iso_side.png" style="width: 400pt;" /></a>
+Reference Model 3</p></td>
+<td><p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/main/examples/OSWEC"><img alt="oswec" class="align-middle" src="../_images/oswec_iso_side.png" style="width: 400pt;" /></a>
+Bottom-fixed Oscillating Surge WEC (OSWEC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/main/Free_Decay"><img alt="sphere" class="align-middle" src="../_images/sphere_freedecay_iso_side.png" style="width: 400pt;" /></a>
+Hemisphere in Free Decay</p></td>
+<td><p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/main/Nonlinear_Hydro"><img alt="ellipsoid" class="align-middle" src="../_images/ellipsoid_iso_side.png" style="width: 400pt;" /></a>
+Ellipsoid</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/WEC-Sim/Wigley"><img alt="wigley" class="align-middle" src="../_images/wigley_iso_side.png" style="width: 400pt;" /></a>
+Wigley Ship Hull</p></td>
+<td><p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/main/Generalized_Body_Modes"><img alt="gbm" class="align-middle" src="../_images/gbm_iso_side.png" style="width: 400pt;" /></a>
+Barge with Four Flexible Body Modes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/WEC-Sim/WECCCOMP"><img alt="wec3" class="align-middle" src="../_images/wecccomp_iso_side.png" style="width: 400pt;" /></a>
+Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device</p></td>
+<td><p><a class="reference internal" href="../_images/oc6_iso_side.png"><img alt="oc6p1" class="align-middle" src="../_images/oc6_iso_side.png" style="width: 400pt;" /></a>
+OC6 Phase I DeepCwind Floating Semisubmersible</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="acknowledgements.html" class="btn btn-neutral float-right" title="Acknowledgements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/introduction/overview.html">dev</a></dd>
+      <dd><a href="overview.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,519 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Features &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Developer Manual" href="../developer/index.html" />
+    <link rel="prev" title="Theory" href="theory.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f6b2a387f70>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MOST Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Advanced Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#most-io">MOST-IO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wind-features">Wind Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mooring-features">Mooring Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-turbine-features">Wind Turbine Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">MOST Manual</a></li>
+      <li class="breadcrumb-item active">Advanced Features</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/most/advanced_features.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="advanced-features">
+<span id="most-advanced-features"></span><h1>Advanced Features<a class="headerlink" href="#advanced-features" title="Link to this heading"></a></h1>
+<p>In this section, a more detailed look will be taken at some of the operational aspects of the new features introduced with MOST. Specifically, we will
+focus on the pre-processing part in which all the data necessary for simulating Floating Offshore Wind Turbines (FOWT) and hybrid platforms are obtained.
+For the simulation and post-processing part, please refer to the theory section of MOST (<a class="reference internal" href="theory.html#most-theory"><span class="std std-ref">Theory</span></a>) and the advanced features of WEC-Sim (<a class="reference internal" href="../user/advanced_features.html#user-advanced-features"><span class="std std-ref">Advanced Features</span></a>).</p>
+<section id="most-io">
+<h2>MOST-IO<a class="headerlink" href="#most-io" title="Link to this heading"></a></h2>
+<p>The pre-processing phase of MOST takes place through the use of the <code class="docutils literal notranslate"><span class="pre">mostIO.m</span></code> script in the ‘’mostData’’ subfolder, through which the following scripts
+are launched (in this order):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">run_turbsim.m</span></code> : creation of the data structure describing the input wind speeds;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Create_Mooring_Matrix.m</span></code> : creation of the look-up table describing the mooring forces;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BladeData.m</span></code> : creation of the data structure concerning the characteristics of the airfoils constituting the turbine blades;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WTproperties.m</span></code> : creation of the data structure concerningo the geometric and inertial characteristics of the wind turbine;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Steady_States.m</span></code> : computation of the steady-state values of certain quantities of interest when the average wind speed varies and used for the calculation of some quantities concerning the control logic;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Controller.m</span></code> : creation of the data used to simulate the control logics (Baseline <span id="id1">[<a class="reference internal" href="#id14" title="Morten H. Hansen. Control design for a pitch-regulated, variable speed wind turbine. Risø National Laboratory, 2005. ISBN 8755034098.">D3</a>]</span> or ROSCO <span id="id2">[<a class="reference internal" href="#id15" title="Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. Wind Energy Science, 7(1):53–73, 2022.">D4</a>]</span>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AeroLoads.m</span></code> : creation of the aerodynamic loads look-up table (acting on the blades root).</p></li>
+</ul>
+<p>In the next subsections, MOST features will be discussed in detail, in particular, the settings to be provided to obtain the required data and the
+operations performed in the various codes will be explained.</p>
+<section id="wind-features">
+<h3>Wind Features<a class="headerlink" href="#wind-features" title="Link to this heading"></a></h3>
+<p>Wind speed can be defined by choosing between the two options of the wind class:</p>
+<ul class="simple">
+<li><p><strong>Constant</strong> wind conditions</p></li>
+<li><p><strong>Turbulent</strong> wind conditions</p></li>
+</ul>
+<p>The constant wind speed is constant in time and space while the second option includes the temporal and spatial turbulence of the wind. Below is an
+image of the Variant Subsystem through which one of the two wind options can be enabled.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/IMAGE_wind_Choice.png"><img alt="../_images/IMAGE_wind_Choice.png" src="../_images/IMAGE_wind_Choice.png" style="width: 60%;" />
+</a>
+</figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The simulation of the wind turbine for turbulent wind conditions requires the generation of a look-up table which relates the temporal and spatial
+variation of wind speed on the wind turbine rotor plane (yz plane). Therefore the wind speed is discretized for 3 variables (2 spatial parameters,
+y and z, and the time). The look-up table is generated using <code class="docutils literal notranslate"><span class="pre">run_turbsim.m</span></code> which computes turbulent wind field based on <a class="reference external" href="https://www.nrel.gov/wind/nwtc/turbsim.html">Turbsim</a>
+executable. Mean wind speed can be defined in <code class="docutils literal notranslate"><span class="pre">run_turbsim.m</span></code> script, while other parameters can be set-up in the <code class="docutils literal notranslate"><span class="pre">Turbsim_inputfile.txt</span></code> file,
+the main ones are:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Name</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NumGrid_Z</span></code></p></td>
+<td><p>Vertical grid-point matrix dimension</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NumGrid_Y</span></code></p></td>
+<td><p>Horizontal grid-point matrix dimension</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TimeStep</span></code></p></td>
+<td><p>Time step [s]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AnalysisTime</span></code></p></td>
+<td><p>Length of analysis time series [s]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UsableTime</span></code></p></td>
+<td><p>Usable length of output time series [s]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HubHt</span></code></p></td>
+<td><p>Hub height [m]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GridHeight</span></code></p></td>
+<td><p>Grid height [m]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GridWidth</span></code></p></td>
+<td><p>Grid width [m]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VFlowAng</span></code></p></td>
+<td><p>Vertical mean flow (uptilt) angle [deg]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HFlowAng</span></code></p></td>
+<td><p>Horizontal mean flow (skew) angle [deg]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TurbModel</span></code></p></td>
+<td><p>Turbulence model (“IECKAI”=Kaimal, “IECVKM”=von Karman, “GP_LLJ”, “NWTCUP”, “SMOOTH”, “WF_UPW”, “WF_07D”, “WF_14D”, “TIDAL”)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">IECstandard</span></code></p></td>
+<td><p>Number of IEC 61400-x standard (x=1,2, or 3 with optional 61400-1 edition number)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">IECturbc</span></code></p></td>
+<td><p>IEC turbulence characteristic (“A”, “B”, “C” or the turbulence intensity in percent)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">IEC_WindType</span></code></p></td>
+<td><p>IEC turbulence type (“NTM”=normal, “xETM”=extreme turbulence, “xEWM1”=extreme 1-year wind, “xEWM50”=extreme 50-year wind, where x=wind turbine class 1, 2, or 3)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ETMc</span></code></p></td>
+<td><p>IEC Extreme Turbulence Model “c” parameter [m/s]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">WindProfileType</span></code></p></td>
+<td><p>Wind profile type (“JET”;”LOG”=logarithmic;”PL”=power law;”H2L”=Log law for TIDAL spectral model;”IEC”=PL on rotor disk, LOG elsewhere)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RefHt</span></code></p></td>
+<td><p>Height of the reference wind speed [m]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PLExp</span></code></p></td>
+<td><p>Power law exponent [-]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Z0</span></code></p></td>
+<td><p>Surface roughness length [m]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PC_UW</span></code></p></td>
+<td><p>Hub mean u’w’ Reynolds stress</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PC_UV</span></code></p></td>
+<td><p>Hub mean u’v’ Reynolds stress</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PC_VW</span></code></p></td>
+<td><p>Hub mean v’w’ Reynolds stress</p></td>
+</tr>
+</tbody>
+</table>
+<p>A detailed description of using Turbsim is given here <span id="id3">[<a class="reference internal" href="#id13" title="Neil Davis Kelley and Bonnie J Jonkman. Overview of the turbsim stochastic inflow turbulence simulator. Technical Report, National Renewable Energy Lab.(NREL), Golden, CO (United States), 2005.">D2</a>]</span>.</p>
+<p>Aerodynamic wind loads calculation in the Simulink model requires the average wind speed for each blade. This is found by computing the average wind
+speed for four discretized points along the blade length during the simulation. Relative wind speed for each blade is computed including the influence
+of the horizontal hub speed and the pitch and yaw rotation of the hub.</p>
+</section>
+<section id="mooring-features">
+<h3>Mooring Features<a class="headerlink" href="#mooring-features" title="Link to this heading"></a></h3>
+<p>MOST allows for simulation of a mooring look-up table to model a quasi-static, non-linear mooring system. Specifically, the mooring look-up table
+simulates a mooring system consisting of a certain number of lines suspended between two points (anchor and fairlead) and angularly equispaced.
+This option is based on the catenary equations similarly to the open-source code MAP++ <span id="id4">[<a class="reference internal" href="#id12" title="Preprint M Masciola, J Jonkman, and A Robertson. Implementation of a multisegmented, quasi-static cable model.">D1</a>]</span>.</p>
+<p>In the simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge,
+sway, heave, roll, pitch, and yaw as inputs. The breakpoints (related to the inputs) and the outpus (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring
+loads) are contained within a data structure called “moor_matrix” and created through the <code class="docutils literal notranslate"><span class="pre">Create_Mooring_Matrix.m</span></code> script, in which the following
+variables are specified:</p>
+<ul class="simple">
+<li><p>Water density (kg/m^3): <code class="code docutils literal notranslate"><span class="pre">rho_water</span></code></p></li>
+<li><p>Gravity acceleration (m/s^2): <code class="code docutils literal notranslate"><span class="pre">gravity</span></code></p></li>
+<li><p>Water depth (m): <code class="code docutils literal notranslate"><span class="pre">depth</span></code></p></li>
+<li><p>Mooring line diameter (m): <code class="code docutils literal notranslate"><span class="pre">d</span></code></p></li>
+<li><p>Linear mass (kg/m): <code class="code docutils literal notranslate"><span class="pre">linear_mass</span></code></p></li>
+<li><p>Number of lines: <code class="code docutils literal notranslate"><span class="pre">number_lines</span></code></p></li>
+<li><p>Fairlead and anchor positions of the first line (m): <code class="code docutils literal notranslate"><span class="pre">nodes</span></code></p></li>
+<li><p>Mooring lines unstretched length (m): <code class="code docutils literal notranslate"><span class="pre">L</span></code></p></li>
+<li><p>Sectional stiffness (N): <code class="code docutils literal notranslate"><span class="pre">EA</span></code></p></li>
+<li><p>Seabed friction coefficient: <code class="code docutils literal notranslate"><span class="pre">CB</span></code></p></li>
+</ul>
+<p>In addition, the user can specify the domain of the look-up tables, specifically:</p>
+<ul class="simple">
+<li><p>Amplitude and discretisation along surge direction (m): <code class="code docutils literal notranslate"><span class="pre">X</span></code></p></li>
+<li><p>Amplitude and discretisation along sway direction (m): <code class="code docutils literal notranslate"><span class="pre">Y</span></code></p></li>
+<li><p>Amplitude and discretisation along heave direction (m): <code class="code docutils literal notranslate"><span class="pre">Z</span></code></p></li>
+<li><p>Amplitude and discretisation around roll axis (rad): <code class="code docutils literal notranslate"><span class="pre">RX</span></code></p></li>
+<li><p>Amplitude and discretisation around pitch axis (rad): <code class="code docutils literal notranslate"><span class="pre">RY</span></code></p></li>
+<li><p>Amplitude and discretisation around yaw axis (rad): <code class="code docutils literal notranslate"><span class="pre">RZ</span></code></p></li>
+</ul>
+<p>The code for generating the “moor_matrix” structure at first calculates the positions of the fairleads and anchors of the other lines,
+in accordance with the specified number and in an angularly equispaced manner, after which, for each combination of the inputs (surge,
+sway, heave, roll, pitch, and yaw) it calculates the new positions of the fairleads. Given these positions, for each line it performs a
+numerical optimization by which the vertical force and the horizontal force (along the projection of the line in the xy plane) are
+calculated. Specifically, by means of the typical catenary equations, it is possible to calculate (knowing the characteristics of a line)
+the above-mentioned vertical and horizontal forces having as input the vertical and horizontal distances between the two ends of the
+line, so, in this case the optimization procedure searches for forces such that the distances are as close as possible to those
+specified. Once the vertical and horizontal forces are calculated for each line, the resulting force and torque in the global reference
+frame are applied to the origin of the reference frame attached to the structure.</p>
+</section>
+<section id="wind-turbine-features">
+<h3>Wind Turbine Features<a class="headerlink" href="#wind-turbine-features" title="Link to this heading"></a></h3>
+<p>The wind turbine is modelled as a multi-body system including the tower, the nacelle, the hub, and the blades. The properties of each wind turbine component
+are defined in two structures that can be generated using the provided <code class="docutils literal notranslate"><span class="pre">BladeData.m</span></code> and <code class="docutils literal notranslate"><span class="pre">WTproperties.m</span></code> MATLAB codes. In the first, the
+variables concerning the blades are defined, specifically (see figure below for a better comprehension):</p>
+<ul class="simple">
+<li><p>Blade radius values for which other properties are defined: <code class="docutils literal notranslate"><span class="pre">radius</span></code></p></li>
+<li><p>Value, for each specified radius, of the pre-bending distance out of the rotor plane: <code class="docutils literal notranslate"><span class="pre">BlCrvAC</span></code></p></li>
+<li><p>Value, for each specified radius, of the pre-bending angle out of the rotor plane: <code class="docutils literal notranslate"><span class="pre">BlCrvAng</span></code></p></li>
+<li><p>Value, for each specified radius, of the pre-bending distance in the rotor plane: <code class="docutils literal notranslate"><span class="pre">BlSwpAC</span></code></p></li>
+<li><p>Value, for each specified radius, of the twist angle: <code class="docutils literal notranslate"><span class="pre">twist</span></code></p></li>
+<li><p>Value, for each specified radius, of the chord: <code class="docutils literal notranslate"><span class="pre">chord</span></code></p></li>
+<li><p>Index of the airfoil type corresponding to each specified radius: <code class="docutils literal notranslate"><span class="pre">airfoil_index</span></code></p></li>
+<li><p>Matrix containing, for each type of airfoil existing, the values of lift, drag and torque coefficients as a function of angle of attack: <code class="docutils literal notranslate"><span class="pre">airfoil</span></code></p></li>
+</ul>
+<p>The following figure <span id="id5">[<a class="reference internal" href="#id20" title="J M Jonkman, G J Hayman, B J Jonkman, R R Damiani, and R E Murray. Aerodyn v15 user's guide and theory manual.">D9</a>]</span> shows some of the values mentioned above.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/IMAGE_blade_geom.png"><img alt="../_images/IMAGE_blade_geom.png" src="../_images/IMAGE_blade_geom.png" style="width: 80%;" />
+</a>
+</figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In the second script, the geometric and inertial properties of the turbine components are defined. For each of them the mass and inertia are defined,
+in addition, the following other variables must be entered (see figure below for a better comprehension):</p>
+<ul class="simple">
+<li><p>Tower offset position relative to sea water level (m): <code class="code docutils literal notranslate"><span class="pre">tower.offset</span></code></p></li>
+<li><p>Tower height (m): <code class="code docutils literal notranslate"><span class="pre">tower.height</span></code></p></li>
+<li><p>Tower relative center of mass (relative to tower offset) (m): <code class="code docutils literal notranslate"><span class="pre">tower.cog_rel</span></code></p></li>
+<li><p>Nacelle relative center of mass (relative to tower top) (m): <code class="code docutils literal notranslate"><span class="pre">nacelle.cog_rel</span></code></p></li>
+<li><p>Twr2Shft (deg): <code class="code docutils literal notranslate"><span class="pre">nacelle.Twr2Shft</span></code></p></li>
+<li><p>Tilt angle (deg): <code class="code docutils literal notranslate"><span class="pre">nacelle.tiltangle</span></code></p></li>
+<li><p>Overhang (m): <code class="code docutils literal notranslate"><span class="pre">hub.overhang</span></code></p></li>
+<li><p>Hub height (m): <code class="code docutils literal notranslate"><span class="pre">hub.height</span></code></p></li>
+<li><p>Hub radius (m): <code class="code docutils literal notranslate"><span class="pre">hub.Rhub</span></code></p></li>
+<li><p>Precone angle (deg): <code class="code docutils literal notranslate"><span class="pre">hub.precone</span></code></p></li>
+<li><p>Blades relative center of mass (relative to hub center) (m): <code class="code docutils literal notranslate"><span class="pre">blade.cog_rel</span></code></p></li>
+<li><p>Blade discretization nodes to average the wind speed: <code class="code docutils literal notranslate"><span class="pre">blade.bladeDiscr</span></code></p></li>
+<li><p>Generator efficiency: <code class="code docutils literal notranslate"><span class="pre">gen_eff</span></code></p></li>
+<li><p>CAD file path</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/IMAGE_geometry.png"><img alt="../_images/IMAGE_geometry.png" src="../_images/IMAGE_geometry.png" style="width: 80%;" />
+</a>
+</figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Once these dimensions are known, the positions of the centre of mass of each component in the inertial reference frame are calculated (origin at sea
+level and at the centre of the tower, as far as the horizontal plane is concerned), as well as the total mass and inertia.</p>
+<section id="control-features">
+<h4>Control Features<a class="headerlink" href="#control-features" title="Link to this heading"></a></h4>
+<p>In MOST there is the possibility of using two different wind turbine control logics (Baseline <span id="id6">[<a class="reference internal" href="#id14" title="Morten H. Hansen. Control design for a pitch-regulated, variable speed wind turbine. Risø National Laboratory, 2005. ISBN 8755034098.">D3</a>]</span> and ROSCO <span id="id7">[<a class="reference internal" href="#id15" title="Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. Wind Energy Science, 7(1):53–73, 2022.">D4</a>]</span>)
+and as explained in the <a class="reference internal" href="../theory/index.html#theory"><span class="std std-ref">Theory Manual</span></a> the steps to be taken in order to obtain the data needed for their simulation are the calculation
+of the stationary values and the calculation of the controller gains. The first task is performed by the script <code class="docutils literal notranslate"><span class="pre">Steady_States.m</span></code> in the subfolder
+“Control”. Specifically, through this, the stationary values of power, rotor speed, thrust force, generator torque and collective blade pitch angle are computed
+for both of the aforementioned control logics. The following variables must be specified in the script:</p>
+<ul class="simple">
+<li><p>Value of power produced under nominal conditions and under conditions where the wind speed is greater than the nominal one: <code class="code docutils literal notranslate"><span class="pre">Prated</span></code></p></li>
+<li><p>Wind speed at which power begins to be produced (and therefore at which the generator torque becomes non-zero): <code class="code docutils literal notranslate"><span class="pre">v_cutin</span></code></p></li>
+<li><p>Wind speed above which no power is produced, and the blades rotate to a safe position (feather condition): <code class="code docutils literal notranslate"><span class="pre">v_cutout</span></code></p></li>
+<li><p>Rated first try wind speed, meaning that the actual wind speed (probably close to this) will be calculated later: <code class="code docutils literal notranslate"><span class="pre">v_rated_try</span></code></p></li>
+<li><p>Rated first try rotor speed, meaning that the actual one (probably close to this) will be calculated later: <code class="code docutils literal notranslate"><span class="pre">omega_rated_try</span></code></p></li>
+<li><p>Wind speed discretization, which indicates how many stationary values will be calculate: <code class="code docutils literal notranslate"><span class="pre">v_discr</span></code></p></li>
+<li><p>Minimum allowed value of the rotor speed (setting used only for the calculation of stationary values related to the ROSCO controller): <code class="code docutils literal notranslate"><span class="pre">omega_min</span></code></p></li>
+<li><p>Boundary wind speed value between zone 1.5 (zone with constant and equal to minimum rotor speed) and zone 2 (zone with optimal tip speed ratio), this value is used only for the ROSCO controller: <code class="code docutils literal notranslate"><span class="pre">vw_R2in_try</span></code></p></li>
+<li><p>Ratio of the maximum allowed thrust to what there would be if no limits were imposed: <code class="code docutils literal notranslate"><span class="pre">max_Thrust_factor</span></code></p></li>
+</ul>
+<p>The script calculates different stationary values according to the control logic because of their diversity. Specifically, only the ROSCO controller
+imposes an upper limit for the thrust force, so when the wind speed is close to the nominal one (where the force peak occurs), the blade pitch
+value will be slightly higher to reduce the thrust and comply with the imposed limits. The second difference is that in the Baseline controller, no
+minimum rotor speed is imposed, which is also the case of some turbine types for what concerns the ROSCO controller.
+The first step performed in the code is the calculation of the actual nominal conditions (rated wind speed, rotor speed and blade pitch angle): by
+means of a constrained optimisation, the values of wind speed, rotor speed and blade pitch angle are sought such that the first two are as close as
+possible to those set for the first attempt, with the constraint of having a thrust not exceeding the maximum and a power output equal to the rated
+one. In the case of the Baseline controller, the first constraint does not apply, in the case of the ROSCO controller, on the other hand, we first
+calculate the nominal conditions without the thrust constraint, then calculate the maximum thrust by multiplying the nominal one by the thrust factor
+defined in the settings and then repeat the calculation to find the correct nominal values. The optimisation relies on a function that calculates the
+aerodynamic forces at the hub by solving the BEM (Blade Element Momentum) theory, for more information on how this function works see (<span id="id8">[<a class="reference internal" href="#id16" title="S Andrew Ning. A simple solution method for the blade element momentum equations with guaranteed convergence. Wind Energy, 17(9):1327–1345, 2014.">D6</a>]</span> , <span id="id9">[<a class="reference internal" href="#id17" title="S A Ning, G Hayman, R Damiani, and J Jonkman. Development and validation of a new blade element momentum skewed-wake model within aerodyn: preprint. 2015.">D7</a>]</span>).</p>
+<p>The second step, performed only in the case of ROSCO, involves finding the wind speed for which transition from zone 1.5 to zone 2 (see <span id="id10">[<a class="reference internal" href="#id15" title="Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. Wind Energy Science, 7(1):53–73, 2022.">D4</a>]</span>) occurs.
+In both zones it is desired to maximize power, but in zone 1.5 is where there is the additional constraint of minimum rotor speed. Here, to maximize
+power, the rotor speed would need to be less than the minimum rotor speed, and to partially compensate for the resulting power deficit, a blade pitch
+angle greater than zero is used. The search for the frontier wind speed is done by an optimization that looks for the wind speed for which the
+difference between the rotor speed that maximizes power without imposing constraints equals the minimum wind speed. To find the rotor speed that
+maximizes power for a given wind speed, a second nested optimization is used.</p>
+<p>Finally, the last step involves calculating the stationary values as the wind speed changes. It is performed by a constrained optimization through which
+the rotor speed and blade pitch values are sought such that the power produced is maximized while maintaining it at or below the rated power and
+respecting the maximum thrust limit. Once the rotor speed and blade pitch values have been found for each wind speed analysed, the steady-state
+values of the other quantities of interest (power, thrust, and generator torque) are evaluated.</p>
+<p>Once the steady-state values for the two control logics have been calculated, it is possible to build the data structures needed for controller
+simulation by running the <code class="docutils literal notranslate"><span class="pre">Controller.m</span></code> script in the “Control” subfolder. In this script a few settings have to be defined, which can refer to
+both logics or just the Baseline or ROSCO controller.</p>
+<p>The common settings are as follows:</p>
+<ul class="simple">
+<li><p>Maximum allowable torque rate: <code class="code docutils literal notranslate"><span class="pre">torqueMaxRate</span></code></p></li>
+<li><p>Maximum allowable blade pitch rate: <code class="code docutils literal notranslate"><span class="pre">thetaMaxRate</span></code></p></li>
+<li><p>Values needed to define the state space used to filter the rotor speed before providing this as input to the controllers: <code class="code docutils literal notranslate"><span class="pre">omegaFilter</span></code></p></li>
+</ul>
+<p>The settings only valid for ROSCO are:</p>
+<ul class="simple">
+<li><p>Natural frequency of the electric generator torque control loop: <code class="code docutils literal notranslate"><span class="pre">wn_C</span></code></p></li>
+<li><p>Damping ratio of the electric generator torque control loop: <code class="code docutils literal notranslate"><span class="pre">csi_C</span></code></p></li>
+<li><p>Natural frequency of the blade pitch control loop: <code class="code docutils literal notranslate"><span class="pre">wn_theta_ROSCO</span></code></p></li>
+<li><p>Damping ratio of the blade pitch control loop: <code class="code docutils literal notranslate"><span class="pre">csi_theta_ROSCO</span></code></p></li>
+<li><p>Constants used in the “Set Point Smoothing” module: <code class="code docutils literal notranslate"><span class="pre">kb</span></code> and <code class="code docutils literal notranslate"><span class="pre">kt</span></code></p></li>
+<li><p>Gain related to the velocity (along the surge) of the nacelle, used to control floating wind turbines: <code class="code docutils literal notranslate"><span class="pre">KV</span></code></p></li>
+<li><p>Values needed to define the state space used to filter the wind speed before providing this as input to the controller: <code class="code docutils literal notranslate"><span class="pre">windFilter</span></code></p></li>
+<li><p>Values needed to define the transfer function used to filter the nacelle speed before providing this as input to the controller: <code class="code docutils literal notranslate"><span class="pre">pitchFilter</span></code></p></li>
+<li><p>Values needed to define the transfer function used as a filter in the “Set Point Smoothing” module: <code class="code docutils literal notranslate"><span class="pre">SPSFilter</span></code></p></li>
+</ul>
+<p>The settings only valid for Baseline are:</p>
+<ul class="simple">
+<li><p>Natural frequency of the blade pitch control loop: <code class="code docutils literal notranslate"><span class="pre">wn_theta_BL</span></code></p></li>
+<li><p>Damping ratio of the blade pitch control loop: <code class="code docutils literal notranslate"><span class="pre">csi_theta_BL</span></code></p></li>
+</ul>
+<p>Regarding the Baseline controller, at the operational level, the torque law is simply computed by creating a biunivocal relationship between the
+steady-state (as wind speed changes) values of rotor speed and generator torque. As for the blade pitch loop, at first the value of
+<span class="math notranslate nohighlight">\(K_P^\prime\)</span> and <span class="math notranslate nohighlight">\(K_I^\prime\)</span> are calculated (see <a class="reference internal" href="theory.html#baseline"><span class="std std-ref">Baseline</span></a>), after which the power to pitch sensitivity, as a function of blade pitch angle,
+is computed for each stationary point. To do this centered finite differences are used by calculating power via a function that solves the
+aerodynamics via BEM theory. Finally, we perform quadratic regression of <span class="math notranslate nohighlight">\(\frac{dP}{d\theta_{bl}}\)</span> so that we have, in simulation, a simple
+relationship between blade pitch and power-to-pitch sensitivity.</p>
+<p>As for the ROSCO controller, however, at the operational level, in the script the <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B_{\theta_{bl}}\)</span> matrices are calculated for
+each wind speed for which stationary values were computed through centered finite differences; regarding the <span class="math notranslate nohighlight">\(B_{T_{gen}}\)</span> matrix, it is
+calculated only once since it is constant (see <a class="reference internal" href="theory.html#rosco"><span class="std std-ref">ROSCO</span></a>). Once the matrices are known, the values of <span class="math notranslate nohighlight">\(K_P\)</span> and <span class="math notranslate nohighlight">\(K_I\)</span> for the two controls (generator
+torque and blade pitch) are calculated. Finally, the minimum allowable blade pitch value is calculated using an optimization procedure; specifically,
+for each wind speed in region 3 (a rotor speed equal to the nominal one is assumed in this region), the blade pitch angle such that the maximum thrust
+occurs is found. It represents the minimum angle value that can be imposed, below which there will be a thrust greater than the maximum allowed.</p>
+</section>
+<section id="aerodynamic-loads-features">
+<h4>Aerodynamic Loads Features<a class="headerlink" href="#aerodynamic-loads-features" title="Link to this heading"></a></h4>
+<p>The look-up tables of aerodynamic loads are generated using the <code class="docutils literal notranslate"><span class="pre">AeroLoads.m</span></code> script; the aerodynamic forces and torques are calculated as a function
+of three input parameters: the wind speed, the difference between the rotor speed and the stationary rotor speed for that wind speed, and the difference
+between the blade pitch angle and the steady-state angle for that wind speed. In order to calculate the required look-up tables, the user will need to
+define the following variables:</p>
+<ul class="simple">
+<li><p>Rotor speed discretization values: <code class="code docutils literal notranslate"><span class="pre">o_discr</span></code></p></li>
+<li><p>Blade pitch discretization values: <code class="code docutils literal notranslate"><span class="pre">theta_discr</span></code></p></li>
+<li><p>Discretization range of rotor speed values around steady-state one (rad/s): <code class="code docutils literal notranslate"><span class="pre">o_A</span></code></p></li>
+<li><p>Discretization range of blade pitch values around steady-state one (rad): <code class="code docutils literal notranslate"><span class="pre">theta_A</span></code></p></li>
+</ul>
+<p>The discretisation range is used to determine the aerodynamic loads near the steady states, which include all cases that are likely to be reached during
+operating conditions.</p>
+</section>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading"></a></h3>
+<div class="docutils container" id="id11">
+<div role="list" class="citation-list">
+<div class="citation" id="id12" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">D1</a><span class="fn-bracket">]</span></span>
+<p>Preprint M Masciola, J Jonkman, and A Robertson. Implementation of a multisegmented, quasi-static cable model.</p>
+</div>
+<div class="citation" id="id13" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">D2</a><span class="fn-bracket">]</span></span>
+<p>Neil Davis Kelley and Bonnie J Jonkman. Overview of the turbsim stochastic inflow turbulence simulator. Technical Report, National Renewable Energy Lab.(NREL), Golden, CO (United States), 2005.</p>
+</div>
+<div class="citation" id="id14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>D3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Morten H. Hansen. <em>Control design for a pitch-regulated, variable speed wind turbine</em>. Risø National Laboratory, 2005. ISBN 8755034098.</p>
+</div>
+<div class="citation" id="id15" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>D4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id7">2</a>,<a role="doc-backlink" href="#id10">3</a>)</span>
+<p>Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. <em>Wind Energy Science</em>, 7(1):53–73, 2022.</p>
+</div>
+<div class="citation" id="id18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>D5<span class="fn-bracket">]</span></span>
+<p>Evan Gaertner, Jennifer Rinker, Latha Sethuraman, Frederik Zahle, Benjamin Anderson, Garrett Barter, Nikhar Abbas, Fanzhong Meng, Pietro Bortolotti, Witold Skrzypinski, George Scott, Roland Feil, Henrik Bredmose, Katherine Dykes, Matt Shields, Christopher Allen, and Anthony Viselli. Definition of the iea wind 15-megawatt offshore reference wind turbine technical report. 2020.</p>
+</div>
+<div class="citation" id="id16" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">D6</a><span class="fn-bracket">]</span></span>
+<p>S Andrew Ning. A simple solution method for the blade element momentum equations with guaranteed convergence. <em>Wind Energy</em>, 17(9):1327–1345, 2014.</p>
+</div>
+<div class="citation" id="id17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">D7</a><span class="fn-bracket">]</span></span>
+<p>S A Ning, G Hayman, R Damiani, and J Jonkman. Development and validation of a new blade element momentum skewed-wake model within aerodyn: preprint. 2015.</p>
+</div>
+<div class="citation" id="id19" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>D8<span class="fn-bracket">]</span></span>
+<p>Christopher Allen, Anthony Viselli, Habib Dagher Andrew Goupee, Evan Gaertner, Nikhar Abbas, Matthew Hall, and Garrett Barter. Definition of the umaine volturnus-s reference platform developed for the iea wind 15-megawatt offshore reference wind turbine technical report. 2020.</p>
+</div>
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">D9</a><span class="fn-bracket">]</span></span>
+<p>J M Jonkman, G J Hayman, B J Jonkman, R R Damiani, and R E Murray. Aerodyn v15 user's guide and theory manual.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="theory.html" class="btn btn-neutral float-left" title="Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../developer/index.html" class="btn btn-neutral float-right" title="Developer Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/most/advanced_features.html">dev</a></dd>
+      <dd><a href="advanced_features.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

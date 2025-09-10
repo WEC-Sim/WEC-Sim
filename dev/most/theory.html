@@ -1,0 +1,558 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theory &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Features" href="advanced_features.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7fe2ec5bcf40>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MOST Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-processing">Pre-processing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mooring-look-up-table">Mooring look-up table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-input">Wind input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-turbine-properties">Wind turbine properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#control-properties">Control properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aerodynamic-loads">Aerodynamic Loads</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#user-inputs">User inputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation">Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-processing">Post-processing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">MOST Manual</a></li>
+      <li class="breadcrumb-item active">Theory</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/most/theory.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="theory">
+<span id="most-theory"></span><h1>Theory<a class="headerlink" href="#theory" title="Link to this heading"></a></h1>
+<p>In this section, the features introduced with MOST will be explored, offering some theoretical background to understand their use.
+To do this, the workflow shown in the <a class="reference internal" href="introduction.html#most-introduction"><span class="std std-ref">Introduction</span></a> will be followed: Pre-processing, User Inputs, Simulation,
+and Post-processing.</p>
+<section id="pre-processing">
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Link to this heading"></a></h2>
+<p>In the pre-processing phase, it is possible to create all the data required for the simulation (except the hydrodynamic coefficients) by
+launching the <code class="docutils literal notranslate"><span class="pre">mostIO.m</span></code> script, which will call up other codes, each dedicated to specific data (e.g. wind turbine, control, or mooring)
+and described in this section. As with other WEC-Sim examples, the <code class="docutils literal notranslate"><span class="pre">bemio.m</span></code> script should still be used to load the hydrodynamic coefficient data.</p>
+<section id="mooring-look-up-table">
+<h3>Mooring look-up table<a class="headerlink" href="#mooring-look-up-table" title="Link to this heading"></a></h3>
+<p>MOST allows for simulation of a mooring look-up table to model a quasi-static, non-linear mooring system.
+Specifically, the mooring look-up table simulates a mooring system consisting of a certain number of lines suspended between two points
+(anchor and fairlead) and angularly equally spaced. This option is based on the catenary equations similarly to the open-source code MAP++ <span id="id1">[<a class="reference internal" href="advanced_features.html#id12" title="Preprint M Masciola, J Jonkman, and A Robertson. Implementation of a multisegmented, quasi-static cable model.">D1</a>]</span>.
+In the Simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge,
+sway, heave, roll, pitch, and yaw as inputs. The breakpoints (related to the inputs) and the outputs (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring
+loads) are contained within a data structure called “moor_matrix” and created through the <code class="docutils literal notranslate"><span class="pre">Create_Mooring_Matrix.m</span></code> script.</p>
+</section>
+<section id="wind-input">
+<h3>Wind input<a class="headerlink" href="#wind-input" title="Link to this heading"></a></h3>
+<p>This section describes how the input wind field is generated; there are two possible methods: to have constant wind speed (in time and space) or to
+have a wind speed field in which turbulence and non-uniform spatial distribution are taken into account. It is possible to specify wind method in <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> by initializing the windClass with “constant” or “turbulent”.
+In the first case there will be a constant wind speed at all times and at every point on the rotor area, while the second case considers the spatial
+and temporal turbulence of the wind. Regarding the second case, the scatter of the wind speed is obtained using an external code, <a class="reference external" href="https://www.nrel.gov/wind/nwtc/turbsim.html">Turbsim</a>, developed
+by NREL, and integrated within the MOST code. The user can launch the <code class="docutils literal notranslate"><span class="pre">run_turbsim.m</span></code> script (in “turbsim” subfolder) to create the wind input data
+structure, specifying some properties such as mean velocity and turbulence intensity. For more information, it is recommended to read the <a class="reference internal" href="advanced_features.html#most-advanced-features"><span class="std std-ref">Advanced Features</span></a> or the
+documentation of TurbSim <span id="id2">[<a class="reference internal" href="advanced_features.html#id13" title="Neil Davis Kelley and Bonnie J Jonkman. Overview of the turbsim stochastic inflow turbulence simulator. Technical Report, National Renewable Energy Lab.(NREL), Golden, CO (United States), 2005.">D2</a>]</span>. The resulting data structure consists of the wind speed
+(in the surge direction) at each instant and for each node of a spatial grid covering the rotor area. During the simulation, the wind speed
+corresponding to the blade nodes will be obtained by interpolating between the grid points via look-up tables.</p>
+</section>
+<section id="wind-turbine-properties">
+<h3>Wind turbine properties<a class="headerlink" href="#wind-turbine-properties" title="Link to this heading"></a></h3>
+<p>All wind turbine components are modelled as rigid bodies; this includes the tower, the nacelle, the hub, and the blades. The inertial and geometrical
+properties of the components must be defined in a MATLAB structure, the user can use the script <code class="docutils literal notranslate"><span class="pre">WTproperties.m</span></code> (“turbine_properties” subfolder) to write the parameters of the
+desired wind turbine. In particular, mass, moment of inertia, centre of mass relative to the reference, and centre of mass in the global reference
+frame (whose origin is at the sea water level) are defined for each body. In addition, other parameters such as tilt and precone angles, tower
+height, electrical generator efficiency, and CAD file names are set. The CAD files to define the geometry can be imported from external software.
+They must be saved in the folder “geometry”. The user must set the name of the CAD files in “WTcomponents” struct to allow MOST to upload the files.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_geometry.png"><img alt="../_images/IMAGE_geometry.png" class="align-center" src="../_images/IMAGE_geometry.png" style="width: 80%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In addition to the general characteristics of the wind turbine, the user must set the specific properties for the blades by launching the <code class="docutils literal notranslate"><span class="pre">BladeData.m</span></code>
+script, which defines the needed data structure by taking the information from some text files in the “BladeData” subfolder. In these, lift, drag, and
+torque coefficients are specified for each type of airfoil used, as well as certain geometric characteristics of the blades such as twist angle and
+chord length as a function of radius and geometric characteristics related to pre-bending.</p>
+</section>
+<section id="control-properties">
+<h3>Control properties<a class="headerlink" href="#control-properties" title="Link to this heading"></a></h3>
+<p>This section explains how the MOST controller characteristics to be used in simulations are calculated. As mentioned earlier, it is possible to choose
+between two control logics (Baseline <span id="id3">[<a class="reference internal" href="advanced_features.html#id14" title="Morten H. Hansen. Control design for a pitch-regulated, variable speed wind turbine. Risø National Laboratory, 2005. ISBN 8755034098.">D3</a>]</span> and ROSCO <span id="id4">[<a class="reference internal" href="advanced_features.html#id15" title="Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. Wind Energy Science, 7(1):53–73, 2022.">D4</a>]</span>), and, for the creation of the data required for the
+simulation, it is necessary to know the steady-states values, i.e. the stationary values of certain quantities of interest when varying, in this case,
+the wind speed, which is considered constant for this purpose. The first step in obtaining the data required for the simulation is therefore to run
+the script called <code class="docutils literal notranslate"><span class="pre">Steady_States.m</span></code> in the subfolder “control” to perform this calculation. Specifically, through this, the stationary values
+of power, rotor speed, thrust force, generator torque, and blade pitch angle are computed for both of the aforementioned control logics.
+The script calculates different stationary values according to the control logic because of their diversity. Specifically, only the ROSCO controller
+imposes an upper limit for the thrust force, so when the wind speed is close to the nominal wind speed (where the force peak occurs), the blade pitch
+value will be slightly higher to reduce the thrust and comply with the imposed limits. The second difference is that in the Baseline controller, no
+minimum rotor speed is imposed, which is the case for some turbine types in the ROSCO case.</p>
+<p>Below is a figure representing an example of steady-state values for Baseline and ROSCO controllers for the IEA 15 MW reference wind turbine <span id="id5">[<a class="reference internal" href="advanced_features.html#id18" title="Evan Gaertner, Jennifer Rinker, Latha Sethuraman, Frederik Zahle, Benjamin Anderson, Garrett Barter, Nikhar Abbas, Fanzhong Meng, Pietro Bortolotti, Witold Skrzypinski, George Scott, Roland Feil, Henrik Bredmose, Katherine Dykes, Matt Shields, Christopher Allen, and Anthony Viselli. Definition of the iea wind 15-megawatt offshore reference wind turbine technical report. 2020.">D5</a>]</span>.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_Steady_States.png"><img alt="../_images/IMAGE_Steady_States.png" class="align-center" src="../_images/IMAGE_Steady_States.png" style="width: 80%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In the following, the Baseline and ROSCO control logics will be briefly explained; for more information refer to  <span id="id6">[<a class="reference internal" href="advanced_features.html#id14" title="Morten H. Hansen. Control design for a pitch-regulated, variable speed wind turbine. Risø National Laboratory, 2005. ISBN 8755034098.">D3</a>]</span> (Baseline)
+and <span id="id7">[<a class="reference internal" href="advanced_features.html#id15" title="Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. Wind Energy Science, 7(1):53–73, 2022.">D4</a>]</span> (ROSCO).</p>
+<section id="baseline">
+<span id="id8"></span><h4>Baseline<a class="headerlink" href="#baseline" title="Link to this heading"></a></h4>
+<p>Baseline is a conventional, variable-speed, variable collective pitch controller, which is made up of two independent systems:</p>
+<ul class="simple">
+<li><p>A generator torque controller (consisting of a generator speed-torque law) designed to maximize power extraction below nominal wind speed</p></li>
+<li><p>A blades collective pitch controller designed to regulate rotor and generator speed above nominal wind speed</p></li>
+</ul>
+<section id="generator-torque-controller">
+<h5>Generator torque controller<a class="headerlink" href="#generator-torque-controller" title="Link to this heading"></a></h5>
+<p>The generator-torque control law is designed to have three main regions and two transition ones between them. Aerodynamic torque acts as an
+accelerating load, the generator torque, converting mechanical energy to electrical energy, acts as a braking load. The generator torque is computed
+as a tabulated function of the filtered generator speed, incorporating 4 operational control regions: 1, 1.5, 2, and 3.</p>
+<ul>
+<li><p><strong>Region 1</strong>: control region before cut-in wind speed, where the generator is detached from the rotor to allow the wind to accelerate the rotor for start-up. In this region, the generator torque is zero and no power is extracted from the wind.</p></li>
+<li><p><strong>Region 1.5</strong>: transition region called start-up region and permits a smooth transition between null and optimal torque.</p></li>
+<li><p><strong>Region 2</strong>: control region where extracted power is maximized. Here, to maintain the tip speed ratio constant at its optimal value, the generator torque is proportional to the square of the filtered generator speed. Aerodynamic torque can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[T_{\text {aero }}=\frac{1}{2} \rho \pi \frac{R^5}{\lambda^3} C_P\left(\lambda, \theta_{\text {bl }}\right) \cdot \Omega^2=k_{\text {opt }} \cdot \Omega^2\ \ \ \ \ \ (1)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(k_{opt}\)</span> is obtained with TSR (Tip Speed Ratio, <span class="math notranslate nohighlight">\(λ\)</span>) and blade pitch values that lead to maximum power coefficient: <span class="math notranslate nohighlight">\(λ = λ_{opt}\)</span>, <span class="math notranslate nohighlight">\(\theta_{bl} = 0^{\circ}\)</span>;</p>
+</li>
+<li><p><strong>Region 3</strong>: above rated condition region, where the generator torque is kept constant at its rated value. In this region pitch control is active to maintain rotor speed at its rated value.</p></li>
+</ul>
+<p>The figure below shows an example of control law of the Baseline generator torque controller for the IEA 15 MW reference wind turbine <span id="id9">[<a class="reference internal" href="advanced_features.html#id18" title="Evan Gaertner, Jennifer Rinker, Latha Sethuraman, Frederik Zahle, Benjamin Anderson, Garrett Barter, Nikhar Abbas, Fanzhong Meng, Pietro Bortolotti, Witold Skrzypinski, George Scott, Roland Feil, Henrik Bredmose, Katherine Dykes, Matt Shields, Christopher Allen, and Anthony Viselli. Definition of the iea wind 15-megawatt offshore reference wind turbine technical report. 2020.">D5</a>]</span>.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_Baseline_Torque_Law.png"><img alt="../_images/IMAGE_Baseline_Torque_Law.png" class="align-center" src="../_images/IMAGE_Baseline_Torque_Law.png" style="width: 60%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="blade-pitch-controller">
+<h5>Blade pitch controller<a class="headerlink" href="#blade-pitch-controller" title="Link to this heading"></a></h5>
+<p>Regarding the blade pitch controller, it regulates the generator speed in region 3 (where wind speed exceeds its rated value) to maintain it at its nominal
+value through a scheduled proportional-integral control (PI). In this region the torque is kept constant at its rated value (<span class="math notranslate nohighlight">\(T_{gen} = T_{gen,r} = P_{r} / \Omega_{r}\)</span>).
+Aerodynamic torque <span class="math notranslate nohighlight">\(T_{\mathrm{aero\ }}\)</span> depends on wind speed, rotor speed and blade pitch, but assuming in this region rotor speed maintains
+its rated value <span class="math notranslate nohighlight">\(\Omega_r\)</span> (this assumption can be made since the control objective is to track that value) and neglecting power to
+wind speed sensitivity, linearization around rated condition is:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}T_{\text {aero }} \approx T_{\text {aero }}\left(U_{\text {wind}, r}, \Omega_r, \theta_{b l, r}\right)+\left.\frac{d T_{\text {aero }}\left(U_{\text {wind }}, \Omega, \theta_{b l}\right)}{d \theta_{b l}}\right|_{\substack{U_{\text {wind }}=U_{\text {wind}, r} \\ \Omega=\Omega_r}}\left(\theta_{b l}-\theta_{b l, r}\right)=\end{split}\\\begin{split}=\frac{P\left(U_{\text {wind}, r}, \Omega_r, \theta_{b l, r}\right)}{\Omega_r}+\left.\frac{1}{\Omega_r} \frac{d P\left(U_{\text {wind}}, \Omega, \theta_{b l}\right)}{d \theta_{b l}}\right|_{\begin{array}{c} \theta_{\text {wind }}=U_{\text {wind}, r} \\ \Omega=\Omega_r \end{array}}\left(\theta_{b l}-\theta_{b l, r}\right)\ \ \ \ \ \ (2)\end{split}\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(U_{wind,r}\)</span> and <span class="math notranslate nohighlight">\(\theta_{bl,r}\)</span> are rated wind speed and blade pitch. Once first is chosen, <span class="math notranslate nohighlight">\(\theta_{bl,r}\)</span> is which one leads to a steady state
+condition with extracted power equal to the rated one. So, aerodynamic torque expression becomes:</p>
+<div class="math notranslate nohighlight">
+\[T_{\mathrm{aero\ }}\approx\ \frac{P_r}{\Omega_r}+\frac{1}{\Omega_r}\frac{dP}{d\theta_{bl}}\Delta\theta_{bl}\ \ \ \ \ \ (3)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\Delta \theta _{bl}\)</span> represents a small perturbation of the blade pitch angle about its linearization point <span class="math notranslate nohighlight">\(\theta_{bl,r}\)</span>. By
+expressing the blade-pitch regulation starting from the speed perturbation with a proportional-integrative control law (PI), it is possible to write:</p>
+<div class="math notranslate nohighlight">
+\[\Delta \theta_{b l}=K_P \Delta \Omega+K_I \int_0^t \Delta \Omega d t\ \ \ (4)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(K_P\)</span> is the proportional gain and <span class="math notranslate nohighlight">\(K_I\)</span> the integrative gain; <span class="math notranslate nohighlight">\(\Delta\Omega\)</span> represents a small perturbation of rotor speed about its rated value:
+<span class="math notranslate nohighlight">\(\Delta\Omega=\ (\Omega-\Omega_r)\)</span>. Combining last equations found with the equilibrium equation of the rotor around its rotation axis
+<span class="math notranslate nohighlight">\((T_{\mathrm{aero\ }}-\ T_{\mathrm{gen\ }}=  I_{\mathrm{eq\ }}\dot{\Omega})\)</span>, it is possible to obtain, once defined <span class="math notranslate nohighlight">\(\Delta\Omega=\ \dot{\delta}\)</span>,
+the following relation:</p>
+<div class="math notranslate nohighlight">
+\[\frac{P_r}{\Omega_r}+\frac{1}{\Omega_r} \frac{d P}{d \theta_{b l}}\left(K_P \dot{\delta}+K_I \delta\right)-\frac{P_r}{\Omega_r}=I_{e q} \ddot{\delta}\ \ \ (5)\]</div>
+<p>Which can be rearranged as:</p>
+<div class="math notranslate nohighlight">
+\[I_{e q} \ddot{\delta}+\left[-\frac{d P}{d \theta_{b l}} \frac{K_P}{\Omega_r}\right] \dot{\delta}+\left[-\frac{d P}{d \theta_{b l}} \frac{K_I}{\Omega_r}\right] \delta=0\ \ \ (6)\]</div>
+<p>That in the canonical form becomes:</p>
+<div class="math notranslate nohighlight">
+\[M \ddot{\delta}+C \dot{\delta}+K \delta=0 \ \ \ \ (7)\]</div>
+<p>With:   <span class="math notranslate nohighlight">\(\ M= I_{eq}\)</span>,   <span class="math notranslate nohighlight">\(\\C= \left[-\frac{dP}{d\theta_{bl}}\frac{K_P}{\Omega_r}\right]\)</span>,   <span class="math notranslate nohighlight">\(\\K=\left[-\frac{dP}{d\theta_{bl}}\frac{K_I}{\Omega_r}\right]\)</span></p>
+<p>Now it is possible to choose proportional and integral gains in order to obtain desired characteristics of the blade pitch control. Its characteristics
+directly depend on natural frequency and damping ratio:</p>
+<div class="math notranslate nohighlight">
+\[\omega_n=\sqrt{\frac{M}{K}}\ \ ,\ \ \ \ \ \ \zeta=\frac{C}{2M\omega_{n\ }}\ \ \ \ \ \ (8)\]</div>
+<p>Once defined <span class="math notranslate nohighlight">\(\omega_{n}\)</span> and <span class="math notranslate nohighlight">\(\zeta\)</span>, expressions of proportional and integral gains become:</p>
+<div class="math notranslate nohighlight">
+\[K_P=\frac{2\ I_{eq}{\ \omega}_n\ \zeta{\ \Omega}_r}{-\ \frac{dP}{d\theta_{bl}}}=\ \frac{K_P^\prime}{\frac{dP}{d\theta_{bl}}}\ ,\ \ \ \ \ \ \ K_I=\frac{I_{eq\ }\omega_n^2{\ \Omega}_r}{-\ \frac{dP}{d\theta_{bl}}}=\ \frac{K_I^\prime}{\frac{dP}{d\theta_{bl}}}\ \ \ \ \ \ \ \ \ \ (9)\]</div>
+<p>The term <span class="math notranslate nohighlight">\(\frac{dP}{d\theta_{bl}}\)</span> is the power to pitch sensitivity, which depends on wind speed and blade pitch (related each other as previously
+mentioned) adopted during linearization. So, to always have the same system characteristic (<span class="math notranslate nohighlight">\(\omega_n\)</span> and <span class="math notranslate nohighlight">\(\zeta\)</span>), proportional and integral
+gains must vary with a variation of blade pitch and so of wind speed. Figure below shows power to pitch sensitivity with respect to blade pitch; as can be
+seen there, it can be well approximated with a quadratic regression, through which quadratic form that minimize sum of square error is computed. Thanks to
+this regression, power to pitch sensitivity expression becomes of the form:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dP}{d\theta_{bl}}\ \approx\ c_1{\theta_{bl}}^2+c_2\theta_{bl}+c_3\ \ \ \ \ \ (10)\]</div>
+<p><span class="math notranslate nohighlight">\(\frac{dP}{d\theta_{bl}}\)</span> is the power to pitch sensitivity and <span class="math notranslate nohighlight">\(c_1 (W/{deg}^3)\)</span>, <span class="math notranslate nohighlight">\(c_2 (W/{deg}^2)\)</span> and <span class="math notranslate nohighlight">\(c_3 (W/deg)\)</span> are the
+coefficients of its quadratic regression.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_Baseline_PowerToPitch_Sensitivity.png"><img alt="../_images/IMAGE_Baseline_PowerToPitch_Sensitivity.png" class="align-center" src="../_images/IMAGE_Baseline_PowerToPitch_Sensitivity.png" style="width: 60%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>This approximation will make the calculation of controller gains computationally less demanding during simulation.</p>
+</section>
+</section>
+<section id="rosco">
+<span id="id10"></span><h4>ROSCO<a class="headerlink" href="#rosco" title="Link to this heading"></a></h4>
+<p>ROSCO controller (Reference Open-Source COntroller for fixed and floating offshore wind turbines) was developed by researchers at the Delft University
+of Technology <span id="id11">[<a class="reference internal" href="advanced_features.html#id15" title="Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. Wind Energy Science, 7(1):53–73, 2022.">D4</a>]</span> to provide a modular reference wind turbines controller that represent industry standards and performs comparably
+or better than existing reference controllers, such as baseline, discussed in previous section. The primary functions of the controller are still to
+maximize power in below-rated operations and to regulate rotor speed in above-rated ones, moreover, it also provides additional modules which can improve
+control performances. ROSCO controller, as well as Baseline and most of other conventional ones, consists of two methods of actuation: generator torque
+and collective blade pitch. Strategies of actuation are commonly separated into four main regions, with transition logic between them. Regions 1 and 4
+correspond to below cut-in and above cut-out wind speed conditions, these regions are generally out of interest for standard control purposes (performances
+optimization) and so they will not be further discussed below. In region 1 generator torque is set to zero to allow the wind to accelerate the rotor for
+start-up. In this region, no power is extracted. In region 4 blades are pitched to reduce thrust force to zero (feathering position).</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_ROSCO_Power_Curve.png"><img alt="../_images/IMAGE_ROSCO_Power_Curve.png" class="align-center" src="../_images/IMAGE_ROSCO_Power_Curve.png" style="width: 60%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Control strategies for regions 1.5, 2 and 3 are highly like those ones adopted in Baseline control. Region 2 is when wind speed is below rated condition,
+here main goal is power extraction maximization. To do so, two methods can be used, a quadratic law (as in Baseline controller) of generator torque with
+respect to rotor angular speed or a tip speed ratio (TSR) tracking to maintain the latter at its optimal value (in this case a wind speed estimation is needed).
+Region 3 is when wind speed is above rated condition, here blade pitch is regulated to maintain rotor speed at its rated value and to stabilize platform (for
+offshore floating wind turbines, through floating feedback module), while generator torque is kept constant at its rated value. Region 1.5 is a transition
+region from cut-in wind speed and region 2. Here generator torque is regulated to maintain a defined minimum rotor speed and blades are pitched to compensate
+resulting high values of TSR to improve power extraction.</p>
+<section id="rosco-implementation">
+<h5>ROSCO Implementation<a class="headerlink" href="#rosco-implementation" title="Link to this heading"></a></h5>
+<p>Controller implementation starts from aerodynamic torque (<span class="math notranslate nohighlight">\(T_{aero}\)</span>) expression and rotor equilibrium equation:</p>
+<div class="math notranslate nohighlight">
+\[T_{aero}=\frac{1}{2}\ \rho\ A_D\ C_P\ (\lambda,\theta_{bl})\ \frac{{U_\infty}^3\ }{\Omega}\ \ \ \ \ \ (11)\]</div>
+<div class="math notranslate nohighlight">
+\[\dot{\Omega}=\frac{T_{\mathrm{aero\ }}-\ T_{gen}\ }{I_{\mathrm{eq\ }}}\ \ \ \ \ \ (12)\]</div>
+<p><span class="math notranslate nohighlight">\(I_{\mathrm{eq\ }}\)</span> is the rotor inertia, <span class="math notranslate nohighlight">\(\rho\)</span> is the air density, <span class="math notranslate nohighlight">\(A_D\)</span> is the rotor area, <span class="math notranslate nohighlight">\(C_P\)</span> is the power coefficient
+and <span class="math notranslate nohighlight">\(U_\infty\)</span> is the undisturbed wind speed. The first-order linearization of eq 11 at some nominal steady-state operational point is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Delta T_{aero}=\Gamma_\Omega\left|\begin{matrix}\ \\op\\\end{matrix}\right.\ \Delta\Omega+\Gamma_{\theta_{bl}}\left|\begin{matrix}\ \\op\ \\\end{matrix}\right.\Delta\theta_{bl}+\Gamma_U\left|\begin{matrix}\ \\op\ \\\end{matrix}\right.\Delta U\ \ \ \ \ \ (13)\end{split}\]</div>
+<p>With:  <span class="math notranslate nohighlight">\(\ \ \ \Gamma_\Omega\left|\begin{matrix}\ \\op\\\end{matrix}\right.=\partial T_{aero}/\partial\Omega\ \left|\begin{matrix}\ \\op\\\end{matrix}\right.,{\ \ \ \ \ \Gamma}_{\theta_{bl}}\left|\begin{matrix}\ \\op\\\end{matrix}\right.=\partial T_{aero}/\partial\theta_{bl}\ \left|\begin{matrix}\ \\op\\\end{matrix}\right.\mathrm{,\ \ \ \ \ \ \ }\Gamma_U\left|\begin{matrix}\ \\op\\\end{matrix}\right.=\partial T_{aero}/\partial U\ \left|\begin{matrix}\ \\op\\\end{matrix}\right.\)</span></p>
+<p>“op” denotes the steady-state operational point at which linearization is made. Equation 12 can then be rewritten as (Δ denotes the perturbation from
+steady state value “op” and <span class="math notranslate nohighlight">\(\left \{ X_{op}=\lambda_{op},\\\ \theta_{bl, op} \right \}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\Delta \dot{\Omega}=A\left(\boldsymbol{X}_{\mathrm{op}}\right) \Delta \Omega+B_{T_{g e n}} \Delta T_{g e n}+B_{\theta_{b l}}\left(\boldsymbol{X}_{\mathrm{op}}\right) \Delta \theta_{b l}+B_U\left(\boldsymbol{X}_{\mathrm{op}}\right) \Delta U\ \ \ \ \ \ (14)\]</div>
+<p>With:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A\left(\boldsymbol{X}_{\mathrm{op}}\right)=\frac{1}{I_{\mathrm{eq}}} \frac{\partial T_{\text {aero }}}{\partial \lambda} \frac{\partial \lambda}{\partial \Omega} \\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial T_{\text {aero }}}{\partial \lambda}=\frac{1}{2} \rho A_{\mathrm{D}} R U_{\mathrm{op}}^2 \frac{1}{\lambda_{\mathrm{op}}^2}\left(\frac{\partial C_{\mathrm{p}}}{\partial \lambda} \lambda_{\mathrm{op}}-C_{\mathrm{p}, \mathrm{op}}\right) \\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial \lambda}{\partial \Omega}=\frac{R}{U_{\mathrm{op}}}, \quad\left(\lambda=\frac{\Omega R}{U}\right) \\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}B_{T_{g e n}}=-\frac{1}{I_{\mathrm{eq}}} \\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[B_{\theta_{b l}}\left(\boldsymbol{X}_{\mathrm{op}}\right)=\frac{1}{2 I_{\mathrm{eq}}} \rho A_{\mathrm{D}} R U_{\mathrm{op}}{ }^2 \frac{1}{\lambda_{\mathrm{op}}^2}\left(\frac{\partial C_{\mathrm{p}}}{\partial \theta_{b l}} \lambda_{\mathrm{op}}\right)\]</div>
+<p>All derivatives are calculated at “op” conditions; <span class="math notranslate nohighlight">\(\Delta U\)</span>, difference between actual wind speed and wind speed at linearization point, is considered
+equal to zero during control tuning, that is computation of control gains. Both generator torque and blade pitch controllers are PI controllers, generically
+defined as:</p>
+<div class="math notranslate nohighlight">
+\[y = K_P \ u + K_I \int_{0}^{T} u\ dt\ \ \ \ \ \ (15)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(u\)</span> represents the input and <span class="math notranslate nohighlight">\(y\)</span> the output, while <span class="math notranslate nohighlight">\(K_P\)</span> and <span class="math notranslate nohighlight">\(K_I\)</span> are respectively the proportional and integral gains. Generator torque
+controller has as input and output:</p>
+<div class="math notranslate nohighlight">
+\[u=-\delta\Omega\ ,\ \ \ y=\Delta C_{gen}\ \ \ \ \ \ (16)\]</div>
+<p>Blade pitch controller has as input and output:</p>
+<div class="math notranslate nohighlight">
+\[u=-\delta\Omega,\ \ \ y=\Delta\theta_{bl}\ \ \ \ \ \ (17)\]</div>
+<p><span class="math notranslate nohighlight">\(\delta\Omega\)</span> is defined as a perturbation from the reference speed:</p>
+<div class="math notranslate nohighlight">
+\[\Omega(t)=\Omega_{\mathrm{ref\ }}+\delta\Omega\longrightarrow-\delta\Omega=\Omega_{ref}-\Omega(t)\ \ \ \ \ \ (18)\]</div>
+<p>While <span class="math notranslate nohighlight">\(\Delta C_{gen}\)</span> and <span class="math notranslate nohighlight">\(\Delta\theta_{bl}\)</span> are perturbations from steady state values:</p>
+<div class="math notranslate nohighlight">
+\[\theta_{bl}(t)={\theta_{bl}}_{\mathrm{op\ }}+\Delta\theta_{bl},{\ \ \ \ C}_{gen}(t)={C_{gen}}_{op}+\Delta C_{gen}\ \ \ \ \ \ (19)\]</div>
+<p>Now, defining <span class="math notranslate nohighlight">\(\Delta \Omega_{ref} =\Omega_{ref}-\Omega_{op}\)</span> (assumed =0, since “op” point is chosen at a steady state condition with
+<span class="math notranslate nohighlight">\(\Omega_{op}=\Omega_{ref}\)</span>), we can combine equation 14 with above definitions to obtain a differential equation that relates
+<span class="math notranslate nohighlight">\(\Delta \Omega =\Omega-\Omega_{op}\)</span> and <span class="math notranslate nohighlight">\(\Delta \Omega_{ref}\)</span>. Then, if the Laplace transform of this equation is considered, we arrive
+to two closed-loop transfer functions (one for the generator torque module and the other for the blade pitch one) in the form:</p>
+<div class="math notranslate nohighlight">
+\[H(s)=\frac{\Delta \Omega(s)}{\Delta \Omega_{\mathrm{ref}}(s)}=\frac{B\left(K_P\left(x_{\mathrm{op}}\right) s+K_I\left(x_{\mathrm{op}}\right)\right)}{s^2+\left(B K_P\left(x_{\mathrm{op}}\right)-A\left(x_{\mathrm{op}}\right)\right) s+B K_I\left(x_{\mathrm{op}}\right)}\ \ \ \ \ \ (20)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(B\)</span> is <span class="math notranslate nohighlight">\(B_{T_{gen}}\)</span> or <span class="math notranslate nohighlight">\(B_{\theta_{bl}}\)</span>, depending on which module is considered, since when generator torque loop is
+considered, <span class="math notranslate nohighlight">\(\Delta\theta_{bl}\)</span> is set to zero and, when blade pitch loop is considered, <span class="math notranslate nohighlight">\(\Delta T_{gen}\)</span> can be equal to zero or
+<span class="math notranslate nohighlight">\(B_{T_{gen}}\)</span> can be englobed in <span class="math notranslate nohighlight">\(A\)</span>. Moreover, in both cases we consider <span class="math notranslate nohighlight">\(\Delta U=0\)</span>. <span class="math notranslate nohighlight">\(H(s)\)</span> is a simple second order
+system whose characteristics are strictly related to natural frequency and damping ratio of its canonical form. They can be defined, in order to
+reach desired performance, choosing values of proportional and integral gains. If we call <span class="math notranslate nohighlight">\(\omega_n\)</span> the natural frequency and <span class="math notranslate nohighlight">\(\zeta\)</span>
+the damping ratio, <span class="math notranslate nohighlight">\(K_P\)</span> and <span class="math notranslate nohighlight">\(K_I\)</span> expressions (varying with operational steady state point) are:</p>
+<div class="math notranslate nohighlight">
+\[K_P=\frac{1}{B\left(\boldsymbol{x}_{\mathrm{op}}\right)}\left(2 \zeta \omega_n+A\left(\boldsymbol{X}_{\mathrm{op}}\right)\right)\ \ \ \ \ \ (21)\]</div>
+<div class="math notranslate nohighlight">
+\[K_I=\frac{\omega_{\mathrm{n}}^2}{B\left(\boldsymbol{X}_{\mathrm{op}}\right)}\ \ \ \ \ \ (22)\]</div>
+<p>Once transfer function of generator torque and blade pitch closed loop has been defined, and once way through which PI controllers’ gains are computed
+has been explored, we can focus, specifically, on the two different modules to investigate the reference speed signals adopted and how the scheduling
+of gains is performed, varying according to the conditions in which the system is.</p>
+</section>
+<section id="id12">
+<h5>Generator Torque Controller<a class="headerlink" href="#id12" title="Link to this heading"></a></h5>
+<p>Four different generator torque controllers are available in ROSCO, they are the possible combination between two methods for below wind speed operations
+and two methods for above wind speed conditions. Regarding below rated operations, to maximize extracted power at each wind condition, a quadratic low
+of generator torque with respect to rotor angular speed can be adopted. In this section we omit exploitation of this method since is the same adopted
+in Baseline controller. Alternatively, a tip speed ratio tracking to maintain it at its optimal value can be adopted. If the wind speed can be measured
+or estimated accurately, a generator torque controller can be designed to maintain the <span class="math notranslate nohighlight">\(\lambda_{opt}\)</span> and maximize power capture, so reference
+rotor angular speed becomes:</p>
+<div class="math notranslate nohighlight">
+\[{\Omega_{ref}}_\tau=\frac{\lambda_{opt}\ \hat{U}}{R}\ \ \ \ \ \ (23)\]</div>
+<p>Where subscript <span class="math notranslate nohighlight">\(\tau\)</span> indicates the reference speed of torque controller and <span class="math notranslate nohighlight">\(\hat{U}\)</span> is the estimated wind speed. From equations 14, 21
+and 22, it can be seen that integral gain <span class="math notranslate nohighlight">\(K_I\)</span> of generator torque controller is constant, whereas <span class="math notranslate nohighlight">\(A\)</span>, so proportional gain <span class="math notranslate nohighlight">\(K_P\)</span>,
+are both dependent on <span class="math notranslate nohighlight">\(U\)</span> (wind speed). However, it was found that fixing <span class="math notranslate nohighlight">\(K_P = K_P (U = Urated)\)</span> does not negatively affect power production.
+Regarding the two existing methods for above rated conditions, first of them considers a constant generator torque, defined as:</p>
+<div class="math notranslate nohighlight">
+\[T_{gen,ar}(t)=\ T_{rated}=\frac{P_{\mathrm{rated\ }}}{\Omega_{rated}}\ \ \ \ \ \ (24)\]</div>
+<p>Where subscript “ar” means “above rated”. On the other hand, the second strategy considers a constant extracted power equal to its rated value, so
+generator torque is defined as:</p>
+<div class="math notranslate nohighlight">
+\[T_{gen,ar}(t)=\frac{P_{\mathrm{rated\ }}}{\Omega}\ \ \ \ \ \ (25)\]</div>
+</section>
+<section id="id13">
+<h5>Blade Pitch Controller<a class="headerlink" href="#id13" title="Link to this heading"></a></h5>
+<p>Main goal of blade pitch controller is keeping rotor angular speed at its rated value, so reference speed is (both in below rated and above rated
+conditions):</p>
+<div class="math notranslate nohighlight">
+\[\Omega_{\mathrm{ref\ },\theta_{bl}}=\Omega_{\mathrm{rated}}\ \ \ \ \ \ (26)\]</div>
+<p>Where subscript <span class="math notranslate nohighlight">\(\theta_{bl}\)</span> means we refer to blade pitch controller. In below rated conditions, generator speed is lower than rated value,
+so <span class="math notranslate nohighlight">\(-\delta\Omega=\Omega_{ref}-\Omega\ &gt;\ 0\)</span> and, since gains are normally negative, <span class="math notranslate nohighlight">\(\theta_{bl}\)</span> is saturated at its minimum value,
+defined by an additional module of ROSCO controller which will be discussed later. According to equations 21 and 22, to find controllers gain values,
+<span class="math notranslate nohighlight">\(B_{\theta_{bl}}\left({X}_{op}\right)\)</span> and <span class="math notranslate nohighlight">\(A\left({X}_{op}\right)\)</span> should be computed. They change for any operation point at which
+system is linearized, so they are function of <span class="math notranslate nohighlight">\({X}_{op}=\ \left\{\lambda_{op},{\theta_{bl}}_{op}\right\}\)</span>. Linearization point can be the
+optimal steady state values chosen during strategy definition, for which there is a unique relationship between <span class="math notranslate nohighlight">\(\lambda_{op}\)</span> and
+<span class="math notranslate nohighlight">\({\theta_{bl}}_{op}\)</span>. For this reason, <span class="math notranslate nohighlight">\(B_{\theta_{bl}}\)</span> and <span class="math notranslate nohighlight">\(A\)</span> can be expressed with respect to <span class="math notranslate nohighlight">\({\theta_{bl}}_{op}\)</span>,
+so gains’ values can be scheduled with <span class="math notranslate nohighlight">\(\theta_{bl}\)</span>  as parameter.</p>
+</section>
+<section id="additional-control-modules">
+<h5>Additional Control Modules<a class="headerlink" href="#additional-control-modules" title="Link to this heading"></a></h5>
+<p>In this section principal additional modules are briefly discussed to understand their functions and how they modify control output; for more information
+it is possible to consult <span id="id14">[<a class="reference internal" href="advanced_features.html#id15" title="Nikhar J Abbas, Daniel S Zalkind, Lucy Pao, and Alan Wright. A reference open-source controller for fixed and floating offshore wind turbines. Wind Energy Science, 7(1):53–73, 2022.">D4</a>]</span>. They are:</p>
+<ul>
+<li><p><strong>Wind speed estimator</strong> : This module estimates wind sped used for TSR tracking in the generator torque controller. Employed algorithm is based on a continuous-discrete Kalman filter, which exploits system model, a wind auto regressive model and other information, like covariance matrices based on the expected wind field and measure’s confidence of rotor speed to estimate a mean wind speed across rotor area at each time.</p></li>
+<li><p><strong>Set Point Smoothing</strong> : Generator torque and blade pitch controllers will normally conflict with each other in near-rated operation due to incompatible reference rotor speed. To avoid this, a set point smoother can be employed; it shifts the speed reference signal of the inactive controller while the active one works. As an example, at above rated condition torque controller is the inactive one and vice versa. If TSR tracking were to be adopted for the torque generator, then the reference speed at high wind speeds would be higher than the one actually wanted (rated one), so the smoother brings the reference towards the rated speed and the resulting torque approaches the rated one, the one actually intended by adopting a constant torque strategy under above conditions.</p></li>
+<li><p><strong>Minimum pitch Saturation</strong> : This module defines a minimum value of blade pitch angle which will be used as a saturation limit during control operations. It mainly modifies expected blade pitch values in region 1.5 and near rated conditions and leads to two effects:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Peak shaving</strong> : Near rated condition thrust value reaches the highest values, since below rated wind speed is lower and above rated condition blade pitching reduces that force. So, to limit loads, minimum pitch module imposes not null pitch angles also below rated wind speed, near that value.</p></li>
+<li><p><strong>Power maximization in low wind</strong> : In region 1.5, as mentioned in control region section, a minimum value of rotor speed is imposed, so at low wind speeds TSR deviates far from its optimal value. To compensate this fact and to increase power coefficient value in this condition, blade pitch is led to be greater.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>Floating offshore wind turbine feedback</strong> : this module is though for FOWTs (Floating Offshore Wind Turbines) and introduces a new term in the PI blade pitch controller, which becomes:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\Delta \theta_{b l}=-k_{\mathrm{P}} \delta \Omega-k_{\mathrm{I}} \int_0^T \delta \Omega \mathrm{d} t+k_{\theta_{\text {bl,float }}} \dot{x}_t\ \ \ \ \ \ (27)\]</div>
+</div></blockquote>
+<p>Additional term is tower-top velocity <span class="math notranslate nohighlight">\({\dot{x}}_t\)</span> multiplied by <span class="math notranslate nohighlight">\(k_{{\theta_{bl,float}}_\mathrm{\ }}\)</span> gain. The latter is chosen from a
+manipulation of rotor equilibrium equation and structure pitch equation, in which expression of thrust and power coefficients compare. The aim is to
+find gains’ value that reduces rotor angular acceleration to tower speed sensitivity to mitigate structure pitch effect on rotor aerodynamic torque.
+This expedient increases the average extracted power and stabilizes the structure.</p>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In this case, TSR tracking was chosen for torque control at wind speeds lower than nominal one and a constant torque equal to nominal in above rated
+conditions. Furthermore, the wind speed is assumed to be a priori known, so the Kalmann filter constituting the estimation module will not be
+exploited.</p>
+</section>
+</section>
+</section>
+<section id="aerodynamic-loads">
+<h3>Aerodynamic Loads<a class="headerlink" href="#aerodynamic-loads" title="Link to this heading"></a></h3>
+<p>The aerodynamic loads due to the interaction between wind and blades are determined during the simulation using look-up tables previously obtained
+during pre-processing. Specifically, the “AeroLoads” script in the “aeroloads” subfolder handles this by using a function, based on BEM (Blade Element
+Momentum Theory), which receives as input the wind speed, rotor speed, and blade pitch angle and outputs the aerodynamic forces and torques acting on
+the blade root. For more information on the resolution of BEMT see <span id="id15">[<a class="reference internal" href="advanced_features.html#id16" title="S Andrew Ning. A simple solution method for the blade element momentum equations with guaranteed convergence. Wind Energy, 17(9):1327–1345, 2014.">D6</a>]</span> and <span id="id16">[<a class="reference internal" href="advanced_features.html#id17" title="S A Ning, G Hayman, R Damiani, and J Jonkman. Development and validation of a new blade element momentum skewed-wake model within aerodyn: preprint. 2015.">D7</a>]</span>. The aerodynamic forces do not take into
+account the flexibility of the blade (rigid body assumption), the deflection of the wake due to the rotor misalignment with respect to the wind and
+the wake dynamics. The domain of the tables will consist of the wind speeds for which the stationary values were previously calculated and a number
+of values of rotor speed and blade pitch angle evenly spaced around the stationary value corresponding to the wind speed. The look-up table of
+the aerodynamic loads has only one input for the wind speed, so the average wind speed is determined by interpolating four points for each blade in
+the wind grid along the blade length. The discretization points are defined by “blade.bladeDiscr” in <code class="docutils literal notranslate"><span class="pre">WTproperties.m</span></code> script. It is preferable to define
+those points starting from the middle of the blade and not from the root because the wind speed has more influence at the final section of the blade. The horizontal hub speed, due to surge and pitch oscillation, is added to the wind speed.
+Furthermore, the pitch motion and yaw motion of the hub multiplied by the distance from the hub of discretization points (blade.bladeDiscr) are also
+added to wind speed.</p>
+</section>
+</section>
+<section id="user-inputs">
+<h2>User inputs<a class="headerlink" href="#user-inputs" title="Link to this heading"></a></h2>
+<p>In addition to the settings defined in pre-processing, to use MOST it is necessary to define simulation settings and decide which input files (created
+in the pre-processing) to use, this is done via the WEC-Sim library script <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
+</section>
+<section id="simulation">
+<h2>Simulation<a class="headerlink" href="#simulation" title="Link to this heading"></a></h2>
+<p>The simulation of floating wind turbines or hybrid systems is carried out in the Simulink environment using the WEC-Sim libraries and the MOST library
+(“MOST_lib.slx”), for the wind turbine part and its control. In order to launch the simulation, it is necessary to use the <code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code> executable,
+which calls up <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for defining the input data and the <code class="docutils literal notranslate"><span class="pre">initializeWecSim.m</span></code> function for setting up the classes and defining the active
+variant subsystems according to the settings made. Below is an example of a Simulink model for the simulation of a floating wind turbine.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_Volturn15MW_Simulink_example.png"><img alt="../_images/IMAGE_Volturn15MW_Simulink_example.png" class="align-center" src="../_images/IMAGE_Volturn15MW_Simulink_example.png" style="width: 60%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The platform and mooring subsystems are libraries of WEC-Sim that solve the hydrodynamic and hydrostatic loads acting on the platform and the forces
+due to moorings according to the settings and file names provided. The turbine subsystem is the MOST library, visible in the figure below.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_MOST_Library.png"><img alt="../_images/IMAGE_MOST_Library.png" class="align-center" src="../_images/IMAGE_MOST_Library.png" style="width: 100%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The MOST model is mainly composed of rigid bodies (representing the various components of the turbine) connected via fixed joints or, in the case of
+the link between the hub and nacelle, with a revolute joint. An example of a component (hub) can be seen in the figure below and includes the calculation of
+inertial forces (in the “Body Properties” block) and weight force (in the “External Force and Torque” block). In the case of blades, aerodynamic forces
+are also applied via a similar block.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_Body_Block_example.png"><img alt="../_images/IMAGE_Body_Block_example.png" class="align-center" src="../_images/IMAGE_Body_Block_example.png" style="width: 60%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In the ‘Aerodynamics + Control’ subsystem, the aerodynamic forces and torque values of the generator and collective blade pitch are derived. In the
+“Control” and “Blade wind speed” subsystems, variant subsystems are contained in which it is decided whether to use the Baseline or ROSCO controller
+and whether to have constant or turbulent wind. With regard to wind block, here the relative speed with respect to the interested blade nodes is
+calculated, receiving the movements of the structure and the wind field as inputs. Finally, the “AeroLoads” subsystem contains the look-up tables of
+the aerodynamic loads obtained in pre-processing.</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_Aeroload_Control_Submodel.png"><img alt="../_images/IMAGE_Aeroload_Control_Submodel.png" class="align-center" src="../_images/IMAGE_Aeroload_Control_Submodel.png" style="width: 100%;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="post-processing">
+<h2>Post-processing<a class="headerlink" href="#post-processing" title="Link to this heading"></a></h2>
+<p>Post-processing consists of processing the simulation output data and saving it, as well as of the possible creation of an (ASCII) text file containing
+the simulation report. For this we rely on the WEC-Sim executables <code class="docutils literal notranslate"><span class="pre">stopWecSim.m</span></code> and <code class="docutils literal notranslate"><span class="pre">postProcessWecSim.m</span></code>, which use the <code class="docutils literal notranslate"><span class="pre">rensponseClass</span></code> for processing
+the results, and on the <code class="docutils literal notranslate"><span class="pre">userDefinedFunction.m</span></code> script to plot time-domain simulation input and output by also exploiting some functions of the <code class="docutils literal notranslate"><span class="pre">rensponseClass</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> contains all the output time-series and methods to plot and interact with the results. It is not initialized by the user; instead, it
+is created automatically at the end of a WEC-Sim simulation. The <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> does not input any parameter back to WEC-Sim, only taking output data from
+the various objects and blocks. After WEC-Sim is done running, there will be a new variable called <code class="docutils literal notranslate"><span class="pre">output</span></code> saved to the MATLAB workspace.
+The output object is an instance of the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>; it contains all the relevant time-series results of the simulation.
+The figure below shows an example of some input-output plots from a simulation of the IEA 15 MW reference wind turbine mounted on the VolturnUS semi-submersible
+platform (<span id="id17">[<a class="reference internal" href="advanced_features.html#id18" title="Evan Gaertner, Jennifer Rinker, Latha Sethuraman, Frederik Zahle, Benjamin Anderson, Garrett Barter, Nikhar Abbas, Fanzhong Meng, Pietro Bortolotti, Witold Skrzypinski, George Scott, Roland Feil, Henrik Bredmose, Katherine Dykes, Matt Shields, Christopher Allen, and Anthony Viselli. Definition of the iea wind 15-megawatt offshore reference wind turbine technical report. 2020.">D5</a>]</span> and <span id="id18">[<a class="reference internal" href="advanced_features.html#id19" title="Christopher Allen, Anthony Viselli, Habib Dagher Andrew Goupee, Evan Gaertner, Nikhar Abbas, Matthew Hall, and Garrett Barter. Definition of the umaine volturnus-s reference platform developed for the iea wind 15-megawatt offshore reference wind turbine technical report. 2020.">D8</a>]</span>).</p>
+<a class="reference internal image-reference" href="../_images/IMAGE_Results_Plots_example.png"><img alt="../_images/IMAGE_Results_Plots_example.png" class="align-center" src="../_images/IMAGE_Results_Plots_example.png" style="width: 100%;" />
+</a>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advanced_features.html" class="btn btn-neutral float-right" title="Advanced Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="theory.html">dev</a></dd>
+      <dd><a href="../../main/most/theory.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

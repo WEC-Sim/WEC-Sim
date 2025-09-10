@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEC-Sim Applications &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Training Materials" href="webinars.html" />
+    <link rel="prev" title="Advanced Features" href="advanced_features.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7fe2ec364b80>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">WEC-Sim Applications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#body-to-body-interactions">Body-to-Body Interactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#controls">Controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#desalination">Desalination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#free-decay">Free Decay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generalized-body-modes">Generalized Body Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mooring">Mooring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-condition-run">Multiple Condition Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nonhydrodynamic-body">Nonhydrodynamic Body</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nonlinear-hydrodynamic-body">Nonlinear Hydrodynamic Body</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paraview-visualization">Paraview Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#passive-yaw">Passive Yaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pto-sim">PTO-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rm3-pto-extension">RM3 PTO Extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-hydrodynamics">Variable Hydrodynamics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization-markers">Visualization Markers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wecccomp">WECCCOMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#write-hdf5">Write HDF5</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html">Training Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Manual</a></li>
+      <li class="breadcrumb-item active">WEC-Sim Applications</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/user/applications.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="wec-sim-applications">
+<span id="user-applications"></span><h1>WEC-Sim Applications<a class="headerlink" href="#wec-sim-applications" title="Link to this heading"></a></h1>
+<p>The <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a>
+repository contains many more applications of the WEC-Sim code that demonstrate
+WEC-Sim <a class="reference internal" href="advanced_features.html#user-advanced-features"><span class="std std-ref">Advanced Features</span></a>. This includes
+tutorials by the WEC-Sim team as well as user-shared examples and covers topics
+such as body interactions, numerical set-up, batch runs, visualization, control
+examples, mooring and more. These applications highlight the
+versatility of WEC-Sim and can be used as a starting point for users interested
+in a given application.
+It is highly recommended that users go through an application case along with the
+relevant advanced feature section when learning to implement a new WEC-Sim feature.
+The WEC-Sim Applications repository is included as a
+<a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a> of the
+WEC-Sim repository. The applications are summarized below.</p>
+<section id="body-to-body-interactions">
+<h2>Body-to-Body Interactions<a class="headerlink" href="#body-to-body-interactions" title="Link to this heading"></a></h2>
+<p>Example using <a class="reference internal" href="advanced_features.html#user-advanced-features-b2b"><span class="std std-ref">Body-to-Body (B2B)</span></a> to run WEC-Sim for the <a class="reference internal" href="tutorials.html#user-tutorials-rm3"><span class="std std-ref">RM3</span></a>
+geometry. The scripts run and plot the RM3 model with B2B on/off and with
+Regular/RegularCIC. Execute the <cite>runB2B.m</cite> script to run this case.</p>
+</section>
+<section id="controls">
+<h2>Controls<a class="headerlink" href="#controls" title="Link to this heading"></a></h2>
+<p>Examples using <a class="reference internal" href="advanced_features.html#user-advanced-features-control"><span class="std std-ref">Controllers</span></a>.
+Examples of WEC-Sim models using various control methods are included for the <a class="reference internal" href="tutorials.html#user-tutorials-rm3"><span class="std std-ref">RM3</span></a>
+float geometry. These examples include passive, reactive, latching, declutching, and model predictive control methods.</p>
+</section>
+<section id="desalination">
+<h2>Desalination<a class="headerlink" href="#desalination" title="Link to this heading"></a></h2>
+<p>Example using WEC-Sim for desalination based on the <a class="reference internal" href="tutorials.html#user-tutorials-oswec"><span class="std std-ref">OSWEC</span></a>
+geometry. Note the dependency on SimScape Fluids to run this desalination case.</p>
+</section>
+<section id="free-decay">
+<h2>Free Decay<a class="headerlink" href="#free-decay" title="Link to this heading"></a></h2>
+<p>Example using WEC-Sim to simulate <a class="reference internal" href="advanced_features.html#user-advanced-features-decay"><span class="std std-ref">free decay</span></a>
+of a sphere in heave, using <a class="reference internal" href="advanced_features.html#user-advanced-features-mcr"><span class="std std-ref">Multiple Condition Runs</span></a>.
+Execute the <cite>runFreeDecay.m</cite> script to run this case.</p>
+</section>
+<section id="generalized-body-modes">
+<h2>Generalized Body Modes<a class="headerlink" href="#generalized-body-modes" title="Link to this heading"></a></h2>
+<p>Example using <a class="reference internal" href="advanced_features.html#user-advanced-features-generalized-body-modes"><span class="std std-ref">Generalized Body Modes</span></a>
+in WEC-Sim. In this application a barge is allowed four additional flexible
+degrees of freedom. Note that this requires the BEM solver also account for
+these general degrees of freedom and output the appropriate quantities required
+by BEMIO.</p>
+</section>
+<section id="mooring">
+<h2>Mooring<a class="headerlink" href="#mooring" title="Link to this heading"></a></h2>
+<p>One example using the <a class="reference internal" href="tutorials.html#user-tutorials-rm3"><span class="std std-ref">RM3</span></a>
+geometry coupled with <a class="reference internal" href="advanced_features.html#mooring-moordyn"><span class="std std-ref">MoorDyn</span></a>
+to simulate a more realistic mooring system. And another example modeling the
+RM3 with a Mooring Matrix. The MoorDyn application consists of 3 catenary
+mooring lines attached to floating buoys and then to different points on the
+spar and anchored at the sea floor.</p>
+</section>
+<section id="multiple-condition-run">
+<h2>Multiple Condition Run<a class="headerlink" href="#multiple-condition-run" title="Link to this heading"></a></h2>
+<p>Example using <a class="reference internal" href="advanced_features.html#user-advanced-features-mcr"><span class="std std-ref">Multiple Condition Runs</span></a>
+to run the <a class="reference internal" href="tutorials.html#user-tutorials-rm3"><span class="std std-ref">RM3</span></a>.
+These examples demonstrate each of the 3 different ways to run WEC-Sim with MCR
+and generates a power matrix for each PTO damping value. The last example
+demonstrates how to use MCR to vary the imported sea state test file and
+specify corresponding phase. Execute <cite>wecSimMCR.m</cite> from the case directory to
+run an example.</p>
+<ul class="simple">
+<li><p>MCROPT1: Cases defined using arrays of values for period and height.</p></li>
+<li><p>MCROPT2: Cases defined with wave statistics in an Excel spreadsheet</p></li>
+<li><p>MCROPT3: Cases defined in a MATLAB data file (<code class="docutils literal notranslate"><span class="pre">.mat</span></code>)</p></li>
+<li><p>MCROPT4: Cases defined using several MATLAB data files (<code class="docutils literal notranslate"><span class="pre">*.mat</span></code>) of the
+wave spectrum</p></li>
+</ul>
+</section>
+<section id="nonhydrodynamic-body">
+<h2>Nonhydrodynamic Body<a class="headerlink" href="#nonhydrodynamic-body" title="Link to this heading"></a></h2>
+<p>Example using <a class="reference internal" href="advanced_features.html#user-advanced-features-non-hydro-body"><span class="std std-ref">Non-Hydro Body</span></a>
+to run WEC-Sim for the <a class="reference internal" href="tutorials.html#user-tutorials-oswec"><span class="std std-ref">OSWEC</span></a>.
+This example models the base as a nonhydro body, and the flap as a hydrodynamic
+body.</p>
+</section>
+<section id="nonlinear-hydrodynamic-body">
+<h2>Nonlinear Hydrodynamic Body<a class="headerlink" href="#nonlinear-hydrodynamic-body" title="Link to this heading"></a></h2>
+<p>Example using <a class="reference internal" href="advanced_features.html#user-advanced-features-nonlinear"><span class="std std-ref">Nonlinear Hydro</span></a>
+to run WEC-Sim for a <a class="reference internal" href="advanced_features.html#user-advanced-features-nonlinear-tutorial-heaving-ellipsoid"><span class="std std-ref">heaving ellipsoid</span></a>.
+Includes examples of running nonlinear hydrodynamics with different <a class="reference internal" href="advanced_features.html#user-advanced-features-time-step"><span class="std std-ref">fixed and
+variable time-step solvers</span></a>
+(ode4/ode45), and different regular wave formulations (with/without CIC).
+Execute the <cite>runNL.m</cite> script to run this case.</p>
+</section>
+<section id="paraview-visualization">
+<h2>Paraview Visualization<a class="headerlink" href="#paraview-visualization" title="Link to this heading"></a></h2>
+<p>Example using ParaView data visualization for WEC-Sim coupled with <a class="reference internal" href="advanced_features.html#mooring-moordyn"><span class="std std-ref">MoorDyn</span></a>
+to simulate a more realistic mooring system for the <a class="reference internal" href="tutorials.html#user-tutorials-rm3"><span class="std std-ref">RM3</span></a>
+geometry. Example consists of 3 catenary mooring lines attached to different
+points on the spar and anchored at the sea floor.</p>
+<p>Example using ParaView data visualization for WEC-Sim with <a class="reference internal" href="advanced_features.html#user-advanced-features-nonlinear"><span class="std std-ref">Nonlinear Hydro</span></a>
+for the Flap and a <a class="reference internal" href="advanced_features.html#user-advanced-features-non-hydro-body"><span class="std std-ref">Non-Hydro Body</span></a>
+for the Base to run WEC-Sim for the <a class="reference internal" href="tutorials.html#user-tutorials-oswec"><span class="std std-ref">OSWEC</span></a>
+geometry.</p>
+</section>
+<section id="passive-yaw">
+<h2>Passive Yaw<a class="headerlink" href="#passive-yaw" title="Link to this heading"></a></h2>
+<p>Example on using <a class="reference internal" href="advanced_features.html#user-advanced-features-passive-yaw"><span class="std std-ref">Passive Yaw</span></a>
+to run WEC-Sim for the <a class="reference internal" href="tutorials.html#user-tutorials-oswec"><span class="std std-ref">OSWEC</span></a> geometry.
+Execute the <cite>runYawCases.m</cite> script to run this case.</p>
+</section>
+<section id="pto-sim">
+<h2>PTO-Sim<a class="headerlink" href="#pto-sim" title="Link to this heading"></a></h2>
+<p>Examples using <a class="reference internal" href="advanced_features.html#pto-pto-sim"><span class="std std-ref">PTO-Sim</span></a>.
+Examples of WEC-Sim models using PTO-Sim are included for the <a class="reference internal" href="tutorials.html#user-tutorials-rm3"><span class="std std-ref">RM3</span></a>
+geometry and <a class="reference internal" href="tutorials.html#user-tutorials-oswec"><span class="std std-ref">OSWEC</span></a>
+geometry.</p>
+</section>
+<section id="rm3-pto-extension">
+<h2>RM3 PTO Extension<a class="headerlink" href="#rm3-pto-extension" title="Link to this heading"></a></h2>
+<p>Examples on using the <a class="reference internal" href="advanced_features.html#pto-pto-extension"><span class="std std-ref">PTO Extension</span></a> advanced feature to set-up an initial displacement of the <a class="reference internal" href="tutorials.html#user-tutorials-rm3"><span class="std std-ref">RM3</span></a> easily.
+This geometry is a special case with a large DOF in which different WEC bodies can be identified as the PTO mechanism with a cooresponding position change when setting the PTO Initial Displacement.</p>
+</section>
+<section id="variable-hydrodynamics">
+<span id="user-applications-variable-hydro"></span><h2>Variable Hydrodynamics<a class="headerlink" href="#variable-hydrodynamics" title="Link to this heading"></a></h2>
+<p>The Variable_Hydro/Passive_Yaw case demonstrates WEC-Sim’s variable hydrodynamics feature by comparing it to the passive yaw implementation.
+The Variable_Hydro/Variable_Mass case provides an example for variable mass in which the draft, mass, and center of gravity change during the simulation.</p>
+</section>
+<section id="visualization-markers">
+<h2>Visualization Markers<a class="headerlink" href="#visualization-markers" title="Link to this heading"></a></h2>
+<p>Examples of WEC-Sim with Wave Elevation visualization at User-Defined Locations.
+The setup for the visualization can be found at <cite>Advanced Features &lt;https://github.com/WEC-Sim/advanced_features&gt;</cite></p>
+</section>
+<section id="wecccomp">
+<h2>WECCCOMP<a class="headerlink" href="#wecccomp" title="Link to this heading"></a></h2>
+<p>Numerical model for the WEC Control Competition (WECCCOMP) using WEC-Sim to
+model the WaveStar with various fault implementations can be found in the <a class="reference external" href="https://github.com/WEC-Sim/WECCCOMP">WECCCOMP</a> repository.
+See the project report written by Erica Lindbeck in the “report” folder.</p>
+</section>
+<section id="write-hdf5">
+<h2>Write HDF5<a class="headerlink" href="#write-hdf5" title="Link to this heading"></a></h2>
+<p>This is an example of how to write your own h5 file using MATLAB. Can be useful
+if you want to modify your coefficients, use experimental coefficients, or
+coefficients from another BEM code other than WAMIT, NEMOH, AQWA, or CAPYTAINE. For more
+details see <a class="reference internal" href="advanced_features.html#user-advanced-features-bemio-h5"><span class="std std-ref">BEMIO</span></a>
+documentation.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advanced_features.html" class="btn btn-neutral float-left" title="Advanced Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="webinars.html" class="btn btn-neutral float-right" title="Training Materials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="applications.html">dev</a></dd>
+      <dd><a href="../../main/user/applications.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

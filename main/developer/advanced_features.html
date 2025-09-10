@@ -1,0 +1,580 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Features &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="WEC-Sim Library" href="library.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f6b2b0ce310>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pull_requests.html">Pull Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_tests.html">Software Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library.html">WEC-Sim Library</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Advanced Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#added-mass">Added Mass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#theoretical-implementation">Theoretical Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wec-sim-s-implementation">WEC-Sim’s Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#morison-element">Morison Element</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fixed-body">Fixed Body</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#moving-body">Moving Body</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wec-sim-implementations">WEC-Sim Implementations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#extract-mask-variables">Extract Mask Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-hydrodynamics">Variable Hydrodynamics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Manual</a></li>
+      <li class="breadcrumb-item active">Advanced Features</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/advanced_features.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="advanced-features">
+<span id="dev-advanced-features"></span><h1>Advanced Features<a class="headerlink" href="#advanced-features" title="Link to this heading"></a></h1>
+<section id="added-mass">
+<h2>Added Mass<a class="headerlink" href="#added-mass" title="Link to this heading"></a></h2>
+<section id="theoretical-implementation">
+<span id="dev-added-mass"></span><h3>Theoretical Implementation<a class="headerlink" href="#theoretical-implementation" title="Link to this heading"></a></h3>
+<p>Added mass is a special multi-directional fluid dynamic phenomenon that most
+physics software cannot account for well.
+Modeling difficulties arise because the added mass force is proportional to acceleration.
+However most time-domain simulations are attempting to use the calculated forces to determine
+a body’s acceleration, which then determines the velocity and position at the next time step.
+Solving for acceleration when forces are dependent on acceleration creates an algebraic loop.</p>
+<p>The most robust solution is to combine the added mass matrix with the rigid body’s mass and inertia,
+shown in the manipulation of the governing equation below:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M\ddot{X_i} &amp;= \Sigma F(t,\omega) + m\overrightarrow{g} - A\ddot{X_i} \\
+(M+A)\ddot{X_i} &amp;= \Sigma F(t,\omega) + m\overrightarrow{g} \\
+M_{adjusted}\ddot{X_i} &amp;= \Sigma F(t,\omega) + m\overrightarrow{g}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(F_{am} = -A\ddot{X_i}\)</span> is the added mass component of the radiation force that is pulled out of the force summation for manipulation,
+<span class="math notranslate nohighlight">\(M\)</span> is the mass matrix, <span class="math notranslate nohighlight">\(A\)</span> is the single frequency or infinite frequency added mass, and subscript <span class="math notranslate nohighlight">\(i\)</span> represents the timestep being solved for.
+In this case, the adjusted body mass matrix is defined as the sum of the translational mass (<span class="math notranslate nohighlight">\(m\)</span>), inertia tensor (<span class="math notranslate nohighlight">\(I\)</span>), and the added mass matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{adjusted} = \begin{bmatrix}
+                   m + A_{1,1} &amp; A_{1,2} &amp; A_{1,3} &amp; A_{1,4} &amp; A_{1,5} &amp; A_{1,6} \\
+                   A_{2,1} &amp; m + A_{2,2} &amp; A_{2,3} &amp; A_{2,4} &amp; A_{2,5} &amp; A_{2,6} \\
+                   A_{3,1} &amp; A_{3,2} &amp; m + A_{3,3} &amp; A_{3,4} &amp; A_{3,5} &amp; A_{3,6} \\
+                   A_{4,1} &amp; A_{4,2} &amp; A_{4,3} &amp; I_{1,1} + A_{4,4} &amp; I_{1,2} + A_{4,5} &amp; I_{1,3} + A_{4,6} \\
+                   A_{5,1} &amp; A_{5,2} &amp; A_{5,3} &amp; I_{2,1} + A_{5,4} &amp; I_{2,2} + A_{5,5} &amp; I_{2,3} + A_{5,6} \\
+                   A_{6,1} &amp; A_{6,2} &amp; A_{6,3} &amp; I_{3,1} + A_{6,4} &amp; I_{3,2} + A_{6,5} &amp; I_{3,3} + A_{6,6} \\
+               \end{bmatrix}\end{split}\]</div>
+<p>This formulation is desirable because it removes the acceleration dependence from the right hand side of the governing equation.
+Without this treatment, the acceleration causes an unsolvable algebraic loop.
+There are alternative approximations to solve the algebraic loop, but simulation robustness and stability become increasingly difficult.</p>
+<p>The core issue with this combined mass formulation is that Simscape Multibody, and most other physics software, do not allow a generic body to have a degree-of-freedom specific mass.
+For example, a rigid body can’t have one mass for surge motion and another mass for heave motion.
+Simscape rigid bodies only have one translational mass, a 1x3 moment of inertia matrix, and 1x3 product of inertia matrix.</p>
+<p>Note that the body mass used to define the gravitational force is not adjusted as gravity does not act on any added mass contributions.
+The gravity force will always depend on the unadjusted body mass.
+The gravity force is lumped with the sum of remaining forces in the rest of this section for simplicity.</p>
+</section>
+<section id="wec-sim-s-implementation">
+<h3>WEC-Sim’s Implementation<a class="headerlink" href="#wec-sim-s-implementation" title="Link to this heading"></a></h3>
+<p>Due to this limitation, WEC-Sim cannot combine the body mass and added mass on the left-hand side of the equation of motion (as shown above).
+The algebaric loop can be solved by predicting the acceleration at the current time step, and using that to calculate the added mass force.
+But this method can cause numerical instabilities.
+Instead, WEC-Sim decreases the added mass force magnitude by moving <em>some</em> components of added mass into the body mass, while a modified added mass force is calculated with the remainder of the added mass coefficients.</p>
+<p>There is a 1-1 mapping between the body’s inertia tensor and rotational added mass coefficients.
+These added mass coefficients are entirely lumped with the body’s inertia.
+Additionally, the surge-surge (1,1), sway-sway (2,2), heave-heave (3,3) added mass coefficients correspond to the translational mass of the body, but must be treated identically.</p>
+<p>WEC-Sim implements this added mass treatment by adding a change in mass matrix (<span class="math notranslate nohighlight">\(dM\)</span>) to both sides of the equation, creating both a modified added mass matrix and a modified body mass matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M\ddot{X_i} &amp;= \Sigma F(t,\omega) - A\ddot{X_i} \\
+M\ddot{X_i} + dM\ddot{X_i} &amp;= \Sigma F(t,\omega) - A\ddot{X_i} + dM\ddot{X_i}\\
+(M+dM)\ddot{X_i} &amp;= \Sigma F(t,\omega) - (A-dM)\ddot{X_i} \\
+M_{adjusted}\ddot{X_i} &amp;= \Sigma F(t,\omega) - A_{adjusted}\ddot{X_i} \\\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(dM\)</span> is the change in added mass and defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}dM &amp;=  \begin{bmatrix}
+              \alpha Y &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+              0 &amp; \alpha Y &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+              0 &amp; 0 &amp; \alpha Y &amp; 0 &amp; 0 &amp; 0 \\
+              0 &amp; 0 &amp; 0 &amp; A_{4,4} &amp; A_{5,4} &amp; A_{6,4} \\
+              0 &amp; 0 &amp; 0 &amp; A_{5,4} &amp; A_{5,5} &amp; A_{6,5} \\
+              0 &amp; 0 &amp; 0 &amp; A_{6,4} &amp; A_{6,5} &amp; A_{6,6} \\
+           \end{bmatrix} \\
+ Y &amp;= (A_{1,1} + A_{2,2} + A_{3,3}) \\
+ \alpha &amp;= body(iBod).adjMassFactor\end{split}\]</div>
+<p>The resultant definition of the body mass matrix and added mass matrix are then:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{adjusted} &amp;=  \begin{bmatrix}
+           m + \alpha Y &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+           0 &amp; m + \alpha Y &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+           0 &amp; 0 &amp; m + \alpha Y &amp; 0 &amp; 0 &amp; 0 \\
+           0 &amp; 0 &amp; 0 &amp; I_{4,4} + A_{4,4} &amp; I_{5,4} + A_{5,4} &amp; I_{6,4} + A_{6,4} \\
+           0 &amp; 0 &amp; 0 &amp; I_{5,4} + A_{5,4} &amp; I_{5,5} + A_{5,5} &amp; I_{6,5} + A_{6,5} \\
+           0 &amp; 0 &amp; 0 &amp; I_{6,4} + A_{6,4} &amp; I_{6,5} + A_{6,5} &amp; I_{6,6} + A_{6,6} \\
+       \end{bmatrix} \\
+A_{adjusted} &amp;= \begin{bmatrix}
+                   A_{1,1} - \alpha Y &amp; A_{1,2} &amp; A_{1,3} &amp; A_{1,4} &amp; A_{1,5} &amp; A_{1,6} \\
+                   A_{2,1} &amp; A_{2,2} - \alpha Y &amp; A_{2,3} &amp; A_{2,4} &amp; A_{2,5} &amp; A_{2,6} \\
+                   A_{3,1} &amp; A_{3,2} &amp; A_{3,3} - \alpha Y &amp; A_{3,4} &amp; A_{3,5} &amp; A_{3,6} \\
+                   A_{4,1} &amp; A_{4,2} &amp; A_{4,3} &amp; 0 &amp; A_{4,5} - A_{5,4} &amp; A_{4,6} - A_{6,4} \\
+                   A_{5,1} &amp; A_{5,2} &amp; A_{5,3} &amp; 0 &amp; 0 &amp; A_{5,6} - A_{6,5} \\
+                   A_{6,1} &amp; A_{6,2} &amp; A_{6,3} &amp; 0 &amp; 0 &amp; 0 \\
+                \end{bmatrix}\end{split}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The inertia tensor is symmetric, so we should see that <span class="math notranslate nohighlight">\(A_{4,5} - A_{5,4} = A_{4,6} - A_{6,4} = A_{5,6} - A_{6,5} = 0\)</span>. There may be numerical differences in the added mass coefficients which are preserved.</p>
+</div>
+<p>Though the components of added mass and body mass are manipulated in WEC-Sim, the total system is unchanged.
+This manipulation does not affect the governing equations of motion, only the implementation.</p>
+<p>The scale of translational added mass that is moved into the body mass is determined by <code class="docutils literal notranslate"><span class="pre">body(iBod).adjMassFactor</span></code>, whose default value is <span class="math notranslate nohighlight">\(2.0\)</span>.
+Advanced users may change this weighting factor in the <code class="docutils literal notranslate"><span class="pre">wecSimInuptFile</span></code> to create the most robust simulation possible.
+To see its effects, set <code class="docutils literal notranslate"><span class="pre">body(iB).adjMassFactor</span> <span class="pre">=</span> <span class="pre">0</span></code> and see if simulations become unstable.</p>
+<p>This manipulation does not move all added mass components.
+WEC-Sim still contains an algebraic loop due to the dependence of the remaining added mass force <span class="math notranslate nohighlight">\(A_{adjusted}\ddot{X_i}\)</span>, and components of the Morison Element force.
+WEC-Sim solves the algebraic loop using a <a class="reference external" href="https://www.mathworks.com/help/simulink/slref/transportdelay.html">Simulink Transport Delay</a> with a very small time delay (<code class="docutils literal notranslate"><span class="pre">1e-7</span></code>).
+This blocks extrapolates the previous acceleration by <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> seconds, which results in a known acceleration for the added mass force.
+The small extrapolation solves the algebraic loop but prevents large errors that arise when extrapolating the acceleration over an entire time step.
+This will convert the algebraic loop equation of motion to a solvable one:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{adjusted}\ddot{X_i} &amp;= \Sigma F(t,\omega) - A_{adjusted}\ddot{X}_{i - (1 - 10^{-7}/dt)} \\\end{split}\]</div>
+<section id="body-to-body-interactions">
+<h4>Body-to-body Interactions<a class="headerlink" href="#body-to-body-interactions" title="Link to this heading"></a></h4>
+<p>The above implementation extends readily to the case where there are body interactions to account for.
+In this example, we assume there are two bodies with body interaction.
+Then the right hand side added mass and acceleration matrices above are (without generalized modes)
+of size 6x12 and 12x1 respectively. Note that in this subsection the subscript on acceleration and added mass
+now refers to the body number to differentiate between the acceleration and added mass matrices of different bodies.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_i\ddot{X_i} &amp;= \Sigma F_i(t,\omega) - \begin{bmatrix} A_1 &amp; A_2 \end{bmatrix} \begin{bmatrix} \ddot{X_1} \\ \ddot{X_2} \\ \end{bmatrix} \\
+M_i\ddot{X_i} + dM\ddot{X_i} &amp;= \Sigma F_i(t,\omega) - \begin{bmatrix} A_1 &amp; A_2 \end{bmatrix} \begin{bmatrix} \ddot{X_1} \\ \ddot{X_2} \\ \end{bmatrix} + dM\ddot{X_i} \\\end{split}\]</div>
+<p>With body interactions, the derivation for the added mass adjustment for <em>body 1</em> is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_i\ddot{X_1} + dM\ddot{X_1} &amp;= \Sigma F_1(t,\omega) - \begin{bmatrix} A_1 &amp; A_2 \end{bmatrix} \begin{bmatrix} \ddot{X_1} \\ \ddot{X_2} \\ \end{bmatrix} + dM\ddot{X_1} \\
+M_1\ddot{X_1} + dM\ddot{X_1} &amp;= \Sigma F_1(t,\omega) - \begin{bmatrix} A_1 &amp; A_2 \end{bmatrix} \begin{bmatrix} \ddot{X_1} \\ \ddot{X_2} \\ \end{bmatrix} + \begin{bmatrix} dM &amp; 0 \end{bmatrix} \begin{bmatrix} \ddot{X_1} \\ \ddot{X_2} \\ \end{bmatrix} \\
+(M_1+dM)\ddot{X_1} &amp;= \Sigma F_1(t,\omega) - \begin{bmatrix} A_1-dM &amp; A_2 \end{bmatrix} \begin{bmatrix} \ddot{X_1} \\ \ddot{X_2} \\ \end{bmatrix} \\
+M_{adjusted}\ddot{X_i} &amp;= \Sigma F(t,\omega) - A_{adjusted}\ddot{X_i} \\\end{split}\]</div>
+<p>So when body-to-body interactions are considered, the term <span class="math notranslate nohighlight">\(dM\)</span> is still only dependent on and only affects the added mass of the body in question (e.g. body 1 above).</p>
+</section>
+<section id="working-with-the-added-mass-implementation">
+<h4>Working with the Added Mass Implementation<a class="headerlink" href="#working-with-the-added-mass-implementation" title="Link to this heading"></a></h4>
+<p>WEC-Sim’s added mass implementation should not affect a user’s modeling workflow.
+WEC-Sim handles the manipulation and restoration of the mass and forces in the bodyClass functions <code class="docutils literal notranslate"><span class="pre">bodyClass.adjustMassMatrix()</span></code> called by <code class="docutils literal notranslate"><span class="pre">initializeWecSim</span></code> and <code class="docutils literal notranslate"><span class="pre">bodyClass.restoreMassMatrix()</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass.storeForceAddedMass()</span></code> called by <code class="docutils literal notranslate"><span class="pre">postProcessWecSim</span></code>.
+However viewing <code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.fAddedMass</span></code> between calls to <code class="docutils literal notranslate"><span class="pre">initializeWecSim</span></code> and <code class="docutils literal notranslate"><span class="pre">postProcessWecSim</span></code> will not show the values from the BEM dataset.
+See the following table for the variables containing both unadjusted and adjusted parameters after the simulation:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Nominal and adjusted mass parameters</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.3%" />
+<col style="width: 37.4%" />
+<col style="width: 37.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Nominal value</p></th>
+<th class="head"><p>Adjusted value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Mass</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.mass</span></code>, <code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.mass</span></code>, <code class="docutils literal notranslate"><span class="pre">body.variableHydro.mass</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.adjustedMass</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Inertia</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.inertia</span></code>, <code class="docutils literal notranslate"><span class="pre">body.variableHydro.inertia</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.adjustedInertia</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Inertia Products</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.inertiaProducts</span></code>, <code class="docutils literal notranslate"><span class="pre">body.variableHydro.inertiaProducts</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.adjustedInertiaProducts</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Added mass coefficients</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.hydroForce_fAddedMass</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.storage.hydroForce_fAddedMass</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Added mass force timeseries</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">output.bodies(*).forceAddedMass</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.storage.output_forceAddedMass</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Total force timeseries</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">output.bodies(*).forceTotal</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.storage.output_forceTotal</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The nominal (<em>unadjusted</em>) body mass is stored in <code class="docutils literal notranslate"><span class="pre">body.hydroForce.hf*.mass</span></code>.
+This nominal value is retained during the simulation because it is required for the calculation of the gravitational force.
+However, in the case that a user wants to view the added mass force <em>during</em> a simulation (typically during debugging in a failed simulation),
+the change in mass, <span class="math notranslate nohighlight">\(dM\)</span> above, must be taken into account.
+Refer to how <code class="docutils literal notranslate"><span class="pre">body.calculateForceAddedMass()</span></code> calculates the entire added mass force in WEC-Sim post-processing.</p>
+<p>When using variable hydrodynamics, the added mass matrix and mass matrix can change with the varying state.
+In the above derivation, all values of <span class="math notranslate nohighlight">\(dM\)</span>, mass matrix, inertia matrix, added mass force, and the resultant
+adjusted mass and added mass matrices are calculated for each hydrodynamic dataset.
+Note that varying any part of the body mass matrix with variable hydro requires using a special simscape block.
+Refer to the variable hydrodynamics applications.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Depending on the wave formulation used, <span class="math notranslate nohighlight">\(A\)</span> can either be a function of wave frequency <span class="math notranslate nohighlight">\(A(\omega)\)</span>, or equal to the added mass at infinite wave frequency <span class="math notranslate nohighlight">\(A_{\infty}\)</span></p>
+</div>
+</section>
+</section>
+</section>
+<section id="morison-element">
+<h2>Morison Element<a class="headerlink" href="#morison-element" title="Link to this heading"></a></h2>
+<p id="dev-morison-element">As a reminder from the WEC-Sim Theory Manual, the Morison force equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, <span class="math notranslate nohighlight">\(D\)</span>, is small relative to the wave length, <span class="math notranslate nohighlight">\(\lambda\)</span>, which is generally satisfied when <span class="math notranslate nohighlight">\(D/\lambda&lt;0.1-0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation for each element on the body.</p>
+<section id="fixed-body">
+<h3>Fixed Body<a class="headerlink" href="#fixed-body" title="Link to this heading"></a></h3>
+<p>For a fixed body in an oscillating flow the force imposed by the fluid is given by:</p>
+<div class="math notranslate nohighlight" id="equation-fixed">
+<span class="eqno">(1)<a class="headerlink" href="#equation-fixed" title="Link to this equation"></a></span>\[\vec{F}_{ME} = \underbrace{\rho \forall C_{m} \dot{\vec{u}}}_{\text{Inertia}} + \underbrace{\frac{1}{2} \rho A C_{D} \vec{u} | \vec{u} |}_{Drag}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{F}_{ME}\)</span> is the Morison element hydrodynamic force, <span class="math notranslate nohighlight">\(\rho\)</span> is the fluid density, <span class="math notranslate nohighlight">\(\forall\)</span> is the displaced volume, <span class="math notranslate nohighlight">\(C_{m}\)</span> is the inertia coefficient, <span class="math notranslate nohighlight">\(A\)</span> is the reference area, <span class="math notranslate nohighlight">\(C_{D}\)</span> is the drag coefficient, and <span class="math notranslate nohighlight">\(u\)</span> is the fluid velocity. The inertia coefficient is defined as:</p>
+<div class="math notranslate nohighlight" id="equation-inertiacoeff">
+<span class="eqno">(2)<a class="headerlink" href="#equation-inertiacoeff" title="Link to this equation"></a></span>\[C_{m} = 1 + C_{a}\]</div>
+<p>where <span class="math notranslate nohighlight">\(C_{a}\)</span> is the added mass coefficient. The inertia term is the sum of the Froude- Krylov Force, <span class="math notranslate nohighlight">\(\rho \forall \dot{u}\)</span>, and the hydrodynamic mass force, <span class="math notranslate nohighlight">\(\rho C_{a} \forall \dot{u}\)</span>. The inertia and drag coefficients are generally obtained experimentally and have been found to be a function of the Reynolds (Re) and Kulegan Carpenter (KC) numbers</p>
+<div class="math notranslate nohighlight" id="equation-kcre">
+<span class="eqno">(3)<a class="headerlink" href="#equation-kcre" title="Link to this equation"></a></span>\[\text{Re} = \frac{U_{m}D}{\nu}~~\&amp;~~ \text{KC} = \frac{U_{m}T}{D}~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(U_{m}\)</span> is the maximum fluid velocity,  and <span class="math notranslate nohighlight">\(\nu\)</span> is the kinematic viscosity of the fluid, and <span class="math notranslate nohighlight">\(T\)</span> is the period of oscillation.  Generally when KC is small then <span class="math notranslate nohighlight">\(\vec{F}\)</span> is dominated by the inertia term when the drag term dominates at high KC numbers.  If the fluid velocity is sinusoidal then <span class="math notranslate nohighlight">\(u\)</span> is given by:</p>
+<div class="math notranslate nohighlight" id="equation-sinusoidalflow">
+<span class="eqno">(4)<a class="headerlink" href="#equation-sinusoidalflow" title="Link to this equation"></a></span>\[u(t) = U_{m} \sin \left( \sigma t \right)~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma = 2\pi/T\)</span>.  This can be taking further by considering the body is being is impinged upon by regular waves of the form:</p>
+<div class="math notranslate nohighlight" id="equation-eqna">
+<span class="eqno">(5)<a class="headerlink" href="#equation-eqna" title="Link to this equation"></a></span>\[\begin{split}\eta(x,t) &amp; = A \cos \left( \sigma t - k \left[ x \cos \theta + y \sin \theta\right] \right) = \Re \left\lbrace -\frac{1}{g}\frac{\partial \phi_{I}}{\partial t} \bigg|_{z=0} \right\rbrace~~, \\ \phi_{I}(x,z,t) &amp; = \Re \left\lbrace \frac{Ag}{\sigma} \frac{\cosh \left(k (z+h) \right)}{\cosh \left( kh \right)} i e^{i(\sigma t-k\left[ x \cos \theta + y \sin \theta\right])} \right\rbrace~~, \\ \sigma^{2} &amp; = gk\tanh\left(kh\right)\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta\)</span> is the wave elevation, <span class="math notranslate nohighlight">\(\phi_{I}\)</span> is the incident wave potential, <span class="math notranslate nohighlight">\(A\)</span> is the wave amplitude, <span class="math notranslate nohighlight">\(k\)</span> is the wave number (defined as <span class="math notranslate nohighlight">\(k=\frac{2\pi}{\lambda}\)</span> where <span class="math notranslate nohighlight">\(\lambda\)</span> is the wave length), <span class="math notranslate nohighlight">\(g\)</span> is gravitational acceleration, <span class="math notranslate nohighlight">\(h\)</span> is the water depth, <span class="math notranslate nohighlight">\(z\)</span> is the vertical position in the water column, <span class="math notranslate nohighlight">\(\theta\)</span> is the wave heading. The fluid velocity can then be obtained by taking the graident of Eqn. <a class="reference internal" href="#equation-eqna">(5)</a> :</p>
+<div class="math notranslate nohighlight" id="equation-eqnb">
+<span class="eqno">(6)<a class="headerlink" href="#equation-eqnb" title="Link to this equation"></a></span>\[\begin{split}u (x,z,t) &amp; = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial x} \right\rbrace = \frac{Agk}{\sigma} \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right) \cos\left(\theta\right)~~,\\
+v (x,z,t) &amp; = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial y} \right\rbrace = \frac{Agk}{\sigma} \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right)\sin\left(\theta\right)~~,\\
+w (x,z,t) &amp; = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial z} \right\rbrace = -\frac{Agk}{\sigma} \frac{\sinh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right)~~,\end{split}\]</div>
+<p>The acceleration of the fluid particles will then be obtained by taking the time derivative of Eqn. <a class="reference internal" href="#equation-eqnb">(6)</a> :</p>
+<div class="math notranslate nohighlight" id="equation-dotuw">
+<span class="eqno">(7)<a class="headerlink" href="#equation-dotuw" title="Link to this equation"></a></span>\[\begin{split}\dot{u} (x,z,t) &amp; = \frac{\partial u}{\partial t} = -Agk \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right) \cos\left(\theta\right)~~,\\
+\dot{v} (x,z,t) &amp; = \frac{\partial v}{\partial t} = -Agk \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right) \sin\left(\theta\right)~~,\\
+\dot{w} (x,z,t) &amp; = \frac{\partial w}{\partial t} = -Agk \frac{\sinh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right)~~,\end{split}\]</div>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/HorizontalVerticalOrbitalVelocity.jpg"><img alt="../_images/HorizontalVerticalOrbitalVelocity.jpg" src="../_images/HorizontalVerticalOrbitalVelocity.jpg" style="width: 400pt;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Horizontal and vertical orbital velocity magnitude for a wave period of 10 s and water depth of 50 m with a wave heading of 0 rads.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/MagAngleOrbitalVelocity.jpg"><img alt="../_images/MagAngleOrbitalVelocity.jpg" src="../_images/MagAngleOrbitalVelocity.jpg" style="width: 400pt;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Orbital velocity magnitude vectors for a wave period of 10 s and water depth of 50 m with a wave heading of 0 rads.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="moving-body">
+<h3>Moving Body<a class="headerlink" href="#moving-body" title="Link to this heading"></a></h3>
+<p>If the body is allowed to move in an oscillating flow then Eqn. <a class="reference internal" href="#equation-fixed">(1)</a> must be adjusted as follows:</p>
+<div class="math notranslate nohighlight" id="equation-moving">
+<span class="eqno">(8)<a class="headerlink" href="#equation-moving" title="Link to this equation"></a></span>\[\vec{F}_{ME} = \rho \forall \dot{\vec{u}} + \rho \forall C_{a} \left( \dot{\vec{u}} - \dot{\vec{U}} \right) + \frac{1}{2}\rho C_{D} A \left( \vec{u} - \vec{U} \right) \left| \vec{u} - \vec{U} \right|~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(U\)</span> is the body velocity.  In the calculations performed by WEC-Sim, it is assumed that the body does not alter the wave field and the fluid velocity and acceleration can be calculated from the incident wave potential as from Eqn. <a class="reference internal" href="#equation-eqnb">(6)</a> and <a class="reference internal" href="#equation-dotuw">(7)</a>.</p>
+<section id="review-of-rigid-body-dynamics">
+<h4>Review of Rigid Body Dynamics<a class="headerlink" href="#review-of-rigid-body-dynamics" title="Link to this heading"></a></h4>
+<p>A rigid body is an idealization of a solid body in which deformation is neglected. In other words, the distance between any two given points of a rigid body remains constant in time regardless of external forces exerted on it.  The position of the whole body is represented by its linear position together with its angular position with a global fixed reference frame.  WEC-Sim calculates the position, velocity, and acceleration of the rigid body about its center of gravity; however, the placement of each morrison element will have a different local velocity that affects the fluid force.  The relative velocity between point A and point B on a rigid body is given by:</p>
+<div class="math notranslate nohighlight" id="equation-relv">
+<span class="eqno">(9)<a class="headerlink" href="#equation-relv" title="Link to this equation"></a></span>\[\vec{U}_{A} = \vec{U}_{B} + \omega \times r_{BA}~~\]</div>
+<p>where <span class="math notranslate nohighlight">\(\omega\)</span> is the angular velocity of the body and <span class="math notranslate nohighlight">\(\times\)</span> denotes the cross product.  Taking the time derivative of Eqn. <a class="reference internal" href="#equation-relv">(9)</a> provides the relative acceleration:</p>
+<div class="math notranslate nohighlight" id="equation-rela">
+<span class="eqno">(10)<a class="headerlink" href="#equation-rela" title="Link to this equation"></a></span>\[\vec{\dot{U}}_{A} = \vec{\dot{U}}_{B} + \omega \times \omega \times r_{BA} + \dot{\omega} \times r_{BA}~~\]</div>
+</section>
+</section>
+<section id="wec-sim-implementations">
+<h3>WEC-Sim Implementations<a class="headerlink" href="#wec-sim-implementations" title="Link to this heading"></a></h3>
+<p>As discussed in the WEC-Sim user manual, there are two options to model a Morison element(s) and will be described here in greater detail so potential developers can modify the code to suit their modeling needs.</p>
+<section id="option-1">
+<h4>Option 1<a class="headerlink" href="#option-1" title="Link to this heading"></a></h4>
+<p>In the first Morison element implementation option, the acceleration and velocity of the fluid flow are estimated at the Morison point of application, which can include both wave and current contributions, and then subtracts the body acceleration and velocity for the individual translational degrees of freedom (x-, y-, and z-components). The fluid flow properties are then used to calculate the Morison element force, indepenently for each degree of freedom, as shown by the following expressions:</p>
+<div class="math notranslate nohighlight" id="equation-mefoption1">
+<span class="eqno">(11)<a class="headerlink" href="#equation-mefoption1" title="Link to this equation"></a></span>\[\begin{split}F_{ME,x} &amp; = \rho \forall \dot{u}_{x} + \rho \forall C_{a,x} \left( \dot{u}_{x} - \dot{U}_{x} \right) + \frac{1}{2}\rho C_{D,x} A_{x} \left( u_{x} - U_{x} \right) \left| u_{x} - U_{x} \right|~~, \\
+F_{ME,y} &amp; = \rho \forall \dot{u}_{y} + \rho \forall C_{a,y} \left( \dot{u}_{y} - \dot{U}_{y} \right) + \frac{1}{2}\rho C_{D,y} A_{y} \left( u_{y} - U_{y} \right) \left| u_{y} - U_{y} \right|~~, \\
+F_{ME,z} &amp; = \rho \forall \dot{u}_{z} + \rho \forall C_{a,z} \left( \dot{u}_{z} - \dot{U}_{z} \right) + \frac{1}{2}\rho C_{D,z} A_{z} \left( u_{z} - U_{z} \right) \left| u_{z} - U_{z} \right|~~, \\
+\vec{M} &amp; = \vec{r} \times \vec{F} = \left[ r_{g,x}, r_{g,y}, r_{g,z} \right] \times \left[ F_{x}, F_{y}, F_{z} \right]\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(r_{g}\)</span> is the lever arm from the center of gravity of the body to the Morison element point of application. Option 1 provides the most flexibility in setting independent Morison element properties for the x-, y-, and z-directions; however, a limitation arises that the fluid flow magnitude does not consider the other fluid flow components. Depending on the simulation enviroment this approach can provide the same theoretical results as taking the magnitude of the x-, y-, and z-components of the fluid flow, but is case dependent. A comparison between the outputs of Option 1 and Option 2 can be found later in the Developer Manual Morison Element documentation.</p>
+</section>
+<section id="option-2">
+<h4>Option 2<a class="headerlink" href="#option-2" title="Link to this heading"></a></h4>
+<p>The WEC-Sim Option 1 implementation solves for the of the Morison element force from the individual x-, y-, and z-components of the relative flow velocity and acceleration; however, this results in incorrect outputs at certain orientations of the flow and Morison Element. As opposed to solving for the x-, y-, and z-components of the Morison element force, the force can be calculated relative to the magnitude of the flow and distributed among its unit vector direction. Therefore the approach used in Option 2 is to decompose the fluid and body velocity and acceleration into tangential and normal components of the Morison element, as depicted in Figure <a class="reference internal" href="#fig-option-2"><span class="std std-ref">Schematic of the water flow vector decomposition reletive to the Morison Element orientation.</span></a></p>
+<figure class="align-center" id="id4">
+<span id="fig-option-2"></span><a class="reference internal image-reference" href="../_images/option2Schematic.jpg"><img alt="../_images/option2Schematic.jpg" src="../_images/option2Schematic.jpg" style="width: 600pt;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Schematic of the water flow vector decomposition reletive to the Morison Element orientation.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>In mathematics, for a given vector at a point on a surface, the vector can be uniquely decomposed into the sum of its tangential and normal components. The tangential component of the vector, <span class="math notranslate nohighlight">\(v_{\parallel}\)</span>, is parallel to the surface while the normal component of the vectors, <span class="math notranslate nohighlight">\(v_{\perp}\)</span>, is perpendicular to the surface which is used in relation to the central axis to the Morison element. The WEC-Sim input file was altered to consider a tangential and normal component for the drag coefficient [<span class="math notranslate nohighlight">\(C_{d\perp}\)</span> , <span class="math notranslate nohighlight">\(C_{d\parallel}\)</span>] , added mass coefficient [<span class="math notranslate nohighlight">\(C_{a\perp}\)</span> , <span class="math notranslate nohighlight">\(C_{a\parallel}\)</span>], characteristic area [<span class="math notranslate nohighlight">\(A_{\perp}\)</span> , <span class="math notranslate nohighlight">\(A_{\parallel}\)</span>], and the central axis vector of the ME  = [ <span class="math notranslate nohighlight">\(\vec{z} = `:math:`z_{x}\)</span> , <span class="math notranslate nohighlight">\(z_{y}\)</span> , <span class="math notranslate nohighlight">\(z_{z}\)</span> ].</p>
+<p>A general vector, <span class="math notranslate nohighlight">\(\vec{k}\)</span>, can be decomposed into the normal component as a projection of vector k on to the central axis z as follows:</p>
+<div class="math notranslate nohighlight" id="equation-parallel">
+<span class="eqno">(12)<a class="headerlink" href="#equation-parallel" title="Link to this equation"></a></span>\[\vec{k}_{\parallel} = \frac{\vec{z} \cdot \vec{k}}{ || \vec{z} || } \frac{ \vec{z} }{ || \vec{z} || }\]</div>
+<p>As the vector <span class="math notranslate nohighlight">\(\vec{k}\)</span> is uniquely decomposed into the sum of its tangential and normal components, the normal component can be defined as the difference between the vector <span class="math notranslate nohighlight">\(\vec{k}\)</span> and its tangential component as follows:</p>
+<div class="math notranslate nohighlight" id="equation-perpendicular">
+<span class="eqno">(13)<a class="headerlink" href="#equation-perpendicular" title="Link to this equation"></a></span>\[\vec{k}_{\perp} = \vec{k} - \vec{k}_{\parallel}\]</div>
+<p>Using this vector multiplication, the tangential and normal components of the fluid flow can be obtained as follows:</p>
+<div class="math notranslate nohighlight" id="equation-vparper">
+<span class="eqno">(14)<a class="headerlink" href="#equation-vparper" title="Link to this equation"></a></span>\[\begin{split}\vec{u}_{\parallel} = \frac{\vec{z} \cdot \vec{u}}{ || \vec{z} || } \frac{ \vec{z} }{ || \vec{z} || } \\
+\vec{u}_{\perp} = \vec{u}-\vec{u}_{\perp}\end{split}\]</div>
+<p>The Morison element force equation for a moving body relative to the fluid flow is modified to include the following decomposition of force components and consider the magnitude of the flow:</p>
+<div class="math notranslate nohighlight" id="equation-mefoption2">
+<span class="eqno">(15)<a class="headerlink" href="#equation-mefoption2" title="Link to this equation"></a></span>\[\begin{split}\vec{F}_{ME} = \rho C_{M,\parallel} \forall \left( \dot{\vec{u}}_{\parallel} - \dot{\vec{U}}_{\parallel} \right) + \frac{1}{2}\rho C_{d,\parallel} \left( \vec{v}_{\parallel} - \vec{U}_{\parallel} \right) \lvert \vec{v}_{\parallel} - \vec{U}_{\parallel} \rvert + \\
+\rho C_{M,\perp} \forall \left( \dot{\vec{u}}_{\perp} - \dot{\vec{U}}_{\perp} \right) + \frac{1}{2}\rho C_{d,\perp} \left( \vec{v}_{\perp} - \vec{U}_{\perp} \right) \lvert \vec{v}_{\perp} - \vec{U}_{\perp} \rvert\end{split}\]</div>
+</section>
+<section id="comparison-of-performance-between-option-1-and-option-2">
+<h4>Comparison of Performance Between Option 1 and Option 2<a class="headerlink" href="#comparison-of-performance-between-option-1-and-option-2" title="Link to this heading"></a></h4>
+<p>A simple test case, which defines a Morison element as vertical and stationary relative to horizontal fluid flow, was built to compare the Morison element force calculation between Option 1 and Option 2 within WEC-Sim. Theoretically, the magnitude of the Morison element force should remain constant as the orientation of the flow direction is rotated in the X-Y plane. The MF was calculated as the orientation of the flow was rotated about the z-axis from 1 to 360 degrees where the central axis of the ME is parallel wtih the z-axis. The remaining WEC-Sim input values for the simulation can be found in the following table.</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Variable Type</strong></p></td>
+<td><p><strong>Variable Symbol</strong></p></td>
+<td><p><strong>WEC-Sim Input Values</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>ME Central Axis</p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{z}\)</span></p></td>
+<td><p>[0, 0 , 1]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fluid flow velocity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{U}\)</span></p></td>
+<td><p>[-1, 0, 0] <span class="math notranslate nohighlight">\(m/s\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Fluid flow acceleration</p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{\dot{U}}\)</span></p></td>
+<td><p>[-1, 0, 0] <span class="math notranslate nohighlight">\(m/s^{2}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Drag Coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{D}\)</span></p></td>
+<td><p>[1, 1, 0]</p></td>
+</tr>
+<tr class="row-even"><td><p>Mass Coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{a}\)</span></p></td>
+<td><p>[1, 1, 0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Area</p></td>
+<td><p><span class="math notranslate nohighlight">\(A\)</span></p></td>
+<td><p>[1, 1, 0]</p></td>
+</tr>
+<tr class="row-even"><td><p>Density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td><p>1000 <span class="math notranslate nohighlight">\(kg/m^{3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Displaced Volume</p></td>
+<td><p><span class="math notranslate nohighlight">\(\forall\)</span></p></td>
+<td><p>0.10 <span class="math notranslate nohighlight">\(m^{3}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/compPerformanceBetweenOption1Option2.png"><img alt="../_images/compPerformanceBetweenOption1Option2.png" src="../_images/compPerformanceBetweenOption1Option2.png" style="width: 500pt;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Graphical representation of the comparison between ME Option 1 and Option 2 within WEC-Sim.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><span class="math notranslate nohighlight">\(F_{ME,1}\)</span> and <span class="math notranslate nohighlight">\(F_{ME,2}\)</span> is the Morison element force output from Option 1 and Option 2 within WEC-Sim, respectively. Shown in the above figure, in Option 1 there is an oscillation in Morison element magnitude with flow direction while Option 2 demonstrates a constant force magnitude at any flow direction. The reason behind this performance is that Option 1 solves for the MF individually using the individual the x-, y-, and z- components of the flow while Option 2 calculates the force relative to the flow magnitude and distributed among the normal and tangential unit vectors of the flow.</p>
+</section>
+</section>
+</section>
+<section id="extract-mask-variables">
+<h2>Extract Mask Variables<a class="headerlink" href="#extract-mask-variables" title="Link to this heading"></a></h2>
+<p>The Simulink variable workspace is inaccesible in the MATLAB workspace by default.
+Simulink variables can be imported to the MATLAB workspace using the block handle
+of the Simulink block being probed. The block parameters can be used by developers
+to programmatically set block parameters by being able to access the unique tags
+that Simulink uses for a particular block parameter. This is also useful for the code
+initialization of Simulink mask blocks.
+The function <code class="code docutils literal notranslate"><span class="pre">ExtractMaskVariables()</span></code>
+located in <code class="code docutils literal notranslate"><span class="pre">sourcefunctionssimulinkmask</span></code>, can be used to extract the block
+parameters in following steps,</p>
+<ul class="simple">
+<li><p>Open the pertinent Simulink model,</p></li>
+<li><p>Run the function with the address of the block being probed as the argument,</p></li>
+<li><p>Explore the <code class="code docutils literal notranslate"><span class="pre">mask</span></code> data structure in the MATLAB workspace.</p></li>
+</ul>
+<figure class="align-center" style="width: 550pt">
+<a class="reference internal image-reference" href="../_images/extractMaskVariables.PNG"><img alt="../_images/extractMaskVariables.PNG" src="../_images/extractMaskVariables.PNG" style="width: 550pt;" />
+</a>
+</figure>
+</section>
+<section id="variable-hydrodynamics">
+<span id="dev-advanced-features-variable-hydro"></span><h2>Variable Hydrodynamics<a class="headerlink" href="#variable-hydrodynamics" title="Link to this heading"></a></h2>
+<p>The variable hydrodynamics implementation was created to make the minimal
+number of alterations to, and best fit WEC-Sim’s previous pre-processing
+structure:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">h5File</span></code></dt><dd><ul>
+<li><p>Instead of initializing the body class with one string
+(one H5 file name), a cell array of strings can be passed, e.g
+<code class="docutils literal notranslate"><span class="pre">body(1)</span> <span class="pre">=</span> <span class="pre">bodyClass({'H5FILE_1.h5','H5FILE_2.h5','H5FILE_3.h5');</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">hydroData</span></code></dt><dd><ul>
+<li><p>Each H5 file is processed into a hydroData structure. All structs are
+concatenated into <code class="docutils literal notranslate"><span class="pre">hydroData</span></code> which is now an array of structures instead
+of one struct.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">hydroForce</span></code></dt><dd><ul>
+<li><p>Ideally, hydroForce would also be a structure array becuase the format is
+clean, easy to understand, and easy to index into. However, all
+information in <code class="docutils literal notranslate"><span class="pre">hydroForce</span></code> needs to be loaded into Simulink at run time.
+Structure arrays cannot be loaded into Simulink in this way. So,
+<code class="docutils literal notranslate"><span class="pre">hydroForce</span></code> is a nested structure containing <code class="docutils literal notranslate"><span class="pre">hf1</span></code>, <code class="docutils literal notranslate"><span class="pre">hf2</span></code>, … <code class="docutils literal notranslate"><span class="pre">hfn</span></code>.
+Each instance of hf1, hf2, etc is an identical structure that contains
+hydrodynamic force coefficients that are applied at runtime.
+A custom bus is created using <code class="docutils literal notranslate"><span class="pre">struct2bus.m</span></code> to map all
+hydroForce data into Simulink.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>The scenario being modeled, state changed, signals used to vary hydrodynamics,
+and the user logic is completely undefined so as to not artifically restrict the
+applicability of variable hydrodynamics.</p>
+<p>The method of loading in many distinct sets of BEM data provides some flexibility
+to the implementation, but it does not allow for instantaneous interpolation
+between datasets. In some instances this will speed up simulations, for example
+compared to passive yaw in irregular waves. However the limitation of this
+method is that switching between BEM datasets can become noisy and unstable,
+requiring a very fine discretization of BEM datasets input to WEC-Sim.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="library.html" class="btn btn-neutral float-left" title="WEC-Sim Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/developer/advanced_features.html">dev</a></dd>
+      <dd><a href="advanced_features.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

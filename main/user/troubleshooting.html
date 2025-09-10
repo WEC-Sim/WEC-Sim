@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-88158104-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Training Materials" href="webinars.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f6b29d979d0>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">WEC-Sim Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html">Training Materials</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wec-sim-issues">WEC-Sim Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#note-on-the-issue-board">Note on the Issue Board</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#identify-root-cause">Identify Root Cause</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#review-relevant-documentation">Review Relevant Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#search-wec-sim-issues">Search WEC-Sim Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#open-an-issue">Open an Issue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#numerical-test-cases">Numerical Test Cases</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hydrostatic-stability">Hydrostatic Stability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#free-decay">Free Decay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#viscous-drag">Viscous Drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#irregular-waves">Irregular Waves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-tests">Other Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#faqs">FAQs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#solution-singularity">Solution Singularity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#degenerate-mass-distribution">Degenerate Mass Distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hydrodynamic-data-file">Hydrodynamic Data File</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Manual</a></li>
+      <li class="breadcrumb-item active">Troubleshooting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/user/troubleshooting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="troubleshooting">
+<span id="user-troubleshooting"></span><h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h1>
+<section id="wec-sim-issues">
+<h2>WEC-Sim Issues<a class="headerlink" href="#wec-sim-issues" title="Link to this heading"></a></h2>
+<p>The WEC-Sim development team actively maintains the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues">WEC-Sim Issues page</a> on GitHub.
+This issue page is maintained to assist users and past issues.
+In this way, it serves as a significant resource for users in solving WEC-Sim problems or clarifying its implementation.</p>
+<p>If you have problems downloading, installing, or using WEC-Sim please follow the debugging steps on this page.
+Completing these steps will help users address their own questions and aid the development team in maintaining the issue board effectively.
+Please take the time to follow these steps before opening an issue on GitHub.</p>
+<section id="note-on-the-issue-board">
+<h3>Note on the Issue Board<a class="headerlink" href="#note-on-the-issue-board" title="Link to this heading"></a></h3>
+<p>Unfortunately, the WEC-Sim development team does not have the time and funding to address issues outside of WEC-Sim.
+The following topics cannot be addressed when there is not a direct relation to WEC-Sim code, theory, or implementation:</p>
+<ul class="simple">
+<li><p>MATLAB/Simulink/Simscape-based issues</p></li>
+<li><p>general hydrodynamics questions</p></li>
+<li><p>performing tasks for a user’s case, i.e. supplying nonlinear meshes, *.h5 files, BEM results</p></li>
+<li><p>running BEM software</p></li>
+<li><p>use or development of BEM software</p></li>
+</ul>
+<p>The issue board is provided as a convenience to users and the development team makes every effort to respond to issues in a timely manner.
+However, users should not expect nor request an immediate response from the developers.</p>
+</section>
+</section>
+<section id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Link to this heading"></a></h2>
+<p>Before opening an issue on GitHub, it is expected that users do a fair share of debugging.
+WEC-Sim is intentionally easy to use and utilizes convenient MATLAB/Simulink interfaces.
+However, this ease of use does not detract from the difficulty and time required to create an accurate and robust simulation.
+Users should spend time carefully setting up and debugging their WEC-Sim cases. For example:</p>
+<ul class="simple">
+<li><p>Follow all error codes to the root cause of the error</p></li>
+<li><p>Confirm that all user-defined inputs are set correctly</p></li>
+<li><p>Confirm that WEC-Sim is called in the intended way (wecSim, wecSimMCR, wecSimPCT, from Simulink, etc)</p></li>
+<li><p>When running a WEC-Sim example (e.g. OSWEC, RM3) carefully compare to the working examples before opening an issue</p></li>
+<li><p>Check BEM input data for expected results, referring to the notes in the BEMIO figures</p></li>
+<li><p>If creating your own WEC-Sim case, go through the wave test cases below. Check the common issues and solutions for each test.</p></li>
+</ul>
+<section id="identify-root-cause">
+<h3>Identify Root Cause<a class="headerlink" href="#identify-root-cause" title="Link to this heading"></a></h3>
+<p>Identify if MATLAB and Simulink, or WEC-Sim is the root cause of the problem.
+Does the problem occur in a WEC-Sim class, function, or Simulink model? If so, it may be a WEC-Sim error.
+Carefully check input file paths, especially when copying previously working WEC-Sim examples.
+Please do not submit issues for errors related to using MATLAB.
+The development team cannot provide support for MATLAB errors outside of WEC-Sim.</p>
+</section>
+<section id="review-relevant-documentation">
+<h3>Review Relevant Documentation<a class="headerlink" href="#review-relevant-documentation" title="Link to this heading"></a></h3>
+<p>Read the appropriate documentation section for solutions or clarification on use of a particular feature.
+The documentation is thorough but requires careful reading of relevant sections.
+If documentation in an area is lacking, please identify this in a GitHub issue so that we may improve WEC-Sim.</p>
+</section>
+<section id="search-wec-sim-issues">
+<h3>Search WEC-Sim Issues<a class="headerlink" href="#search-wec-sim-issues" title="Link to this heading"></a></h3>
+<p>In many cases, another user has had a similar issue before.
+Search the issues page (both open and closed) and the below FAQ for topics that relate to your current problem.
+If these are related but insufficient, tag them in your GitHub issue for as references for the development team and future users.</p>
+</section>
+<section id="open-an-issue">
+<h3>Open an Issue<a class="headerlink" href="#open-an-issue" title="Link to this heading"></a></h3>
+<p>If the above steps do not solve your problem, please open an issue using one of the provided templates: bug report, feature request, theory or implementation, or WEC-Sim application.
+Issue templates serve to layout the information required to solve an issue in a consistent, up front manner.
+Templates are new to the WEC-Sim workflow, and input on their use is welcome.
+The development team hopes this will help address questions as quickly and thoroughly as possible for users.</p>
+<p>Users may remove all italic descriptive text in a template, but must keep the bold headers that organize the issue.
+Users who do not use a template will be asked to reopen their issue with the appropriate layout.
+If the provided templates do not fit an issue, users may open a blank issue with an initial statement explaining why there is no template and providing sufficient information.</p>
+<p>When opening an issue, please provide all relevant information.
+Link to the relevant documentation section and past issues, and upload a case file whenever possible.</p>
+</section>
+</section>
+<section id="numerical-test-cases">
+<h2>Numerical Test Cases<a class="headerlink" href="#numerical-test-cases" title="Link to this heading"></a></h2>
+<p>This section describe a series of numerical test cases that should be performed when creating a novel WEC-Sim case.
+These various wave cases are necessary to ensure a robust, accurate solution and speed the debugging process for users.
+When opening a support question for case development, users will be asked to supply information on which test cases are functioning or not.
+Note that this workflow is not foolproof, but can be used as a guide to create a more robust WEC-Sim case.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Number</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Input parameters utilized</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1A</p></td>
+<td><p>Hydrostatic stability</p></td>
+<td><p>noWave</p></td>
+</tr>
+<tr class="row-odd"><td><p>1B</p></td>
+<td><p>Hydrostatic stability</p></td>
+<td><p>noWaveCIC</p></td>
+</tr>
+<tr class="row-even"><td><p>2A</p></td>
+<td><p>Free Decay, hydrostatic stiffness</p></td>
+<td><p>noWave, initial</p></td>
+</tr>
+<tr class="row-odd"><td><p>2B</p></td>
+<td><p>Free Decay, hydrostatic stiffness</p></td>
+<td><p>noWaveCIC, initial</p></td>
+</tr>
+<tr class="row-even"><td><p>3A</p></td>
+<td><p>Viscous drag</p></td>
+<td><p>regular</p></td>
+</tr>
+<tr class="row-odd"><td><p>3B</p></td>
+<td><p>Viscous drag</p></td>
+<td><p>regularCIC</p></td>
+</tr>
+<tr class="row-even"><td><p>4A</p></td>
+<td><p>Full functionality</p></td>
+<td><p>irregular, initial</p></td>
+</tr>
+</tbody>
+</table>
+<p>Various problems may occur while progressing through these test cases.
+Users should not advance to the next test unless the previous tests run without error and result in a physical response.</p>
+<section id="hydrostatic-stability">
+<h3>Hydrostatic Stability<a class="headerlink" href="#hydrostatic-stability" title="Link to this heading"></a></h3>
+<p>Issues with Test 1A-B indicate there is an imbalance between the gravity and buoyant forces.
+This may cause the “solution singularity” as described in the FAQ, or result in a body rising or falling indefinitely.
+To solve this problem, recalculate the mass that will balance the displaced volume from the BEM data.
+Alternatively utilize the <code class="docutils literal notranslate"><span class="pre">body(#).mass</span> <span class="pre">=</span> <span class="pre">equilibrium</span></code> option.</p>
+</section>
+<section id="free-decay">
+<h3>Free Decay<a class="headerlink" href="#free-decay" title="Link to this heading"></a></h3>
+<p>Failure in Test 2 but not Test 1 indicates an inaccurate hydrostatic stiffness.
+The hydrostatic stiffness returns a device to equilibrium after some displacement.
+If the stiffness is too large, the simulation may require a very small time step.
+If too small, an initial displacement may cause infinite motion.
+Reevaluate the BEM input or tune the stiffness with <code class="docutils literal notranslate"><span class="pre">body(#).hydroStiffness</span></code> in the input file.</p>
+</section>
+<section id="viscous-drag">
+<h3>Viscous Drag<a class="headerlink" href="#viscous-drag" title="Link to this heading"></a></h3>
+<p>A hydrostatically stable device that has an unphysical response to a regular wave requires improved drag and damping.
+BEM codes inherently assume inviscid flow. Recreating the effects of viscous drag in WEC-Sim is essential to obtaining a physical response.
+Tune the parameters <code class="docutils literal notranslate"><span class="pre">body(#).quadDrag</span></code> or <code class="docutils literal notranslate"><span class="pre">body(#).linearDamping</span></code> to create a realistic response to a regular wave.</p>
+</section>
+<section id="irregular-waves">
+<h3>Irregular Waves<a class="headerlink" href="#irregular-waves" title="Link to this heading"></a></h3>
+<p>If Test 4 fails, users should check that the IRF decays to zero in BEMIO as done for the other CIC waves. Users may also investigate
+different body drag, or change the mooring and PTO stiffness or damping. The state space or other numerical options may be helpful to stabilize the irregular wave case.
+Once a simulation is stable and realistic in Test 4 and all previous test cases, it can likely be used in additional cases as desired.
+Passing these test cases does not necessarily indicate accuracy, but it should result in a simulation without numerical errors.
+It is up to each user to tune body, PTO and mooring parameters appropriately to model a device accurately.</p>
+</section>
+<section id="other-tests">
+<h3>Other Tests<a class="headerlink" href="#other-tests" title="Link to this heading"></a></h3>
+<p><strong>Tests A vs B:</strong>
+CIC waves are one way to evaluate if “good” BEM data is being used.
+If a non-CIC wave has unphysical behavior at a specific frequency but not others, there are likely irregular frequency (IRR) spikes in the BEM data.
+The CIC wave decreases the impact of these spikes in radiation damping.</p>
+<p>If a CIC wave continues to oscillate without decaying to a steady state, the convolution integral time is not long enough.
+Increase <code class="docutils literal notranslate"><span class="pre">simu.cicEndTime</span></code> to a greater value or use the state space option (<code class="docutils literal notranslate"><span class="pre">simu.stateSpace=1</span></code>).
+In BEMIO, check that the convolution integral time is long enough for all oscillations to decay.</p>
+<p><strong>Nonlinear Hydrodynamics:</strong>
+If a user wishes to use the nonlinear hydro options, they should first follow this same workflow with <code class="docutils literal notranslate"><span class="pre">simu.nonlinearHydro=0</span></code> and again with <code class="docutils literal notranslate"><span class="pre">simu.nonlinearHydro=1,2</span></code>
+The nonlinear hydro options are difficult to set-up and must be used with care.
+A highly refined mesh is required to get an accurate displaced volume and wetted surface area at each time step.</p>
+</section>
+</section>
+<section id="faqs">
+<h2>FAQs<a class="headerlink" href="#faqs" title="Link to this heading"></a></h2>
+<p>This section highlights some of the Frequently Asked Questions from WEC-Sim issues.
+All FAQ information is available in closed GitHub issues, but is repeated here for convenience.</p>
+<section id="solution-singularity">
+<h3>Solution Singularity<a class="headerlink" href="#solution-singularity" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong>
+The simulation is numerically unstable. Bodies may rise or fall indefinitely and have unphysical responses.
+This occurs because there is an imbalance between the gravity and hydrostatic forces.
+If the gravity force is much larger than the hydrostatic force, bodies may fall indefinitely.
+The opposite may occur when gravity is small compared to the hydrostatic force.
+An extremely large or small stiffness can also cause this problem.
+A small stiffness may not restore a body to an equilibrium position.
+A large stiffness may require a very small time step to be effective.</p>
+<p><strong>Possible error messages:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Derivative of state ... in block ... at time ... is not finite.
+The simulation will be stopped. There may be a singularity in the solution
+</pre></div>
+</div>
+<p><strong>Solution:</strong>
+Re-evaluate the hydrostatic stability of the device.
+Compare the mass and displaced volume of the device to evaluate if it will float properly.
+Calculate an approximate stiffness that will restore the body to equilibrium in still water.
+Compare the mass, volume, and stiffness to those results in the BEM data.</p>
+</section>
+<section id="degenerate-mass-distribution">
+<h3>Degenerate Mass Distribution<a class="headerlink" href="#degenerate-mass-distribution" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong>
+When two PTOs or Constraints are connected in series with no mass between them, Simulink attempts to connect two joint blocks directly together.
+Simulink cannot reconcile the forcing and motion between these series joints without a mass between them.</p>
+<p><strong>Possible error messages:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>... Joint has a degenerate mass distribution on its base/follower side.
+</pre></div>
+</div>
+<p><strong>Solution:</strong>
+Add an insignificantly small mass between the two joints (e.g. <code class="docutils literal notranslate"><span class="pre">Simulink</span> <span class="pre">Library/Simscape/Multibody/Body</span> <span class="pre">Elements/Inertia</span></code>) .
+Alternatively, create a new PTO or constraint with one of the many joints available in the
+Simscape Multibody Joints library if special degrees of freedom are required.</p>
+</section>
+<section id="hydrodynamic-data-file">
+<h3>Hydrodynamic Data File<a class="headerlink" href="#hydrodynamic-data-file" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong>
+The path to the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file does not exist or it is incomplete (size &lt; 1kB).</p>
+<p><strong>Possible error messages:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The hdf5 file hydroData/*.h5 does not exist
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file,
+or run \hydroData\bemio.m to generate a new *.h5 file
+</pre></div>
+</div>
+<p><strong>Solution:</strong>
+Check the path to the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> or run BEMIO to generate a new <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.</p>
+</section>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="webinars.html" class="btn btn-neutral float-left" title="Training Materials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/user/troubleshooting.html">dev</a></dd>
+      <dd><a href="troubleshooting.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
