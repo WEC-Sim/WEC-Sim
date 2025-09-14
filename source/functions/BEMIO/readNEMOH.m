@@ -468,4 +468,11 @@ end
 waitbar(8/8);
 
 close(p);
+
+try
+    readPressuresNEMOH;
+catch 
+    fprintf("Reading BEM pressure files failed")
+end
+
 end
