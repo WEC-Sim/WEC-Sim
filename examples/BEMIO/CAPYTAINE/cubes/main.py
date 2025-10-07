@@ -33,7 +33,7 @@ t_cube_body.inertia_matrix = t_cube_body.compute_rigid_body_inertia()
 t_cube_body.hydrostatic_stiffness = t_cube_body.immersed_part().compute_hydrostatic_stiffness()
 
 cubes_body = r_cube_body + t_cube_body
-cubes_body.show()  # Uncomment to display the mesh in 3D for verification
+# cubes_body.show()  # Uncomment to display the mesh in 3D for verification
 
 test_matrix = xr.Dataset(coords={
     "omega": np.linspace(0.03, 15.0, 500),

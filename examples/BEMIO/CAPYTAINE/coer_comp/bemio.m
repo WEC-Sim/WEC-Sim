@@ -1,6 +1,6 @@
 hydro = struct();
 
-hydro = readCAPYTAINE(hydro,'coer_comp_full.nc');
+hydro = readCAPYTAINE(hydro,'outputs/coer_comp_hydrodynamics.nc');
 hydro = radiationIRF(hydro,10,[],[],[],[]);
 hydro = radiationIRFSS(hydro,[],[]);
 hydro = excitationIRF(hydro,20,[],[],[],[]);
