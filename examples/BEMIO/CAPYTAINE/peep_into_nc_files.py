@@ -1,0 +1,84 @@
+import sys
+import os
+
+import xarray as xr
+import matplotlib.pyplot as plt
+
+def compare_datasets(files):
+    datasets = []
+    for file in files:
+        dataset = xr.load_dataset(file)
+        dataset.attrs["filename"] = os.path.basename(file)
+        datasets.append(dataset)
+
+    dofs = ["Surge", "Heave", "Pitch"]
+    fig, axs = plt.subplots(
+        len(dofs),
+        4,
+        layout='constrained',
+        figsize=(16, 9),
+        sharex=True
+    )
+
+    legend_handles = []
+
+    for dataset in datasets:
+        for i_dof, ref_dof in enumerate(dofs):
+
+            if ref_dof in dataset.influenced_dof.values:
+                dof = ref_dof
+            else:
+                candidates = [d for d in dataset.influenced_dof.values if d.endswith(ref_dof)]
+                if len(candidates) > 0:
+                    dof = candidates[0]
+                    print(f"Using {dof} instead of {ref_dof} in {dataset.attrs['filename']}")
+                else:
+                    print(f"Skip {ref_dof} in {dataset.attrs['file']}")
+                    continue
+
+            data = dataset["added_mass"].sel(radiating_dof=dof, influenced_dof=dof)
+            data.plot(
+                x="omega",
+                ax=axs[i_dof, 0],
+                label=dataset.attrs["filename"]
+            )
+
+            data = dataset["radiation_damping"].sel(radiating_dof=dof, influenced_dof=dof)
+            data.plot(
+                x="omega",
+                ax=axs[i_dof, 1],
+                label=dataset.attrs["filename"]
+            )
+
+            data = dataset["diffraction_force"].sel(complex="re", influenced_dof=dof, wave_direction=0)
+            data.plot(
+                x="omega",
+                ax=axs[i_dof, 2],
+                label=dataset.attrs["filename"]
+            )
+
+            data = dataset["diffraction_force"].sel(complex="im", influenced_dof=dof, wave_direction=0)
+            l, = data.plot(
+                x="omega",
+                ax=axs[i_dof, 3],
+                label=dataset.attrs["filename"]
+            )
+
+        legend_handles.append(l)
+
+    for i_dof, ref_dof in enumerate(dofs):
+        axs[i_dof, 0].set(title=f"Added mass, {ref_dof}-{ref_dof}")
+        axs[i_dof, 1].set(title=f"Radiation damping, {ref_dof}-{ref_dof}")
+        axs[i_dof, 2].set(title=f"Real diffraction force {ref_dof}")
+        axs[i_dof, 3].set(title=f"Imaginary diffraction force {ref_dof}")
+
+    fig.legend(legend_handles, [d.attrs['filename'] for d in datasets], loc="outside right")
+    plt.show()
+
+if __name__ == "__main__":
+    files = sys.argv[1:]
+    if len(files) == 0:
+        print("No NC file provided.")
+    else:
+        compare_datasets(files)
+
