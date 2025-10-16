@@ -2,11 +2,11 @@
 ## in this directory
 
 - `pyproject.toml` contains some Python metadata about the test case, most importantly the packages that need to be installed to run the test case.
-- `requirements.txt` and `.python-version` are the description of the Python environment that has been used to compute in the provided `outputs` directory. You don't *need* to use the exact same environment, but in case you have issues with your current environment you can fallback on them. Using the [uv](https://docs.astral.sh/uv/) package manager for Python, the study can be rerun with the command
+- `requirements.txt` and `.python-version` are the description of the Python environment that has been used to compute in the provided `outputs` directory. You don't *need* to use the exact same environment, but in case you have issues with your current environment you can fallback on it. Using the [uv](https://docs.astral.sh/uv/) package manager for Python, each test case can be rerun with the command
 ```shell
 uv run --no-project --with-requirements requirements.txt python <subdirectory>/main.py
 ```
-or
+- `run_all.py` can be used to rerun all the test cases with e.g.:
 ```shell
 uv run --no-project --with-requirements requirements.txt python run_all.py
 ```

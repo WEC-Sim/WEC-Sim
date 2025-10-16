@@ -11,4 +11,4 @@ for directory in [
 ]:
     print("Running ", directory)
     importlib.import_module(f"{directory}.main")
-    # Tricky way to run the file {directory}/main.py byt importing it as a module
+    # Tricky way to run the file {directory}/main.py by importing it as a module
