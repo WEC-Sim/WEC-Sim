@@ -6,6 +6,10 @@
 ```shell
 uv run --no-project --with-requirements requirements.txt python <subdirectory>/main.py
 ```
+or
+```shell
+uv run --no-project --with-requirements requirements.txt python run_all.py
+```
 
 ## in the project directories
 
