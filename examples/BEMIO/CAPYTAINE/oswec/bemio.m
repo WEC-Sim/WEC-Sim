@@ -1,6 +1,6 @@
 hydro = struct();
 
-hydro = readCAPYTAINE(hydro,'oswec_full.nc');
+hydro = readCAPYTAINE(hydro,'outputs/oswec_hydrodynamics.nc');
 hydro = radiationIRF(hydro,40,[],[],[],[]);
 hydro = radiationIRFSS(hydro,[],[]);
 hydro = excitationIRF(hydro,75,[],[],[],[]);
