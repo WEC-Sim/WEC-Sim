@@ -58,9 +58,9 @@ classdef bemioTest < matlab.unittest.TestCase
             testCase.nemohHydro = hydro;
         end
         function testReadCAPYTAINE(testCase)
-            cd(fullfile(testCase.capytaineDir,'sphere'))
+            cd(fullfile(testCase.capytaineDir,'sphere','outputs'))
             hydro = struct();
-            hydro = readCAPYTAINE(hydro, 'sphere_full.nc',[]);
+            hydro = readCAPYTAINE(hydro, 'sphere_hydrodynamics.nc',[]);
             testCase.capytaineHydro = hydro;
         end
         function testReadAQWA(testCase)
