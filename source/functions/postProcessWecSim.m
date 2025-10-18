@@ -163,3 +163,8 @@ for iBod = 1:simu.numHydroBodies
     output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration, output.bodies(iBod).hydroForceIndex);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
+
+% Compute time domain pressures on each BEM Mesh if provided
+for iBod = 1:simu.numHydroBodies
+    output.bodies(iBod).output.bodies.cellPressures_time = computeTimeDomainPressures(body(iBod).hydroData.pressureData, output.bodies(iBod), waves, simu, body(iBod));
+end; clear iBod

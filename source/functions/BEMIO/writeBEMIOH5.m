@@ -137,9 +137,20 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/r2t'],permute(hydro.ss_R2((n+1):(n+m),:),[2 1]),'State space curve fitting R**2 value','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/conv'],permute(hydro.ss_conv((n+1):(n+m),:),[2 1]),'State space conversion status','');
     end
+
     waitbar((1+i)/N);
     n = n + m;
 end
+
+% Write global radiation and diffraction pressures (optional)
+if isfield(hydro(1).pressureData, 'pressureRad') && ~isempty(hydro(1).pressureData.pressureRad)
+    writeH5Parameter(filename, '/hydro_coeffs/pressures/pressureRad', hydro(1).pressureData.pressureRad, 'Radiation pressure at mesh centers', '');
+    writeH5Parameter(filename, '/hydro_coeffs/pressures/pressureDiff', hydro(1).pressureData.pressureDiff, 'Diffraction pressure at mesh centers', '');
+    writeH5Parameter(filename, '/hydro_coeffs/pressures/centroids', hydro(1).pressureData.centroids, 'BEM Mesh Centroids', 'm');
+    writeH5Parameter(filename, '/hydro_coeffs/pressures/meshNormals', hydro(1).pressureData.meshNormals, 'BEM Mesh Normal', 'm');
+    writeH5Parameter(filename, '/hydro_coeffs/pressures/elementsArea', hydro(1).pressureData.elementsArea, 'BEM Mesh Areas', 'm*m');
+end
+
 
 waitbar(1);
 close(p);

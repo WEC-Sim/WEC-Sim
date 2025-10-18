@@ -274,7 +274,11 @@ for ln=1:length(raw2)
                 if i==1
                     ind = tmp1(1:3); tmp1(1:3)=[];
                 else
+                    try
                     ind = tmp1(1:2); tmp1(1:2)=[];
+                    catch
+                        fprintf('matlab is about to crash');
+                    end
                 end
                 tmp2 = tmp1(2:2:end);
                 tmp1(2:2:end)=[];
