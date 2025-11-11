@@ -505,6 +505,34 @@ hydro = addDefaultPlotVars(hydro);
 
 waitbar(8/8);
 
+%% Catch and remove nan values
+lowFrequencyNanMask = squeeze(all(isnan(hydro.A),[1 2])) | ...
+    squeeze(all(isnan(hydro.B),[1 2])) | ...
+    squeeze(all(isnan(hydro.ex_re),[1 2])) | ...
+    squeeze(all(isnan(hydro.ex_im),[1 2]));
+if any(lowFrequencyNanMask)
+    nRemoved = sum(lowFrequencyNanMask);
+    warning('BEM results contain NaN data at low frequencies. Removing %i frequencies (%s).',nRemoved,num2str(hydro.w(lowFrequencyNanMask),'%.3f, '));
+    hydro.Nf = hydro.Nf-nRemoved;
+    hydro.w = hydro.w(~lowFrequencyNanMask);
+    assert(hydro.Nf == length(hydro.w));
+    hydro.T = hydro.T(~lowFrequencyNanMask);
+    hydro.A = hydro.A(:,:,~lowFrequencyNanMask);
+    hydro.B = hydro.B(:,:,~lowFrequencyNanMask);
+    hydro.fk_re = hydro.fk_re(:,:,~lowFrequencyNanMask);
+    hydro.fk_im = hydro.fk_im(:,:,~lowFrequencyNanMask);
+    hydro.fk_ma = hydro.fk_ma(:,:,~lowFrequencyNanMask);
+    hydro.fk_ph = hydro.fk_ph(:,:,~lowFrequencyNanMask);
+    hydro.sc_re = hydro.sc_re(:,:,~lowFrequencyNanMask);
+    hydro.sc_im = hydro.sc_im(:,:,~lowFrequencyNanMask);
+    hydro.sc_ma = hydro.sc_ma(:,:,~lowFrequencyNanMask);
+    hydro.sc_ph = hydro.sc_ph(:,:,~lowFrequencyNanMask);
+    hydro.ex_re = hydro.ex_re(:,:,~lowFrequencyNanMask);
+    hydro.ex_im = hydro.ex_im(:,:,~lowFrequencyNanMask);
+    hydro.ex_ma = hydro.ex_ma(:,:,~lowFrequencyNanMask);
+    hydro.ex_ph = hydro.ex_ph(:,:,~lowFrequencyNanMask);
+end
+
 close(p);
 end
 
