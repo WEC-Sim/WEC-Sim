@@ -469,6 +469,6 @@ waitbar(8/8);
 
 close(p);
 
-if isfield(body.hydroData, "pressureData")
+try
     readPressuresNEMOH;
 end
