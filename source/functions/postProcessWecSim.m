@@ -9,11 +9,11 @@ clear clock_out
 
 % Bodies
 for iBod = 1:length(body(1,:))
-    eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
-    eval(['body' num2str(iBod) '_out.centerGravity = body(' num2str(iBod) ').centerGravity;']); 
+    eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);
+    eval(['body' num2str(iBod) '_out.centerGravity = body(' num2str(iBod) ').centerGravity;']);
 
     if iBod == 1
-        bodiesOutput = body1_out; 
+        bodiesOutput = body1_out;
     end
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
     eval(['clear body' num2str(iBod) '_out'])
@@ -21,7 +21,7 @@ end
 
 % Add hydrostatic and FK pressures to bodiesOutput if required.
 for iBod = 1:length(body(1,:))
-     if body(iBod).nonlinearHydro~=0 && body(iBod).nonHydro==0 && simu.pressure == 1 
+    if body(iBod).nonlinearHydro~=0 && body(iBod).nonHydro==0 && simu.pressure == 1
         % hydrostatic pressure
         eval(['bodiesOutput(' num2str(iBod) ').hspressure = body' num2str(iBod) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
@@ -29,13 +29,13 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
-        if body(iBod).nonlinearHydro == 0 && simu.pressure == 1 
+        if body(iBod).nonlinearHydro == 0 && simu.pressure == 1
             warning('Pressure distribution only written for nonlinear hydro bodies (``body.nonlinearHydro=1 or 2``)')
         end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
         bodiesOutput(iBod).wpressurel = [];
-     end
+    end
     % Add yaw to structure
     bodiesOutput(iBod).yaw = body(iBod).yaw.option;
 end; clear iBod
@@ -43,9 +43,9 @@ end; clear iBod
 % Record hydroForceIndex from variable hydro. If nonvariable hydro, add
 % a placeholder so the bodiesOutput structures are similar and concatenable
 for iBod = 1:length(body(1,:))
-        eval(['bodiesOutput(' num2str(iBod) ').variableHydroOption = body(' num2str(iBod) ').variableHydro.option;']);
+    eval(['bodiesOutput(' num2str(iBod) ').variableHydroOption = body(' num2str(iBod) ').variableHydro.option;']);
     if body(iBod).variableHydro.option == 1
-        eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = body' num2str(iBod) '_hydroForceIndex.signals.values;']); 
+        eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = body' num2str(iBod) '_hydroForceIndex.signals.values;']);
     else
         eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = ones(size(bodiesOutput(iBod).time,1),1);']);
     end
@@ -165,6 +165,8 @@ for iBod = 1:simu.numHydroBodies
 end; clear iBod
 
 % Compute time domain pressures on each BEM Mesh if provided
-for iBod = 1:simu.numHydroBodies
-    output.bodies(iBod).output.bodies.cellPressures_time = computeTimeDomainPressures(body(iBod).hydroData.pressureData, output.bodies(iBod), waves, simu, body(iBod));
-end; clear iBod
+try
+    for iBod = 1:simu.numHydroBodies
+        output.bodies(iBod).cellPressures_time = computeTimeDomainPressures(body(iBod).hydroData.pressureData, output.bodies(iBod), waves, simu, body(iBod));
+    end; clear iBod
+end

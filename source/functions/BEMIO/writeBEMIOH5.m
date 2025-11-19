@@ -7,7 +7,7 @@ function writeBEMIOH5(hydro)
 % ----------
 %     hydro : [1 x 1] struct
 %         Structure of hydro data that is written to ``hydro.file``
-% 
+%
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar
 N = 1 + hydro.Nb;  % Rough division of tasks
 
@@ -66,14 +66,14 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness (normalized by rho*g)','N/m');
         clear tmp;
     else
-        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i)','Hydrostatic stiffness matrix (normalized by rho*g)','N/m');        
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i)','Hydrostatic stiffness matrix (normalized by rho*g)','N/m');
     end
 
     % Write added mass coefficients
     m_add = m_add + m;
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass (normalized by rho)','kg');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/all'],permute(hydro.A((n+1):(n+m),:,:),[3 2 1]),'Added mass (normalized by rho)','kg');
-    
+
     % Write excitation coefficients and IRF
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/im'],permute(hydro.ex_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of excitation force (normalized by rho*g)','N');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/mag'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of excitation force (normalized by rho*g)','N');
@@ -120,12 +120,12 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/pressure_integration/val'],permute(hydro.md_pi((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (pressure integration)','');
     end
 
-     % Write radiation damping coefficients and IRF
+    % Write radiation damping coefficients and IRF
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/all'],permute(hydro.B((n+1):(n+m),:,:),[3 2 1]),'Radiation damping (normalized by rho*w)','N-s/m');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/K'],permute(hydro.ra_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/t'],hydro.ra_t,'Time vector for the impulse resonse function','s');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/w'],hydro.ra_w,'Interpolated frequencies used to compute the impulse response function','rad/s');
-    
+
     % Write radiation damping state space coefficients (optional)
     if isfield(hydro,'ss_A')
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/A/all'],permute(hydro.ss_A((n+1):(n+m),:,:,:),[4 3 2 1]),'State Space A Coefficient','');
@@ -143,14 +143,15 @@ for i = 1:hydro.Nb
 end
 
 % Write global radiation and diffraction pressures (optional)
-if isfield(hydro(1).pressureData, 'pressureRad') && ~isempty(hydro(1).pressureData.pressureRad)
-    writeH5Parameter(filename, '/hydro_coeffs/pressures/pressureRad', hydro(1).pressureData.pressureRad, 'Radiation pressure at mesh centers', '');
-    writeH5Parameter(filename, '/hydro_coeffs/pressures/pressureDiff', hydro(1).pressureData.pressureDiff, 'Diffraction pressure at mesh centers', '');
-    writeH5Parameter(filename, '/hydro_coeffs/pressures/centroids', hydro(1).pressureData.centroids, 'BEM Mesh Centroids', 'm');
-    writeH5Parameter(filename, '/hydro_coeffs/pressures/meshNormals', hydro(1).pressureData.meshNormals, 'BEM Mesh Normal', 'm');
-    writeH5Parameter(filename, '/hydro_coeffs/pressures/elementsArea', hydro(1).pressureData.elementsArea, 'BEM Mesh Areas', 'm*m');
+try
+    if isfield(hydro(1).pressureData, 'pressureRad') && ~isempty(hydro(1).pressureData.pressureRad)
+        writeH5Parameter(filename, '/hydro_coeffs/pressures/pressureRad', hydro(1).pressureData.pressureRad, 'Radiation pressure at mesh centers', '');
+        writeH5Parameter(filename, '/hydro_coeffs/pressures/pressureDiff', hydro(1).pressureData.pressureDiff, 'Diffraction pressure at mesh centers', '');
+        writeH5Parameter(filename, '/hydro_coeffs/pressures/centroids', hydro(1).pressureData.centroids, 'BEM Mesh Centroids', 'm');
+        writeH5Parameter(filename, '/hydro_coeffs/pressures/meshNormals', hydro(1).pressureData.meshNormals, 'BEM Mesh Normal', 'm');
+        writeH5Parameter(filename, '/hydro_coeffs/pressures/elementsArea', hydro(1).pressureData.elementsArea, 'BEM Mesh Areas', 'm*m');
+    end
 end
-
 
 waitbar(1);
 close(p);

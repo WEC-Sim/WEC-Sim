@@ -1,4 +1,4 @@
-function radiationForcePerPanel = radiationPressureCalc_irr(pressureRad, waves, panelAreas, panelNormals, body, panelCenters, rho, g, bodyRaw)
+function [radiationPressureTime, radiationPressureCoePerPanel, radiationForcePerPanel] = radiationPressureCalc(pressureRad, waves, panelAreas, panelNormals, body, panelCenters, bodyRaw)
 % excitationPressureCalc
 %   Compute complex excitation pressures on each panel for each degree of
 %   freedom (DOF) and wave frequency.
@@ -52,60 +52,77 @@ NDir = length(waves.direction);
 
 
 if ismember(char(waves.type), {'noWaveCIC','regularCIC','irregular'})
-    % Use omega at max freq
-    pressureRadReal = real(pressureRad(:, 1, end-5:end) .* exp(-1i*pressureRad(:, 2, end-5:end)));
+    % The current function needs to be modified to compute the convolution
+    % intergrals, the current calculation is wrong
+    pressureRadReal = squeeze(real(pressureRad(:, 1, end-5:end) .* exp(-1i*pressureRad(:, 2, end-5:end))));
 else
-    % Match the wave frequency to the nearest BEM frequency
+    % Match the wave frequency to the nearest BEM frequency (splines)
     omega = waves.omega;
-    [~, minOmegaIndex] = min(abs(omega - waves.bem.frequency));
-    maxOmegaIndex = minOmegaIndex + 1;
+    bemFreq = waves.bem.frequency;
+    Nfreq = length(omega);
 
-    % Extract complex pressure using magnitude and phase information
-    dofRange = (minOmegaIndex-1)*6 + 1 : maxOmegaIndex*6;
-    pressureComplex = pressureRad(:, 1, dofRange) .* exp(1i * pressureRad(:, 2, dofRange));
+    % Find the closest BEM frequency
+    [~, idx] = min(abs(omega - bemFreq));
 
-    % Take real part
-    pressureRadReal = squeeze(real(pressureComplex));
+    % Select two frequencies below and two above
+    idxRange = idx-2 : idx+2;
+    idxRange(idxRange < 1 | idxRange > length(bemFreq)) = [];   % enforce bounds
+    nSpline = length(idxRange);                       
+
+    % Convert BEM freq indices to DOF indices
+    dofRange = [];
+    for k = idxRange
+        dofRange = [dofRange, (k-1)*6 + (1:6)];
+    end
+
+    % Extract complex pressure for all selected frequencies
+    pressureComplex = pressureRad(:,1,dofRange) .* exp(1i * pressureRad(:,2,dofRange));
+    pressureReal = squeeze(real(pressureComplex));   % size: Npanels × (6 * nSpline)
 
     % Preallocate
     pressure_ = zeros(Npanels, Ndof);
 
-    % Interpolate pressure to match the target wave frequency
-    freqLow = waves.bem.frequency(minOmegaIndex);
-    freqHigh = waves.bem.frequency(maxOmegaIndex);
-
+    % Loop over each DOF
     for iDof = 1:Ndof
-        pLow  = pressureRadReal(:, iDof);
-        pHigh = pressureRadReal(:, iDof + 6);  % next frequency
-        % Linear interpolation
-        pressure_(:, iDof) = pLow + (pHigh - pLow) .* (omega - freqLow) / (freqHigh - freqLow);
+
+        % Extract the pressure for this DOF across all selected frequencies
+        dofIdx = iDof : 6 : (6*nSpline);
+        pVals = pressureReal(:, dofIdx);     % Npanels × nSpline
+
+        % Perform spline interpolation for each panel
+        for ip = 1:Npanels
+            pressure_(ip, iDof) = spline(bemFreq(idxRange), pVals(ip,:), omega);
+        end
     end
     pressureRadReal = pressure_;
 end
 
 velocity = body.velocity;
 Npanels = length(pressureRadReal);
-centerBuoyancy = bodyRaw.centerBuoyancy;
 centerGravity = bodyRaw.centerGravity;
 
-refPoint = centerBuoyancy - centerGravity;          % Check the sign before puhsing to github
+refPoint = centerGravity;
 
 radiationPressureCoePerPanel = zeros(Npanels, Ndof, Nfreq);
 radiationForcePerPanel = zeros(Ntime, Ndof, Npanels);
-for iPanel = 1:Npanels
-    for iDof = 1:Ndof
-        for iW = 1 : Nfreq
+radiationPressureTime = zeros(Ntime,Npanels);
+
+for iW = 1 : Nfreq
+    for iPanel = 1:Npanels
+        if panelCenters(iPanel,3) > 0
+            continue; % skip if panel is above water
+        end
+        for iDof = 1:Ndof
             if ismember(iDof, [1 2 3])
                 radiationPressureCoePerPanel(iPanel, iDof, iW) = pressureRadReal(iPanel, iDof, iW) * panelAreas(iPanel) * panelNormals(iPanel,iDof);
-            else
-                %  if ismember(iDof, [4 5 6])
+            elseif ismember(iDof, [4 5 6])
                 r = panelCenters(iPanel,:) - refPoint';     % 1x3
                 n = panelNormals(iPanel,:);                 % 1x3
-
                 rcrossn = cross(r, n);
-                radiationPressureCoePerPanel(iPanel, iDof, iW) = pressureRadReal(iPanel, iDof) * panelAreas(iPanel) * rcrossn(iDof - 3);
-
+                radiationPressureCoePerPanel(iPanel, 4:6, iW) = pressureRadReal(iPanel, 4:6) .* panelAreas(iPanel) .* rcrossn;
             end
+            radiationPressureTime(:, iPanel) = radiationPressureTime(:, iPanel) + pressureRadReal(iPanel, iDof) * velocity(:, iDof);
+
             radiationForcePerPanel(:, iDof, iPanel) = radiationPressureCoePerPanel(iPanel, iDof, iW) * velocity(:, iDof);
         end
     end

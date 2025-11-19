@@ -27,21 +27,6 @@ for iF = 1:nFreq
     end
 end
 
-% for p = 1:hydro(F).Nf * (1 + size(hydro(F).A,1))
-%     FileNam  = sprintf('pressure.%05d.dat', p);
-%     fileID = fopen(fullfile(filedir,'results',FileNam));
-%     PressureFileRaw = textscan(fileID,'%[^\n\r]');
-%     PressureFileRaw = PressureFileRaw{:};
-%     fclose(fileID);
-%     if mod(p,2) == 0
-%         [pressureRad(:,:,counterE),Nemoh_Failed] = readPressureFilesNEMOH(PressureFileRaw);
-%         counterE = counterE + 1;
-%     else
-%         [pressureDiff(:,:,counterO),Nemoh_Failed] = readPressureFilesNEMOH(PressureFileRaw);
-%         counterO = counterO + 1;
-%     end
-% 
-% end
 hydro(F).pressureData.centroids = pressureRad(:,1:3);
 hydro(F).pressureData.meshNormals = pressureRad(:,4:6);
 hydro(F).pressureData.elementsArea = pressureRad(:,7);

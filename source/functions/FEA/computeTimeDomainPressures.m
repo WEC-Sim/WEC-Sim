@@ -1,4 +1,4 @@
-function hydroForces = computeTimeDomainPressures(pressureData, body, waves, simu, bodyRaw)
+function hydroPressuresPerPanelTime = computeTimeDomainPressures(pressureData, body, waves, simu, bodyRaw)
 % computeHydroForces  Compute 6-DOF generalized forces from nodal pressures.
 %
 % hydroData.pressureData:
@@ -22,27 +22,18 @@ function hydroForces = computeTimeDomainPressures(pressureData, body, waves, sim
 %   pressureData.radiation   [6 x Nt] complex
 %   pressureData.freqs       [1 x Nt] = waves.omega
 
-% -----------------------
-% Defaults & basic checks
-% -----------------------
-
-% geometry
-bodiesMass = bodyRaw.mass;
-
 centroids = pressureData.centroids;        % Ne x 3
 normals   = pressureData.meshNormals;      % Ne x 3
 areas     = pressureData.elementsArea;     % Ne x 1
 g = simu.gravity;
 rho = simu.rho;
 
-[hydroStaticPressure, ~]  = hydroStaticPressureCalc(areas, normals, centroids, body, bodiesMass, rho, g, bodyRaw);
-[addedMassPressureTime, ~ , ~] = addedMassPressureCalc(pressureData.pressureRad, waves, areas, normals, body, centroids, bodyRaw);
-% [radiationPressurePerPanel] = radiationPressureCalc_irr(pressureData.pressureRad, waves, areas, normals, body, centroids, rho, g, bodyRaw);
-[radiationPressurePerPanel] = radiationPressureCalc_reg(pressureData.pressureRad, waves, areas, normals, body, centroids, rho, g, bodyRaw);
-
-[excitaionPressurePerPanel, ~, ~] = excitationPressureCalc(pressureData.pressureDiff, waves, areas, normals, body, centroids, rho, g, bodyRaw);
+hydroStaticPressureTime  = hydroStaticPressureCalc(areas, normals, centroids, rho, g, bodyRaw, body);
+addedMassPressureTime = addedMassPressureCalc(pressureData.pressureRad, waves, areas, normals, body, centroids, bodyRaw);
+radiationPressureTime = radiationPressureCalc(pressureData.pressureRad, waves, areas, normals, body, centroids, bodyRaw);
+excitaionPressureTime = excitationPressureCalc(pressureData.pressureDiff, waves, areas, normals, body, centroids, rho, g, bodyRaw);
 
 
-hydroForces = hydroStaticPressure + radiationPressurePerPanel + excitaionPressurePerPanel+ addedMassPressureTime;
+hydroPressuresPerPanelTime = hydroStaticPressureTime + radiationPressureTime + excitaionPressureTime + addedMassPressureTime;
 
 end

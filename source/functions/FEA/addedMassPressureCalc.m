@@ -1,4 +1,4 @@
-function [addedMassPressureTime, addedMassPressure, addedForcePerPanel] = addedMassPressureCalc(pressureRad, waves, panelAreas, panelNormals, bodies, panelCenters, bodyRaw)
+function [addedMassPressureTime, panelAddedMassCoef, addedForcePerPanel] = addedMassPressureCalc(pressureRad, waves, panelAreas, panelNormals, bodies, panelCenters, bodyRaw)
 % addedMassPressureCalc  Compute added-mass pressures and forces on panels
 %
 % This function calculates the added-mass pressure and resulting force
@@ -22,7 +22,6 @@ function [addedMassPressureTime, addedMassPressure, addedForcePerPanel] = addedM
 time = bodies(1).time;
 Ndof = size(bodies(1).position,2);
 Npanels = size(panelAreas,1);
-Nbodies = size(length(bodies),3);
 Ntime = length(time);
 
 % Determine omega
@@ -33,77 +32,117 @@ if ismember(char(waves.type), {'noWaveCIC','regularCIC','irregular'})
 else
     % Use the user input freq
     % Match the wave frequency to the nearest BEM frequency
+    % omega = waves.omega;
+    % [~, minOmegaIndex] = min(abs(omega - waves.bem.frequency));
+    % maxOmegaIndex = minOmegaIndex + 1;
+    %
+    % % Extract complex pressure using magnitude and phase information
+    % dofRange = (minOmegaIndex-1)*6 + 1 : maxOmegaIndex*6;
+    % pressureComplex = pressureRad(:, 1, dofRange) .* exp(1i * pressureRad(:, 2, dofRange));
+    %
+    % % Take imaginary part
+    % pressure = squeeze(imag(pressureComplex));
+    %
+    % % Preallocate
+    % pressure_ = zeros(Npanels, Ndof);
+    %
+    % % Interpolate pressure to match the target wave frequency
+    % freqLow = waves.bem.frequency(minOmegaIndex);
+    % freqHigh = waves.bem.frequency(maxOmegaIndex);
+    %
+    % for iDof = 1:Ndof
+    %     pLow  = pressure(:, iDof);
+    %     pHigh = pressure(:, iDof + 6);  % next frequency
+    %     % Linear interpolation
+    %     pressure_(:, iDof) = pLow + (pHigh - pLow) .* (omega - freqLow) / (freqHigh - freqLow);
+    % end
+    % pressure = pressure_;
+    % Match the wave frequency to the nearest BEM frequency
     omega = waves.omega;
-    [~, minOmegaIndex] = min(abs(omega - waves.bem.frequency));
-    maxOmegaIndex = minOmegaIndex + 1;
+    bemFreq = waves.bem.frequency;
+    Nfreq = length(bemFreq);
 
-    % Extract complex pressure using magnitude and phase information
-    dofRange = (minOmegaIndex-1)*6 + 1 : maxOmegaIndex*6;
-    pressureComplex = pressureRad(:, 1, dofRange) .* exp(1i * pressureRad(:, 2, dofRange));
+    % Find nearest BEM frequency index
+    [~, idx] = min(abs(omega - bemFreq));
+
+    % Select 4 surrounding frequencies (2 below, 2 above)
+    idxRange = idx-2 : idx+2;
+    idxRange(idxRange < 1 | idxRange > Nfreq) = [];   % enforce valid bounds
+    nSpline = length(idxRange);                       % typically 4 or 5
+
+    % Build DOF index list for these frequency indices
+    dofRange = [];
+    for k = idxRange
+        dofRange = [dofRange, (k-1)*6 + (1:6)];
+    end
+
+    % Extract complex pressure
+    pressureComplex = pressureRad(:,1,dofRange) .* exp(1i * pressureRad(:,2,dofRange));
 
     % Take imaginary part
-    pressure = squeeze(imag(pressureComplex));
+    pressureImag = squeeze(imag(pressureComplex));   % size: Npanels × (6 * nSpline)
 
     % Preallocate
-    [Npanels, ~] = size(pressure);
     pressure_ = zeros(Npanels, Ndof);
 
-    % Interpolate pressure to match the target wave frequency
-    freqLow = waves.bem.frequency(minOmegaIndex);
-    freqHigh = waves.bem.frequency(maxOmegaIndex);
-
+    % Loop over DOFs
     for iDof = 1:Ndof
-        pLow  = pressure(:, iDof);
-        pHigh = pressure(:, iDof + 6);  % next frequency
-        % Linear interpolation
-        pressure_(:, iDof) = pLow + (pHigh - pLow) .* (omega - freqLow) / (freqHigh - freqLow);
+
+        % Extract pressure across all spline frequencies for this DOF
+        dofIdx = iDof : 6 : (6 * nSpline);     % columns spaced by 6
+        pVals = pressureImag(:, dofIdx);       % Npanels × nSpline
+
+        % Perform spline interpolation panel-by-panel
+        for ip = 1:Npanels
+            pressure_(ip, iDof) = spline(bemFreq(idxRange), pVals(ip,:), omega);
+        end
     end
+
+    % Output
     pressure = pressure_;
+
 end
 
 addedMassPressure = zeros(Npanels,Ndof);  % complex pressures per panel per body
-panelAddedMass    = zeros(Npanels, Ndof);
+panelAddedMassCoef    = zeros(Npanels, Ndof);
 addedForcePerPanel = zeros(Ntime, Npanels, Ndof);
 addedMassPressureTime = zeros(Ntime, Npanels);
 % Loop over bodies
 bodyAcceleration = bodies(1).acceleration;
 
-% Reference point for moments (choose CoG or another point)
-centerBuoyancy = bodyRaw.centerBuoyancy;
+% Reference point for moments (choose CoG or another center of rotation)
 centerGravity = bodyRaw.centerGravity;
-refPoint = centerBuoyancy - centerGravity;          % Check the sign before puhsing to github
+refPoint =  centerGravity;% -  bodyRaw.centerBuoyancy;
 
-% loop over DOFs
-for iDof = 1:Ndof
-    % loop over panels
-    for iPanel = 1:Npanels
-        if panelCenters(iPanel,3) > 0
-            continue; % skip if panel is above water
-        end
-
-        % frequency-dependent added-mass pressure
-        addedMassPressure(iPanel, iDof) = pressure(iPanel,iDof) ./ omega;
-
-        r = panelCenters(iPanel,:) - refPoint';     % 1x3
-        n = panelNormals(iPanel,:);                 % 1x3
-        A = panelAreas(iPanel);                     % scalar
-
-        % scalar for this frequency
-        if ismember(iDof, [1 2 3])
-            % panelPressure (Npanels, Dof, Nfreq)
-            panelAddedMass(iPanel, iDof) =  addedMassPressure(iPanel, iDof) * A * n(iDof);
-        else
-            %  if ismember(iDof, [4 5 6])
-
-            rcrossn = cross(r, n);
-            panelAddedMass(iPanel, iDof) = addedMassPressure(iPanel, iDof) * A * rcrossn(iDof - 3);
-
-        end
-        addedMassPressureTime(:, iPanel) = addedMassPressureTime(:, iPanel) + addedMassPressure(iPanel, iDof) .* bodyAcceleration(:, iDof);
-        addedForcePerPanel(:,iPanel,iDof) = panelAddedMass(iPanel, iDof) .* bodyAcceleration(:, iDof);
-
+for iPanel = 1:Npanels
+    if panelCenters(iPanel,3) > 0
+        continue; % skip if panel is above water
     end
 
+    n = panelNormals(iPanel,:);      % 1x3
+    A = panelAreas(iPanel);          % scalar
+    r = panelCenters(iPanel,:) - refPoint'; % 1x3
+
+    for iDof = 1:Ndof
+        % frequency-dependent added-mass pressure
+        addedMassPressure(iPanel, iDof) = -pressure(iPanel,iDof) ./ omega;
+
+        if iDof <= 3
+            panelAddedMassCoef(iPanel, iDof) = addedMassPressure(iPanel, iDof) * A * n(iDof);
+        elseif iDof == 6
+            rcrossn = cross(r, n);  % 1x3
+            panelAddedMassCoef(iPanel, 4:6) = addedMassPressure(iPanel, 4:6) .* A .* rcrossn;
+        else
+            % do nothing
+        end
+
+        % Added mass force / contribution
+        addedForcePerPanel(:,iPanel,iDof) = panelAddedMassCoef(iPanel, iDof) .* bodyAcceleration(:, iDof);
+        addedMassPressureTime(:, iPanel) = addedMassPressureTime(:, iPanel) + addedMassPressure(iPanel, iDof) .* bodyAcceleration(:, iDof);
+    end
+end
 end
 
-end
+
+
+

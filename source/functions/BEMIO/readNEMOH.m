@@ -469,10 +469,6 @@ waitbar(8/8);
 
 close(p);
 
-try
+if isfield(body.hydroData, "pressureData")
     readPressuresNEMOH;
-catch 
-    fprintf("Reading BEM pressure files failed")
-end
-
 end

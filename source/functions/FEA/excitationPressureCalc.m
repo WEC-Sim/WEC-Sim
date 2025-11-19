@@ -57,23 +57,42 @@ if ismember(char(waves.type), {'noWaveCIC','noWave'})
 else
     if ismember(char(waves.type), {'regularCIC','regular'})
         % Use the user input freq
-        % Match the wave frequency to the nearest BEM frequency
-        omega = waves.omega;
-        [~, minOmegaIndex] = min(abs(omega - waves.bem.frequency));
-        maxOmegaIndex = minOmegaIndex + 1;
+        % % Match the wave frequency to the nearest BEM frequency
+        % omega = waves.omega;
+        % [~, minOmegaIndex] = min(abs(omega - waves.bem.frequency));
+        % maxOmegaIndex = minOmegaIndex + 1;
+        %
+        % % Extract complex pressure using magnitude and phase information
+        % omegaRange = [minOmegaIndex, maxOmegaIndex];
+        % pressureComplex = squeeze(pressureDiff(:, 1, omegaRange) .* exp(-1i * pressureDiff(:, 2, omegaRange)));
+        %
+        % % Interpolate pressure to match the target wave frequency
+        % freqLow = waves.bem.frequency(minOmegaIndex);
+        % freqHigh = waves.bem.frequency(maxOmegaIndex);
+        %
+        % pLow  = pressureComplex(:, 1);
+        % pHigh = pressureComplex(:, 2);  % next frequency
+        % % Linear interpolation
+        % pressureDiffComplex = pLow + (pHigh - pLow) .* (omega - freqLow) / (freqHigh - freqLow);
+        omega = waves.omega;                 % target wave frequency
+        freqVector = waves.bem.frequency;    % all BEM frequencies
 
-        % Extract complex pressure using magnitude and phase information
-        omegaRange = [minOmegaIndex, maxOmegaIndex];
-        pressureComplex = squeeze(pressureDiff(:, 1, omegaRange) .* exp(-1i * pressureDiff(:, 2, omegaRange)));
+        % Reconstruct complex pressure: Npanels × Nfreq
+        pressureComplexAll = squeeze(pressureDiff(:,1,:) .* exp(-1i*pressureDiff(:,2,:)));
 
-        % Interpolate pressure to match the target wave frequency
-        freqLow = waves.bem.frequency(minOmegaIndex);
-        freqHigh = waves.bem.frequency(maxOmegaIndex);
+        % Interpolate each panel along frequency
+        Npanels = size(pressureComplexAll, 1);
+        pressureInterp = zeros(Npanels, 1);
 
-        pLow  = pressureComplex(:, 1);
-        pHigh = pressureComplex(:, 2);  % next frequency
-        % Linear interpolation
-        pressureDiffComplex = pLow + (pHigh - pLow) .* (omega - freqLow) / (freqHigh - freqLow);
+        for iPanel = 1:Npanels
+            % Extract this panel across all BEM frequencies
+            pPanel = pressureComplexAll(iPanel, :).';   % Nfreq × 1
+            % Spline interpolation
+            pressureInterp(iPanel) = interp1(freqVector, pPanel, omega, 'spline');
+        end
+
+        % Take real part only if needed
+        pressureDiffComplex = pressureInterp;
 
     else
         % Irregular waves
@@ -86,9 +105,8 @@ Npanels = length(pressureDiffComplex);
 excitationForcePerPanel = zeros(Ntime, Ndof, Npanels);
 excitaionPressurePerPanel = zeros(Ntime,Npanels);
 
-centerBuoyancy = bodyRaw.centerBuoyancy;
 centerGravity = bodyRaw.centerGravity;
-refPoint = centerBuoyancy - centerGravity;          % Check the sign before puhsing to github
+refPoint = centerGravity;          % The center of rotation
 
 % -------------------------------------------------------------------------
 % Loop over wave frequencies
@@ -101,7 +119,7 @@ for iDir = 1:NDir               % The current code calculates only for zero wave
         if waves.deepWater == 0
             % finite depth approximation using dispersion relation iteration
             for iter = 1:10
-                k = omega^2 / (g * tanh(k * waves.depth));
+                k = omega^2 / (g * tanh(k * waves.waterDepth));
             end
         end
 
