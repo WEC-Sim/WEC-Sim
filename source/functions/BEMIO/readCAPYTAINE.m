@@ -503,12 +503,6 @@ waitbar(7/8);
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 hydro = addDefaultPlotVars(hydro);
 
-% try
-%     readPressuresNEMOH;
-% catch 
-%     fprintf("Reading BEM pressure files failed")
-% end
-
 waitbar(8/8);
 
 close(p);
