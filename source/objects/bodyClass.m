@@ -1035,11 +1035,11 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
                     obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
                     obj.hydroForce.(hfName).fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
-                elseif obj.hydroData.simulation_parameters.direction == direction
+                elseif obj.hydroData(iH).simulation_parameters.direction == direction
                     obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline').';
                     obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline').';
                     obj.hydroForce.(hfName).fExt.md(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline').';
-                elseif length(obj.hydroData.simulation_parameters.direction) > 1 && ~isempty(dirBins)
+                elseif length(obj.hydroData(iH).simulation_parameters.direction) > 1 && ~isempty(dirBins)
                     error('multiple wave directions are unsupported when using a fully resolved directional spectra')
                 end
             end
