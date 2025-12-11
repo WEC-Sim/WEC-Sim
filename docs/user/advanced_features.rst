@@ -765,38 +765,38 @@ Drag Bodies
 ^^^^^^^^^^^
 
 For some simulations, it might be important to model bodies that do not have 
-hydrodynamic forces acting on them. This could be bodies that are completely 
-outside of the water but are still connected through a joint to the WEC bodies, 
-or it could be bodies deeply submerged to the point where the hydrodynamics may 
-be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces 
+hydrodynamic forces acting on them. 
+These could be bodies that are above the water line but connected to wetted bodies through various joints, 
+bodies submerged deeply enough that the hydrodynamics may be neglected, 
+or slender bodies better suited to other modeling approaches (e.g. strip theory / Morison elements),
+WEC-Sim allows for bodies which have no hydrodynamic forces 
 acting on them and for which no BEM data is provided. 
 
-To do this, use the Drag Body block from the WECSim_Lib_Body_Drag Library and initialize it in the 
-WEC-Sim input file as any other body but leave the name of the ``h5`` file as 
-an empty string. Specify :code:`body(i).nonHydro;`, body name, 
-mass, moments of inertia, center of gravity, center of buoyancy, geometry file, 
-location, and displaced volume. You can also specify visualization options and 
-initial displacement. 
+To do this, use the Rigid Body block from the WECSim_Lib_Body_Elements Library. Initialize it in the 
+WEC-Sim input file with an empty string for the name of the ``h5`` file and define the ``body(i).nonHydro`` flag::
 
-To use drag bodies, the following body class variable must be 
-defined in the WEC-Sim input file, for example:: 
+    body(i) = bodyClass('');
+    body(i).nonHydro = 1; % recommended value. See note below. 
 
-    body(i).nonHydro = 1; % or
-    body(i).nonHydro = 2;
+Define other required body properties::
 
-Drag bodies require the following properties to be defined::
-
+    body(i).geometryFile
     body(i).mass
     body(i).inertia
+    
+Drag bodies require the following properties to be defined since there is not BEM to utilize::
+
+    body(i).name
     body(i).centerGravity
     body(i).volume
+    body(i).centerBuoyancy % value ignored for non-wetted bodies with zero displaced volume
 
-Drag bodies with no additional forces acting on them become non-hydrodynamic, no fluid forces act on them, 
-but they still couple other bodies together, and influence the multibody simulation.
+Drag bodies initialized with only the required parameters have no additional fluid forces acting on them are non-hydrodynamic. 
+These bodies still couple other bodies together, and influence the multibody simulation through their mass and buoyancy.
 If a drag body is not subject to wave excitation, but damping, added mass, or viscous drag are still a concern,
 viscous drag, linear damping, or Morison element forces may be defined. An example of this body type is a 
 deeply-submerged heave plate of large surface area tethered to a float. In 
-these instances, the additional forces can be specified by the parameters:
+these instances, the additional forces can be specified by the parameters::
 
     body(i).quadDrag.drag
     body(i).quadDrag.cd
@@ -811,8 +811,7 @@ or if using Morison Elements::
     body(i).morisonElement.VME
     body(i).morisonElement.rgME
     
-One can additionally describe initial body 
-displacement in the manner of a hydrodynamic body. 
+Specify visualization options and initial displacement for a drag body as normal.
 
 In the case where only drag bodies are used, WEC-Sim does
 not read an ``*.h5`` file. Users must define these additional parameters to 
@@ -825,6 +824,11 @@ the simulation to define them::
 For more information, refer to :ref:`webinar2`, and the **Nonhydro_Body** 
 example on the `WEC-Sim Applications 
 <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
+
+.. Note::
+    The flag ``body.nonHydro`` previously (≤v6.1.2) allowed for three values: 0 (hydrodynamic), 1 (non-hydro), 2 (drag).
+    Non-hydro and drag library blocks have since been combined since the default drag body is exactly the non-hydro body.
+    The flag ``body.nonHydro=2`` is still allowed for backwards compatibility but acts identically to ``body.nonHydro=1``.
 
 
 .. _user-advanced-features-b2b:
