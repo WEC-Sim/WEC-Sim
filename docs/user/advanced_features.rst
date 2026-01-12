@@ -768,9 +768,8 @@ For some simulations, it might be important to model bodies that do not have
 hydrodynamic forces acting on them. 
 These could be bodies that are above the water line but connected to wetted bodies through various joints, 
 bodies submerged deeply enough that the hydrodynamics may be neglected, 
-or slender bodies better suited to other modeling approaches (e.g. strip theory / Morison elements),
-WEC-Sim allows for bodies which have no hydrodynamic forces 
-acting on them and for which no BEM data is provided. 
+or slender bodies better suited to other modeling approaches (e.g. strip theory / Morison elements).
+To model such cases, WEC-Sim allows for drag bodies which do not require BEM data.
 
 To do this, use the Rigid Body block from the WECSim_Lib_Body_Elements Library. Initialize it in the 
 WEC-Sim input file with an empty string for the name of the ``h5`` file and define the ``body(i).nonHydro`` flag::
@@ -791,7 +790,7 @@ Drag bodies require the following properties to be defined since there is not BE
     body(i).volume
     body(i).centerBuoyancy % value ignored for non-wetted bodies with zero displaced volume
 
-Drag bodies initialized with only the required parameters have no additional fluid forces acting on them are non-hydrodynamic. 
+Drag bodies initialized with only the required parameters have no additional fluid forces acting on them and are non-hydrodynamic. 
 These bodies still couple other bodies together, and influence the multibody simulation through their mass and buoyancy.
 If a drag body is not subject to wave excitation, but damping, added mass, or viscous drag are still a concern,
 viscous drag, linear damping, or Morison element forces may be defined. An example of this body type is a 
