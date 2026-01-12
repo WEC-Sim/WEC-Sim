@@ -3,7 +3,7 @@
 License
 =======
 
-.. equivalent of this statement? "WEC-Sim is copyright through the National Renewable Energy Laboratory and National Technology & Engineering Solutions of Sandia, LLC (NTESS)"
+.. equivalent of this statement? "WEC-Sim is copyright through the National Laboratory of the Rockies and National Technology & Engineering Solutions of Sandia, LLC (NTESS)"
 
 The software is distributed under the Apache License 2.0.
 
