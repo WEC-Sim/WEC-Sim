@@ -364,7 +364,7 @@ classdef responseClass<handle
             fileRootPath = char(inputStrings(1));
             filename = append(fileRootPath,'.out');
             fid = fopen(filename, 'r');
-            header = strsplit(fgetl(fid));
+            header = strsplit(strtrim(fgetl(fid)));
             data = dlmread(filename,'',1,0);
             tmp = size(data);
             ncol = tmp(2);clear tmp
