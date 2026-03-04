@@ -8,20 +8,18 @@ This section provides instructions on how to download and install WEC-Sim.
 MATLAB Requirements
 -------------------
 
-WEC-Sim is developed in MATLAB/Simulink, and requires the following toolboxes:
- 
-==========================  =============================
-**Required Toolbox**        **Oldest Compatible Version**
-MATLAB                      Version 9.9  (R2020b)
-Simulink                    Version 10.2 (R2020b)
-Simscape                    Version 5.0  (R2020b)
-Simscape Multibody          Version 7.2  (R2020b)
-==========================  =============================
+WEC-Sim is developed in MATLAB/Simulink and requires the following toolboxes:
 
-WEC-Sim's Simulink Library is saved in MATLAB R2020b, and WEC-Sim tests are run on the last four releases of MATLAB. 
-Any version of MATLAB newer than R2020b should be compatible with WEC-Sim, however we do not test all MATLAB releases. 
+   * MATLAB
+   * Simulink
+   * Simscape
+   * Simscape Multibody
+
+**WEC-Sim is tested on and compatible with the four latest releases of MATLAB.**
+WEC-Sim's Simulink Library is saved in MATLAB R2020b to enable users to use the library files in a wider range of MATLAB versions.
+WEC-Sim *may* be compatible with MATLAB versions R2020b and later, but this is not guaranteed except for the four latest versions.
 The stability of each MATLAB release is available via `WEC-Sim's GitHub Actions <https://github.com/WEC-Sim/WEC-Sim/actions>`_. 
-Certain advanced features rely on external functions (such as :ref:`mooring-moordyn`), and additional MATLAB Toolboxes (such as :ref:`user-advanced-features-pct`). 
+Certain advanced features and applications rely on external functions (such as :ref:`mooring-moordyn`) and additional MATLAB Toolboxes (such as :ref:`user-advanced-features-pct`). 
 
 Verify that the MATLAB required toolboxes are installed by typing ``ver`` in the MATLAB Command Window: 
 
@@ -29,12 +27,12 @@ Verify that the MATLAB required toolboxes are installed by typing ``ver`` in the
 
     >> ver
     -----------------------------------------------------------------------------------------------------
-    MATLAB Version: 9.9.0.1592791 (R2020b) 
+    MATLAB Version: 25.1.0.2943329 (R2025a)
     -----------------------------------------------------------------------------------------------------
-    MATLAB                                                Version 9.9         (R2020b)
-    Simulink                                              Version 10.2        (R2020b)
-    Simscape                                              Version 5.0         (R2020b)
-    Simscape Multibody                                    Version 7.2         (R2020b)
+    MATLAB                                                Version 25.1        (R2025a)
+    Simulink                                              Version 25.1        (R2025a)
+    Simscape                                              Version 25.1        (R2025a)
+    Simscape Multibody                                    Version 25.1        (R2025a)
 
 
 Download WEC-Sim
