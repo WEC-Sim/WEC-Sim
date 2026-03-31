@@ -493,7 +493,6 @@ classdef bodyClass<handle
             obj.hydroForce.(hfName).volume = obj.hydroData(iH).properties.volume;
             obj.hydroForce.(hfName).centerBuoyancy = obj.hydroData(iH).properties.centerBuoyancy;
             obj.hydroForce.(hfName).centerGravity = obj.hydroData(iH).properties.centerGravity';
-            obj.hydroForce.(hfName).centerGravityDifference = [0, 0, 0]; %obj.hydroData(iH).properties.centerGravity' - obj.centerGravity;
             switch waveType
                 case {'noWave'}
                     obj.noExcitation(iH)
