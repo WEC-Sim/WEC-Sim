@@ -1046,8 +1046,8 @@ classdef bodyClass<handle
             if obj.yaw.option==1 || ~isempty(dirBins)
                 % show warning for passive yaw run with incomplete BEM data
                 BEMdir = sort(obj.hydroData(iH).simulation_parameters.direction);
-                boundDiff(1) = abs(-180 - BEMdir(1));
-                boundDiff(2) = abs(180 - BEMdir(end));
+                boundDiff(1) = abs(-180 - min(wrapTo180(BEMdir)));
+                boundDiff(2) = abs(180 - max(wrapTo180(BEMdir)));
                 if obj.yaw.option == 1 && (length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15)
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
