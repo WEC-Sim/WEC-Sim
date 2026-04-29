@@ -30,7 +30,7 @@ end
 
 %%
 
-p = waitbar(0,'Reading AQWA output file...'); %Progress bar
+disp('Reading AQWA output file...');
 e = 0;
 
 hydro(F).code   = 'AQWA';
@@ -188,8 +188,6 @@ for ln = n:length(raw1)
         hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph); % Imaginary part of exciting force
         
     end
-    d = floor(10*ln/N);  %Update waitbar every 10%, or slows computation time
-    if (d>e) waitbar(ln/N); e = d; end
 end
 
 
@@ -289,14 +287,9 @@ for ln=1:length(raw2)
         hydro(F).sc_im = hydro(F).sc_ma.*sin(hydro(F).sc_ph*pi/180); % imaginary part of scattering force
         lnlog(ln:ln+6+(j-1)*(hydro(F).Nf)+headerCount*10+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf)+headerCount*10+(i-1)];      
     end
-    
-    d = floor(10*(ln+length(raw2))/N);  %Update waitbar every 10%, or slows computation time
-    if (d>e) waitbar((ln+length(raw1))/N); e = d; end
-    
 end
 %%
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 hydro = addDefaultPlotVars(hydro);
 
-close(p);
 end

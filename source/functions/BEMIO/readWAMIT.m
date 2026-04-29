@@ -33,8 +33,7 @@ elseif b >= 1
     F = b+1;
 end
 
-p = waitbar(0,'Reading WAMIT output file...');  % Progress bar
-e = 0;
+disp('Reading WAMIT output file...');
 
 if isempty(exCoeff)==1;  exCoeff = 'diffraction';  end  % 'diffraction' or 'haskind'
 
@@ -175,7 +174,7 @@ for n = 1:N
                 tmp = textscan(raw{i},'%f');
                 ma = tmp{1}(2);  % Magnitude of exciting force
                 ph = deg2rad(tmp{1}(3));  % Phase of exciting force
-                if isnan(ma) ==1
+                if isnan(ma)
                     ma = 0;
                     ph = 0;
                 end
@@ -205,7 +204,7 @@ for n = 1:N
                 tmp = textscan(raw{i},'%f');
                 ma = tmp{1}(2);  % Magnitude of exciting force
                 ph = deg2rad(tmp{1}(3));  % Phase of exciting force
-                if isnan(ma) ==1
+                if isnan(ma)
                     ma = 0;
                     ph = 0;
                 end
@@ -235,7 +234,7 @@ for n = 1:N
                 tmp = textscan(raw{i},'%f');
                 ma = tmp{1}(2);  % Magnitude of exciting force
                 ph = deg2rad(tmp{1}(3));  % Phase of exciting force
-                if isnan(ma) ==1
+                if isnan(ma)
                     ma = 0;
                     ph = 0;
                 end
@@ -246,9 +245,6 @@ for n = 1:N
             if i>N break; end
         end
     end
-
-    d = floor(10*n/N);  % Update progress bar every 10%, otherwise slows computation
-    if d>e  waitbar(n/N);  e = d;  end
 end
 
 %% Scattering Force
@@ -434,5 +430,5 @@ try
         end
     end
 end
-close(p);
+
 end

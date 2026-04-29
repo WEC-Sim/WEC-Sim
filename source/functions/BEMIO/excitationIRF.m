@@ -37,7 +37,7 @@ function hydro = excitationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
 %         Structure of hydro data with excitation IRF
 % 
 
-p = waitbar(0,'Calculating excitation IRFs...');  % Progress bar
+disp('Calculating excitation IRFs...');
 
 % Set defaults if empty
 if isempty(tEnd)==1;  tEnd = 100;           end
@@ -60,11 +60,9 @@ for i = 1:sum(hydro.dof)
         hydro.ex_K(i,j,:) = (1/pi)*trapz(w,ex_re.*cos(w.*t(:))-ex_im.*sin(w.*t(:)),2);
         n = n+1;
     end
-    waitbar(n/N)
 end
 
 hydro.ex_t = t;
 hydro.ex_w = w;
-close(p);
 
 end
