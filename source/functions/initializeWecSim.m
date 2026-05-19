@@ -112,7 +112,7 @@ for ii = 1:simu.numHydroBodies
     % Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') == 0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
-        for iH = 1:length(savedHydroData(ii))
+        for iH = 1:length(savedHydroData(ii).hydroData)
             body(ii).loadHydroData(savedHydroData(ii).hydroData(iH), iH);
         end
     else
