@@ -266,12 +266,12 @@ if exist([tmp{1} '.3sc'],'file')==2
     for i = 1:hydro(F).Nf
         for j = 1:hydro(F).Nh
             for k = 1:round(size(find(hydro(F).ex_ma),1)/hydro(F).Nf/hydro(F).Nh)  % Number of non-zero dof
-                n = n+1;
                 tmp = textscan(raw{n},'%f');
                 hydro(F).sc_ma(tmp{1,1}(3),j,i) = tmp{1,1}(4);
                 hydro(F).sc_ph(tmp{1,1}(3),j,i) = deg2rad(tmp{1,1}(5));
                 hydro(F).sc_re(tmp{1,1}(3),j,i) = tmp{1,1}(6);
                 hydro(F).sc_im(tmp{1,1}(3),j,i) = tmp{1,1}(7);
+                n = n+1;
             end
         end
     end
@@ -292,12 +292,12 @@ if exist([tmp{1} '.3fk'],'file')==2
     for i = 1:hydro(F).Nf
         for j = 1:hydro(F).Nh
             for k = 1:round(size(find(hydro(F).ex_ma),1)/hydro(F).Nf/hydro(F).Nh)  % Number of non-zero dof
-                n = n+1;
                 tmp = textscan(raw{n},'%f');
                 hydro(F).fk_ma(tmp{1,1}(3),j,i) = tmp{1,1}(4);
                 hydro(F).fk_ph(tmp{1,1}(3),j,i) = deg2rad(tmp{1,1}(5));
                 hydro(F).fk_re(tmp{1,1}(3),j,i) = tmp{1,1}(6);
                 hydro(F).fk_im(tmp{1,1}(3),j,i) = tmp{1,1}(7);
+                n = n+1;
             end
         end
     end
