@@ -25,7 +25,7 @@ function hydro = radiationIRFSS(hydro,Omax,R2t)
 %         coefficients
 % 
 
-p = waitbar(0,'Calculating state space radiation IRFs...');  % Progress bar
+disp('Calculating state space radiation IRFs...');
 
 % Set defaults if empty
 if isempty(Omax)==1;    Omax = 10;  end
@@ -93,8 +93,6 @@ for i=1:sum(hydro.dof)
             hydro.ss_O(i,j) = O;
         end
     end
-    waitbar(i/(sum(hydro.dof)))
 end
-close(p)
 
 end

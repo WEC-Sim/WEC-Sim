@@ -39,7 +39,7 @@ function hydro = radiationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
 %         Structure of hydro data with radiation IRF
 % 
 
-p = waitbar(0,'Calculating radiation IRFs...');  % Progress bar
+disp('Calculating radiation IRFs...');
 
 % Set defaults if empty
 if isempty(tEnd)==1;  tEnd = 100;           end
@@ -62,7 +62,6 @@ for i = 1:sum(hydro.dof)
         hydro.ra_K(i,j,:) = (2/pi)*trapz(w,ra_B.*(cos(w.*t(:)).*w), 2);
         n = n+1;
     end
-    waitbar(n/N)
 end
 
 % Calculate the infinite frequency added mass
@@ -83,6 +82,5 @@ end
 
 hydro.ra_t = t;
 hydro.ra_w = w;
-close(p)
 
 end

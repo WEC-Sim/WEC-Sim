@@ -18,7 +18,7 @@ clear nonlinearHydro sv_linearHydro sv_nonlinearHydro stateSpace radiation_optio
 clear nhbod* sv_b* sv_noWave sv_regularWaves* sv_irregularWaves* sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesYaw_* sv_regularWavesYaw_* yaw numBody variableHydro*;
 clear sv_visualizationOFF sv_visualizationON visON X Y
 clear sv_FIR
-clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro* yaw*;
+clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro* yaw_*;
 clear sv_t*_control* sv_wind_* sv_t*_AeroLoads* WindChoice ControlChoice* AeroLoadsChoice*
 clear iW secondOrderExt_* sv_fullDirIrregularWaves_*
 
