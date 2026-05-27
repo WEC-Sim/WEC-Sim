@@ -308,21 +308,23 @@ classdef bodyClass<handle
                     warning('Only one h5File supplied. Turning variable hydro off.');
                 end
                 if obj.variableHydro.option == 0
-                    obj.variableHydro.hydroForceIndexInitial = 1;
+                    % If variable hydro is off, default the h5 file,
+                    % and manually defined stiffness and damping values to
+                    % the obj.variableHydro.hydroForceIndexInitial index
                     if length(obj.h5File) > 1
-                        obj.h5File = obj.h5File(1);
+                        obj.h5File = obj.h5File(obj.variableHydro.hydroForceIndexInitial);
                         warning('Variable hydro flag is off. Extra h5 files ignored.');
                     end
                     if length(obj.quadDrag) > 1
-                        obj.quadDrag = obj.quadDrag(1);
+                        obj.quadDrag = obj.quadDrag(obj.variableHydro.hydroForceIndexInitial);
                         warning('Variable hydro flag is off. Extra quadDrag structs ignored.');
                     end
                     if size(obj.linearDamping,3) > 1
-                        obj.linearDamping = obj.linearDamping(:,:,1);
+                        obj.linearDamping = obj.linearDamping(:,:,obj.variableHydro.hydroForceIndexInitial);
                         warning('Variable hydro flag is off. Extra linearDamping dimension ignored.');
                     end
                     if size(obj.hydroStiffness,3) > 1
-                        obj.hydroStiffness = obj.hydroStiffness(:,:,1);
+                        obj.hydroStiffness = obj.hydroStiffness(:,:,obj.variableHydro.hydroForceIndexInitial);
                         warning('Variable hydro flag is off. Extra hydroStiffness dimension ignored.');
                     end
                 else
