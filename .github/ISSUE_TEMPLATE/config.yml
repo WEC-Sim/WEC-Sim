@@ -1,0 +1,8 @@
+# disable blank issues
+blank_issues_enabled: false
+
+# link to documentation
+documentation_link:
+  - name: Review WEC-Sim documentation
+    url: https://wec-sim.github.io/WEC-Sim/main/index.html
+    about: Please review documemntation and previous issues before asking questions.
