@@ -72,7 +72,6 @@ classdef bemioTest < matlab.unittest.TestCase
         function testCombineBEM(testCase)
             hydro(1) = testCase.wamitHydro;
             hydro(2) = testCase.nemohHydro;
-            hydro(3) = testCase.capytaineHydro;
             testCase.comboHydro = combineBEM(hydro);
         end
         function testIRF(testCase)

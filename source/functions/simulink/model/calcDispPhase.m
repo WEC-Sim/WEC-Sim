@@ -1,4 +1,4 @@
-function [dispPhase] = calcDispPhase(disp, enable, direction, frequency, wavenumber);
+function [dispPhase] = calcDispPhase(disp, enable, direction, frequency, wavenumber)
 
 % INPUTS:
 % disp: body displacement vector, x(1) and y(2) will be used
@@ -14,15 +14,11 @@ function [dispPhase] = calcDispPhase(disp, enable, direction, frequency, wavenum
 
 %% Initialize 
 dispPhase = zeros(length(frequency),length(direction));
-%dispNew = zeros(2,1);
 
 if enable == 1  
-        [dirGrd,wGrd] = meshgrid(direction,frequency);
-        waveNumberGrd = repmat(wavenumber,[1 length(direction)]);
-        dispPhase = -waveNumberGrd.*wGrd.*(disp(1).*cos(dirGrd*pi/180) + disp(2).*sin(dirGrd*pi/180));
-else
-    dispPhase = zeros(length(frequency),length(direction));
+    dirGrd = repmat(direction,length(frequency),1);
+    waveNumberGrd = repmat(wavenumber,[1 length(direction)]);
+    dispPhase = -waveNumberGrd.*(disp(1).*cos(dirGrd*pi/180) + disp(2).*sin(dirGrd*pi/180));
 end
-
 
 end

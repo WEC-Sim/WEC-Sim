@@ -39,8 +39,8 @@ within the wave energy industry.
 
 WEC-Sim Developers
 =====================
-WEC-Sim is a collaboration between the `National Renewable Energy Laboratory 
-(NREL) <http://www.nrel.gov/water/>`_ and `Sandia National Laboratories 
+WEC-Sim is a collaboration between the `National Laboratory of the Rockies 
+(NLR) <http://www.nrel.gov/water/>`_ and `Sandia National Laboratories 
 (Sandia) <http://energy.sandia.gov/energy/renewable-energy/water-power/>`_, 
 funded by the U.S. Department of Energy’s Water Power Technologies Office.
 Due to the open source nature of the software, WEC-Sim has also had many external 
@@ -49,19 +49,21 @@ For more information refer to :ref:`intro-acknowledgements`.
 
 Current members of the development team include:
 
+* Megan Anderson (Sandia)
 * Jeff Grasberger (Sandia)
-* Salman Husain (NREL)
 * Adam Keester (Sandia - PI)
 * Jorge Leon (Sandia)
-* James Niffenegger (NREL)
-* David Ogden (NREL)
-* Mohamed A. Shabara (NREL - PI)
+* James Niffenegger (NLR)
+* Toan Tran (NLR - PI)
 
 Former members of the development team include:
 
 * Dominic Forbush (Sandia)
+* Salman Husain (NREL)
 * Michael Lawson (NREL)
 * Carlos Michelen (Sandia)
+* David Ogden (NREL)
+* Mohamed A. Shabara (NREL)
 * Kelley Ruehl (Sandia)
 * Nathan Tom (NREL)
 * Jennifer Van Rij (NREL)

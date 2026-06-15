@@ -32,7 +32,7 @@ This section describes how the input wind field is generated; there are two poss
 have a wind speed field in which turbulence and non-uniform spatial distribution are taken into account. It is possible to specify wind method in ``wecSimInputFile.m`` by initializing the windClass with "constant" or "turbulent".
 In the first case there will be a constant wind speed at all times and at every point on the rotor area, while the second case considers the spatial 
 and temporal turbulence of the wind. Regarding the second case, the scatter of the wind speed is obtained using an external code, `Turbsim <https://www.nrel.gov/wind/nwtc/turbsim.html>`_, developed 
-by NREL, and integrated within the MOST code. The user can launch the ``run_turbsim.m`` script (in "turbsim" subfolder) to create the wind input data 
+by NLR, and integrated within the MOST code. The user can launch the ``run_turbsim.m`` script (in "turbsim" subfolder) to create the wind input data 
 structure, specifying some properties such as mean velocity and turbulence intensity. For more information, it is recommended to read the :ref:`most-advanced_features` or the 
 documentation of TurbSim :cite:`kelley2005overview`. The resulting data structure consists of the wind speed 
 (in the surge direction) at each instant and for each node of a spatial grid covering the rotor area. During the simulation, the wind speed 

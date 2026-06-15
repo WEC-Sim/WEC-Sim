@@ -1,6 +1,6 @@
 function [velocity, twrVelocity, y, z, zTwr, nz, ny, dz, dy, dt, zHub, z1,mffws] = readfile_BTS(FileName,fileFmt)
 % function [velocity, y, z, dt, zHub] = readfile_BTS(FileName,fileFmt)
-% Author: Bonnie Jonkman, National Renewable Energy Laboratory
+% Author: Bonnie Jonkman, National Laboratory of the Rockies
 %
 % Input:
 %  FileName      - string: contains file name (.bts extension) to open

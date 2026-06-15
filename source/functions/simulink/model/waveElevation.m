@@ -29,11 +29,11 @@ for kk = 1:length(direction)
     elseif typeNum <20
         fk = AH(1).*cos(k(1).*X-w(1)*t);
     elseif typeNum <30 % irregular, spectrum import
-        tmp=sqrt(AH.*dw);
+        tmp=sqrt(spread(kk).*AH.*dw);
         tmp1 = ones(1,length(center(:,1)));
         tmp2 = (w.*t+phaseRand(:,kk))*tmp1;
         tmp3 = cos(k*X'- tmp2);
-        fk(:,1) = spread(kk) .* tmp3'*tmp;
+        fk(:,1) = tmp3'*tmp;
     % elseif typeNum <40 % full directional spectrum
     %     error('fullDirectionalSpectrum import not supported with nonlinear hydro')
     end
