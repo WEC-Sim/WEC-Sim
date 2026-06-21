@@ -122,4 +122,13 @@ else
     error(['Wrong flag for mean drift force in body(' num2str(number) ').'])
 end
 
+% Read pressures if they exist
+try    
+    hydroData.pressureData.centroids = h5read(filename, '/hydro_coeffs/pressures/centroids');
+    hydroData.pressureData.meshNormals = h5read(filename, '/hydro_coeffs/pressures/meshNormals');
+    hydroData.pressureData.elementsArea = h5read(filename, '/hydro_coeffs/pressures/elementsArea');
+    hydroData.pressureData.pressureRad = h5read(filename, '/hydro_coeffs/pressures/pressureRad');
+    hydroData.pressureData.pressureDiff = h5read(filename, '/hydro_coeffs/pressures/pressureDiff');
 end
+
+

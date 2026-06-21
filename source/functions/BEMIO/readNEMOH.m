@@ -468,4 +468,7 @@ end
 waitbar(8/8);
 
 close(p);
+
+try
+    readPressuresNEMOH;
 end
