@@ -8,8 +8,7 @@ function writeBEMIOH5(hydro)
 %     hydro : [1 x 1] struct
 %         Structure of hydro data that is written to ``hydro.file``
 % 
-p = waitbar(0,'Writing data in h5 format...');  % Progress bar
-N = 1 + hydro.Nb;  % Rough division of tasks
+disp('Writing data in h5 format...');
 
 filename = [hydro.file '.h5'];
 
@@ -37,7 +36,6 @@ if hydro.h~=inf     % A residual of the python based code
     writeH5Parameter(filename,'/simulation_parameters/water_depth',hydro.h,'Water depth','m');
 end
 writeH5Parameter(filename,'/simulation_parameters/wave_dir',hydro.theta,'Wave direction','deg');
-waitbar(1/N);
 
 n = 0;
 m_add = 0;
@@ -137,12 +135,8 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/r2t'],permute(hydro.ss_R2((n+1):(n+m),:),[2 1]),'State space curve fitting R**2 value','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/conv'],permute(hydro.ss_conv((n+1):(n+m),:),[2 1]),'State space conversion status','');
     end
-    waitbar((1+i)/N);
     n = n + m;
 end
-
-waitbar(1);
-close(p);
 
 end
 

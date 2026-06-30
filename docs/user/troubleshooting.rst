@@ -207,7 +207,9 @@ Simulink cannot reconcile the forcing and motion between these series joints wit
 	... Joint has a degenerate mass distribution on its base/follower side.
 
 **Solution:**
-Add an insignificantly small mass between the two joints (e.g. ``Simulink Library/Simscape/Multibody/Body Elements/Inertia``) .
+Add an insignificantly small mass between the two joints (e.g. ``Simulink Library/Simscape/Multibody/Body Elements/Inertia``).
+For most cases, the mass will only need to be added on the follower side of the PTO block. 
+See the `desalination WEC-Sim Applications case <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/main/Desalination>`_ for an example with an added inertia block to resolve degenerate mass errors.
 Alternatively, create a new PTO or constraint with one of the many joints available in the 
 Simscape Multibody Joints library if special degrees of freedom are required.
 

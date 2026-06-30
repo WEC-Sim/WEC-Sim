@@ -27,7 +27,7 @@ elseif b >= 1
     F = b+1;
 end
 
-p = waitbar(0,'Reading Capytaine netcdf output file...'); %Progress bar
+disp('Reading Capytaine netcdf output file...');
 
 hydro(F).code = 'CAPYTAINE';
 
@@ -151,8 +151,6 @@ if dof_i < 6*hydro(F).Nb || dof_r < 6*hydro(F).Nb
         'than 6*Nb (standard dofs for each body). Check input / BEM simulation.']);
 end
 
-waitbar(1/8);
-
 %% Read simulation parameters
 % Read density, gravity and water depth
 hydro(F).rho = ncread(filename,'rho');
@@ -210,8 +208,6 @@ for m = 1:hydro(F).Nb
         end
     end
 end
-
-waitbar(2/8);
 
 %% Linear restoring stiffness [6, 6, Nb]
 % Note: Capytaine may not output this by default.
@@ -306,8 +302,6 @@ else
     end
 end
 
-waitbar(3/8);
-
 %% Radiation added mass [6*Nb, 6*Nb, Nf]
 % Get index of variable
 i_var = getInd(info.Variables,'added_mass');
@@ -388,7 +382,6 @@ end
 hydro(F).B = RD;
 
 clear tmp RD
-waitbar(4/8);
 
 %% Froude-Krylov force file [6*Nb,Nh,Nf];
 % Get index of variable
@@ -435,7 +428,6 @@ hydro(F).fk_ma = (hydro(F).fk_re.^2 + hydro(F).fk_im.^2).^0.5;  % Magnitude of F
 hydro(F).fk_ph = angle(hydro(F).fk_re + 1i*hydro(F).fk_im);     % Phase of Froude Krylov force
 
 clear tmp FK
-waitbar(5/8);
 
 %% Diffraction Force (scattering) [6*Nb,Nh,Nf];
 % Get index of variable
@@ -482,7 +474,6 @@ hydro(F).sc_ma = (hydro(F).sc_re.^2 + hydro(F).sc_im.^2).^0.5;  % Magnitude of d
 hydro(F).sc_ph = angle(hydro(F).sc_re + 1i*hydro(F).sc_im);     % Phase of diffraction force
 
 clear tmp DF
-waitbar(6/8);
 
 %% Excitation Force [6*Nb,Nh,Nf];
 % Calculate total excitation force: F_ex = F_sc + F_fk
@@ -490,8 +481,6 @@ hydro(F).ex_re = hydro(F).sc_re + hydro(F).fk_re;
 hydro(F).ex_im = hydro(F).sc_im + hydro(F).fk_im;
 hydro(F).ex_ma = (hydro(F).ex_re.^2 + hydro(F).ex_im.^2).^0.5;  % Magnitude of excitation force
 hydro(F).ex_ph = angle(hydro(F).ex_re + 1i*hydro(F).ex_im);     % Phase of excitation force
-
-waitbar(7/8);
 
 %% Kochin diffraction
 % necessary?
@@ -502,8 +491,6 @@ waitbar(7/8);
 
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 hydro = addDefaultPlotVars(hydro);
-
-waitbar(8/8);
 
 %% Catch and remove nan values
 lowFrequencyNanMask = squeeze(all(isnan(hydro.A),[1 2])) | ...
@@ -533,7 +520,6 @@ if any(lowFrequencyNanMask)
     hydro.ex_ph = hydro.ex_ph(:,:,~lowFrequencyNanMask);
 end
 
-close(p);
 end
 
 %% functions

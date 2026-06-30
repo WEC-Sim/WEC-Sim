@@ -1,19 +1,16 @@
-function [Fext, relYawLast, coeffsLastMD,coeffsLastRE,coeffsLastIM] = irregExcFullDirF(pYaw, nBins, A,w, nW, dofGRD,dirGRD,wGRD,qDofGRD,qWGRD,fEHRE,fEHIM, fEHMD, phaseRand,dw,time,spreadBins, dirBins, Disp, intThresh, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
+function [Fext, relYawLast, coeffsLastMD,coeffsLastRE,coeffsLastIM] = irregExcFullDirF(passiveYaw, amplitude, omega, dofGRD, dirGRD, wGRD, qDofGRD, qWGRD, fEHRE, fEHIM, fEHMD, phaseRand, dOmega, time, directions, disp, yawThresh, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
 
+A1=bsxfun(@plus,omega*time,pi/2);
+A1=repmat(A1,1,length(directions));
 
-[M,N]=size(dirBins);
-A1=bsxfun(@plus,w*time,pi/2);
-A1=repmat(A1,1,nBins);
-A = repmat(A,1,nBins);
 %initialize outputs
 Fext = zeros(1,size(dofGRD,1));
-relYawLast=zeros(M,N);
-coeffsLastMD=zeros(N,M,size(dofGRD,1)); %  dirBins, freq, dof
-coeffsLastRE=zeros(N,M,size(dofGRD,1));
-coeffsLastIM=zeros(N,M,size(dofGRD,1));
+relYawLast=zeros(size(directions));
+coeffsLastMD=zeros(length(directions),length(omega),size(dofGRD,1)); %  directions, freq, dof
+coeffsLastRE=zeros(length(directions),length(omega),size(dofGRD,1));
+coeffsLastIM=zeros(length(directions),length(omega),size(dofGRD,1));
 
-relYaw = dirBins-(Disp(6)*180/pi); % relative yaw angle, size = dirBins = [length(w) nBins]
-
+relYaw = directions-(disp(6)*180/pi); % relative yaw angle, size = directions = [length(w) nBins]
 
 % compare relYaw to available direction data Direction data must
 % span 360 deg, inclusive (i.e [-180 180])
@@ -28,15 +25,12 @@ else
     I=1:length(relYaw(1,:));
 end
 
- relYawGRD = zeros([size(dofGRD,1) size(relYaw.')]);
- for k=1:6
-     relYawGRD(k,:,:) = relYaw.';
- end
+ % relYawGRD = zeros([size(dofGRD,1) length(directions) length(w)]);
+ relYawGRD = reshape(repmat(relYaw', size(dofGRD,1), length(omega)), size(dofGRD,1), length(directions), length(omega));
 
-yawError = zeros(M,N);
-if pYaw ==1 % fewer cases here because you WILL have to interpolate for any new yaw position, no chance it aligns with precalc'd grid
+if passiveYaw ==1 % fewer cases here because you WILL have to interpolate for any new yaw position, no chance it aligns with precalc'd grid
     yawDiff = abs(relYaw - prevYaw);
-    if max(yawDiff,[],'all')>intThresh% interpolate for nonlinear yaw
+    if max(yawDiff,[],'all')>yawThresh% interpolate for nonlinear yaw
 
         % performs 1D interpolation in wave direction
         fExtMDint=interpn(dofGRD,dirGRD,wGRD,fEHMD,qDofGRD,relYawGRD,qWGRD);
@@ -88,14 +82,12 @@ else
         relYawLast=relYaw;
     end
 
-
 end
 
-
 B1= sin(bsxfun(@plus,A1,phaseRand(:,:,1)));
-B11 = sin(bsxfun(@plus,w*time,phaseRand(:,:,1)));
-C0 = bsxfun(@times,A.*spreadBins,dw);
-C1 = sqrt(bsxfun(@times,A.*spreadBins,dw));
+B11 = sin(bsxfun(@plus,omega*time,phaseRand(:,:,1)));
+C0 = bsxfun(@times,amplitude,dOmega);
+C1 = sqrt(bsxfun(@times,amplitude,dOmega));
 for k=1:size(dofGRD,1)
     D0 =bsxfun(@times,fExtMDint(:,:,k).',C0);
     D1 =bsxfun(@times,fExtREint(:,:,k).',C1);

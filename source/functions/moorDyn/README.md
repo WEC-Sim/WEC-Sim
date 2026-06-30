@@ -2,15 +2,36 @@ To use MoorDyn in WEC-Sim, please
 
 1. Download moorDyn from repo <https://github.com/WEC-Sim/moorDyn> 
 2. Place all the files and folders under `WEC-Sim/source/functions/moorDyn` folder
+3. Extract libraries that correspond to your system architecture (Mac and Linux)
 
-**Note for Mac Users:**
+**Note for Mac and Linux Users:**
 
-You need to rename the `.dylib` library that corresponds to your system architecture 
-(type of CPU) to `libmoordyn.dylib` before completing step 2 above. 
-- Apple Silicon (2020 and later): run `mv libmoordyn-arm64.dylib libmoordyn.dylib`
-- Intel (pre 2020): run `mv libmoordyn-x86_64.dylib libmoordyn.dylib`
+To run WEC-Sim with MoorDyn successfully, you need to extract the libraries that 
+correspond to your system architecture (type of CPU). To do so, go into the 
+`mac_libraries` or `linux_libraries` folders and into the folder for your system 
+architecture. Then, copy the files out to the main `WEC-Sim/source/functions/moorDyn` 
+folder. You can do this using the `mv` command. For example, for a Linux system 
+with x86_64 architecture, the following commands (run from the 
+`WEC-Sim/source/functions/moorDyn` folder) will select the correct architecture 
+and move the libraries out to the main folder:
+`mv linux_libraries\x86_64\libmoordyn.so libmoordyn.so`
+`mv linux_libraries\x86_64\libmoordyn.so.2 libmoordyn.so.2`
+`mv linux_libraries\x86_64\libmoordyn.so.2.4 libmoordyn.so.2.4`
 
---------------------- MoorDyn v2.3.7 -------------------------
+Note also that the trailing numbers correspond to the version of MoorDyn and 
+should be updated accordingly.
+
+**Note for All Users:**
+
+If the MoorDyn files on this repository are not functioning on your system, 
+you should compile the code from source following the steps in the 
+[documentation](https://moordyn.readthedocs.io/en/latest/). MoorDyn will 
+automatically build with the right architecture for your system. Once you have 
+your local MoorDyn library and source code, replace `MoorDyn.h`, 
+`MoorDynAPI.h`, and the library file(s) (e.g., `libmoordyn.dll`) from this repo 
+with your local copy.
+
+--------------------- MoorDyn v2.4.0 -------------------------
 
 Copyright 2014-2016 Matt Hall <mtjhall@alumni.uvic.ca>
 
@@ -32,8 +53,6 @@ General Public License for details.
 
 You should have received a copy of the GNU General Public License 
 along with MoorDyn.  If not, see <http://www.gnu.org/licenses/>.
-
-If the MoorDyn files on this repository are not functioning on your system, you should compile the code from source following the steps in the [documentation](https://moordyn.readthedocs.io/en/latest/). MoorDyn will automatically build with the right architecture for your system. Once you have your local MoorDyn library and source code, replace `MoorDyn.h`, `MoorDynAPI.h`, and the library file (e.g., `libmoordyn.dll`) from this repo with your local copy.
 
 ---------------------- More Information -------------------------
 

@@ -39,7 +39,9 @@ Desalination
 ^^^^^^^^^^^^
 
 Example using WEC-Sim for desalination based on the :ref:`OSWEC <user-tutorials-oswec>` 
-geometry. Note the dependency on SimScape Fluids to run this desalination case. 
+geometry. See :ref:`user-troubleshooting` for information on degenerate mass 
+errors which necessitate an inertia block between the constraint and PTO.
+Note the dependency on SimScape Fluids to run this desalination case. 
 
 Free Decay
 ^^^^^^^^^^
@@ -47,6 +49,23 @@ Free Decay
 Example using WEC-Sim to simulate :ref:`free decay <user-advanced-features-decay>` 
 of a sphere in heave, using :ref:`Multiple Condition Runs <user-advanced-features-mcr>`. 
 Execute the `runFreeDecay.m` script to run this case.
+
+Full-Directional Waves
+^^^^^^^^^^^^^^^^^^^^^^
+
+One application case containing two examples using WEC-Sim to simulate full directional 
+wave spectra :ref:`user-code-structure-full-dir`.
+The base example (MHKiT NDBC Waves) uses data from `MHKiT's directional wave example 
+<https://mhkit-software.github.io/MHKiT/directional_waves.html#Directional-Wave-Spectrum-from-NDBC-Buoys>`_ 
+to generate full directional waves. The second example can be run by uncommenting the
+full directional waves with conversion from OOI section in the `wecSimInputFile.m` and
+is based on data from the Ocean Observatories Initiative (OOI) that was used to model the 
+`Pioneer Buoy <https://github.com/WEC-Sim/pioneerWEC>`_ and demonstrates a 
+spectrum conversion from OOI's format to the IEC standard.
+
+.. Note::
+  The spread for the MHKiT NDBC_Waves example has been adjusted to avoid 
+  negative values as suggested by `NDBC <https://www.ndbc.noaa.gov/faq/measdes.shtml>`_.
 
 Generalized Body Modes
 ^^^^^^^^^^^^^^^^^^^^^^

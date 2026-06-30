@@ -308,21 +308,25 @@ classdef bodyClass<handle
                     warning('Only one h5File supplied. Turning variable hydro off.');
                 end
                 if obj.variableHydro.option == 0
+                    % If variable hydro is off, default the h5 file,
+                    % and manually defined stiffness and damping values to
+                    % the obj.variableHydro.hydroForceIndexInitial index
+                    ind = obj.variableHydro.hydroForceIndexInitial;
                     obj.variableHydro.hydroForceIndexInitial = 1;
                     if length(obj.h5File) > 1
-                        obj.h5File = obj.h5File(1);
+                        obj.h5File = obj.h5File(ind);
                         warning('Variable hydro flag is off. Extra h5 files ignored.');
                     end
                     if length(obj.quadDrag) > 1
-                        obj.quadDrag = obj.quadDrag(1);
+                        obj.quadDrag = obj.quadDrag(ind);
                         warning('Variable hydro flag is off. Extra quadDrag structs ignored.');
                     end
                     if size(obj.linearDamping,3) > 1
-                        obj.linearDamping = obj.linearDamping(:,:,1);
+                        obj.linearDamping = obj.linearDamping(:,:,ind);
                         warning('Variable hydro flag is off. Extra linearDamping dimension ignored.');
                     end
                     if size(obj.hydroStiffness,3) > 1
-                        obj.hydroStiffness = obj.hydroStiffness(:,:,1);
+                        obj.hydroStiffness = obj.hydroStiffness(:,:,ind);
                         warning('Variable hydro flag is off. Extra hydroStiffness dimension ignored.');
                     end
                 else
@@ -447,7 +451,7 @@ classdef bodyClass<handle
             g = simu.gravity;
             waveType = waves.type;
             waveAmpTime = waves.waveAmpTime;
-            dirBins = waves.freqDepDirection.dirBins;
+            dirBins = waves.fullDirectionalSpectrum.directions;
             stateSpace = simu.stateSpace;
             B2B = simu.b2b;
             hfName = ['hf' num2str(iH)];
@@ -1031,9 +1035,9 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
                 elseif ~isempty(dirBins)
                     [X,Y] = meshgrid(obj.hydroData(iH).simulation_parameters.w, sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction)));
-                    obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
-                    obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
-                    obj.hydroForce.(hfName).fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), repmat(wv,[1 length(dirBins(1,:))]), dirBins,'spline');
+                    obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), repmat(wv,[1 length(dirBins)]), dirBins,'spline');
+                    obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), repmat(wv,[1 length(dirBins)]), dirBins,'spline');
+                    obj.hydroForce.(hfName).fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), repmat(wv,[1 length(dirBins)]), dirBins,'spline');
                 elseif obj.hydroData(iH).simulation_parameters.direction == direction
                     obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline').';
                     obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline').';
@@ -1045,19 +1049,20 @@ classdef bodyClass<handle
             if obj.yaw.option==1 || ~isempty(dirBins)
                 % show warning for passive yaw run with incomplete BEM data
                 BEMdir = sort(obj.hydroData(iH).simulation_parameters.direction);
-                boundDiff(1) = abs(-180 - BEMdir(1));
-                boundDiff(2) = abs(180 - BEMdir(end));
-                if obj.yaw.option == 1 && length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
+                boundDiff(1) = abs(-180 - min(wrapTo180(BEMdir)));
+                boundDiff(2) = abs(180 - max(wrapTo180(BEMdir)));
+                if obj.yaw.option == 1 && (length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15)
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear boundDiff
                 end
                 if ~isempty(dirBins)
+                    dirBins = wrapTo180(dirBins);
                     BEMdir = wrapTo180(BEMdir - 180);
                     boundDiff(1) = abs(min(dirBins,[],'all') - BEMdir(1));
                     boundDiff(2) = min(abs(max(dirBins,[],'all') - BEMdir(end)),...
                                        abs(max(dirBins,[],'all') - 180-BEMdir(1)));
-                    [obj.hydroForce.(hfName).fExt.qDofGrd,~,obj.hydroForce.(hfName).fExt.qWGrd] = ndgrid([1:nDOF],dirBins(1,:),wv); % this is necessary for nd interpolation; query grids be same size as dirBins.
+                    [obj.hydroForce.(hfName).fExt.qDofGrd,~,obj.hydroForce.(hfName).fExt.qWGrd] = ndgrid([1:nDOF],dirBins,wv); % this is necessary for nd interpolation; query grids be same size as dirBins.
                     if length(BEMdir)<3 || max(boundDiff)>15
                         warning(['BEM directions do not cover the directional spread bins or are too coarse to define spread bin distribution.' newline ...
                             'Re-run with more bins']);

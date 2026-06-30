@@ -236,6 +236,7 @@ classdef mooringClass<handle
                 end
             end
             
+            calllib('libmoordyn', 'SetDisableConsole', 1)
             calllib('libmoordyn', 'MoorDynInit', orientationTotal, zeros(1,length(orientationTotal)), obj(1).moorDynInputFile);
             disp('MoorDyn Initialized. Now time stepping...')
         end

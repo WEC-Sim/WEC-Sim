@@ -215,7 +215,7 @@ sections.
 ``regularCIC``             ``waves.height``, ``waves.period``                        
 ``irregular``              ``waves.height``, ``waves.period``, ``waves.spectrumType``
 ``spectrumImport``         ``waves.spectrumFile`` 
-``spectrumImportFullDir``  ``waves.spectrumFile``, ``waves.freqDepDirection.nBins``                 
+``spectrumImportFullDir``  ``waves.spectrumFile``                 
 ``elevationImport``        ``waves.elevationFile``                           
 ========================== ==================================================================
 
@@ -335,23 +335,27 @@ in the input file::
     wave spectra. These wave frequencies are the same that will be used to 
     define the wave forces on the WEC, for more information refer to the 
     :ref:`user-advanced-features-irregular-wave-binning` section.
+
+.. _user-code-structure-full-dir:
 	
 spectrumImportFullDir
 """""""""""""""""""""
 
 The ``spectrumImportFullDir`` case is for irregular wave simulations where the imported wave spectrum
-has frequency-dependent directions and/or spread values (ex: from buoy data). The user-defined spectrum
-must be defined with the wave frequency (Hz) in the first column, the spectral energy density (m^2/Hz) in the second column,
-the mean direction (degrees) in the third column, and the spread (degress) in the fourth column. 
+is both frequency and directionally dependent. The user-defined spectrum file must contain a variable 
+called ``frequencies`` defining the wave frequencies (Hz), ``directions`` defining the wave directions 
+(degrees), ``spectrum`` defining the omni-directional wave spectrum (m^2/Hz), and ``spread`` defining the 
+frequency and directionally dependent wave spread (1/Hz/rad). The wave spread (in accordance
+with the IEC TS 62600-2 standard) should satisfy:
+
+:math:`\int_{-\pi}^{\pi} D(f, \theta) \, d\theta = 1`
 
 If specified, wave phase must be a rectangular matrix of size [i,j], where :math:`i` is the number of wave frequencies and :math:`j`
 is the number of directional bins. To generate a random spectra, specifying a single phase seed value (e.g., waves.phaseSeed = 128) is sufficient
 to ensure that the generated wave spectra is repeatable. 
 
 .. Note::
-    The default spread function is a Gaussian discretized into ``waves.freqDepDirection.nBins`` defined at each frequency for a mean direction (third column) and standard deviation (fourth column) over a range defined by ``waves.freqDepDirection.spreadRange`` (default = 2, so that the Gaussian will be defined for +/-2 standard deviations). It is recommended that this range is at least 2, though it will be normalized in any case so that energy is not lost due to discretization. 
-	
-	At this time, this wave spectra does **NOT** work with nonlinear hydrodynamics.
+	At this time, the full directional wave spectra does **NOT** work with nonlinear hydrodynamics.
 
 elevationImport
 """""""""""""""
