@@ -18,6 +18,9 @@ function rotMat = axisAngle2RotMat(axis,angle)
 %   rotMat : 3 x 3 float vector 
 %       Rotation matrix from the input axis and angle
 %
+if angle > pi
+    warning('axisAngle2RotMat: input angle greater than pi radians. Check input units.')
+end
 
 rotMat = zeros(3);
 rotMat(1,1) = axis(1)*axis(1)*(1-cos(angle)) + cos(angle);
