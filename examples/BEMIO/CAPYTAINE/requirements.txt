@@ -34,7 +34,7 @@ pandas==2.3.2
     # via
     #   capytaine
     #   xarray
-pillow==11.3.0
+pillow==12.2.0
     # via matplotlib
 pygments==2.20.0
     # via rich
