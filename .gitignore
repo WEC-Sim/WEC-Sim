@@ -106,19 +106,3 @@ view_html.sh
 /examples/BEMIO/NEMOH/NEMOH_v2.3/**/Results
 
 
-
-# WEC-Sim / Simulink outputs and generated files
-examples/**/output/
-slprj/
-*.slxc
-*.asv
-
-# MATLAB/Simulink automatic backups
-*.slx.r20*
-*.mdl.r20*
-
-# Manual backups from this investigation
-*_backup_before_FOH_*.slx
-wecSimInputFile_backup_*.m
-OSWEC_baseline_backup.slx
-OSWEC_solver_test.slx
