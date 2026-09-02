@@ -21,7 +21,7 @@ r_cube_body.inertia_matrix = r_cube_body.compute_rigid_body_inertia()
 r_cube_body.hydrostatic_stiffness = r_cube_body.immersed_part().compute_hydrostatic_stiffness()
 
 t_cube_mesh_file = os.path.join(input_data_dir, "t_cube.dat")
-t_cube_mesh = cpt.load_mesh(t_cube_mesh_file, file_format="dat")
+t_cube_mesh = cpt.load_mesh(t_cube_mesh_file, file_format="nemoh")
 t_cube_body = cpt.FloatingBody(
     mesh=t_cube_mesh,
     lid_mesh=t_cube_mesh.generate_lid(),
