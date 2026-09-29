@@ -57,8 +57,10 @@ hydroData.hydro_coeffs.linear_restoring_stiffness = reverseDimensionOrder(h5read
 % Read excitation coefficients and IRF
 hydroData.hydro_coeffs.excitation.re = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/re']));
 hydroData.hydro_coeffs.excitation.im = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/im']));
-try hydroData.hydro_coeffs.excitation.impulse_response_fun.f = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/impulse_response_fun/f'])); end
-try hydroData.hydro_coeffs.excitation.impulse_response_fun.t = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/impulse_response_fun/t'])); end
+try 
+    hydroData.hydro_coeffs.excitation.impulse_response_fun.f = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/impulse_response_fun/f']));
+    hydroData.hydro_coeffs.excitation.impulse_response_fun.t = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/impulse_response_fun/t']));
+end
 
 % Read second order excitation forces data (QTFs)
 try
@@ -84,15 +86,19 @@ hydroData.hydro_coeffs.added_mass.inf_freq = reverseDimensionOrder(h5read(filena
 
 % Read radiation damping coefficients and IRF
 hydroData.hydro_coeffs.radiation_damping.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/all']));
-try hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/impulse_response_fun/K'])); end
-try hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/impulse_response_fun/t'])); end
+try 
+    hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/impulse_response_fun/K']));
+    hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/impulse_response_fun/t']));
+end
 
 % Read radiation damping state space coefficients
-try hydroData.hydro_coeffs.radiation_damping.state_space.it = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/it'])); end
-try hydroData.hydro_coeffs.radiation_damping.state_space.A.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/A/all'])); end
-try hydroData.hydro_coeffs.radiation_damping.state_space.B.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/B/all'])); end
-try hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/C/all'])); end
-try hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/D/all'])); end
+try 
+    hydroData.hydro_coeffs.radiation_damping.state_space.it = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/it']));
+    hydroData.hydro_coeffs.radiation_damping.state_space.A.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/A/all']));
+    hydroData.hydro_coeffs.radiation_damping.state_space.B.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/B/all']));
+    hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/C/all']));
+    hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/D/all']));
+end
 
 % Read GBM parameters if available
 dofStart = hydroData.properties.dofStart;
