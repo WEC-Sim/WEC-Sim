@@ -22,7 +22,7 @@ function hydro = addDefaultPlotVars(hydro)
 
 hydro(F).plotDofs = [1,1; 3,3; 5,5];
 hydro(F).plotBodies = 1:hydro(F).Nb;
-hydro(F).plotDirections = 1;
+hydro(F).plotDirections = 1:hydro(F).Nh;
 
 end
 
