@@ -54,23 +54,26 @@ for i = 1:hydro.Nb
     hydro.Ainf(dofStart:dofEnd,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/added_mass/inf_freq']));
     hydro.A(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/added_mass/all']));
     hydro.B(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/all']));
-    hydro.ex_ma(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/mag']));
-    hydro.ex_ph(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/phase']));
-    hydro.ex_re(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/re']));
-    hydro.ex_im(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/im']));
+    exCoeffs = readComplexCoeff(filename, [h5BodyName '/hydro_coeffs/excitation'], 'excitation');
+    hydro.ex_ma(dofStart:dofEnd,:,:) = exCoeffs.ma;
+    hydro.ex_ph(dofStart:dofEnd,:,:) = exCoeffs.ph;
+    hydro.ex_re(dofStart:dofEnd,:,:) = exCoeffs.re;
+    hydro.ex_im(dofStart:dofEnd,:,:) = exCoeffs.im;
     
-    % Read scatting and Froude-Krylov coefficients if available
+    % Read scattering and Froude-Krylov coefficients if available
     try
-        hydro.sc_ma(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/scattering/mag']));
-        hydro.sc_ph(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/scattering/phase']));
-        hydro.sc_re(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/scattering/re']));
-        hydro.sc_im(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/scattering/im']));
+        scCoeffs = readComplexCoeff(filename, [h5BodyName '/hydro_coeffs/excitation/scattering'], 'scattering');
+        hydro.sc_ma(dofStart:dofEnd,:,:) = scCoeffs.ma;
+        hydro.sc_ph(dofStart:dofEnd,:,:) = scCoeffs.ph;
+        hydro.sc_re(dofStart:dofEnd,:,:) = scCoeffs.re;
+        hydro.sc_im(dofStart:dofEnd,:,:) = scCoeffs.im;
     end
     try
-        hydro.fk_ma(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/froude-krylov/mag']));
-        hydro.fk_ph(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/froude-krylov/phase']));
-        hydro.fk_re(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/froude-krylov/re']));
-        hydro.fk_im(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/froude-krylov/im']));
+        fkCoeffs = readComplexCoeff(filename, [h5BodyName '/hydro_coeffs/excitation/froude-krylov'], 'froude-krylov');
+        hydro.fk_ma(dofStart:dofEnd,:,:) = fkCoeffs.ma;
+        hydro.fk_ph(dofStart:dofEnd,:,:) = fkCoeffs.ph;
+        hydro.fk_re(dofStart:dofEnd,:,:) = fkCoeffs.re;
+        hydro.fk_im(dofStart:dofEnd,:,:) = fkCoeffs.im;
     end
 
     % Read radiation and excitation IRFs if available
@@ -116,4 +119,45 @@ end
 % Add default plotting flags back in
 hydro = addDefaultPlotVars(hydro);
 
+end
+
+
+function c = readComplexCoeff(filename, basePath, label)
+
+[c.ma, hasMa] = readH5Maybe(filename, [basePath '/mag']);
+[c.ph, hasPh] = readH5Maybe(filename, [basePath '/phase']);
+[c.re, hasRe] = readH5Maybe(filename, [basePath '/re']);
+[c.im, hasIm] = readH5Maybe(filename, [basePath '/im']);
+
+hasMagPhase = hasMa && hasPh;
+hasRealImag = hasRe && hasIm;
+
+if hasMagPhase && ~hasRealImag
+    warning('%s: only magnitude/phase found. Computing real/imaginary parts.', label);
+    c.re = c.ma .* cos(c.ph);
+    c.im = c.ma .* sin(c.ph);
+
+elseif hasRealImag && ~hasMagPhase
+    warning('%s: only real/imaginary parts found. Computing magnitude/phase.', label);
+    c.ma = sqrt(c.re.^2 + c.im.^2);
+    c.ph = atan2(c.im, c.re);
+
+elseif hasMagPhase && hasRealImag
+    % All available; use file values.
+
+else
+    error('%s: incomplete complex coefficient data. Need mag+phase or re+im.', label);
+end
+
+end
+
+
+function [x, ok] = readH5Maybe(filename, dataset)
+try
+    x = reverseDimensionOrder(h5read(filename, dataset));
+    ok = true;
+catch
+    x = [];
+    ok = false;
+end
 end
