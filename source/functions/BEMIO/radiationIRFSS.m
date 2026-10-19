@@ -42,6 +42,9 @@ hydro.ss_conv = zeros(sum(hydro.dof),sum(hydro.dof));
 hydro.ss_R2 = zeros(sum(hydro.dof),sum(hydro.dof));
 hydro.ss_O = zeros(sum(hydro.dof),sum(hydro.dof));
 
+r2WarnCombos = {};
+areaWarnCombos = {};
+
 for i=1:sum(hydro.dof)
     for j=1:sum(hydro.dof)
         
@@ -82,6 +85,21 @@ for i=1:sum(hydro.dof)
                 break  % Max SS order threshold
             else  O = O+1;  end  % Increase state space order
         end
+
+        % Collect dofs that didn't hit R2 threshold
+        if status == 2
+            r2WarnCombos{end+1} = sprintf('%d-%d', i, j);
+        end
+
+        % Collect dofs that have significant area error
+        area_K  = trapz(t, K);
+        area_SS = trapz(t, ss_K(:));
+        areaScale = trapz(t, abs(K));
+        areaErr = abs(area_SS - area_K) / max(areaScale, eps);
+        if areaErr > 0.01
+            areaWarnCombos{end+1} = sprintf('%d-%d', i, j);
+        end
+
         if R2i ~= 0.0
             hydro.ss_A(i,j,1:O,1:O) = ac;
             hydro.ss_B(i,j,1:O,1) = bc;
@@ -93,6 +111,16 @@ for i=1:sum(hydro.dof)
             hydro.ss_O(i,j) = O;
         end
     end
+end
+
+if ~isempty(r2WarnCombos)
+    warning(['SS radiation fit R^2 did not hit threshold for DOF combo(s): ', ...
+             strjoin(r2WarnCombos, ', ')]);
+end
+
+if ~isempty(areaWarnCombos)
+    warning(['SS radiation fit has large DC/area error for DOF combo(s): ', ...
+             strjoin(areaWarnCombos, ', ')]);
 end
 
 end
