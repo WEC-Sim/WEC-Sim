@@ -1,4 +1,4 @@
-function hydro = radiationIRFSS(hydro,Omax,R2t)
+function hydro = radiationIRFSS(hydro, orders, R2t)
 % Calculates the state space (SS) realization of the normalized radiation IRF.
 % If this function is used, it must be implemented after the radiationIRF function.
 % 
@@ -10,13 +10,14 @@ function hydro = radiationIRFSS(hydro,Omax,R2t)
 %     hydro : struct
 %         Structure of hydro data
 %     
-%     Omax : integer 
-%         Maximum order of the SS realization, the default is 10
+%     orders : integer or nDOF x nDOF array
+%         Maximum order of the SS realization, the default is 10. May be
+%         DOF-dependent.
 % 
-%     R2t : float
+%     R2t : float or nDOF x nDOF array
 %         :math:`R^2` threshold (coefficient of determination) for the SS
 %         realization, where :math:`R^2` may range from 0 to 1, and the
-%         default is 0.95
+%         default is 0.95. May be DOF-dependent.
 %
 % Returns
 % -------
@@ -28,8 +29,13 @@ function hydro = radiationIRFSS(hydro,Omax,R2t)
 disp('Calculating state space radiation IRFs...');
 
 % Set defaults if empty
-if isempty(Omax)==1;    Omax = 10;  end
-if isempty(R2t)==1;     R2t = 0.95; end
+if isempty(orders); orders = 10; end
+if isempty(R2t);    R2t = 0.95;  end
+
+nDOF = sum(hydro.dof);
+orders = expandSize(orders, nDOF);
+R2t = expandSize(R2t, nDOF);
+Omax = max(orders);
 
 t = hydro.ra_t;
 dt = t(2)-t(1);
@@ -77,10 +83,15 @@ for i=1:sum(hydro.dof)
             end
             
             R2 = 1-(norm(K-ss_K.')/R2i)^2;  % Calc R2 for SS IRF approx
-            if R2 >= R2t  status = 1;  break  % R2 threshold
-            elseif O == Omax  status = 2;
-                break  % Max SS order threshold
-            else  O = O+1;  end  % Increase state space order
+            if R2 >= R2t(i,j) % R2 threshold
+                status = 1;
+                break
+            elseif O == orders(i,j) % Max SS order threshold
+                status = 2;
+                break
+            else % Increase state space order
+                O = O+1;
+            end
         end
         if R2i ~= 0.0
             hydro.ss_A(i,j,1:O,1:O) = ac;
