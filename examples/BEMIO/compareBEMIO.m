@@ -16,7 +16,7 @@ AQWA_hydro = readAQWA(AQWA_hydro, AQWA_AH1, AQWA_LIS);
 
 % Load Capytaine hydro data 
 CAP_hydro = struct();
-CAP_nc = fullfile('.', 'Capytaine', 'Sphere', 'sphere_full.nc');
+CAP_nc = fullfile('.', 'Capytaine', 'Sphere', 'outputs', 'sphere_hydrodynamics.nc');
 CAP_hydro = readCAPYTAINE(CAP_hydro,CAP_nc);
 
 % Example of how to combine hydro data structures using combineBEM
@@ -70,7 +70,7 @@ AQWA_hydro = excitationIRF(AQWA_hydro,20,[],[],[],[]);
 
 % Load Capytaine hydro data 
 CAP_hydro = struct();
-CAP_nc = fullfile('.', 'Capytaine', 'RM3', 'rm3_full.nc');
+CAP_nc = fullfile('.', 'Capytaine', 'RM3', 'outputs', 'rm3_hydrodynamics.nc');
 CAP_hydro = readCAPYTAINE(CAP_hydro,CAP_nc);
 CAP_hydro = radiationIRF(CAP_hydro,60,[],[],[],1.9);
 CAP_hydro = excitationIRF(CAP_hydro,20,[],[],[],1.9);
@@ -153,7 +153,7 @@ clear all;clc; close all
 
 % % Load Capytaine hydro data 
 CAP_hydro = struct();
-CAP_nc = fullfile('CAPYTAINE','oswec','oswec_full.nc');
+CAP_nc = fullfile('CAPYTAINE','oswec', 'outputs', 'oswec_hydrodynamics.nc');
 CAP_hydro = readCAPYTAINE(CAP_hydro,CAP_nc);
 CAP_hydro = radiationIRF(CAP_hydro,75,[],[],[],[]);
 CAP_hydro = excitationIRF(CAP_hydro,75,[],[],[],[]);
