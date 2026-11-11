@@ -65,14 +65,14 @@ for i = 1:sum(hydro.dof)
 end
 
 % Calculate the infinite frequency added mass
-ra_Ainf_temp = zeros(length(hydro.w),1);                                    %Initialize the variable
+ra_Ainf_temp = zeros(length(w),1);                                          %Initialize the variable
 [~,F] = size(hydro);                                                        %Last data set in
 if isempty(hydro.Ainf) || ~isfield(hydro,'Ainf') || ~strcmp(hydro(F).code,'WAMIT')
     for i = 1:sum(hydro.dof)
         for j = 1:sum(hydro.dof)
             ra_A            = interp1(hydro.w,squeeze(hydro.A(i,j,:)),w);
             ra_K            = squeeze(hydro.ra_K(i,j,:));
-            for k = 1:length(hydro.w)                                       %Calculate the infinite frequency added mass at each input frequency
+            for k = 1:length(w)                                             %Calculate the infinite frequency added mass at each input frequency
                 ra_Ainf_temp(k,1)  = ra_A(k) + (1./w(k))*trapz(t,ra_K.*sin(w(k).*t.'));
             end
             hydro.Ainf(i,j) = mean(ra_Ainf_temp);                           %Take the mean across the vector of infinite frequency added mass 
