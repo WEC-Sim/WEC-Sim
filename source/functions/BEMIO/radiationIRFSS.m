@@ -35,7 +35,7 @@ if isempty(R2t);    R2t = 0.95;  end
 nDOF = sum(hydro.dof);
 orders = expandSize(orders, nDOF);
 R2t = expandSize(R2t, nDOF);
-Omax = max(orders);
+Omax = max(orders, [], 'all');
 
 t = hydro.ra_t;
 dt = t(2)-t(1);
