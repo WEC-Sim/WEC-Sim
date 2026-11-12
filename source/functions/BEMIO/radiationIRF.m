@@ -62,9 +62,9 @@ for i = 1:sum(hydro.dof)
     for j = 1:sum(hydro.dof)
         w = linspace(wMin(i,j), wMax(i,j), nDw(i,j));
         if min(w)<min(hydro.w) || max(w)>max(hydro.w)
-            warning(['radiationIRF.m: IRF frequency range large than BEM frequency range and requires extrapolation for DOF ' num2str(i), ', ' num2str(j) '. Confirm this is intended behavior.'])
+            error(['radiationIRF.m: IRF frequency range larger than BEM frequency range for DOF ' num2str(i), ', ' num2str(j)])
         end
-        ra_B = interp1(hydro.w, squeeze(hydro.B(i,j,:)), w, 'linear', 'extrap');
+        ra_B = interp1(hydro.w, squeeze(hydro.B(i,j,:)), w);
         hydro.ra_K(i,j,:) = (2/pi)*trapz(w,ra_B.*(cos(w.*t(:)).*w), 2);
         hydro.ra_w(i,j,:) = w;
 
@@ -72,7 +72,7 @@ for i = 1:sum(hydro.dof)
         % radiation IRF
         if isempty(hydro.Ainf) || ~isfield(hydro,'Ainf') || ~isequal(hydro.code,'WAMIT')
             ra_Ainf_temp = zeros(length(w),1);
-            ra_A = interp1(hydro.w, squeeze(hydro.A(i,j,:)), w, 'linear', 'extrap');
+            ra_A = interp1(hydro.w, squeeze(hydro.A(i,j,:)), w);
             ra_K = squeeze(hydro.ra_K(i,j,:));
             for k = 1:length(w)                                             %Calculate the infinite frequency added mass at each input frequency
                 ra_Ainf_temp(k,1)  = ra_A(k) + (1./w(k))*trapz(t,ra_K.*sin(w(k).*t.'));
