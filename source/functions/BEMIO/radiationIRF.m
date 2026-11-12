@@ -20,16 +20,16 @@ function hydro = radiationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
 %     nDt : float
 %         Number of time steps in the IRF, the default is 1001 
 %     
-%     nDw : float
+%     nDw : float or nDOF x nDOF
 %         Number of frequency steps used in the IRF calculation
 %         (hydrodynamic coefficients are interpolated to correspond), the
 %         default is 1001
 % 
-%     wMin : float
+%     wMin : float or nDOF x nDOF
 %         Minimum frequency to use in the IRF calculation, the default is
 %         the minimum frequency from the BEM data
 % 
-%     wMax : float
+%     wMax : float or nDOF x nDOF
 %         Maximum frequency to use in the IRF calculation, the default is
 %         the maximum frequency from the BEM data
 %
@@ -42,37 +42,39 @@ function hydro = radiationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
 disp('Calculating radiation IRFs...');
 
 % Set defaults if empty
-if isempty(tEnd)==1;  tEnd = 100;           end
-if isempty(nDt)==1;    nDt = 1001;            end
-if isempty(nDw)==1;    nDw = 1001;            end
-if isempty(wMin)==1;  wMin = min(hydro.w);  end
-if isempty(wMax)==1;  wMax = max(hydro.w);  end
+if isempty(tEnd);  tEnd = 100;           end
+if isempty(nDt);   nDt = 1001;           end
+if isempty(nDw);   nDw = 1001;           end
+if isempty(wMin);  wMin = min(hydro.w);  end
+if isempty(wMax);  wMax = max(hydro.w);  end
+
+nDOF = sum(hydro.dof);
+nDw = expandSize(nDw, nDOF);
+wMin = expandSize(wMin, nDOF);
+wMax = expandSize(wMax, nDOF);
 
 % Interpolate to the given t and w
 t = linspace(0,tEnd,nDt);
-w = linspace(wMin,wMax,nDw);
-N = sum(hydro.dof) * sum(hydro.dof);
 
 % Calculate the impulse response function for radiation
-n = 0;
 hydro.ra_K = nan(sum(hydro.dof), sum(hydro.dof), length(t));
 for i = 1:sum(hydro.dof)
     for j = 1:sum(hydro.dof)
-        ra_B = interp1(hydro.w,squeeze(hydro.B(i,j,:)),w);
+        w = linspace(wMin(i,j), wMax(i,j), nDw(i,j));
+        if min(w)<min(hydro.w) || max(w)>max(hydro.w)
+            error(['radiationIRF.m: IRF frequency range larger than BEM frequency range for DOF ' num2str(i), ', ' num2str(j)])
+        end
+        ra_B = interp1(hydro.w, squeeze(hydro.B(i,j,:)), w);
         hydro.ra_K(i,j,:) = (2/pi)*trapz(w,ra_B.*(cos(w.*t(:)).*w), 2);
-        n = n+1;
-    end
-end
+        hydro.ra_w(i,j,:) = w;
 
-% Calculate the infinite frequency added mass
-ra_Ainf_temp = zeros(length(hydro.w),1);                                    %Initialize the variable
-[~,F] = size(hydro);                                                        %Last data set in
-if isempty(hydro.Ainf) || ~isfield(hydro,'Ainf') || ~strcmp(hydro(F).code,'WAMIT')
-    for i = 1:sum(hydro.dof)
-        for j = 1:sum(hydro.dof)
-            ra_A            = interp1(hydro.w,squeeze(hydro.A(i,j,:)),w);
-            ra_K            = squeeze(hydro.ra_K(i,j,:));
-            for k = 1:length(hydro.w)                                       %Calculate the infinite frequency added mass at each input frequency
+        % Alternate calculation for the infinite-frequency added mass based on the
+        % radiation IRF
+        if isempty(hydro.Ainf) || ~isfield(hydro,'Ainf') || ~isequal(hydro.code,'WAMIT')
+            ra_Ainf_temp = zeros(length(w),1);
+            ra_A = interp1(hydro.w, squeeze(hydro.A(i,j,:)), w);
+            ra_K = squeeze(hydro.ra_K(i,j,:));
+            for k = 1:length(w)                                             %Calculate the infinite frequency added mass at each input frequency
                 ra_Ainf_temp(k,1)  = ra_A(k) + (1./w(k))*trapz(t,ra_K.*sin(w(k).*t.'));
             end
             hydro.Ainf(i,j) = mean(ra_Ainf_temp);                           %Take the mean across the vector of infinite frequency added mass 
@@ -81,6 +83,5 @@ if isempty(hydro.Ainf) || ~isfield(hydro,'Ainf') || ~strcmp(hydro(F).code,'WAMIT
 end
 
 hydro.ra_t = t;
-hydro.ra_w = w;
 
 end

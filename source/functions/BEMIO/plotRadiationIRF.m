@@ -43,22 +43,25 @@ for iH = 1:numHydro
     X.(tmp1) = varargin{iH}.ra_t;
     tmp2 = strcat('Y',num2str(iH));
     ssFlag = isfield(varargin{iH},'ss_A');
+    iiData = 0;
     for ii = 1:length(varargin{iH}.plotBodies)
         iB = varargin{iH}.plotBodies(ii);
         a = sum(varargin{iH}.dof(1:iB)) - varargin{iH}.dof(iB);
+        iiData = iiData+1;
         for iii = 1:size(varargin{iH}.plotDofs,1)
             iDof1 = a+varargin{iH}.plotDofs(iii,1);
             iDof2 = a+varargin{iH}.plotDofs(iii,2);
+
+            Y.(tmp2)(iii,iiData,:) = squeeze(varargin{iH}.ra_K(iDof1,iDof2,:));
             if ssFlag
-                Y.(tmp2)(iii,ii,:) = squeeze(varargin{iH}.ss_K(iDof1,iDof2,:));
-            else
-                Y.(tmp2)(iii,ii,:) = squeeze(varargin{iH}.ra_K(iDof1,iDof2,:));
+                Y.(tmp2)(iii,iiData+1,:) = squeeze(varargin{iH}.ss_K(iDof1,iDof2,:));
             end
         end
+
+        legendStrings{iiData,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB});
         if ssFlag
-            legendStrings{ii,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB},' (SS)');
-        else
-            legendStrings{ii,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB});
+            legendStrings{iiData+1,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB},' (SS)');
+            iiData = iiData+1;
         end
     end
 end
