@@ -42,6 +42,14 @@ hydro.ss_conv = zeros(sum(hydro.dof),sum(hydro.dof));
 hydro.ss_R2 = zeros(sum(hydro.dof),sum(hydro.dof));
 hydro.ss_O = zeros(sum(hydro.dof),sum(hydro.dof));
 
+% Area error settings
+areaErrTol = 0.01;  % 1 percent relative area error tolerance
+
+% Dataset-scaled minimum meaningful area.
+% This avoids relative-error warnings for essentially negligible IRFs.
+Kref = max(abs(hydro.ra_K(:)));
+areaScaleTol = sqrt(eps) * max(Kref * (t(end)-t(1)), eps);
+
 r2WarnCombos = {};
 areaWarnCombos = {};
 
@@ -95,9 +103,21 @@ for i=1:sum(hydro.dof)
         area_K  = trapz(t, K);
         area_SS = trapz(t, ss_K(:));
         areaScale = trapz(t, abs(K));
-        areaErr = abs(area_SS - area_K) / max(areaScale, eps);
-        if areaErr > 0.01
-            areaWarnCombos{end+1} = sprintf('%d-%d', i, j);
+        areaAbsErr = abs(area_SS - area_K);
+
+        if areaScale >= areaScaleTol
+            % Normal case: use relative area error
+            areaErr = areaAbsErr / areaScale;
+        
+            if areaErr > areaErrTol
+                areaWarnCombos{end+1} = sprintf('%d-%d relErr=%.3g', i, j, areaErr);
+            end
+        else
+            % Small-signal case: relative area error is not meaningful.
+            % Only warn if the absolute area error is itself non-negligible.
+            if areaAbsErr > areaScaleTol
+                areaWarnCombos{end+1} = sprintf('%d-%d absErr=%.3g smallScale', i, j, areaAbsErr);
+            end
         end
 
         if R2i ~= 0.0
@@ -114,7 +134,7 @@ for i=1:sum(hydro.dof)
 end
 
 if ~isempty(r2WarnCombos)
-    warning(['SS radiation fit R^2 did not hit threshold for DOF combo(s): ', ...
+    warning(['SS radiation fit reached maximum order Omax without hitting R^2 threshold ', ...
              strjoin(r2WarnCombos, ', ')]);
 end
 
