@@ -12,6 +12,13 @@ coeffsLastIM=zeros(length(directions),length(omega),size(dofGRD,1));
 
 relYaw = directions-(disp(6)*180/pi); % relative yaw angle, size = directions = [length(w) nBins]
 
+dTheta = zeros(size(directions(:)));
+dTheta(1) = deg2rad(directions(2) - directions(1));
+dTheta(2:end-1) = deg2rad( ...
+    (directions(3:end) - directions(1:end-2)) ./ 2);
+dTheta(end) = deg2rad(directions(end) - directions(end-1));
+dTheta = dTheta(:).';  % row vector
+
 % compare relYaw to available direction data Direction data must
 % span 360 deg, inclusive (i.e [-180 180])
 if max(relYaw,[],'all')>max(dirGRD,[],'all') % handle interpolation out of BEM range by wrapping other bound
@@ -86,8 +93,8 @@ end
 
 B1= sin(bsxfun(@plus,A1,phaseRand(:,:,1)));
 B11 = sin(bsxfun(@plus,omega*time,phaseRand(:,:,1)));
-C0 = bsxfun(@times,amplitude,dOmega);
-C1 = sqrt(bsxfun(@times,amplitude,dOmega));
+C0 = bsxfun(@times, bsxfun(@times, amplitude, dOmega), dTheta); % [nW x nDir]
+C1 = sqrt(C0);
 for k=1:size(dofGRD,1)
     D0 =bsxfun(@times,fExtMDint(:,:,k).',C0);
     D1 =bsxfun(@times,fExtREint(:,:,k).',C1);
