@@ -554,12 +554,35 @@ used by WEC-Sim is a Gaussian defined by a mean :math:`\theta` and a standard de
 
 When treated computationally, :math:`D(\overline{\theta},\psi)` must be discretized into a finite number
 of bins spanning a non-infinite range: in order to ensure that the total energy is preserved, the resulting
-discretization of :math:`D(\overline{\theta},\psi)` must be normalized by the fraction of energy contained in the included bins. The wave elevation for frequency-varying direction and spread can then be expressed as
+discretization of :math:`D(\overline{\theta},\psi)` must be normalized by the fraction of energy contained in the included bins. 
+
+For imported full-directional spectra, WEC-Sim treats the directional spreading function
+:math:`D(\omega,\theta)` as a directional density with units of :math:`1/\mathrm{rad}`. Therefore, the
+discrete directional spreading values must satisfy
 
 .. math::
-	\eta(x,y,t)\ = \sum_i \sum_j\ \sqrt{2S(\omega_i)(P(\omega_i,\theta_j))(\Delta f)}(\cos(\omega_i\ t\ -\ k_i(x \cos(\theta_j) + y \sin(\theta_j))+ \phi_{ij})
 
-where :math:`(P(\omega_n,\theta_m))` is the appropriate normalization of :math:`D(\omega,\theta)` into :math:`j` directional bins. Note that the phase :math:`\phi_{ij}` must be specified in both frequency and direction. 
+    \sum_j D(\omega_i,\theta_j)\Delta\theta_j = 1
+
+for each frequency :math:`\omega_i`, where :math:`\Delta\theta_j` is the directional bin width in radians.
+
+The wave elevation for frequency-varying direction and spread can then be expressed as
+
+.. math::
+
+    \eta(x,y,t) =
+    \sum_i \sum_j
+    \sqrt{2S(\omega_i)D(\omega_i,\theta_j)\Delta\omega_i\Delta\theta_j}
+    \cos\left(
+        \omega_i t
+        - k_i\left(x\cos(\theta_j) + y\sin(\theta_j)\right)
+        + \phi_{ij}
+    \right)
+
+where :math:`D(\omega_i,\theta_j)` is the directional spreading density,
+:math:`\Delta\omega_i` is the frequency bin width, and
+:math:`\Delta\theta_j` is the directional bin width. Note that the phase
+:math:`\phi_{ij}` must be specified in both frequency and direction.
 
 Irregular Wave Power
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
